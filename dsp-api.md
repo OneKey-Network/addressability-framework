@@ -193,7 +193,17 @@ P-256):
 To build the UTF-8 string, the DSP must concats the following fields:
 
 ````
-source.domain + '\u2063' + source.date + '\u2063' + seed.source.signature
+transmission_result.source.domain + '\u2063' + 
+transmission_result.source.date + '\u2063' + 
+
+seed.source.signature + '\u2063' + 
+
+source.domain + '\u2063' + 
+source.date + '\u2063' + 
+
+transmission_response.receiver + '\u2063' + 
+transmission_response.status + '\u2063' +
+transmission_response.details
 ````
 
 | Name                  | Details                                              |
@@ -402,6 +412,8 @@ hosted by the DSP.
 
 # Display of the Audit UI
 
+## Web Page interface
+
 If the Seed included in the Transmission contains "display_responsibility", then
 the DSP must include an Audit Button within the Addressable Content.
 
@@ -419,3 +431,86 @@ page:
 
 The design of the page is up to the DSP but it must consider to have a neutral
 UI to be used for many different Publishers.
+
+## Source validations
+
+As we saw, for displaying correctly the Audit UI, the DSP must validate
+different sources. For each sources available in the Audit Log, the DSP must:
+
+* Call the Identity Endpoint of the "domain" of the source to retrieve its name
+and it key used for verifying the signature.
+* Decode the signature thank to the NIST P-256 public key of the domain that 
+generated it.
+* Build a UTF-8 string based on the data available in the Audit Log. For each 
+data that is signed, there is a specific way to generate this UTF-8 string. 
+Those generations are described in this document.
+* Generate an SHA-256 hash from the UTF-8 string.
+* Compare the hash to the decoded signature. If they match, the signature is
+validated.
+
+### Verify the Pseudo-Identifiers
+
+The Audit Log contains a list of Pseudo-identifiers. Each Pseudo-identifier is 
+signed. The UTF-8 string for a specific Pseudo-Identifier must be built as followed:
+
+````
+identifier.source.domain + '\u2063' + 
+identifier.source.date + '\u2063' + 
+identifier.type + '\u2063'+
+identifier.value
+````
+
+### Verify the Preferences
+
+The Audit Log contains a list of Preferences with one signature. The UTF-8 string for a specific Preference must be built as followed:
+
+````
+preferences.source.domain + '\u2063' +
+preferences.source.date + '\u2063' +
+
+preferences.data.key1 + '\u2063' + preferences.data[key1].value + '\u2063' +
+preferences.data.key2 + '\u2063' + preferences.data[key2].value + '\u2063' +
+...
+preferences.data.keyN + '\u2063' + preferences.data[keyN].value
+````
+
+For handling properly the preferences, key1, key2, ... keyN follows the
+alpha-numerical order of the keys existing in the dictionary.
+
+### Verify the Seed
+
+The Audit Log contains a Seed. The UTF-8 string for the Seed must be built as
+followed:
+
+````
+seed.source.domain + '\u2063' + 
+seed.source.date + '\u2063' + 
+
+seed.transaction_id + '\u2063' + 
+
+seed.identifiers[0].source.signature + '\u2063' +
+seed.identifiers[1].source.signature + '\u2063' +
+... + '\u2063' + 
+seed.identifiers[n].source.signature + '\u2063' + 
+
+seed.preferences.source.signature
+````
+Note that we iterate over the identifiers by taking for each signature and
+appending it to the UTF-8 string.
+
+### Verify the Transmission Results
+
+The Audit Log contains a list of Transmission Results. Each Transmission Result
+is signed. The UTF-8 string for a specific Transmission Result must be built
+as followed:
+
+````
+transmission_result.source.domain + '\u2063' + 
+transmission_result.source.date + '\u2063' + 
+
+seed.source.signature + '\u2063' + 
+
+transmission_result.receiver + '\u2063' + 
+transmission_result.status + '\u2063' +
+transmission_result.details
+````
