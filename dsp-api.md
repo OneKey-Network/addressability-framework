@@ -83,7 +83,7 @@ sequenceDiagram
 
 | Field                  | Type                                     | Details  |
 |------------------------|------------------------------------------|----------|
-| version                | Integer                                  | The Prebid SSO version used to sign the Seed.                                                                                                                                                                                           |
+| version                | Number                                   | The Prebid SSO version used to sign the Seed.                                                                                                                                                                                           |
 | transaction_id         | String                                   | A GUID in a String format dedicated to the share of the Prebid SSO data for one Addressable Content.                                                                                                                                    |
 | display_responsability | String                                   | Equals "publisher" if the publisher takes the responsibility to display the Audit Button and the Audit UI.</ br> Equals "vendor" if the publisher delegates the responsibility to display the Audit Button and the Audit UI to the DSP. |
 | preferences            | Preference object                        | The Preferences of the user.                                                                                                                                                                                                            |
@@ -95,7 +95,7 @@ sequenceDiagram
 
 | Field   | Type          | Details                                            |
 |---------|---------------|----------------------------------------------------|
-| version | Integer       | The Prebid SSO version used to sign the Preferences.                                                                                                                                                                               |
+| version | Number        | The Prebid SSO version used to sign the Preferences.                                                                                                                                                                               |
 | data    | Dictionary    | The key is a string and represent the name of the preference. <br /> The values represent the value of the preference. <br /> For now there is only one preference named "optin" and its value is a boolean. e.g { "optin": true } |
 | source  | Source object | The source contains all the necessary information for identifying and trusting the Operator that generate the Preferences.                                                                                                         |
 
@@ -105,8 +105,8 @@ sequenceDiagram
 | Field   | Type          | Details                                            |
 |---------|---------------|----------------------------------------------------|
 | version | Number        | The version of Prebid SSO used for signing the Identifier.                                                                       |
-| type    | string        | The type of Pseudonymous-Identifier. For now, there is only one: "prebid_id".                                                    |
-| value   | string        | The Pseudonymous-Identifier value in UTF-8.                                                                                      |
+| type    | String        | The type of Pseudonymous-Identifier. For now, there is only one: "prebid_id".                                                    |
+| value   | String        | The Pseudonymous-Identifier value in UTF-8.                                                                                      |
 | source  | Source object | The Source contains all the necessary data for identifying and trusting the Operator that generated the Pseudonymous-Identifier. |
 
 
@@ -264,8 +264,9 @@ Transmission is named "prebid_sso_transmission".
                             }
                     ],
                     "preferences": {
+                        "version": 1,
                         "data": [
-                            { "version": 1, "type": "opt_in", "value": true }
+                            { "key":"opt_in", "value": true }
                         ],
                         "source": {
                             "domain": "operator1.com",
@@ -369,7 +370,6 @@ Transmission.
                 "impid": "1",
                 "response": {
                     "version": 1,
-                    "sender": "ssp1.com",
                     "receiver": "dsp1.com",
                     "status": "SUCCESS",
                     "details": "",
@@ -386,7 +386,9 @@ Transmission.
 }
 ````
 
-# Display of the Audit Button
+# The Audit Button
+
+## The interface
 
 If the Seed included in the Transmission contains 
 _"display_responsibility" = "vendor"_,
@@ -408,6 +410,95 @@ hosted by the DSP.
         <button type="submit" class="prebid_sso_audit_button">Audit Log</button>
     </form>
 </div>
+````
+
+## The Audit Log
+
+The Audit Log will be retrieve from the Publisher (TBD). We specify its
+content in the following.
+
+### The root object
+
+| Field         | Type                         | Detail                        |
+|---------------|------------------------------|-------------------------------|
+| seed          | Seed Object                  | The Seed object already described in this document.               |
+| transmissions | List of Transmission Results | A list of Transmission Result already described in this document. |
+
+### The Transmission Result object
+
+A Transmission Result is the output of a Transmission. It can be a 
+Transmission Response when the Receiver of a Transmission responded correctly
+to a Transmission Request. However, if there is a communication timeout or a
+bad Transmission Response, then the Sender generate a Transmission Result
+following the same structure than a Transmission Response with its own
+signature. Those Transmission Results are appended to the Audit Log. Therefore,
+if the DSP has the responsibility to display the Audit Button and the Audit UI,
+it handles those objects (see the Transmission Response object in this 
+document).
+
+### Example of Audit Log
+
+````json
+{
+    "seed": {
+        "version": 1,
+        "transaction_id": 1234567,
+        "display_responsibility": "publisher",
+        "identifiers": [
+            {
+                "version": 1,
+                "type": "swid",
+                "value": "123_I_AM_SWID",
+                "source": {
+                    "domain": "operotor0.com",
+                    "date": "2021-04-23T18:25:43.511Z",
+                    "signature": "12345_signature"
+                }
+            }
+        ],
+        "preferences": {
+            "version": 1,
+            "data": [
+                { "key":"opt_in", "value": true }
+            ],
+            "source": {
+                "domain": "operator1.com",
+                "date": "2021-04-23T18:25:43.511Z",
+                "signature": "12345_signature"
+            }
+        },
+        "source": {
+            "domain": "publisher.com",
+            "date": "2021-04-23T18:25:43.511Z",
+            "signature": "12345_signature_with_identifier_preferences_date_domain"
+        }
+    ],
+ 
+    "transmissions": [
+        {
+            "version": 1,
+            "receiver": "party2.com",
+            "status": "success",
+            "details": "",
+            "source": {
+                "domain": "party2.com",
+                "date": "2021-04-23T18:25:43.511Z",
+                "signature": "12345_signature"
+            }
+        },
+        {
+            "version": 1,
+            "receiver": "party3.com",
+            "status": "success",
+            "details": "",
+            "source": {
+                "domain": "party3.com",
+                "date": "2021-04-23T18:25:43.511Z",
+                "signature": "12345_signature"
+            }
+        }
+    ]
+}
 ````
 
 # Display of the Audit UI
