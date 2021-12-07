@@ -3,6 +3,15 @@
 Describe the required API for a DSP that want to become a Contracting Party of
 the Prebid SSO ecosystem.
 
+# General note about signature
+
+Prebid SSO Data and communications are designed to protect the User data.
+Therefore, Prebid SSO relies heavily on the signatures of the data and the
+communication to enforce security. The Elliptic Curve Digital Signature 
+Algorithm (ECDSA) is used for this purpose. All the signatures described in
+this documentation are generated using NIST P-256 coupled with the hash
+algorithm SHA-256 on a specific string.
+
 # The Identity endpoint
 
 To be part of the Prebid SSO network, a DSP must provide an entity endpoint for
@@ -17,6 +26,7 @@ It is reachable at the following endpoint:
 ```
 GET https://<domain>/prebidsso/API/v1/identity
 ```
+
 It provides the following data as JSON:
 | Field   | Type   | Details                                                                                                                                                                                                             |
 |---------|--------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -37,9 +47,13 @@ An example:
 
 # Transmission Overview
 
+## Definitions
 A Transmission is the act of sharing Prebid SSO Data (Pseudonymous-Identifiers
 and Preferences) between two Contracting Parties of Prebid SSO: the Sender and
 the Receiver.
+
+The Sender send a Transmission Request and the Receiver send back a Transaction
+Response.
 
 ```mermaid
 flowchart LR
@@ -47,10 +61,10 @@ flowchart LR
     R[Receiver]
 
     S --Transmission Request--> R
-    R --Transmission Result--> S
+    R --Transmission Response--> S
 ```
 
-The transmissions are chainable:
+The Transmissions are chainable:
 
 ```mermaid
 sequenceDiagram
@@ -66,15 +80,64 @@ sequenceDiagram
     Publisher->>User: Display the Addressable Content<br />with an Audit button
 ```
 
+At the end of a Transmission, the Sender sets a Transmission Result. Either by
+using the Transmission Response if it fits. Either by generating it with a 
+status error. The Transmission Result are described in detail in a further
+section.
+
+## Transport and security
+
+For doing Transmissions, it is expected to use HTTPS for transport and security
+purposes and POST requests for server-to-server communications for accommodating
+a greater payload than GET. However, since Prebid SSO can be integrated as
+a sub-component, its design doesn't rely on the HTTP status. Therefore, the
+error handling would be described in the API details. Other transport protocols
+are fine in the case of an integration to existing solutions, as far as it
+provides the same level of security as HTTPS.
+
+## Formats
+
+Prebid SSO Data is associated with an Addressable Content (an ad) of an
+existing ecosystem. Thus, it is, in most cases, a sub-component of existing
+communication protocols like OpenRTB.  This document introduces API contracts
+with field names and types for this data. It is followed each time by a
+concrete example in JSON. However, as it is difficult to find a 
+one-size-fits-all solution for an existing defragmented ecosystem,the formats
+and the transports can be subject to adaptation. For instance, if the
+Transmissions are integrated in an OpenRTB implementation in Protobuf, then it
+is possible to use Protobuf for the format of the Transmissions.
+
+## Extensions
+
+Similar to OpenRTB, an integration of the Prebid SSO Transmissions can require
+extra data associated to the Prebid SSO Data. Thus, it is possible to add an
+"ext" field to every object contained in a Transaction Request or a Transaction
+Response. The contents of the "ext"s are up to the two Contracting Parties that
+integrate it. 
+
 # Standalone Transmission 
 
+In a case of an ad-hoc communication between two Contracting Parties, the
+standalone transmission can be used.
+
 ## Transmission Request
+
+### The endpoint
+
+The DSP need to define a Transmission endpoint so that it can receive
+Transaction Request. There is no enforcement regarding the location of this
+endpoint. However, it is suggested to used the following:
+
+````
+POST https://<domain>/prebidsso/API/v1/transmission
+````
 
 ### The Transmission Request object
 
 
 | Field  | Type          | Detail                                              |
 |--------|---------------|-----------------------------------------------------|
+| version| Number        | The Prebid SSO version used for the Transmission.   |
 | seed   | Seed object   | A Seed object contains all the Prebid SSO Data gathered and signed by the Publisher concerning the user. |
 | source | Source object | The source object contains all the necessary information for identifying the Sender of the Transmission. |
 
@@ -122,6 +185,7 @@ sequenceDiagram
 
 ````json
 {
+    "version": 1,
     "seed": {
         "version": 1,
         "transaction_id": 1234567,
@@ -173,9 +237,9 @@ suppliers, it shouldn't take care of the "children" Transaction Results.
 | Field    | Type                        | Details                             |
 |----------|-----------------------------|-------------------------------------|
 | version  | Number                      | The version of the Prebid SSO used for generating the Transmission Response.                                                                                                                                                                                                                               |
-| receiver | string                      | The domain name of the DSP.                                                                                                                                                                                                                                                                                |
-| status   | string                      | Equals "SUCCESS" if the DSP signed the Transmission and returns it to the sender.<br /> Equals "ERROR_BAD_REQUEST" if the receiver doesn't understand or see incoherency in the Transmission Request.<br /> Equals "ERROR_CANNOT_PROCEED" if the receiver cannot handle the Transmission Request properly. |
-| details  | string                      | In case of an error status, the DSP can provide details concerning the error.                                                                                                                                                                                                                              |
+| receiver | String                      | The domain name of the DSP.                                                                                                                                                                                                                                                                                |
+| status   | String                      | Equals "SUCCESS" if the DSP signed the Transmission and returns it to the sender.<br /> Equals "ERROR_BAD_REQUEST" if the receiver doesn't understand or see incoherency in the Transmission Request.<br /> Equals "ERROR_CANNOT_PROCEED" if the receiver cannot handle the Transmission Request properly. |
+| details  | String                      | In case of an error status, the DSP can provide details concerning the error.                                                                                                                                                                                                                              |
 | children | Array of Transaction Result | An empty array as we consider that the DSP doesn't share the Prebid SSO Data to its suppliers via new transmissions.                                                                                                                                                                                       |
 | source   | Source object               | The source contains all the data for identifying the DSP and verifying the Transmission.                                                                                                                                                                                                                   |
 
@@ -212,6 +276,23 @@ transmission_response.details
 | source.date           | The Date of the signature. It matches the "date" field in the Source object of the Transmission Response. |
 | seed.source.signature | The signature of the Seed available in the Transmission Request.                                          |
 | '\u2063'               | The invisible separator in UTF-8.
+
+### Example of a Transmission Response
+
+````json
+{
+    "version": 1,
+    "receiver": "dsp1.com",
+    "status": "SUCCESS",
+    "details": "",
+    "source": {
+        "domain": "dsp1.com",
+        "date": "2021-04-23T18:25:43.511Z",
+        "signature": "12345_signature"
+    },
+    "children": []
+}
+````
 
 
 # Transmissions in OpenRTB
