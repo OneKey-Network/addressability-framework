@@ -154,11 +154,12 @@ standalone transmission can be used.
 ### The Transmission Request object
 
 
-| Field  | Type          | Detail                                              |
-|--------|---------------|-----------------------------------------------------|
-| version| Number        | The Prebid SSO version of the object.               |
-| seed   | Seed object   | A Seed object contains all the Prebid SSO Data gathered and signed by the Publisher concerning the user. |
-| source | Source object | The source object contains data for identifying the Sender of the Transmission.<br /><table><tr><th>Field</th><th>Type</th><th>Details</th></tr><tr><td>domain</td><td>String</td><td>The domain of the Sender.</td></tr><tr><td>date</td><td>Date</td><td>The date of the signature.</td></tr><tr><td>signature</td><td>String</td><td>Encoded signature in UTF-8 of the Tranmission sender.</td></tr></table>|
+| Field  | Type                            | Details                           |
+|--------|---------------------------------|-----------------------------------|
+| version| Number                          | The Prebid SSO version of the object.               |
+| seed   | Seed object                     | A Seed object contains all the Prebid SSO Data gathered and signed by the Publisher concerning the user. |
+| parents| Array of Transmission Results   | A list of Transmission Results that participate to a chain of Transmissions and make this Transmission possible. |  
+| source | Source object                   | The source object contains data for identifying the Sender of the Transmission.<br /><table><tr><th>Field</th><th>Type</th><th>Details</th></tr><tr><td>domain</td><td>String</td><td>The domain of the Sender.</td></tr><tr><td>date</td><td>Date</td><td>The date of the signature.</td></tr><tr><td>signature</td><td>String</td><td>Encoded signature in UTF-8 of the Tranmission sender.</td></tr></table>|
 
 
 ### The Seed object
@@ -189,6 +190,16 @@ standalone transmission can be used.
 | type    | String        | The type of Pseudonymous-Identifier. For now, there is only one: "prebid_id".                                                    |
 | value   | String        | The Pseudonymous-Identifier value in UTF-8.                                                                                      |
 | source  | Source object | The Source contains all the data for identifying and trusting the Operator that generated the Pseudonymous-Identifier. <br /> <table><tr><th>Field</th><th>Type</th><th>Details</th></tr><tr><td>domain</td><td>String</td><td>The domain of the Operator.</td></tr><tr><td>date</td><td>Date</td><td>The date of the signature.</td></tr><tr><td>signature</td><td>String</td><td>Encoded signature in UTF-8 of the Operator.</td></tr></table>|
+
+## The Transaction Result object
+
+| Field    | Type             | Details                                        |
+|----------|------------------|------------------------------------------------|
+| version  | Number           | The Prebid SSO version of the object.          |
+| receiver | String           | The domain name of the DSP.                                                                                                                                                                                                                                                                                |
+| status   | String           | Equals "success" if the Receiver signed properly the Transmission.<br /> Equals "error_bad_request" if the receiver doesn't understand or see inconsistency in the Transmission Request but still share it accross the network.<br /> Equals "error_cannot_proceed" if the receiver cannot handle the Transmission Request properly but still share the Prebid SSO Data. |
+| details  | String           | In case of an error status, the DSP can provide details concerning the error.                                                                                                                                                                                                                              |
+| source   | Source object    | The source object contains data for identifying the Sender of a Transmission.<br /><table><tr><th>Field</th><th>Type</th><th>Details</th></tr><tr><td>domain</td><td>String</td><td>The domain of the Sender.</td></tr><tr><td>date</td><td>Date</td><td>The date of the signature.</td></tr><tr><td>signature</td><td>String</td><td>Encoded signature in UTF-8 of the Tranmission sender.</td></tr></table>|
 
 
 ### Example of a Transmission Request
@@ -229,6 +240,30 @@ standalone transmission can be used.
             "signature": "12345_signature"
         }
     },
+    "parents": [
+        {
+            "version": 0.1,
+            "receiver": "ssp1.com",
+            "status": "SUCCESS",
+            "details": "",
+            "source": {
+                "domain": "ssp1.com",
+                "date": "2021-04-23T18:25:43.511Z",
+                "signature": "12345_signature"
+            },
+        },
+        {
+            "version": 0.1,
+            "receiver": "publisher.com",
+            "status": "SUCCESS",
+            "details": "",
+            "source": {
+                "domain": "publisher.com",
+                "date": "2021-04-23T18:25:43.511Z",
+                "signature": "12345_signature"
+            },
+        },
+    ],
     "source" : {
         "domain": "ssp1.com",
         "date": "2021-04-23T18:25:43.511Z",
@@ -245,14 +280,14 @@ suppliers, it shouldn't take care of the "children" Transmission Results.
 
 ### Transmission object
 
-| Field    | Type                         | Details                            |
-|----------|------------------------------|------------------------------------|
-| version  | Number                       | The version of the Prebid SSO used for generating the Transmission Response.                                                                                                                                                                                                                               |
-| receiver | String                       | The domain name of the DSP.                                                                                                                                                                                                                                                                                |
-| status   | String                       | Equals "SUCCESS" if the DSP signed the Transmission and returns it to the sender.<br /> Equals "ERROR_BAD_REQUEST" if the receiver doesn't understand or see inconsistency in the Transmission Request.<br /> Equals "ERROR_CANNOT_PROCEED" if the receiver cannot handle the Transmission Request properly. |
-| details  | String                       | In case of an error status, the DSP can provide details concerning the error.                                                                                                                                                                                                                              |
-| children | Array of Transmission Result | An empty array as we consider that the DSP doesn't share the Prebid SSO Data to its suppliers via new transmissions.                                                                                                                                                                                       |
-| source   | Source object                | The source contains all the data for identifying the DSP and verifying the Transmission.                                                                                                                                                                                                                   |
+| Field    | Type                          | Details                           |
+|----------|-------------------------------|-----------------------------------|
+| version  | Number                        | The version of the Prebid SSO used for generating the Transmission Response.                                                                                                                                                                                                                               |
+| receiver | String                        | The domain name of the DSP.                                                                                                                                                                                                                                                                                |
+| status   | String                        | Equals "success" if the DSP signed the Transmission and returns it to the sender.<br /> Equals "error_bad_request" if the receiver doesn't understand or see inconsistency in the Transmission Request.<br /> Equals "error_cannot_process" if the receiver cannot handle the Transmission Request properly. |
+| details  | String                        | In case of an error status, the DSP can provide details concerning the error.                                                                                                                                                                                                                              |
+| children | Array of Transmission Results | An empty array as we consider that the DSP doesn't share the Prebid SSO Data to its suppliers via new transmissions.                                                                                                                                                                                       |
+| source   | Source object                 | The source contains all the data for identifying the DSP and verifying the Transmission.                                                                                                                                                                                                                   |
 
 
 ### Signing the Transmission Object
@@ -295,7 +330,7 @@ transmission_response.details
 {
     "version": 0.1,
     "receiver": "dsp1.com",
-    "status": "SUCCESS",
+    "status": "success",
     "details": "",
     "source": {
         "domain": "dsp1.com",
@@ -356,77 +391,71 @@ Transmission is named "prebid_sso_transmission".
                                     "signature": "12345_signature"
                                 }
                             }
-                    ],
-                    "preferences": {
-                        "version": 0.1,
-                        "data": [
-                            { "key":"opt_in", "value": true }
                         ],
+                        "preferences": {
+                            "version": 0.1,
+                            "data": [
+                                { "key":"opt_in", "value": true }
+                            ],
+                            "source": {
+                                "domain": "operator1.com",
+                                "date": "2021-04-23T18:25:43.511Z",
+                                "signature": "12345_signature"
+                            }
+                        },
                         "source": {
-                            "domain": "operator1.com",
+                            "domain": "operator0.com",
                             "date": "2021-04-23T18:25:43.511Z",
                             "signature": "12345_signature"
                         }
-                },
-                "source": {
-                  "domain": "operator0.com",
-                  "date": "2021-04-23T18:25:43.511Z",
-                  "signature": "12345_signature"
+                    },
+                    "parents": [
+                        {
+                            "version": 0.1,
+                            "receiver": "ssp1.com",
+                            "status": "success",
+                            "details": "",
+                            "source": {
+                                "domain": "ssp1.com",
+                                "date": "2021-04-23T18:25:43.511Z",
+                                "signature": "12345_signature"
+                            },
+                        },
+                        {
+                            "version": 0.1,
+                            "receiver": "publisher.com",
+                            "status": "success",
+                            "details": "",
+                            "source": {
+                                "domain": "publisher.com",
+                                "date": "2021-04-23T18:25:43.511Z",
+                                "signature": "12345_signature"
+                            },
+                        },
+                    ],
                 }
-              }
-            ],
-            "preferences": {
-              "version": 1,
-              "data": [
-                {
-                  "key": "opt_in",
-                  "value": true
-                }
-              ],
-              "source": {
-                "domain": "operator1.com",
-                "date": "2021-04-23T18:25:43.511Z",
-                "signature": "12345_signature"
-              }
-            },
-            "source": {
-              "domain": "publisher.com",
-              "date": "2021-04-23T18:25:43.511Z",
-              "signature": "12345_signature_with_identifier_preferences_date_domain"
             }
-          },
-          "source": {
-            "domain": "ssp1.com",
-            "date": "2021-04-23T18:25:43.511Z",
-            "signature": "123_signature"
-          }
         }
-      }
-    }
-  ],
-  "site": {
-    "id": "102855",
-    "cat": [
-      "IAB3-1"
     ],
-    "domain": "www.publisher.com",
-    "page": "http://www.publisher.com/1234.html ",
-    "publisher": {
-      "id": "8953",
-      "name": "publisher.com",
-      "cat": [
-        "IAB3-1"
-      ],
-      "domain": "publisher.com"
+    "site": {
+        "id": "102855",
+        "cat": [ "IAB3-1" ],
+        "domain": "www.publisher.com",
+        "page": "http://www.publisher.com/1234.html ",
+        "publisher": {
+            "id": "8953",
+            "name": "publisher.com",
+            "cat": ["IAB3-1"],
+            "domain": "publisher.com"
+        }
+    },
+    "device": {
+        "ua": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_8) AppleWebKit/537.13 (KHTML, like Gecko) Version/5.1.7 Safari/534.57.2",
+        "ip": "123.145.167.10"
+    },
+    "user": {
+        "id": "55816b39711f9b5acf3b90e313ed29e51665623f"
     }
-  },
-  "device": {
-    "ua": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_8) AppleWebKit/537.13 (KHTML, like Gecko) Version/5.1.7 Safari/534.57.2",
-    "ip": "123.145.167.10"
-  },
-  "user": {
-    "id": "55816b39711f9b5acf3b90e313ed29e51665623f"
-  }
 }
 
 ```
@@ -478,7 +507,7 @@ Transmission.
                 "response": {
                     "version": 0.1,
                     "receiver": "dsp1.com",
-                    "status": "SUCCESS",
+                    "status": "success",
                     "details": "",
                     "source": {
                         "domain": "dsp1.com",
@@ -489,11 +518,11 @@ Transmission.
                 }
             },
             {
-                "impid": "2",
+                "impid": "1",
                 "response": {
                     "version": 0.1,
                     "receiver": "dsp1.com",
-                    "status": "SUCCESS",
+                    "status": "success",
                     "details": "",
                     "source": {
                         "domain": "dsp1.com",
@@ -536,21 +565,29 @@ hosted by the DSP.
 
 ## The Audit Log
 
-The Audit Log will be retrieved from the Publisher (TBD). We specify its
-content in the following.
+In the case where the DSP has the display responsibility, it must build a valid
+Audit Log. For this purpose, it must:
+
+1. Take the Seed and the Transmission Parents from the Transmission Request that
+it received for this Addressable content.
+2. Consider the Transmission Parent to Transmission Result
+3. Append it own Transmission Result ot the existing list.
+4. Shuffle the list of Transmission Results
+5. Build the Audit Log by following the specification below.
 
 ### The root object
 
 | Field         | Type                         | Detail                        |
 |---------------|------------------------------|-------------------------------|
-| seed          | Seed Object                  | The Seed object already described in this document.               |
-| transmissions | List of Transmission Results | A list of Transmission Result already described in this document. |
+| seed          | Seed Object                  | The Seed object already described in this document. |
+| transmissions | List of Transmission Results | A list of Transmission Results |
 
 ### The Transmission Result object
 
 A Transmission Result is the output of a Transmission. It can be a
-Transmission Response when the Receiver of a Transmission responded correctly
-to a Transmission Request. However, if there is a communication timeout or a
+Transmission Response without the "children" field when the Receiver of 
+a Transmission responded correctly to a Transmission Request. 
+However, if there is a communication timeout or a
 bad Transmission Response, then the Sender generates a Transmission Result
 following the same structure as a Transmission Response with its own
 signature. Those Transmission Results are appended to the Audit Log. Therefore,
