@@ -81,8 +81,8 @@ A Transmission is the act of sharing Prebid SSO Data (Pseudonymous-Identifiers
 and Preferences) between two Contracting Parties of Prebid SSO: the Sender and
 the Receiver.
 
-The Sender sends a Transmission Request and the Receiver sends back a Transaction
-Response.
+The Sender sends a Transmission Request and the Receiver sends back a 
+Transaction Response.
 
 ```mermaid
 flowchart LR
@@ -130,9 +130,9 @@ Prebid SSO Data is associated with an Addressable Content (an ad) of an
 existing ecosystem. Thus, it is, in most cases, a sub-component of existing
 communication protocols like OpenRTB. This document introduces API contracts
 with field names and types for this data. It is followed each time by a
-concrete example in JSON. However, as it is difficult to find a
-one-size-fits-all solution for an existing defragmented ecosystem, the formats
-and the transports can be subject to adaptation. For instance, if the
+concrete example in JSON. However, as it is difficult to find a 
+one-size-fits-all solution for an existing fragmented ecosystem, the formats
+on. For instance, if the
 Transmissions are integrated in an OpenRTB implementation in Protobuf, then it
 is possible to use Protobuf for the format of the Transmissions.
 
@@ -140,56 +140,46 @@ is possible to use Protobuf for the format of the Transmissions.
 
 Similar to OpenRTB, an integration of the Prebid SSO Transmissions can require
 extra data associated to the Prebid SSO Data. Thus, it is possible to add an
-"ext" field to every object contained in a Transaction Request or a Transaction
+"ext" field to every object contained in a Transmission Request or a Transaction
 Response. The contents of the "ext"s are up to the two Contracting Parties that
 integrate it.
 
-# Standalone Transmission
+# Transmission protocol
 
 In a case of an ad-hoc communication between two Contracting Parties, the
 standalone transmission can be used.
 
 ## Transmission Request
 
-### The endpoint
-
-The DSP needs to define a Transmission endpoint so that it can receive
-Transaction Request. There is no enforcement regarding the location of this
-endpoint. However, it is suggested to use the following:
-
-````
-POST https://<domain>/prebidsso/API/v1/transmission
-````
-
 ### The Transmission Request object
 
 
 | Field  | Type          | Detail                                              |
 |--------|---------------|-----------------------------------------------------|
-| version| Number        | The Prebid SSO version used for the Transmission.   |
+| version| Number        | The Prebid SSO version of the object.               |
 | seed   | Seed object   | A Seed object contains all the Prebid SSO Data gathered and signed by the Publisher concerning the user. |
-| source | Source object | The source object contains all the necessary information for identifying the Sender of the Transmission. |
+| source | Source object | The source object contains data for identifying the Sender of the Transmission.<br /><table><tr><th>Field</th><th>Type</th><th>Details</th></tr><tr><td>domain</td><td>String</td><td>The domain of the Sender.</td></tr><tr><td>date</td><td>Date</td><td>The date of the signature.</td></tr><tr><td>signature</td><td>String</td><td>Encoded signature in UTF-8 of the Tranmission sender.</td></tr></table>|
 
 
 ### The Seed object
 
 | Field                  | Type                                     | Details  |
 |------------------------|------------------------------------------|----------|
-| version                | Number                                   | The Prebid SSO version used to sign the Seed.                                                                                                                                                                                           |
+| version                | Number                                   | The Prebid SSO version of the object.                                                                                                                                                                                            |
 | transaction_id         | String                                   | A GUID in a String format dedicated to the share of the Prebid SSO data for one Addressable Content.                                                                                                                                    |
-| display_responsability | String                                   | Equals "publisher" if the publisher takes the responsibility to display the Audit Button and the Audit UI.<br/> Equals "vendor" if the publisher delegates the responsibility to display the Audit Button and the Audit UI to the DSP. |
-| preferences            | Preference object                        | The Preferences of the user.                                                                                                                                                                                                            |
+| display_responsability | String                                   | Equals "publisher" if the publisher takes the responsibility to display the Audit Button and the Audit UI.<br /> Equals "vendor" if the publisher delegates the responsibility to display the Audit Button and the Audit UI to the DSP. |
+| preferences            | Preferences object                       | The Preferences of the user.                                                                                                                                                                                                            |
 | identifiers            | Array of Pseudonymous-Identifier objects | The Pseudonymous-Identifiers of the user. For now, it only contains a Prebid ID.                                                                                                                                                        |
-| source                 | Source object                            | The source contains all the necessary information for identifying and trusting the Publisher.                                                                                                                                           |
+| source                 | Source object                            | The source contains data for identifying and trusting the Publisher.<br /><table><tr><th>Field</th><th>Type</th><th>Details</th></tr><tr><td>domain</td><td>String</td><td>The domain of the Root Party (Publisher in most of the cases).</td></tr><tr><td>date</td><td>Date</td><td>The date of the signature.</td></tr><tr><td>signature</td><td>String</td><td>Encoded signature in UTF-8 of the Root Party/Publisher.</td></tr></table>|
 
 
 ### The Preferences object
 
 | Field   | Type          | Details                                            |
 |---------|---------------|----------------------------------------------------|
-| version | Number        | The Prebid SSO version used to sign the Preferences.                                                                                                                                                                               |
-| data    | Dictionary    | The key is a string and represents the name of the preference. <br /> The values represent the value of the preference. <br /> For now there is only one preference named "optin" and its value is a boolean. e.g `{ "optin": true }` |
-| source  | Source object | The source contains all the necessary information for identifying and trusting the Operator that generate the Preferences.                                                                                                         |
+| version | Number        | The Prebid SSO version of the object.                                                                                                                                                                       |
+| data    | Dictionary    | The key is a string and represents the name of the preference. <br /> The values represent the value of the preference. <br /> For now there is only one preference named "optin" and its value is a boolean.|
+| source  | Source object | The source contains the data for identifying and trusting the Operator that signed lastly the Preferences.<br /> <table><tr><th>Field</th><th>Type</th><th>Details</th></tr><tr><td>domain</td><td>String</td><td>The domain of the Operator.</td></tr><tr><td>date</td><td>Date</td><td>The date of the signature.</td></tr><tr><td>signature</td><td>String</td><td>Encoded signature in UTF-8 of the Operator.</td></tr></table>|
 
 ### The Identifier object
 
@@ -198,16 +188,8 @@ POST https://<domain>/prebidsso/API/v1/transmission
 | version | Number        | The version of Prebid SSO used for signing the Identifier.                                                                       |
 | type    | String        | The type of Pseudonymous-Identifier. For now, there is only one: "prebid_id".                                                    |
 | value   | String        | The Pseudonymous-Identifier value in UTF-8.                                                                                      |
-| source  | Source object | The Source contains all the necessary data for identifying and trusting the Operator that generated the Pseudonymous-Identifier. |
+| source  | Source object | The Source contains all the data for identifying and trusting the Operator that generated the Pseudonymous-Identifier. <br /> <table><tr><th>Field</th><th>Type</th><th>Details</th></tr><tr><td>domain</td><td>String</td><td>The domain of the Operator.</td></tr><tr><td>date</td><td>Date</td><td>The date of the signature.</td></tr><tr><td>signature</td><td>String</td><td>Encoded signature in UTF-8 of the Operator.</td></tr></table>|
 
-
-### The Source objects
-
-| Field     | Type   | Details                                                 |
-|-----------|--------|---------------------------------------------------------|
-| domain    | String | The domain of the Sender as a Contracting Party.        |
-| date      | Date   | The date of the signature.                              |
-| signature | String | Encoded signature in UTF-8 of the signer.<br /> In the case of the Transmission, it is the Sender.<br />In case of the Seed, it is the Publisher.<br />In case of the Preferences or the Identifier is the Operator.  |
 
 ### Example of a Transmission Request
 
@@ -259,18 +241,19 @@ POST https://<domain>/prebidsso/API/v1/transmission
 
 The Transmission Response contains the signature of the DSP. Considering that
 the DSP, in a nominal case, doesn't share itself the Prebid SSO Data to other
-suppliers, it shouldn't take care of the "children" Transaction Results.
+suppliers, it shouldn't take care of the "children" Transmission Results.
 
 ### Transmission object
 
-| Field    | Type                        | Details                             |
-|----------|-----------------------------|-------------------------------------|
-| version  | Number                      | The version of the Prebid SSO used for generating the Transmission Response.                                                                                                                                                                                                                               |
-| receiver | String                      | The domain name of the DSP.                                                                                                                                                                                                                                                                                |
-| status   | String                      | Equals "SUCCESS" if the DSP signed the Transmission and returns it to the sender.<br /> Equals "ERROR_BAD_REQUEST" if the receiver doesn't understand or see inconsistency in the Transmission Request.<br /> Equals "ERROR_CANNOT_PROCEED" if the receiver cannot handle the Transmission Request properly. |
-| details  | String                      | In case of an error status, the DSP can provide details concerning the error.                                                                                                                                                                                                                              |
-| children | Array of Transaction Result | An empty array as we consider that the DSP doesn't share the Prebid SSO Data to its suppliers via new transmissions.                                                                                                                                                                                       |
-| source   | Source object               | The source contains all the data for identifying the DSP and verifying the Transmission.                                                                                                                                                                                                                   |
+| Field    | Type                         | Details                            |
+|----------|------------------------------|------------------------------------|
+| version  | Number                       | The version of the Prebid SSO used for generating the Transmission Response.                                                                                                                                                                                                                               |
+| receiver | String                       | The domain name of the DSP.                                                                                                                                                                                                                                                                                |
+| status   | String                       | Equals "SUCCESS" if the DSP signed the Transmission and returns it to the sender.<br /> Equals "ERROR_BAD_REQUEST" if the receiver doesn't understand or see inconsistency in the Transmission Request.<br /> Equals "ERROR_CANNOT_PROCEED" if the receiver cannot handle the Transmission Request properly. |
+| details  | String                       | In case of an error status, the DSP can provide details concerning the error.                                                                                                                                                                                                                              |
+| children | Array of Transmission Result | An empty array as we consider that the DSP doesn't share the Prebid SSO Data to its suppliers via new transmissions.                                                                                                                                                                                       |
+| source   | Source object                | The source contains all the data for identifying the DSP and verifying the Transmission.                                                                                                                                                                                                                   |
+
 
 ### Signing the Transmission Object
 
@@ -304,7 +287,7 @@ transmission_response.details
 | source.domain         | The Domain of the DSP. It matches the "domain" field in the Source object of the Transmission Response.   |
 | source.date           | The Date of the signature. It matches the "date" field in the Source object of the Transmission Response. |
 | seed.source.signature | The signature of the Seed available in the Transmission Request.                                          |
-| '\u2063'               | The invisible separator in UTF-8.
+| '\u2063'              | The invisible separator in UTF-8.
 
 ### Example of a Transmission Response
 
