@@ -14,8 +14,8 @@ the hash algorithm SHA-256 on a specific string.
 
 # The Identity endpoint
 
-To be part of the Prebid SSO network, a DSP must provide an entity endpoint for
-providing:
+To be part of the Prebid SSO network, a DSP must provide an Identity Endpoint
+for providing:
 * The name of the DSP;
 * The Prebid SSO version that it handles;
 * The public key used to verify its signatures of Prebid SSO Data and
@@ -27,15 +27,33 @@ It is reachable at the following endpoint:
 GET https://<domain>/prebidsso/API/v1/identity
 ```
 
-It provides the following data as JSON:
-| Field   | Type   | Details                                                                                                                                                                                                             |
-|---------|--------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| name    | String | The name of the Contracting Party since the domain may no reflect the Company name.<br /> e.g "Criteo"                                                                                                                    |
-| type    | String | The type of Contracting Party in the Prebid SSO ecosystem. For now, the type for a DSP is "vendor"
-| version | Number | A two digit number separated by a point for expressing the last Prebid SSO version handled.<br /> For now, the value is "1.0"<br /> Note: a new field may appear with the new versions of the Prebid SSO protocol for the last supported version. |
-| key     | String | Public key encoded in a UTF-8 string.                                                                                                                                                                               |
+## Root object
 
-An example:
+It provides the following data as JSON:
+| Field   | Type                 | Details                                     |
+|---------|----------------------|---------------------------------------------|
+| name    | String               | The name of the Contracting Party since the domain may no reflect the Company name.<br /> e.g "Criteo"                                                                                                                    |
+| type    | String               | The type of Contracting Party in the Prebid SSO ecosystem. For now, the type for a DSP is "vendor"
+| version | Number               | A two digit number separated by a point for expressing the last Prebid SSO version handled.<br /> For now, the value is "0.1"<br /> Note: a new field may appear with the new versions of the Prebid SSO protocol for the last supported version. |
+| keys    | Array of Key objects | Public keys for verifying the signatures of the DSP. Those public key are strings associated to a timeframe for handling key rotation.|
+
+
+All signatures shared across the network must be verifiable. Therefore, each
+signature must have an associable key available in the Identity Endpoint. It is
+possible to have overlaps between the key timeframes for handing propertly the
+rotations. 
+
+## Key object
+
+| Field | Type   | Details                                                             |
+|-------|--------|---------------------------------------------------------------------|
+| key   | String | Public key for verifying the signature. Encoded in an UTF-8 String. |
+| start | Date   | Date when the Identity started to use this key for signing.         |
+| end   | Date   | Date when the Identity stoped to use this key for signing.          |
+
+
+## Example of an Identity response
+
 ```json
 {
     "name": "Criteo",
