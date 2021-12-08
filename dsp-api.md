@@ -40,8 +40,19 @@ An example:
 {
     "name": "Criteo",
     "type": "vendor",
-    "version": 1.0,
-    "key": "..."
+    "version": 0.1,
+    "keys": [
+        { 
+            "key": "04f3b7ec9095779b119cc6d30a21a6a3920c5e710d13ea8438727b7fd5cca47d048f020539d24e74b049a418ac68c03ea75c66982eef7fdc60d8fb2c7707df3dcd",
+            "start": "2021-01-01T00:00:00+00:00",
+            "end": "2021-02-01T09:01:00+00:00"
+        },
+        { 
+            "key": "044782dd8b7a6b8affa0f6cd94ede3682e85307224064f39db20e8f49b5f415d83fef66f3818ee549b04e443efa63c2d7f1fe9a631dc05c9f51ad98139b202f9f3",
+            "start": "2021-02-01T00:00:00+00:00",
+            "end": "2021-03-01T09:01:00+00:00"
+        }
+    ]
 }
 ```
 
@@ -182,18 +193,19 @@ POST https://<domain>/prebidsso/API/v1/transmission
 
 ### Example of a Transmission Request
 
+
 ````json
 {
-    "version": 1,
+    "version": 0.1,
     "seed": {
-        "version": 1,
+        "version": 0.1,
         "transaction_id": 1234567,
         "display_responsibility": "publisher",
         "identifiers": [
             {
-                "version": 1,
-                "type": "swid",
-                "value": "123_I_AM_SWID",
+                "version": 0.1,
+                "type": "prebid_id",
+                "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
                 "source": {
                     "domain": "operator0.com",
                     "date": "2021-04-23T18:25:43.511Z",
@@ -203,7 +215,7 @@ POST https://<domain>/prebidsso/API/v1/transmission
         ],
         "preferences": {
             "data": [
-                { "version": 1, "type": "opt_in", "value": true }
+                { "version": 0.1, "type": "opt_in", "value": true }
             ],
             "source": {
                 "domain": "operator1.com",
@@ -280,7 +292,7 @@ transmission_response.details
 
 ````json
 {
-    "version": 1,
+    "version": 0.1,
     "receiver": "dsp1.com",
     "status": "SUCCESS",
     "details": "",
@@ -313,32 +325,48 @@ Transmission is named "prebid_sso_transmission".
 
 ```json
 {
-  "id": "80ce30c53c16e6ede735f123ef6e32361bfc7b22",
-  "at": 1,
-  "cur": [
-    "USD"
-  ],
-  "imp": [
-    {
-      "id": "1",
-      "bidfloor": 0.03,
-      "banner": {
-        "h": 250,
-        "w": 300,
-        "pos": 0
-      },
-      "ext": {
-        "prebid_sso_transmission": {
-          "version": 1.0,
-          "seed": {
-            "version": 1,
-            "transaction_id": 1234567,
-            "display_responsibility": "publisher",
-            "identifiers": [
-              {
-                "version": 1,
-                "type": "swid",
-                "value": "123_I_AM_SWID",
+    "id": "80ce30c53c16e6ede735f123ef6e32361bfc7b22",
+    "at": 1, 
+    "cur": [ "USD" ],
+    "imp": [
+        {
+            "id": "1",
+            "bidfloor": 0.03,
+            "banner": {
+                "h": 250,
+                "w": 300,
+                "pos": 0
+            },
+            "ext": {
+                "prebid_sso_transmission": {
+                    "version": 0.1,
+                    "seed": {
+                        "version": 0.1,
+                        "transaction_id": 1234567,
+                        "display_responsibility": "publisher",
+                        "identifiers": [
+                            {
+                                "version": 0.1,
+                                "type": "prebid_id",
+                                "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
+                                "source": {
+                                    "domain": "operotor0.com",
+                                    "date": "2021-04-23T18:25:43.511Z",
+                                    "signature": "12345_signature"
+                                }
+                            }
+                    ],
+                    "preferences": {
+                        "version": 0.1,
+                        "data": [
+                            { "key":"opt_in", "value": true }
+                        ],
+                        "source": {
+                            "domain": "operator1.com",
+                            "date": "2021-04-23T18:25:43.511Z",
+                            "signature": "12345_signature"
+                        }
+                },
                 "source": {
                   "domain": "operator0.com",
                   "date": "2021-04-23T18:25:43.511Z",
@@ -446,7 +474,7 @@ Transmission.
             {
                 "impid": "1",
                 "response": {
-                    "version": 1,
+                    "version": 0.1,
                     "receiver": "dsp1.com",
                     "status": "SUCCESS",
                     "details": "",
@@ -461,7 +489,7 @@ Transmission.
             {
                 "impid": "2",
                 "response": {
-                    "version": 1,
+                    "version": 0.1,
                     "receiver": "dsp1.com",
                     "status": "SUCCESS",
                     "details": "",
@@ -532,64 +560,65 @@ document).
 
 ```json
 {
-  "seed": {
-    "version": 1,
-    "transaction_id": 1234567,
-    "display_responsibility": "publisher",
-    "identifiers": [
-      {
-        "version": 1,
-        "type": "swid",
-        "value": "123_I_AM_SWID",
+    "seed": {
+        "version": 0.1,
+        "transaction_id": 1234567,
+        "display_responsibility": "publisher",
+        "identifiers": [
+            {
+                "version": 0.1,
+                "type": "prebid_id",
+                "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
+                "source": {
+                    "domain": "operotor0.com",
+                    "date": "2021-04-23T18:25:43.511Z",
+                    "signature": "12345_signature"
+                }
+            }
+        ],
+        "preferences": {
+            "version": 0.1,
+            "data": [
+                { 
+                    "key":"opt_in",
+                    "value": true 
+                }
+            ],
+            "source": {
+                "domain": "operator1.com",
+                "date": "2021-04-23T18:25:43.511Z",
+                "signature": "12345_signature"
+            }
+        },
         "source": {
           "domain": "operator0.com",
           "date": "2021-04-23T18:25:43.511Z",
           "signature": "12345_signature"
         }
-      }
-    ],
-    "preferences": {
-      "version": 1,
-      "data": [
-        {
-          "key": "opt_in",
-          "value": true
-        }
-      ],
-      "source": {
-        "domain": "operator1.com",
-        "date": "2021-04-23T18:25:43.511Z",
-        "signature": "12345_signature"
-      }
-    },
-    "source": {
-      "domain": "publisher.com",
-      "date": "2021-04-23T18:25:43.511Z",
-      "signature": "12345_signature_with_identifier_preferences_date_domain"
     },
     "transmissions": [
-      {
-        "version": 1,
-        "receiver": "party2.com",
-        "status": "success",
-        "details": "",
-        "source": {
-          "domain": "party2.com",
-          "date": "2021-04-23T18:25:43.511Z",
-          "signature": "12345_signature"
+        {
+            "version": 0.1,
+            "receiver": "party2.com",
+            "status": "success",
+            "details": "",
+            "source": {
+                "domain": "party2.com",
+                "date": "2021-04-23T18:25:43.511Z",
+                "signature": "12345_signature"
+            }
+        },
+        {
+            "version": 0.1,
+            "receiver": "party3.com",
+            "status": "success",
+            "details": "",
+            "source": {
+                "domain": "party3.com",
+                "date": "2021-04-23T18:25:43.511Z",
+                "signature": "12345_signature"
+            }
         }
-      },
-      {
-        "version": 1,
-        "receiver": "party3.com",
-        "status": "success",
-        "details": "",
-        "source": {
-          "domain": "party3.com",
-          "date": "2021-04-23T18:25:43.511Z",
-          "signature": "12345_signature"
-        }
-      }
     ]
   }
 }
