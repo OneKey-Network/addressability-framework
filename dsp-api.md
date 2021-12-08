@@ -1,16 +1,16 @@
 # Goal
 
-Describe the required API for a DSP that wants to become a Contracting Party of
-the Prebid SSO ecosystem.
+Describe the technical requirements for a DSP engaged through the Model Terms
+with a supply partner..
 
 # General note about signature
 
-Prebid SSO Data and communication are designed to protect the User data.
-Therefore, Prebid SSO relies heavily on the signatures of the data and the
-communication to enforce security. The Elliptic Curve Digital Signature
-Algorithm (ECDSA) is used for this purpose. All the signatures described in
-this documentation are generated using NIST P-256 coupled with the hash
-algorithm SHA-256 on a specific string.
+Prebid SSO Data format is design to let the user audit how his preference got
+to their current state. Therefore, Prebid SSO relies on the signatures 
+of the data and the communication to enforce security. The Elliptic Curve
+Digital Signature Algorithm (ECDSA) is used for this purpose. All the signatures
+described in this documentation are generated using NIST P-256 coupled with
+the hash algorithm SHA-256 on a specific string.
 
 # The Identity endpoint
 
