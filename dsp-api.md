@@ -317,9 +317,9 @@ purpose, Prebid SSO uses the "extensions" of OpenRTB requests and responses.
 
 There is one transmission between two Contracting Parties for one ad and one
 OpenRTB bid request can contain multiple ads - named "impression" in OpenRTB
-specification. Therefore, a bid request can have multiple Transmission
-Requests. Those Transmissions are added in the "ext" object of each "imp" (for
-impression) object of the Bid Request. This new object dedicated to the
+specifications. Therefore, a bid request can have multiple Transmission
+Requests. Those Transmissions are added in the "ext" object of each "imp" (for 
+impression) object of the Bid Request. This new object dedicated to the 
 Transmission is named "prebid_sso_transmission".
 
 #### Example of a Transmission Request in an OpenRTB Bid Request
@@ -439,7 +439,8 @@ impression. However, the OpenRTB Bid Response is focused on BidSeat and Bid with
 potential cases where impressions don't appear in the response because there is
 no bid on them. Therefore, each Transmission Request must be expressed in the
 "ext" object of the root Bid Response paired with the impression ids provided in
-the request. The name of this new object in the "ext" object is "prebid_sso_transmissions".
+the request. The name of this new object in the "ext" object is 
+"prebid_sso_transmissions".
 
 Each Transmission Request presented in the Bid Request must have a Transmission
 Response in the Bid Response. The OpenRTB specification allows providing an
