@@ -648,6 +648,10 @@ page:
 The design of the page is up to the DSP but it must consider to have a neutral
 UI to be used for many different Publishers.
 
+Note that for the version v0.1, there are only one possible preference
+("opt-in") and one possible pseudonymous-identifiers ("prebid_id").
+However the framework is designed to handle many of them. 
+
 ## Source validations
 
 As we saw, for displaying correctly the Audit UI, the DSP must validate
@@ -684,6 +688,8 @@ The Audit Log contains a list of Preferences with one signature. The UTF-8 strin
 preferences.source.domain + '\u2063' +
 preferences.source.date + '\u2063' +
 
+prebid_id + '\u2063' +
+
 preferences.data.key1 + '\u2063' + preferences.data[key1].value + '\u2063' +
 preferences.data.key2 + '\u2063' + preferences.data[key2].value + '\u2063' +
 ...
@@ -712,7 +718,7 @@ seed.identifiers[n].source.signature + '\u2063' +
 seed.preferences.source.signature
 ```
 Note that we iterate over the identifiers by taking for each signature and
-appending it to the UTF-8 string.
+appending it to the UTF-8 string. 
 
 ### Verify the Transmission Results
 
