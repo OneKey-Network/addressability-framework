@@ -1293,7 +1293,7 @@ npx encode-query-string -nd `cat response-operatorO.json payload-id-and-preferen
 302 https://advertiserA.com/pageA.html?sender=operatorO.com&timestamp=1639059692793&signature=message_signature_xyz1234&payload.preferences.version=1&payload.preferences.data.opt_in=true&payload.preferences.source.domain=cmpC.com&payload.preferences.source.date=2021-04-23T18:25:43.511Z&payload.preferences.source.signature=preferences_signature_xyz12345&payload.identifiers[0].version=1&payload.identifiers[0].type=prebid_id&payload.identifiers[0].value=7435313e-caee-4889-8ad7-0acd0114ae3c&payload.identifiers[0].source.domain=operator0.com&payload.identifiers[0].source.date=2021-04-23T18:25:43.511Z&payload.identifiers[0].source.signature=prebid_id_signature_xyz12345
 ```
 
-if formatting query string values:
+...which corresponds to the following query string values:
 
 <!-- To update this block, use the previous command with at the end:
 | tr '&' '\n'
@@ -1350,7 +1350,7 @@ npx encode-query-string -nd `cat response-operatorO.json payload-id-and-preferen
 302 https://publisherP.com/pageP.html?sender=operatorO.com&timestamp=1639059692793&signature=message_signature_xyz1234&payload.identifiers[0].version=1&payload.identifiers[0].type=prebid_id&payload.identifiers[0].value=7435313e-caee-4889-8ad7-0acd0114ae3c&payload.identifiers[0].source.domain=operator0.com&payload.identifiers[0].source.date=2021-04-23T18:25:43.511Z&payload.identifiers[0].source.signature=prebid_id_signature_xyz12345
 ```
 
-if formatting query string values:
+...which corresponds to the following query string values:
 
 <!-- To update this block, use the previous command with at the end:
 | tr '&' '\n'
@@ -1380,7 +1380,7 @@ npx encode-query-string -nd `cat request-cmpC.json payload-id-and-preferences.js
 GET /v1/redirect/write?sender=cmpC.com&timestamp=1639057962145&signature=message_signature_xyz1234&payload.preferences.version=1&payload.preferences.data.opt_in=true&payload.preferences.source.domain=cmpC.com&payload.preferences.source.date=2021-04-23T18:25:43.511Z&payload.preferences.source.signature=preferences_signature_xyz12345&payload.identifiers[0].version=1&payload.identifiers[0].type=prebid_id&payload.identifiers[0].value=7435313e-caee-4889-8ad7-0acd0114ae3c&payload.identifiers[0].source.domain=operator0.com&payload.identifiers[0].source.date=2021-04-23T18:25:43.511Z&payload.identifiers[0].source.signature=prebid_id_signature_xyz12345&redirectUrl=https://publisherP.com/pageP.html
 ```
 
-if formatting query string values:
+...which corresponds to the following query string values:
 
 <!-- To update this block, use the previous command with at the end:
 | tr '&' '\n'
@@ -1414,7 +1414,7 @@ npx encode-query-string -nd `cat response-operatorO.json payload-id-and-preferen
 302 https://publisherP.com/pageP.html?sender=operatorO.com&timestamp=1639059692793&signature=message_signature_xyz1234&payload.preferences.version=1&payload.preferences.data.opt_in=true&payload.preferences.source.domain=cmpC.com&payload.preferences.source.date=2021-04-23T18:25:43.511Z&payload.preferences.source.signature=preferences_signature_xyz12345&payload.identifiers[0].version=1&payload.identifiers[0].type=prebid_id&payload.identifiers[0].value=7435313e-caee-4889-8ad7-0acd0114ae3c&payload.identifiers[0].source.domain=operator0.com&payload.identifiers[0].source.date=2021-04-23T18:25:43.511Z&payload.identifiers[0].source.signature=prebid_id_signature_xyz12345
 ```
 
-if formatting query string values:
+...which corresponds to the following query string values:
 
 <!-- To update this block, use the previous command with at the end:
 | tr '&' '\n'
@@ -1459,7 +1459,7 @@ npx encode-query-string -nd `cat response-operatorO.json payload-id.json | npx j
 302 https://publisherP.com/pageP.html?sender=operatorO.com&timestamp=1639059692793&signature=message_signature_xyz1234&payload.version=1&payload.type=prebid_id&payload.value=7435313e-caee-4889-8ad7-0acd0114ae3c&payload.source.domain=operator0.com&payload.source.date=2021-04-23T18:25:43.511Z&payload.source.signature=12345_signature
 ```
 
-if formatting query string values:
+...which corresponds to the following query string values:
 
 <!-- To update this block, use the previous command with at the end:
 | tr '&' '\n'
@@ -1515,7 +1515,7 @@ All messages (requests or responses, except for `/identity` endpoint) **are sign
 
 The signature of messages happens as follows:
 
-1. Build the complete message as a JSON object: `sender`, `timestamp`, `redirectUrl` (if any) and `payload`.
+1. Build the complete message as a JSON object: `sender`, `timestamp`, `redirectUrl` (if any) and `payload` if any POST payload.
    If some parameters are provided as query string and others as POST payload, merge it all together into a single object.
 2. Add a `receiver` element to this JSON object and set it to **the domain name of the recipient of the message**.
 3. Recursively alphabetically **sort all keys** of the JSON object.
@@ -1525,14 +1525,345 @@ The signature of messages happens as follows:
 
 ### Examples
 
-#### GET /v1/redirect/newId response to publisherP.com
+#### Request from cmpC.com to operatorO.prebidsso.com, on a call to `write`
 
-In this case, all data is already part of the query string. The process is to add `receiver` element and sort it.
+When calling `write`, the message will be different if calling the `/JSON` or `/redirect` version,
+because in the later case, a `redirectUrl` parameter is provided and must be part of the signature.
 
-1. complete message as JSON
+##### POST /v1/json/write
+
+<details>
+  <summary>Click to see the step by step example</summary>
+
+1. Build request object as JSON.
+ Notice `sender` and `timestamp` (which will be in the query string) and `payload` (which will be the POST body) are merged together in a single JSON object
+<!-- 
+cat request-cmpC.json payload-id-and-preferences.json | npx json --merge -e 'this.signature = undefined'
+-->
+
+```json
+{
+  "sender": "cmpC.com",
+  "timestamp": 1639057962145,
+  "payload": {
+    "preferences": {
+      "version": 1,
+      "data": {
+        "opt_in": true
+      },
+      "source": {
+        "domain": "cmpC.com",
+        "date": "2021-04-23T18:25:43.511Z",
+        "signature": "preferences_signature_xyz12345"
+      }
+    },
+    "identifiers": [
+      {
+        "version": 1,
+        "type": "prebid_id",
+        "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
+        "source": {
+          "domain": "operator0.com",
+          "date": "2021-04-23T18:25:43.511Z",
+          "signature": "prebid_id_signature_xyz12345"
+        }
+      }
+    ]
+  }
+}
+```
+2. add `receiver`
+<!-- 
+cat request-cmpC.json payload-id-and-preferences.json | npx json --merge -e 'this.signature = undefined; this.receiver="operatorO.prebidsso.com"'
+-->
+```json
+{
+  "sender": "cmpC.com",
+  "timestamp": 1639057962145,
+  "payload": {
+    "preferences": {
+      "version": 1,
+      "data": {
+        "opt_in": true
+      },
+      "source": {
+        "domain": "cmpC.com",
+        "date": "2021-04-23T18:25:43.511Z",
+        "signature": "preferences_signature_xyz12345"
+      }
+    },
+    "identifiers": [
+      {
+        "version": 1,
+        "type": "prebid_id",
+        "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
+        "source": {
+          "domain": "operator0.com",
+          "date": "2021-04-23T18:25:43.511Z",
+          "signature": "prebid_id_signature_xyz12345"
+        }
+      }
+    ]
+  },
+  "receiver": "operatorO.prebidsso.com"
+}
+```
+3. recursive sort
+<!--
+cat request-cmpC.json payload-id-and-preferences.json | npx json --merge -e 'this.signature = undefined; this.receiver="operatorO.prebidsso.com"' > .tmp.json;
+npx jsonsort .tmp.json;
+cat .tmp.json && rm .tmp.json;
+
+-->
+```json
+{
+  "payload": {
+    "identifiers": [
+      {
+        "source": {
+          "date": "2021-04-23T18:25:43.511Z",
+          "domain": "operator0.com",
+          "signature": "prebid_id_signature_xyz12345"
+        },
+        "type": "prebid_id",
+        "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
+        "version": 1
+      }
+    ],
+    "preferences": {
+      "data": {
+        "opt_in": true
+      },
+      "source": {
+        "date": "2021-04-23T18:25:43.511Z",
+        "domain": "cmpC.com",
+        "signature": "preferences_signature_xyz12345"
+      },
+      "version": 1
+    }
+  },
+  "receiver": "operatorO.prebidsso.com",
+  "sender": "cmpC.com",
+  "timestamp": 1639057962145
+}
+```
+4. encode as query string
+<!--
+cat request-cmpC.json payload-id-and-preferences.json | npx json --merge -e 'this.signature = undefined; this.receiver="operatorO.prebidsso.com"' > .tmp.json;
+npx jsonsort .tmp.json;
+npx encode-query-string -nd `cat .tmp.json | npx json -o json-0` && rm .tmp.json;
+
+-->
+```
+payload.identifiers[0].source.date=2021-04-23T18:25:43.511Z&payload.identifiers[0].source.domain=operator0.com&payload.identifiers[0].source.signature=prebid_id_signature_xyz12345&payload.identifiers[0].type=prebid_id&payload.identifiers[0].value=7435313e-caee-4889-8ad7-0acd0114ae3c&payload.identifiers[0].version=1&payload.preferences.data.opt_in=true&payload.preferences.source.date=2021-04-23T18:25:43.511Z&payload.preferences.source.domain=cmpC.com&payload.preferences.source.signature=preferences_signature_xyz12345&payload.preferences.version=1&receiver=operatorO.prebidsso.com&sender=cmpC.com&timestamp=1639057962145
+```
+
+5. hash
+<!--
+cat request-cmpC.json payload-id-and-preferences.json | npx json --merge -e 'this.signature = undefined; this.receiver="operatorO.prebidsso.com"' > .tmp.json;
+npx jsonsort .tmp.json;
+npx encode-query-string -nd `cat .tmp.json | npx json -o json-0` > .tmp.json;
+./node_modules/.bin/sha256sum .tmp.json | cut -d " " -f1 && rm .tmp.json;
+
+-->
+```
+9fe1dae20e11a45fded9b1425728daae940337b9ec9bb33cd58efb586c02d9a4
+```
+
+6. sign.
+<!--
+- Visit https://kjur.github.io/jsrsasign/sample/sample-ecdsa.html
+- Generate keys
+- copy the hash from previous step into the "Message to be signed" field
+- copy paste both the key and the signed value here
+
+-->
+Assuming the operator's private key is:
+```
+f74810bc6b5ffe53a2b18e94fdb9426ddea4fc674648cca1869b0b8e13cc6060
+```
+then the end value, to be used as `signature` field, is:
+```
+3044022045d970119baf392c633e49d5640b119425e8f988c210051f08fa9a7f2120d523022001e76ae5166407609963ddad965ae44fae7a62c278017c9dfb8d9b7fb5773d16
+```
+
+</details>
+
+##### GET /v1/redirect/write
+
+<details>
+  <summary>Click to see the step by step example</summary>
+
+1. Build request object as JSON.
+   Notice that compared to the `/json` version, the additional `redirectUrl` is present.
+2. 
+<!-- 
+cat request-cmpC.json payload-id-and-preferences.json | npx json --merge -e 'this.signature = undefined; this.redirectUrl="https://publisherP.com/pageP.html"'
+-->
+
+```json
+{
+  "sender": "cmpC.com",
+  "timestamp": 1639057962145,
+  "payload": {
+    "preferences": {
+      "version": 1,
+      "data": {
+        "opt_in": true
+      },
+      "source": {
+        "domain": "cmpC.com",
+        "date": "2021-04-23T18:25:43.511Z",
+        "signature": "preferences_signature_xyz12345"
+      }
+    },
+    "identifiers": [
+      {
+        "version": 1,
+        "type": "prebid_id",
+        "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
+        "source": {
+          "domain": "operator0.com",
+          "date": "2021-04-23T18:25:43.511Z",
+          "signature": "prebid_id_signature_xyz12345"
+        }
+      }
+    ]
+  },
+  "redirectUrl": "https://publisherP.com/pageP.html"
+}
+```
+2. add `receiver`
+<!-- 
+cat request-cmpC.json payload-id-and-preferences.json | npx json --merge -e 'this.signature = undefined; this.receiver="operatorO.prebidsso.com"; this.redirectUrl="https://publisherP.com/pageP.html"'
+-->
+```json
+{
+  "sender": "cmpC.com",
+  "timestamp": 1639057962145,
+  "payload": {
+    "preferences": {
+      "version": 1,
+      "data": {
+        "opt_in": true
+      },
+      "source": {
+        "domain": "cmpC.com",
+        "date": "2021-04-23T18:25:43.511Z",
+        "signature": "preferences_signature_xyz12345"
+      }
+    },
+    "identifiers": [
+      {
+        "version": 1,
+        "type": "prebid_id",
+        "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
+        "source": {
+          "domain": "operator0.com",
+          "date": "2021-04-23T18:25:43.511Z",
+          "signature": "prebid_id_signature_xyz12345"
+        }
+      }
+    ]
+  },
+  "receiver": "operatorO.prebidsso.com",
+  "redirectUrl": "https://publisherP.com/pageP.html"
+}
+```
+3. recursive sort
+<!--
+cat request-cmpC.json payload-id-and-preferences.json | npx json --merge -e 'this.signature = undefined; this.receiver="operatorO.prebidsso.com"; this.redirectUrl="https://publisherP.com/pageP.html"' > .tmp.json;
+npx jsonsort .tmp.json;
+cat .tmp.json && rm .tmp.json;
+
+-->
+```json
+{
+  "payload": {
+    "identifiers": [
+      {
+        "source": {
+          "date": "2021-04-23T18:25:43.511Z",
+          "domain": "operator0.com",
+          "signature": "prebid_id_signature_xyz12345"
+        },
+        "type": "prebid_id",
+        "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
+        "version": 1
+      }
+    ],
+    "preferences": {
+      "data": {
+        "opt_in": true
+      },
+      "source": {
+        "date": "2021-04-23T18:25:43.511Z",
+        "domain": "cmpC.com",
+        "signature": "preferences_signature_xyz12345"
+      },
+      "version": 1
+    }
+  },
+  "receiver": "operatorO.prebidsso.com",
+  "redirectUrl": "https://publisherP.com/pageP.html",
+  "sender": "cmpC.com",
+  "timestamp": 1639057962145
+}
+```
+4. encode as query string
+<!--
+cat request-cmpC.json payload-id-and-preferences.json | npx json --merge -e 'this.signature = undefined; this.receiver="operatorO.prebidsso.com"; this.redirectUrl="https://publisherP.com/pageP.html"' > .tmp.json;
+npx jsonsort .tmp.json;
+npx encode-query-string -nd `cat .tmp.json | npx json -o json-0` && rm .tmp.json;
+
+-->
+```
+payload.identifiers[0].source.date=2021-04-23T18:25:43.511Z&payload.identifiers[0].source.domain=operator0.com&payload.identifiers[0].source.signature=prebid_id_signature_xyz12345&payload.identifiers[0].type=prebid_id&payload.identifiers[0].value=7435313e-caee-4889-8ad7-0acd0114ae3c&payload.identifiers[0].version=1&payload.preferences.data.opt_in=true&payload.preferences.source.date=2021-04-23T18:25:43.511Z&payload.preferences.source.domain=cmpC.com&payload.preferences.source.signature=preferences_signature_xyz12345&payload.preferences.version=1&receiver=operatorO.prebidsso.com&redirectUrl=https://publisherP.com/pageP.html&sender=cmpC.com&timestamp=1639057962145
+```
+
+5. hash
+<!--
+cat request-cmpC.json payload-id-and-preferences.json | npx json --merge -e 'this.signature = undefined; this.receiver="operatorO.prebidsso.com"; this.redirectUrl="https://publisherP.com/pageP.html"' > .tmp.json;
+npx jsonsort .tmp.json;
+npx encode-query-string -nd `cat .tmp.json | npx json -o json-0` > .tmp.json;
+./node_modules/.bin/sha256sum .tmp.json | cut -d " " -f1 && rm .tmp.json;
+
+-->
+```
+4690174e96bc09254b92a5d52a84601793d2f67fdda198e630fb6910c4a0865b
+```
+
+6. sign.
+<!--
+- Visit https://kjur.github.io/jsrsasign/sample/sample-ecdsa.html
+- Generate keys
+- copy the hash from previous step into the "Message to be signed" field
+- copy paste both the key and the signed value here
+
+-->
+Assuming the operator's private key is:
+```
+f74810bc6b5ffe53a2b18e94fdb9426ddea4fc674648cca1869b0b8e13cc6060
+```
+then the end value, to be used as `signature` field, is:
+```
+3045022068a0f5d0931c239d6425f194731fb681f82e20d8b189f264382694cc08d446270221008a7f459316def16bbf9db38161f417a9b7709435d444ff1c9dbb83d48947478e
+```
+
+</details>
+
+#### Response from operatorO.prebidsso.com to publisherP.com, on a call to `newId`
+
+Regardless if it's a `GET /v1/redirect/newId` or `GET /v1/json/newId`, the process is the same:
+
+<details>
+  <summary>Click to see the step by step example</summary>
+
+1. Build response object as JSON
 <!-- 
 cat response-operatorO.json payload-id.json | npx json --merge -e "this.signature = undefined"
 -->
+
 ```json
 {
   "sender": "operatorO.com",
@@ -1634,3 +1965,4 @@ then the end value, to be used as `signature` field, is:
 ```
 304402202dc3f7706a4b20f1848dc1a1ff9f753b08864369a80ab80d8d488c03f8b0b07302207211f727fc640e6f2f94a0526d9e7a6bc407adc4dc47eb6286b46ff2f038a489
 ```
+</details>
