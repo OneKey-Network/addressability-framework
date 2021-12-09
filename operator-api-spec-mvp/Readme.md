@@ -1520,8 +1520,7 @@ The signature of messages happens as follows:
 2. Add a `receiver` element to this JSON object and set it to **the domain name of the recipient of the message**.
 3. Recursively alphabetically **sort all keys** of the JSON object.
 4. Encode it **as a query string**
-5. Generates a SHA256 hash from this string 
-6. Sign it with the sender's private key, using ECDSA NIST P-256
+5. Sign it with the sender's private key, using ECDSA NIST P-256
 
 ### Examples
 
@@ -1658,23 +1657,11 @@ npx encode-query-string -nd `cat .tmp.json | npx json -o json-0` && rm .tmp.json
 payload.identifiers[0].source.date=2021-04-23T18:25:43.511Z&payload.identifiers[0].source.domain=operator0.com&payload.identifiers[0].source.signature=prebid_id_signature_xyz12345&payload.identifiers[0].type=prebid_id&payload.identifiers[0].value=7435313e-caee-4889-8ad7-0acd0114ae3c&payload.identifiers[0].version=1&payload.preferences.data.opt_in=true&payload.preferences.source.date=2021-04-23T18:25:43.511Z&payload.preferences.source.domain=cmpC.com&payload.preferences.source.signature=preferences_signature_xyz12345&payload.preferences.version=1&receiver=operatorO.prebidsso.com&sender=cmpC.com&timestamp=1639057962145
 ```
 
-5. hash
-<!--
-cat request-cmpC.json payload-id-and-preferences.json | npx json --merge -e 'this.signature = undefined; this.receiver="operatorO.prebidsso.com"' > .tmp.json;
-npx jsonsort .tmp.json;
-npx encode-query-string -nd `cat .tmp.json | npx json -o json-0` > .tmp.json;
-./node_modules/.bin/sha256sum .tmp.json | cut -d " " -f1 && rm .tmp.json;
-
--->
-```
-9fe1dae20e11a45fded9b1425728daae940337b9ec9bb33cd58efb586c02d9a4
-```
-
-6. sign.
+5. sign.
 <!--
 - Visit https://kjur.github.io/jsrsasign/sample/sample-ecdsa.html
 - Generate keys
-- copy the hash from previous step into the "Message to be signed" field
+- copy the content from previous step into the "Message to be signed" field
 - copy paste both the key and the signed value here
 
 -->
@@ -1684,7 +1671,7 @@ f74810bc6b5ffe53a2b18e94fdb9426ddea4fc674648cca1869b0b8e13cc6060
 ```
 then the end value, to be used as `signature` field, is:
 ```
-3044022045d970119baf392c633e49d5640b119425e8f988c210051f08fa9a7f2120d523022001e76ae5166407609963ddad965ae44fae7a62c278017c9dfb8d9b7fb5773d16
+3045022100820853799948174fc35d7dff368275313a733bc1699b979d138bba3305688296022075b80651c1b7a66e4164958dd80c751061121238fce02093202b5002ff6372a3
 ```
 
 </details>
@@ -1821,23 +1808,12 @@ npx encode-query-string -nd `cat .tmp.json | npx json -o json-0` && rm .tmp.json
 payload.identifiers[0].source.date=2021-04-23T18:25:43.511Z&payload.identifiers[0].source.domain=operator0.com&payload.identifiers[0].source.signature=prebid_id_signature_xyz12345&payload.identifiers[0].type=prebid_id&payload.identifiers[0].value=7435313e-caee-4889-8ad7-0acd0114ae3c&payload.identifiers[0].version=1&payload.preferences.data.opt_in=true&payload.preferences.source.date=2021-04-23T18:25:43.511Z&payload.preferences.source.domain=cmpC.com&payload.preferences.source.signature=preferences_signature_xyz12345&payload.preferences.version=1&receiver=operatorO.prebidsso.com&redirectUrl=https://publisherP.com/pageP.html&sender=cmpC.com&timestamp=1639057962145
 ```
 
-5. hash
-<!--
-cat request-cmpC.json payload-id-and-preferences.json | npx json --merge -e 'this.signature = undefined; this.receiver="operatorO.prebidsso.com"; this.redirectUrl="https://publisherP.com/pageP.html"' > .tmp.json;
-npx jsonsort .tmp.json;
-npx encode-query-string -nd `cat .tmp.json | npx json -o json-0` > .tmp.json;
-./node_modules/.bin/sha256sum .tmp.json | cut -d " " -f1 && rm .tmp.json;
 
--->
-```
-4690174e96bc09254b92a5d52a84601793d2f67fdda198e630fb6910c4a0865b
-```
-
-6. sign.
+5. sign.
 <!--
 - Visit https://kjur.github.io/jsrsasign/sample/sample-ecdsa.html
 - Generate keys
-- copy the hash from previous step into the "Message to be signed" field
+- copy the content from previous step into the "Message to be signed" field
 - copy paste both the key and the signed value here
 
 -->
@@ -1847,7 +1823,7 @@ f74810bc6b5ffe53a2b18e94fdb9426ddea4fc674648cca1869b0b8e13cc6060
 ```
 then the end value, to be used as `signature` field, is:
 ```
-3045022068a0f5d0931c239d6425f194731fb681f82e20d8b189f264382694cc08d446270221008a7f459316def16bbf9db38161f417a9b7709435d444ff1c9dbb83d48947478e
+30460221009224c93236a50b669e0777f65721d5bfbcc393be7ed6f3acded2fd7088b0f1c2022100ff14f97e67345d80198164da47c28e1b2b9a6a795c334c3754dad756a693e040
 ```
 
 </details>
@@ -1937,23 +1913,11 @@ npx encode-query-string -nd `cat .tmp.json | npx json -o json-0` && rm .tmp.json
 payload.source.date=2021-04-23T18:25:43.511Z&payload.source.domain=operator0.com&payload.source.signature=12345_signature&payload.type=prebid_id&payload.value=7435313e-caee-4889-8ad7-0acd0114ae3c&payload.version=1&receiver=publisherP.com&sender=operatorO.com&timestamp=1639059692793
 ```
 
-5. hash
-<!--
-cat response-operatorO.json payload-id.json | npx json --merge -e 'this.signature = undefined; this.receiver="publisherP.com"' > .tmp.json;
-npx jsonsort .tmp.json;
-npx encode-query-string -nd `cat .tmp.json | npx json -o json-0` > .tmp.json;
-./node_modules/.bin/sha256sum .tmp.json | cut -d " " -f1 && rm .tmp.json;
-
--->
-```
-040fc5ace1fd6584f4542d3d633450ed684279ae1c18923fa8aa5ef47e468968
-```
-
-6. sign.
+5. sign.
 <!--
 - Visit https://kjur.github.io/jsrsasign/sample/sample-ecdsa.html
 - Generate keys
-- copy the hash from previous step into the "Message to be signed" field
+- copy the content from previous step into the "Message to be signed" field
 - copy paste both the key and the signed value here
 
 -->
@@ -1963,6 +1927,6 @@ f74810bc6b5ffe53a2b18e94fdb9426ddea4fc674648cca1869b0b8e13cc6060
 ```
 then the end value, to be used as `signature` field, is:
 ```
-304402202dc3f7706a4b20f1848dc1a1ff9f753b08864369a80ab80d8d488c03f8b0b07302207211f727fc640e6f2f94a0526d9e7a6bc407adc4dc47eb6286b46ff2f038a489
+304602210087657703efe0d084d32bb2ec03bfe36022797fd86f4737b4a399d4f95bd3855f022100d92d5f1e00ac8909b9639cf18969cadc0d1b4c196a8718fbe4bad1b390abd1ca
 ```
 </details>
