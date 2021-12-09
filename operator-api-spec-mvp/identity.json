@@ -1,0 +1,16 @@
+{
+  "name": "Operator O",
+  "type": "vendor",
+  "keys": [
+    {
+      "key": "04f3b7ec9095779b119cc6d30a21a6a3920c5e710d13ea8438727b7fd5cca47d048f020539d24e74b049a418ac68c03ea75c66982eef7fdc60d8fb2c7707df3dcd",
+      "start": "2021-01-01T00:00:00+00:00",
+      "end": "2021-02-01T00:00:00+00:00"
+    },
+    {
+      "key": "044782dd8b7a6b8affa0f6cd94ede3682e85307224064f39db20e8f49b5f415d83fef66f3818ee549b04e443efa63c2d7f1fe9a631dc05c9f51ad98139b202f9f3",
+      "start": "2021-02-01T00:00:00+00:00",
+      "end": "2021-03-01T09:01:00+00:00"
+    }
+  ]
+}
