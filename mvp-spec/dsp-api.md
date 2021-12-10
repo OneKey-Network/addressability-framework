@@ -30,12 +30,12 @@ GET https://<domain>/prebidsso/API/v1/identity
 ## Root object
 
 It provides the following data as JSON:
-| Field   | Type                 | Details                                     |
-|---------|----------------------|---------------------------------------------|
-| name    | String               | The name of the Contracting Party since the domain may no reflect the Company name.<br /> e.g "Criteo"                                                                                                                    |
-| type    | String               | The type of Contracting Party in the Prebid SSO ecosystem. For now, the type for a DSP is "vendor"
-| version | Number               | A two digit number separated by a point for expressing the last Prebid SSO version handled.<br /> For now, the value is "0.1"<br /> Note: a new field may appear with the new versions of the Prebid SSO protocol for the last supported version. |
-| keys    | Array of Key objects | Public keys for verifying the signatures of the DSP. Those public key are strings associated to a timeframe for handling key rotation.|
+| Field                    | Type                 | Details                    |
+|--------------------------|----------------------|----------------------------|
+| name                     | String               | The name of the Contracting Party since the domain may no reflect the Company name.<br /> e.g "Criteo"                                                                                                                    |
+| type                     | String               | The type of Contracting Party in the Prebid SSO ecosystem. For now, the type for a DSP is "vendor"
+| last_version_implemented | Number               | A two digit number separated by a point for expressing the last Prebid SSO version handled.<br /> For now, the value is "0.1"<br /> Note: a new field may appear with the new versions of the Prebid SSO protocol for the last supported version. |
+| keys                     | Array of Key objects | Public keys for verifying the signatures of the DSP. Those public key are strings associated to a timeframe for handling key rotation.|
 
 
 All signatures shared across the network must be verifiable. Therefore, each
@@ -176,11 +176,14 @@ standalone transmission can be used.
 
 ### The Preferences object
 
-| Field   | Type          | Details                                            |
-|---------|---------------|----------------------------------------------------|
-| version | Number        | The Prebid SSO version of the object.                                                                                                                                                                       |
-| data    | Dictionary    | The key is a string and represents the name of the preference. <br /> The values represent the value of the preference. <br /> For now there is only one preference named "optin" and its value is a boolean.|
-| source  | Source object | The source contains the data for identifying and trusting the Operator that signed lastly the Preferences.<br /> <table><tr><th>Field</th><th>Type</th><th>Details</th></tr><tr><td>domain</td><td>String</td><td>The domain of the Operator.</td></tr><tr><td>date</td><td>Date</td><td>The date of the signature.</td></tr><tr><td>signature</td><td>String</td><td>Encoded signature in UTF-8 of the Operator.</td></tr></table>|
+| Field   | Type                   | Details                                   |
+|---------|------------------------|-------------------------------------------|
+| version | Number                 | The Prebid SSO version of the object.                                                                                                                                                                       |
+| data    | Dictionary             | The key is a string and represents the name of the preference. <br /> The values represent the value of the preference. <br /> For now there is only one preference named "optin" and its value is a boolean.|
+| source  | Source object          | The source contains the data for identifying and trusting the Operator that signed lastly the Preferences.<br /> <table><tr><th>Field</th><th>Type</th><th>Details</th></tr><tr><td>domain</td><td>String</td><td>The domain of the Operator.</td></tr><tr><td>date</td><td>Date</td><td>The date of the signature.</td></tr><tr><td>signature</td><td>String</td><td>Encoded signature in UTF-8 of the Operator.</td></tr></table>|
+
+Note that the "data" field is a simple dictionnary.
+
 
 ### The Identifier object
 
@@ -678,7 +681,7 @@ page:
 | Element                          | Details                                   |
 |----------------------------------|-------------------------------------------|
 | List of Pseudonymous-Identifiers | Each Pseudonymous-Identifier must be paired with the name of the Operator who generated it and signed it with a Reg/Green indicator expressing the validity of the signature.                                                |
-| List of the Preferences          | Each Preference must be paired with the name of the Operator who generated it and signed it with a Red/Green indicator expressing the validity of the signature.                                                             |
+| List of the Preferences          | Each Preference must be paired with the name of the CMP who generated it and signed it with a Red/Green indicator expressing the validity of the signature.                                                             |
 | Seed                             | The Seed is represented by the Transaction ID and a Red/Green indicator expressing the validity of the signature                                                                                                             |
 | List of Transmission Results     | The Transmission Results available in the Audit Log. Each Transmission Results is represented by the Name of the Receiver, the status of the Transmission and a Red/Green indicator expressing the validity of the signature |
 
