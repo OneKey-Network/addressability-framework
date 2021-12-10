@@ -1,0 +1,541 @@
+# Goal
+
+Gather general requirements to clarify the Model Terms of Prebid SSO for:
+
+* Sharing Prebid SSO data across Contracting Parties
+* Auditing those shares
+
+# Disclaimer
+
+This document consider for now that the SWAN Model Terms are the Prebid SSO
+Model Terms. Therefore some terminologies are reused and tacite references are 
+done to it. We compromise the fact of using too much periphrasis of the Model
+Terms and making this document self-contained. Don't hesitate to add comments 
+when some terminologies aren't clear. However, we encourage you to read the 
+Model Terms before this document. To prevent any confusion, 
+we will tend to reduce the usage of "SWAN" word in the benefits of "Prebid SSO".
+
+# Resources
+
+-   [SWAN Model Terms](https://github.com/SWAN-community/swan/blob/main/model-terms.md)
+-   [SWAN Model Terms explainer](https://github.com/SWAN-community/swan/blob/main/model-terms-explainer.md)
+-   [Data auditability - Questions](https://confluence.criteois.com/display/USRF/Data+auditability+-+Questions)
+-   [PMC - Architecture & API - Discussions](https://docs.google.com/presentation/d/1eBE2uYQPaZVerNhRAHLAEN5iSYrb4KntHpKG3lLnpNU/edit#slide=id.p)
+-   [Open RTB specifications](https://www.iab.com/wp-content/uploads/2016/03/OpenRTB-API-Specification-Version-2-5-FINAL.pdf)
+-   [Prebid SSO Summary](https://docs.google.com/document/d/1kadSeDQjInga2ntLhzWKjLoiSWnuk47z-0zSgvogN20/edit#heading=h.4br0jw9owljf)
+-   [Prebid SSO Trust Model](https://docs.google.com/document/d/1d2u6KyL3250pjIVcqr68jmpVbSncupknNGVerMFWATc/edit#heading=h.yl1nksrqzh1l)
+
+# Definitions
+
+Here are both existing and extra definitions from the Model Terms:
+
+**Addressable Content** means the interface on the webpage that displays an 
+ad-hoc - or not - content to the user thank to the Prebid SSO Data.
+
+**Audit Log** means a log containing information received by a Party of each 
+Transmission that has been Signed.
+
+**Audit Log Button** means a button on the Publisher website inside or aside 
+from a Personalized Content that the user can click to see the Audit Log UI.
+
+**Audit Log Owner** means a Contracting Party responsible to display the Audit 
+Log Button and the Audit Log UI to the user.
+
+**Audit Log UI** means the webpage or a webpage section that displays all the 
+Audit to the user.
+
+**Contracting Party** means any party bound to an agreement containing these 
+Model Terms and “**Parties**” shall be construed accordingly.
+
+**Operator** means a Contracting Party that generates and signs Prebid SSO Data.
+
+**Prebid SSO Data** means all Pseudonymous Identifiers and associated 
+Preferences
+
+**Prebid SSO Ecosystem** means each and every Party.
+
+**Pseudo-Identifier or Pseudonymous-Identifier** means a generated Identifiers
+for the User.
+
+**Receiver** means the Contracting Party receiving the Prebid SSO Data from
+the Sender.
+
+**Root Party** means the Contracting Party initiating the originating 
+Transmission in a particular chain of Transmissions.
+
+**Sender** means the Contracting Party sending the Prebid SSO Data to 
+the Receiver.
+
+**Sign** means a cryptographic confirmation of generating, sending or 
+receipt of Prebid SSO Data.
+
+**Transaction**: the sending of SWAN Data from the Root Party through the 
+SWAN ecosystem by consecutive Transmissions.
+
+**Transaction ID** is the generated identifier for a dedicated placement. One 
+Transaction ID per Audit Log.
+
+**Transmission** means the sending of Prebid SSO Data from the Sender to
+the Receiver.
+
+**Transmission Request** means the communication of the Prebid SSO Data from 
+a Sender to a Receiver.
+
+**Transmission Response** means the communication of the Prebid SSO Data from 
+a Receiver to a Sender.
+
+**Transmission Result** means the final statement of a Transmission that is 
+used in an Audit Log
+
+**Vendor** means a Contracting Party that participated via a Transaction to 
+the generation of the Addressable Content to the user on the publisher website.
+The Publisher isn't a Vendor.
+
+![Definitions Overview](./assets/definitions-overview.png)
+
+# Use case
+
+## User interactions
+
+When a user browses a Publisher website with ads, he wants to be able to audit
+the Contracting Parties that participated to the creation of those ads. The
+audit is achievable through a dedicated Audit Log UI. Each ad has an Audit Log
+that can be displayed independently in the Audit Log UI. Those Audit Logs are 
+available at least as long as the ads are shown. More generally, a Prebid SSO ad
+is a Addressable Content.
+
+![Audit Button and Audit UI](./assets/audit-button-and-audit-ui-example.png)
+
+The Audit Log contains:
+
+* The Prebid SSO Data (Pseudonymous-identifiers + Preferences)
+* A Transaction ID
+* The Contacting Parties that received the Prebid SSO Data through
+Transmissions for the given Transaction ID.
+* The security data for validating the accountability of the Contracting Parties
+concerning the Prebid SSO Data.
+
+The Audit Log UI can be:
+* a dedicated webpage where the user is redirect once she/he clicks on
+the Audit Log Button.
+* a dedicated UI appearing on the webpage where the Addressable Content is
+displayed (it can be achieved with JavaScript for example).
+
+The Audit Log UI must show:
+* The type of the shared Pseudonymous-Identifiers and their values so that
+the user can understand how she/he is identified;
+* The Preferences so that the user know exactly on what the
+Addressable Content relies;
+* The list of the parties who received the Prebid SSO Data for
+the Addressable Content;
+* A "green or red" status for each Contacting Party: the status is green 
+when the Receiver is part of the Prebid SSO ecosystem and signed properly
+a transmission, else it is red.
+
+## Display responsibility
+
+The Publisher is the owner of the display for the Audit UI. However, the 
+Publisher can delegate the responsibility of this Audit display to the Vendor 
+that displays the ad. So two cases can happen:
+
+* The Publisher takes the responsibility of the display of the Audit Log Button
+and add it "near" the Addressable Content. When the user clicks on the button,
+the Publisher displays the Audit Log UI.
+* The Publisher gives the responsability of the display of the Audit Log Button
+to the Vendor and this latest adds it "in" the Addressable Content. When the 
+user clicks on the button, the Vendor displays the Audit Log UI.
+
+The Publisher must express this responsibility preferences in the Seed.
+
+# The scope of the audit
+
+## From the overall data flows
+
+The Audit Log must help the user to audit the Prebid SSO Data and 
+the Transmission that occur when the ad is displayed.
+
+If we consider the typical personal ad scenario, we have two important entities:
+* Publisher: the website where the content to audit is being displayed
+* Advertiser: a website where user behavioral data has been collected for
+the purpose of content personalization.
+
+In our scenario:
+* An Advertiser sends user behavioral event to his DSP at T0
+* A Publisher that display an ad at T0 + 1 Day
+
+![Audit Button and Audit UI](./assets/audit-scope.png)
+
+The Audit scope is focused on the communications between the Publisher, the SSP
+and the DSP. It doesn't include the communications between the Advertiser
+and the DSP. If we abstract this use case:
+
+* The Audit Scope includes the website that displays the 
+Addressable Content and the Contracting Parties that help to generate this
+Addressable Content in Real-Time.
+* The Audit Scope doesn't include the Contracting Party that retrieved the
+analytic data or the client of the Contracting Parties that generate
+the Addressable Content.
+
+## Nominal case where all actors are Contracting Parties
+
+The nominal case is a Publisher website offering an ad inventory with
+Prebid SSO Data. Those data flow through different Contracting Parties. The
+communication between those Parties can includes OpenRTB responses and 
+OpenRTB requests and the election of a bid winner:
+
+![](https://confluence.criteois.com/download/attachments/677615488/Capture-mermaid.PNG?version=1&modificationDate=1635243401000&api=v2)
+
+Mermaid code
+
+  
+
+In the diagram above, the Publisher, the SSP and the DSPs MUST be part of the
+Prebid SSO ecosystem. For being part of it, they must commit to the Model Terms
+meaning that they have to sign their transmissions and the Audit Log must 
+reflect it. However, if they aren't part of the Prebid SSO ecosystem, there is
+no Prebid SSO transmission between them and they don't appear in the Audit Log
+even if they participate to the Addressable Content.
+
+## Filtered transmissions of the data flow
+
+The Audit Log shows the Contracting Parties who collaborate on the 
+Addressable Content that relies on the Prebid SSO data. The Audit Log UI lets
+the user pinpoints the Contracting Parties. There is no requirement to show
+Transmission that didn't have an impact on the Addressable Content.
+
+&#10;
+
+The Audit Log help the user to know who received her/his Prebid SSO Data. In
+other words, the user doesn't need to know who was the Sender of a 
+Transmission, only the Receiver. She/he doesn't even need to know the order of
+the Transmissions. So it is acceptable to see the Audit Log as an unordered 
+list to simplify the display and the concepts to the users. We will use this 
+approach for the rest of the requirement.
+
+# Heterogeneous systems
+
+While adopting Prebid SSO, the Contracting Parties will still interact with 
+actors that are part not of the Prebid SSO ecosystem. Moreover, Prebid SSO need 
+to be integrate to existing communication standard and format. For instance, 
+some actors use OpenRTB to communicate and other will use custom communications.
+This section is about clarifying those edge cases.
+
+## Transaction as a continuous chain
+
+A transmission is a direct communication between a Sender and a Receiver that 
+are parts of the Prebid SSO ecosystem. Therefore, the Prebid SSO Data cannot be
+shared to a non-Prebid SSO actor even if this later is in communication with
+other Parties that are parts of the Prebid SSO ecosystem. Therefore, there is
+no transaction possible with this path because there is no transmission.
+
+&#10;
+
+In term of Transmission, DSP3 won't receive any Prebid SSO Data because it
+suppliers isn't part of the Prebid SSO ecosystem (see diagram above).
+
+In term of Audit Log, if the winner of the inventory is DSP3, there is no 
+Audit Log because DSP3 didn't receive Prebid SSO Data. To enumerate all cases
+concerning the Addressable Content of the Audit Log:
+
+Audit log
+
+Include all
+
+None
+
+None
+
+None
+
+  
+
+## Who is part of the Prebid SSO ecosystem
+
+Before sharing Prebid SSO Data via a Transmission, a Sender must know that 
+the Receiver is part of the Prebid SSO Ecosystem. For this purpose, both share 
+mutually their commitments to the Model Terms when they define the frame of 
+their partnership. This commitment also includes the fact that the Sender and
+the Receiver must provide a web API for letting other Contracting Parties
+verifying its signatures.  
+
+The API must:
+
+* include the Receiver's name;
+* include the data for validating the signatures of the Receiver (e.g a public key);
+* include the Prebid SSO version used (for forward and backward compatibility);
+* respect the technical details of further specifications.
+
+For performance reason, the Contracting Party can fetch those information once
+and cache it for 24h.
+
+The general philosophy of Prebid SSO is to have a purely decentralized 
+ecosystem. Therefore, there is no centralized list of all the 
+Contracting Parties that the Prebid SSO ecosystem maintains. Instead, it relies
+on the relationships between Contracting Parties and their respective
+commitments on the Model Terms.  
+
+## Communications with non-contracting parties
+
+As soon as a Sender signs a Transmission, it cannot repudiate that it received
+the Prebid SSO Data. Few elements to consider:
+
+* a Contracting Party can communicate non-Prebid SSO data to its suppliers that
+are out of the Prebid SSO ecosystem. However, it cannot share Prebid SSO data
+with them.
+* a Contracting Party isn't responsible for the behavior of its suppliers that
+are out of the Prebid SSO ecosystem even if the user expressed an opt-out.
+
+&#10;
+
+## OpenRTB, one request for many audit logs
+
+The technical solution must specifies how the Prebid SSO Data is handled in 
+OpenRTB requests and responses. OpenRTB is a standardized format for bidding on
+an inventory. We won't provide technical solution here. However, we should 
+consider few elements if we want to integrate Prebid SSO in the existing 
+protocol:
+
+* a Bid request can contain multiple placements so it means that we can have 
+multiple audit logs per Bid Request;
+* a Bid request can be extended (field "ext") in different objects including 
+the "imp" object (for impression). It can be a place for a Transmission request
+for each placement;
+* a Bid response can also be extended (field "ext") in different objects. It 
+can be a place for Transmission responses.
+* It is acceptable in OpenRTB to send an empty response for a no-bid. It must 
+be considered as a Receiver failure of the Prebid SSO Transmission if the 
+Transmission relies on the Bid request/response.
+
+# The Transmission Results
+
+A Transmission is a communication protocol. Therefore, it can have some
+failures and misunderstanding between the Contracting Parties (e.g bad request,
+bad response, legacy version...). The Transmission Result is the final output 
+of a Transmission. It is the data that is appended in the Audit Log. It 
+describes the status of it and is signed by the Sender or the Receiver.
+
+* If the Receiver succeed to process the Transmission Response, it generates a
+Transmission Request and signs it back to the Sender. If the Sender consider it 
+as a good response, then the Transmission Response is the Transmission Result.
+* If the Receiver fails to process the Transmission Response and returns an 
+error to the Sender, the Sender generates a Transmission Result and signs it;
+* If the Sender doesn't receive response from the Receiver, it generates a 
+Transmission Result and signs it;
+
+# Signatures
+
+The Parties must sign when generating Prebid SSO Data or when they received it
+with the Transaction ID. Those signatures are cryptographic ones and so:
+
+* It cannot be reproducible by anybody;
+* It can be verifiable by everybody;
+* Data cannot be altered else the signature is invalid;
+* The Contracting Party cannot repudiate it.
+
+The signature must relies on data from the Seed or from the Prebid SSO
+Transmission.
+
+* Root Party Domain
+* Pseudonymous-Identifiers or their signatures
+* Preferences or their signatures
+* Transaction ID
+** Seed or the signature of the Seed.
+** Receiver Domain
+** Transmission status (success or failure)
+
+# Data formalism
+
+To combine the previous sections, the data of the Audit Log should be as followed:
+
+````
+# Actors
+Root_Party  	    -> Domain of the Root Party
+Sender              -> Domain of a Contracting Party (domain.com)
+Receiver            -> Domain of a Contracting Party (domain.com)
+Contracting_Party   -> Root_Party | Sender | Receiver
+
+Signature<Contracting_Party> -> Cryptographic signature relying on Prebid SSO Data
+
+# Transmissions
+Transmission_Success            -> (Receiver, Signature<Receiver>)
+Transmission_Error_Response     -> (Receiver, Signature<Sender>, Detail)
+Transmission_Error_No_Response  -> (Receiver, Signature<Sender>)
+Transmission_Result             -> Transmission_Success | Transmission_Error_No_Response | Transmission_Error_Response
+
+# Seed and Prebid SSO Data
+Transaction_ID              -> Unique Identifier
+Audit_log_responsibility    -> "publisher" | "vendor"
+Identifiers                 -> List of unique Identifiers with their signatures (for now SWID)
+Preferences                 -> Preference of the user with their signatures (for now opt-in/opt-out)
+Seed                        -> (Transaction_ID, Audit_log_responsibility, Identifiers, Preferences, Signature<Root_Party>)
+
+Parties     -> List<Transmission_Result>
+
+Audit_Log   -> (Seed, Parties)
+````
+
+To put it in perspective, here is the types and the example of this data formalism:
+
+Seed
+
+object
+
+Transmission ID
+
+GUID
+
+8b4cf0ff-8b4c-4d79-4d79-69b65402f0ff
+
+Audit Log Responsibility
+
+string
+
+"Publisher"
+
+Identifiers
+
+List<Pseudonymous_identifier>
+
+SWID
+
+String
+
+5402f0ff-c6c8-4d79-8b4c-69b66f0649fb
+
+Each Preference also includes a digital signature with the domain of the
+Contracting Party that signs, the date of the signature and a cryptographic 
+signature.
+
+Preferences
+
+List<Preferences>
+
+opt-in
+
+boolean
+
+true
+
+Each Preference also includes a digital signature with the domain of the 
+Contracting Party that signs, the date of the signature and a cryptographic signature.
+
+Signature
+
+Signature
+
+Domain
+
+string
+
+operator1.prebidsso.com
+
+Date
+
+date
+
+11/11/2021 at 11:11:11
+
+Signature
+
+string
+
+69b66f0649fb69b66f0649fb
+
+Parties
+
+array of object
+
+Receiver
+
+string
+
+"party42.com"
+
+Status
+
+string
+
+"success", "bad_response", "no_response"
+
+Detail
+
+string
+
+"Error: The Receiver wasn't able to verify the identity of the sender."
+
+Each Party also includes a digital signature with the domain of the Contracting Party that signs, the date of the signature and a cryptographic signature. If the transmission was successful, the Contracting Party is the Receiver. Else it is the sender.
+
+A concrete example using a JSON format (that is subject to change in Technical Specifications):
+
+**Example**
+
+````json
+{
+    "seed": {
+        "version": 1,
+        "transaction_id": 1234567,
+        "display_responsibility": "publisher",
+        "identifiers": [
+            {
+                "version": 1,
+                "type": "prebid_id",
+                "value": "prebidid12345",
+                "source": {
+                    "domain": "operotor0.com",
+                    "date": "2021-04-23T18:25:43.511Z",
+                    "signature": "12345_signature"
+                }
+            }
+        ],
+        "preferences": [
+            {
+                "version": 1,
+                "type": "opt_in",
+                "value": true,
+                "source": {
+                    "domain": "operator1.com",
+                    "date": "2021-04-23T18:25:43.511Z",
+                    "signature": "12345_signature"
+                }
+            }
+        ],
+        "source": {
+            "domain": "publisher.com",
+            "date": "2021-04-23T18:25:43.511Z",
+            "signature": "12345_signature"
+        }
+    },
+    "transactions": [
+        {
+            "version": 1,
+            "receiver": "party2.com",
+            "status": "success",
+            "source": {
+                "domain": "party2.com",
+                "date": "2021-04-23T18:25:43.511Z",
+                "signature": "12345_signature"
+            }
+        },
+        {
+            "version": 1,
+            "receiver": "party3.com",
+            "status": "success",
+            "source": {
+                "domain": "party3.com",
+                "date": "2021-04-23T18:25:43.511Z",
+                "signature": "12345_signature"
+            }
+        }
+    ]
+}
+````
+
+When a user want to verify if her/his preferences haven't been respected,
+the Audit Log must be able to see that:
+
+* All the parties commit to the Model Terms by signing the Prebid SSO data;
+* There are transmissions that are not well signed and so there is an issue 
+with the correct propagation of my Prebid SSO data.
+
+However, the audit logs cannot tell the user which exact Party didn't
+behave correctly with her/his Prebid SSO Data.
