@@ -147,7 +147,7 @@ integrate it.
 # Transmission protocol
 
 In a case of an ad-hoc communication between two Contracting Parties, the
-standalone transmission can be used.
+ transmission protocol can be used.
 
 ## Transmission Request
 
