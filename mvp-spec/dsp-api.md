@@ -1,7 +1,7 @@
 # Goal
 
 Describe the technical requirements for a DSP engaged through the Model Terms
-with a supply partner..
+with a supply partner.
 
 # General note about signature
 
