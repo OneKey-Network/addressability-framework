@@ -48,8 +48,8 @@ rotations.
 | Field | Type   | Details                                                             |
 |-------|--------|---------------------------------------------------------------------|
 | key   | String | Public key for verifying the signature. Encoded in an UTF-8 String. |
-| start | Date   | Date when the Identity started to use this key for signing.         |
-| end   | Date   | Date when the Identity stoped to use this key for signing.          |
+| start | Date   | Date when the Contracting Party started to use this key for signing.         |
+| end   | Date   | Date when the Contracting Party stoped to use this key for signing.          |
 
 
 ## Example of an Identity response
