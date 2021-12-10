@@ -16,3 +16,9 @@ feature.
 It looks like this:
 
 !["Reference in new issue screenshot"](https://docs.github.com/assets/images/help/repository/open-new-issue-specific-line.png)
+
+# Content
+
+# mvp-spec
+
+Specifications for a MVP, covering only a single id managed by several operators sharing a common registrable domain (TLD+1, e.g. operator1.prebidsso.com and operator2.prebidsso.com)
