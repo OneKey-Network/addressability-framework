@@ -27,7 +27,7 @@ It is reachable at the following endpoint:
 GET https://<domain>/prebidsso/API/v1/identity
 ```
 
-## Root object
+## Identity object
 
 It provides the following data as JSON:
 | Field                    | Type                 | Details                    |
