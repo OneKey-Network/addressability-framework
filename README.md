@@ -19,6 +19,6 @@ It looks like this:
 
 # Content
 
-# mvp-spec
+## ./mvp-spec
 
 Specifications for a MVP, covering only a single id managed by several operators sharing a common registrable domain (TLD+1, e.g. operator1.prebidsso.com and operator2.prebidsso.com)
