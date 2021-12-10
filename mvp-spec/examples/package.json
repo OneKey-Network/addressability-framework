@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "json-sort-cli": "^2.0.7",
+    "jsonwebtokencli": "^1.5.1",
     "query-string-cli": "^1.0.1",
     "shasum-cli": "^0.0.1"
   }

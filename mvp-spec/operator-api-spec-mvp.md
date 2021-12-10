@@ -1013,7 +1013,587 @@ To **verify that a signature is valid**, *anyone* can:
 
 For more details and examples on signature, see [DSP API design](https://github.com/criteo/addressable-network-proposals/mvp-spec/dsp-api.md).
 
-## Endpoint details - JSON
+## Implementation based on JWT
+
+To implement the proposed design based on signature of messages,
+we recommend the usage of [JWT](https://jwt.io/introduction) (Json Web Token).
+
+Based on the JWT standard, a token is created **for each request or response**:
+- a standard header part defines the signature algorithm
+- in the payload:
+  - `iss` (issuer) holds the domain of the sender
+  - `aud` (audience) holds the domain of the receiver
+  - `exp` (expiration) holds the expiration date of the message (ℹ️ here we send expiration date, not the date when the message was sent)
+  - the rest of the payload contains the Prebid SSO message itself
+- and a final part of the message holds **the signature**, which is handled by JWT libraries
+
+The content of the message is then Base64Url encoded.
+
+Notice that the "receiver" information is part of the message.
+
+For the following examples, let's assume the JWT header is always:
+<!--
+cat jwt-header.json
+-->
+```json
+{
+  "alg": "RS256",
+  "typ": "JWT"
+}
+```
+
+And the public & private keys are the one stored in [examples/private.key](./examples/private.key) and [examples/public.crt](./examples/public.crt).
+(of course assuming all actors share the same key is irrelevant but is only for simplification)
+
+### GET /v1/json/read
+
+#### Request
+
+JWT payload before encoding:
+<!--
+cat jwt-request-advertiserA.json
+-->
+```json
+{
+  "iss": "advertiserA.com",
+  "aud": "operatorO.prebidsso.com",
+  "exp": 1639057962145
+}
+```
+
+JWT:
+<!--
+npx jwt --encode --algorithm 'RS256' --private-key-file ./private.key `cat jwt-request-advertiserA.json | npx json -o json-0`
+-->
+```text
+eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhZHZlcnRpc2VyQS5jb20iLCJhdWQiOiJvcGVyYXRvck8ucHJlYmlkc3NvLmNvbSIsImV4cCI6MTYzOTA1Nzk2MjE0NX0.jAONShwH45KBfv1wOClPYJBPgEc-PhqYDK5ZvvZxn7bEw-l5vM7SaVdDkwZt7uSSzO7X8mxk_hlKc-BZPH_hryrDYrANYOEa_9ESTblfeAK0-KV_lWjFrGoP4MFr2JXlGqJJ2KcY2B0PZG9LNc1EeFxWkMz2o6F_DrxwhnEDORyD0NDmQgt8o612EFkr7xomst6gNyUY6cvp4i24ZH4bbUybus9XFNWlj7XmzP0kJfYxDmGDNHEWHMiwuWdANUxxucxVQXW6uZr8eKuzJBZw_4asyWlra0sNYKqympxEBzp1v4_dd2KrcziwZs8vrqIWGjcIz6t6B75FekaxgJIB3w
+```
+
+The HTTP request issue by advertiserA is:
+```http request
+GET /v1/json/read?eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhZHZlcnRpc2VyQS5jb20iLCJhdWQiOiJvcGVyYXRvck8ucHJlYmlkc3NvLmNvbSIsImV4cCI6MTYzOTA1Nzk2MjE0NX0.jAONShwH45KBfv1wOClPYJBPgEc-PhqYDK5ZvvZxn7bEw-l5vM7SaVdDkwZt7uSSzO7X8mxk_hlKc-BZPH_hryrDYrANYOEa_9ESTblfeAK0-KV_lWjFrGoP4MFr2JXlGqJJ2KcY2B0PZG9LNc1EeFxWkMz2o6F_DrxwhnEDORyD0NDmQgt8o612EFkr7xomst6gNyUY6cvp4i24ZH4bbUybus9XFNWlj7XmzP0kJfYxDmGDNHEWHMiwuWdANUxxucxVQXW6uZr8eKuzJBZw_4asyWlra0sNYKqympxEBzp1v4_dd2KrcziwZs8vrqIWGjcIz6t6B75FekaxgJIB3w
+```
+
+#### Response in case of a known user
+
+JWT payload before encoding:
+<!--
+{cat jwt-response-operatorO.json | npx json -e 'this.aud="advertiserA.com"' ; cat body-id-and-preferences.json | npx json body} | npx json --merge
+-->
+```json
+{
+  "iss": "operatorO.prebidsso.com",
+  "aud": "advertiserA.com",
+  "exp": 1639059692793,
+  "preferences": {
+    "version": 1,
+    "data": {
+      "opt_in": true
+    },
+    "source": {
+      "domain": "cmpC.com",
+      "date": "2021-04-23T18:25:43.511Z",
+      "signature": "preferences_signature_xyz12345"
+    }
+  },
+  "identifiers": [
+    {
+      "version": 1,
+      "type": "prebid_id",
+      "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
+      "source": {
+        "domain": "operator0.com",
+        "date": "2021-04-23T18:25:43.511Z",
+        "signature": "prebid_id_signature_xyz12345"
+      }
+    }
+  ]
+}
+```
+
+JWT, which is the **response payload**:
+<!--
+npx jwt --encode --algorithm 'RS256' --private-key-file ./private.key `{cat jwt-response-operatorO.json | npx json -e 'this.aud="advertiserA.com"' ; cat body-id-and-preferences.json | npx json body} | npx json --merge | npx json -o json-0`
+-->
+```
+eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJvcGVyYXRvck8ucHJlYmlkc3NvLmNvbSIsImF1ZCI6ImFkdmVydGlzZXJBLmNvbSIsImV4cCI6MTYzOTA1OTY5Mjc5MywicHJlZmVyZW5jZXMiOnsidmVyc2lvbiI6MSwiZGF0YSI6eyJvcHRfaW4iOnRydWV9LCJzb3VyY2UiOnsiZG9tYWluIjoiY21wQy5jb20iLCJkYXRlIjoiMjAyMS0wNC0yM1QxODoyNTo0My41MTFaIiwic2lnbmF0dXJlIjoicHJlZmVyZW5jZXNfc2lnbmF0dXJlX3h5ejEyMzQ1In19LCJpZGVudGlmaWVycyI6W3sidmVyc2lvbiI6MSwidHlwZSI6InByZWJpZF9pZCIsInZhbHVlIjoiNzQzNTMxM2UtY2FlZS00ODg5LThhZDctMGFjZDAxMTRhZTNjIiwic291cmNlIjp7ImRvbWFpbiI6Im9wZXJhdG9yMC5jb20iLCJkYXRlIjoiMjAyMS0wNC0yM1QxODoyNTo0My41MTFaIiwic2lnbmF0dXJlIjoicHJlYmlkX2lkX3NpZ25hdHVyZV94eXoxMjM0NSJ9fV19.OUGKBqbK9DDZ0LS3igIgMKPSl_QxdjnYhBpZEtU3bAx8YltId2irt9hWcsEZWzOrNCULaQaEAKt_HrlGCSrQvkmmt66iTHMg4efvhMI73nXkgUBsL2k5BRX3eygYKXPfwyIZF0M-keWbPs09thOx9NxJJQ97bvgyKJVg4IMvyicbh7QHqZkjsWwH9Ly7ZVWyjWe2ZiKJU9pVppL0srRUO_k1pEfnuf3cALuMLOYL5X6LAykDuJ1pKVIXEs9wkoAMgM6Z0gpYiaQFTGz3IEp5ceFH6U00NqUGwQj5RGOwdbkcHe9wdg5x7Nj519fU-tFFIWswyifzX0DDvTIKIKKZyg
+```
+
+#### Response in case of an unknown user
+
+JWT payload before encoding:
+<!--
+{cat jwt-response-operatorO.json | npx json -e 'this.aud="advertiserA.com"' ; cat body-id-and-preferences.json | npx json -e 'this.body.preferences = {}; this.body.identifiers = []' | npx json body} | npx json --merge
+-->
+```json
+{
+  "iss": "operatorO.prebidsso.com",
+  "aud": "advertiserA.com",
+  "exp": 1639059692793,
+  "preferences": {},
+  "identifiers": []
+}
+```
+
+JWT, which is the **response payload**:
+<!--
+npx jwt --encode --algorithm 'RS256' --private-key-file ./private.key `{cat jwt-response-operatorO.json | npx json -e 'this.aud="advertiserA.com"' ; cat body-id-and-preferences.json | npx json -e 'this.body.preferences = {}; this.body.identifiers = []' | npx json body} | npx json --merge | npx json -o json-0`
+-->
+```
+eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJvcGVyYXRvck8ucHJlYmlkc3NvLmNvbSIsImF1ZCI6ImFkdmVydGlzZXJBLmNvbSIsImV4cCI6MTYzOTA1OTY5Mjc5MywicHJlZmVyZW5jZXMiOnt9LCJpZGVudGlmaWVycyI6W119.m9eg-f1JBA7M6H9Gvc4Be42GzGBtqVAq3Uc7ytLu4kRUiW9c5HGZTMR_ukom5ArwzrC98MVbYnv5SHFE0VPfkvxE-ck8cMNYaN79QpVVSYapcLWO7xjyKDFEsP3OAXFd1IO1TB-LEa07d4kkBfpkDXSGDGPbw60jQFn-VWWAN-nBlaRGym59OfsFiJBHFPzRP-Oh5L9aWe2eYlpXh5hLQfO5xcrcU2nRjVXj3lmB4tzRuirY3AL2B_au-oj8CUwMgduWmC-yESMM_0LjQqV82wuMlN3RuHglEQtasc5ENJK_rlDASem2ZyQkhTucvv_Y0O7Sq413lL8PlLMig6CIcg
+```
+
+### GET /v1/json/readOrInit
+
+#### Request
+
+JWT payload before encoding:
+<!--
+cat jwt-request-publisherP.json
+-->
+```json
+{
+  "iss": "publisherP.com",
+  "aud": "operatorO.prebidsso.com",
+  "exp": 1639057962145
+}
+```
+
+JWT:
+<!--
+npx jwt --encode --algorithm 'RS256' --private-key-file ./private.key `cat jwt-request-publisherP.json | npx json -o json-0`
+-->
+```text
+eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJwdWJsaXNoZXJQLmNvbSIsImF1ZCI6Im9wZXJhdG9yTy5wcmViaWRzc28uY29tIiwiZXhwIjoxNjM5MDU3OTYyMTQ1fQ.tijn36szA-3QKJBPR0VSE8uZVoy-vdrsLqeVX49gVSy6ZfcF-fQAktCFMY4yGJUslRACyt2xQW_HzOtdTEbGwVMaxHDmirpGIkvM-PC9qRHcg5GIshvVRe20CW59IQNX73TH1gBoh5Q0FEU_9Y9a92ST9xYAB7kR9vBWijOx2786-NMi8DQ6SfF7DRHtwotSqJRHjuf7nyVr3o79iLMFM2PyiFsqyKtwOzJhvfQypURH_DqfI1I6G1hLwb9hIzpVF7QItqAtITUuhJSoAUnV-FVXUwV8Y6YvayYZ-5odxZ43eSUN0U5ncPQDGEQtfgQx6_dDVIyPAkuLb3WYPBpQLQ
+```
+
+The HTTP request issued by publisherP is:
+```http request
+GET /v1/json/readOrInit?eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJwdWJsaXNoZXJQLmNvbSIsImF1ZCI6Im9wZXJhdG9yTy5wcmViaWRzc28uY29tIiwiZXhwIjoxNjM5MDU3OTYyMTQ1fQ.tijn36szA-3QKJBPR0VSE8uZVoy-vdrsLqeVX49gVSy6ZfcF-fQAktCFMY4yGJUslRACyt2xQW_HzOtdTEbGwVMaxHDmirpGIkvM-PC9qRHcg5GIshvVRe20CW59IQNX73TH1gBoh5Q0FEU_9Y9a92ST9xYAB7kR9vBWijOx2786-NMi8DQ6SfF7DRHtwotSqJRHjuf7nyVr3o79iLMFM2PyiFsqyKtwOzJhvfQypURH_DqfI1I6G1hLwb9hIzpVF7QItqAtITUuhJSoAUnV-FVXUwV8Y6YvayYZ-5odxZ43eSUN0U5ncPQDGEQtfgQx6_dDVIyPAkuLb3WYPBpQLQ
+```
+
+#### Response
+
+Note: list of identifiers **cannot** be empty.
+
+JWT payload before encoding:
+<!--
+{cat jwt-response-operatorO.json | npx json -e 'this.aud="publisherP.com"' ; cat body-id-and-preferences.json | npx json -e 'this.body.preferences = {}' | npx json body} | npx json --merge
+-->
+```json
+{
+  "iss": "operatorO.prebidsso.com",
+  "aud": "publisherP.com",
+  "exp": 1639059692793,
+  "preferences": {},
+  "identifiers": [
+    {
+      "version": 1,
+      "type": "prebid_id",
+      "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
+      "source": {
+        "domain": "operator0.com",
+        "date": "2021-04-23T18:25:43.511Z",
+        "signature": "prebid_id_signature_xyz12345"
+      }
+    }
+  ]
+}
+```
+
+JWT, which is the **response payload**:
+<!--
+npx jwt --encode --algorithm 'RS256' --private-key-file ./private.key `{cat jwt-response-operatorO.json | npx json -e 'this.aud="advertiserA.com"' ; cat body-id-and-preferences.json | npx json -e 'this.body.preferences = {}' | npx json body} | npx json --merge | npx json -o json-0`
+-->
+```
+eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJvcGVyYXRvck8ucHJlYmlkc3NvLmNvbSIsImF1ZCI6ImFkdmVydGlzZXJBLmNvbSIsImV4cCI6MTYzOTA1OTY5Mjc5MywicHJlZmVyZW5jZXMiOnt9LCJpZGVudGlmaWVycyI6W3sidmVyc2lvbiI6MSwidHlwZSI6InByZWJpZF9pZCIsInZhbHVlIjoiNzQzNTMxM2UtY2FlZS00ODg5LThhZDctMGFjZDAxMTRhZTNjIiwic291cmNlIjp7ImRvbWFpbiI6Im9wZXJhdG9yMC5jb20iLCJkYXRlIjoiMjAyMS0wNC0yM1QxODoyNTo0My41MTFaIiwic2lnbmF0dXJlIjoicHJlYmlkX2lkX3NpZ25hdHVyZV94eXoxMjM0NSJ9fV19.TsaRbJAWBSVqIV3LRQ2G6sJ0Cu-JD5oYJ1wuyxK6hADTmHJjd7mOTrawXLm3WoXokS2kl7XkIjVv9H1qyiJNBpCGZ8gFg1AJT6ZdygUJRD5TdSjAd_CdcdSbb8sSIfTpzqN0cshG81mJ0q4OhjEnO14LFDpmiEIwbThbFw9RTjsByrntH4X8XuV620QbZlCt9gk2pTsRn3tqaMZHyGLxAZC1nysWUBbLznHlUpTV6RXVD9DwhQoSCIQEiZcvlxa8cbD0a_aCV4TNmeO_ExZCzr5LYdRK8nBPQYkmISAQFNnXI2TU0wHpSCmcySdzNP9M-E0SSf7ot_kOCrPPegzIMw
+```
+
+### POST /v1/json/write
+
+### Request
+
+```http request
+POST /v1/json/write
+```
+
+In this case, the POST request payload contains the JWT
+
+JWT payload before encoding:
+<!--
+{cat jwt-request-cmpC.json; cat body-id-and-preferences.json | npx json body} | npx json --merge
+-->
+```json
+{
+  "iss": "cmpC.com",
+  "aud": "operatorO.prebidsso.com",
+  "exp": 1639057962145,
+  "preferences": {
+    "version": 1,
+    "data": {
+      "opt_in": true
+    },
+    "source": {
+      "domain": "cmpC.com",
+      "date": "2021-04-23T18:25:43.511Z",
+      "signature": "preferences_signature_xyz12345"
+    }
+  },
+  "identifiers": [
+    {
+      "version": 1,
+      "type": "prebid_id",
+      "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
+      "source": {
+        "domain": "operator0.com",
+        "date": "2021-04-23T18:25:43.511Z",
+        "signature": "prebid_id_signature_xyz12345"
+      }
+    }
+  ]
+}
+```
+
+JWT, which is the POST payload:
+<!--
+npx jwt --encode --algorithm 'RS256' --private-key-file ./private.key `{cat jwt-request-cmpC.json; cat body-id-and-preferences.json | npx json body} | npx json --merge | npx json -o json-0`
+-->
+```text
+eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJjbXBDLmNvbSIsImF1ZCI6Im9wZXJhdG9yTy5wcmViaWRzc28uY29tIiwiZXhwIjoxNjM5MDU3OTYyMTQ1LCJwcmVmZXJlbmNlcyI6eyJ2ZXJzaW9uIjoxLCJkYXRhIjp7Im9wdF9pbiI6dHJ1ZX0sInNvdXJjZSI6eyJkb21haW4iOiJjbXBDLmNvbSIsImRhdGUiOiIyMDIxLTA0LTIzVDE4OjI1OjQzLjUxMVoiLCJzaWduYXR1cmUiOiJwcmVmZXJlbmNlc19zaWduYXR1cmVfeHl6MTIzNDUifX0sImlkZW50aWZpZXJzIjpbeyJ2ZXJzaW9uIjoxLCJ0eXBlIjoicHJlYmlkX2lkIiwidmFsdWUiOiI3NDM1MzEzZS1jYWVlLTQ4ODktOGFkNy0wYWNkMDExNGFlM2MiLCJzb3VyY2UiOnsiZG9tYWluIjoib3BlcmF0b3IwLmNvbSIsImRhdGUiOiIyMDIxLTA0LTIzVDE4OjI1OjQzLjUxMVoiLCJzaWduYXR1cmUiOiJwcmViaWRfaWRfc2lnbmF0dXJlX3h5ejEyMzQ1In19XX0.STyDbzLE7Zvx_Hu6RspJi6cKgWsvtLpXWJkjpFKPFWd70taUDRlJv8hm_DqzCvbIwvwMR_xuBO20aKBJzCxk9QG9W56Pl-3nUAS-Pck3kGE86_3ysNi0vyEzOMe8AOv3vfWxcPqrfx_MTpO46_7e1tl0_BhRukgBjx93Y9_GtzZ_1C1_M2A47Ap1YtppR_k-a6g_18nUsrBkfzp1T432Pdv52ImtDX_V2P-U17zxdBfyRg8QwkukNJNQfydmxZzqt6EFrPF3mZofimNL9bG35wQHA7LbhYagAOjyHgR2kQH4RyTv8-FxwE4TyLVBvmRbkIyKRT_Rf4-d2yZXD1nZzQ
+```
+
+### Response
+
+JWT payload before encoding:
+<!--
+{cat jwt-response-operatorO.json | npx json -e 'this.aud="cmpC.com"' ; cat body-id-and-preferences.json | npx json body} | npx json --merge
+-->
+```json
+{
+  "iss": "operatorO.prebidsso.com",
+  "aud": "cmpC.com",
+  "exp": 1639059692793,
+  "preferences": {
+    "version": 1,
+    "data": {
+      "opt_in": true
+    },
+    "source": {
+      "domain": "cmpC.com",
+      "date": "2021-04-23T18:25:43.511Z",
+      "signature": "preferences_signature_xyz12345"
+    }
+  },
+  "identifiers": [
+    {
+      "version": 1,
+      "type": "prebid_id",
+      "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
+      "source": {
+        "domain": "operator0.com",
+        "date": "2021-04-23T18:25:43.511Z",
+        "signature": "prebid_id_signature_xyz12345"
+      }
+    }
+  ]
+}
+```
+
+JWT, which is the **response payload**:
+<!--
+npx jwt --encode --algorithm 'RS256' --private-key-file ./private.key `{cat jwt-response-operatorO.json | npx json -e 'this.aud="cmpC.com"' ; cat body-id-and-preferences.json | npx json body} | npx json --merge | npx json -o json-0`
+-->
+```
+eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJvcGVyYXRvck8ucHJlYmlkc3NvLmNvbSIsImF1ZCI6ImNtcEMuY29tIiwiZXhwIjoxNjM5MDU5NjkyNzkzLCJwcmVmZXJlbmNlcyI6eyJ2ZXJzaW9uIjoxLCJkYXRhIjp7Im9wdF9pbiI6dHJ1ZX0sInNvdXJjZSI6eyJkb21haW4iOiJjbXBDLmNvbSIsImRhdGUiOiIyMDIxLTA0LTIzVDE4OjI1OjQzLjUxMVoiLCJzaWduYXR1cmUiOiJwcmVmZXJlbmNlc19zaWduYXR1cmVfeHl6MTIzNDUifX0sImlkZW50aWZpZXJzIjpbeyJ2ZXJzaW9uIjoxLCJ0eXBlIjoicHJlYmlkX2lkIiwidmFsdWUiOiI3NDM1MzEzZS1jYWVlLTQ4ODktOGFkNy0wYWNkMDExNGFlM2MiLCJzb3VyY2UiOnsiZG9tYWluIjoib3BlcmF0b3IwLmNvbSIsImRhdGUiOiIyMDIxLTA0LTIzVDE4OjI1OjQzLjUxMVoiLCJzaWduYXR1cmUiOiJwcmViaWRfaWRfc2lnbmF0dXJlX3h5ejEyMzQ1In19XX0.bwZW_qF5Yu1DfmkYI7Oc9Sb7ivoGbV3SINavnKnNeMtxjMwqWfe3uXk1fpUr17bPEtg-XIqogRomG3aR42T2ga2q1eA4ImJPIQcZecHsCNWS--xMAs-HIRn2_DXKpealW22k9XFnd4J253xrWG5AlwzfUOuOGJcop_ELCyM-kbBfoJRp5bppOXBg2TmkEAcEpxOxp41DPvQr0V7p0M-s0rbIMic3roC9ObUrePe_rewxEMBu6kXq3s5uM-bfaHwmYV68CiLYBWjHClcb1boqcPkhElgMKkSvDIaVNP9l-Q-teW7yNxLdmq6iVsu5sNdNnGph7pZ5nzGF-jOgHiBLQg
+```
+
+### GET /v1/json/newId
+
+#### Request
+
+JWT payload before encoding:
+<!--
+cat jwt-request-cmpC.json
+-->
+```json
+{
+  "iss": "cmpC.com",
+  "aud": "operatorO.prebidsso.com",
+  "exp": 1639057962145
+}
+```
+
+JWT:
+<!--
+npx jwt --encode --algorithm 'RS256' --private-key-file ./private.key `cat jwt-request-cmpC.json | npx json -o json-0`
+-->
+```text
+eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJjbXBDLmNvbSIsImF1ZCI6Im9wZXJhdG9yTy5wcmViaWRzc28uY29tIiwiZXhwIjoxNjM5MDU3OTYyMTQ1fQ.ZUBh_x40MNvs_8hPdhQAHU3DW40G4Z0rLllFFZZQqYWPz7RPBYQZ2VXZJY0OTespGKbDPgMnE1fKky4_4nSzknMyviCqliWiAJTKS1ES7OGuRg1yhjMSYnbZMmIB6LL6MtpYDQVe6VGG21yjp1brD_WCQaHmeZ35Zd6Hj7SdRurBFauxDB_kz4ZYTFDKObaQauT9tH_idcxW9h_AfahZwOCRB17EKLpaxexSGh_AwXrZB8aJ8sqaH08vmZQb78NBRtDBX1lDmRzuicPxHn0avyBLlt7u706G9_8dhJsGWsFpLixHISJB1njzYO9Gbk13RIdJdTp8b5nuZLKZN9je1w
+```
+
+The HTTP request issued by cmpC is:
+```http request
+GET /v1/json/newId?eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJjbXBDLmNvbSIsImF1ZCI6Im9wZXJhdG9yTy5wcmViaWRzc28uY29tIiwiZXhwIjoxNjM5MDU3OTYyMTQ1fQ.ZUBh_x40MNvs_8hPdhQAHU3DW40G4Z0rLllFFZZQqYWPz7RPBYQZ2VXZJY0OTespGKbDPgMnE1fKky4_4nSzknMyviCqliWiAJTKS1ES7OGuRg1yhjMSYnbZMmIB6LL6MtpYDQVe6VGG21yjp1brD_WCQaHmeZ35Zd6Hj7SdRurBFauxDB_kz4ZYTFDKObaQauT9tH_idcxW9h_AfahZwOCRB17EKLpaxexSGh_AwXrZB8aJ8sqaH08vmZQb78NBRtDBX1lDmRzuicPxHn0avyBLlt7u706G9_8dhJsGWsFpLixHISJB1njzYO9Gbk13RIdJdTp8b5nuZLKZN9je1w
+```
+
+#### Response
+
+JWT payload before encoding:
+<!--
+{cat jwt-response-operatorO.json | npx json -e 'this.aud="cmpC.com"'; cat body-id.json | npx json body} | npx json --merge
+-->
+```json
+{
+  "iss": "operatorO.prebidsso.com",
+  "aud": "cmpC.com",
+  "exp": 1639059692793,
+  "version": 1,
+  "type": "prebid_id",
+  "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
+  "source": {
+    "domain": "operator0.com",
+    "date": "2021-04-23T18:25:43.511Z",
+    "signature": "12345_signature"
+  }
+}
+```
+
+JWT, which is the **response payload**:
+<!--
+npx jwt --encode --algorithm 'RS256' --private-key-file ./private.key `{cat jwt-response-operatorO.json | npx json -e 'this.aud="cmpC.com"' ; cat body-id.json | npx json body} | npx json --merge | npx json -o json-0`
+-->
+```
+eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJvcGVyYXRvck8ucHJlYmlkc3NvLmNvbSIsImF1ZCI6ImNtcEMuY29tIiwiZXhwIjoxNjM5MDU5NjkyNzkzLCJ2ZXJzaW9uIjoxLCJ0eXBlIjoicHJlYmlkX2lkIiwidmFsdWUiOiI3NDM1MzEzZS1jYWVlLTQ4ODktOGFkNy0wYWNkMDExNGFlM2MiLCJzb3VyY2UiOnsiZG9tYWluIjoib3BlcmF0b3IwLmNvbSIsImRhdGUiOiIyMDIxLTA0LTIzVDE4OjI1OjQzLjUxMVoiLCJzaWduYXR1cmUiOiIxMjM0NV9zaWduYXR1cmUifX0.zBfjgWE71xW3-Xl8VKp6f9nMa0eG1tmEOX0l6F89h3fBDitvuVua6In83HtM_ekzWmSp6SlKfhEAB0Oj0iWWsp4IVGKRjHnu-2Z7OzOVZNmc1HQjRchPODwzRCKqbdorKuO6ELvRNw-SZvhyEgrjt3YTxKAOQVjgfAK3DI78IrMCfMYfGN2eb-jra8OLLly_fKrHV5p8kY5q0lFebn4hPdXk3x9m6G974mmq8l5be-t5doLkf_brBCGcL3k5AW-_reRYFjHPSKi4xSz4w7F2i6IYQ9ph6syCcWOBz-pXDq4GanvKtKxosifZIA9sVc8c6WSAH3aZEnwaILjZF9Ad8g
+```
+
+### GET /v1/redirect/read
+
+#### Request
+
+JWT payload before encoding: ⚠️ notice very similar to `/json/read` case, but with extra `redirectUrl` property, hence the JWT payload and signature are different.
+<!--
+cat jwt-request-advertiserA.json | npx json -e 'this.redirectUrl="https://advertiserA.com/pageA.html"'
+-->
+```json
+{
+  "iss": "advertiserA.com",
+  "aud": "operatorO.prebidsso.com",
+  "exp": 1639057962145,
+  "redirectUrl": "https://advertiserA.com/pageA.html"
+}
+```
+
+JWT:
+<!--
+npx jwt --encode --algorithm 'RS256' --private-key-file ./private.key `cat jwt-request-advertiserA.json | npx json -e 'this.redirectUrl="https://advertiserA.com/pageA.html"' | npx json -o json-0`
+-->
+```text
+eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhZHZlcnRpc2VyQS5jb20iLCJhdWQiOiJvcGVyYXRvck8ucHJlYmlkc3NvLmNvbSIsImV4cCI6MTYzOTA1Nzk2MjE0NSwicmVkaXJlY3RVcmwiOiJodHRwczovL2FkdmVydGlzZXJBLmNvbS9wYWdlQS5odG1sIn0.3l1nkgS_ywUhqQ9RhplPkvsCLHm_bjIxXoSjK3QFX0WnobstWpsthh4uWCUNgrHYJzzE3l0k2JxGSDqBRVrI2b6kiKMpbJ6WDPxYEhQJt4lIWWBfnVDOQgiEdDG39ypFqUjpPz6L9_THCUsDv-wg_p624qOZvsjK3CDX2ZyhqpQ_0Ff3xIG7xEl092GD4Hh6v1UaYV4kGlIJeGRK-eTnmHpbI-p7cf8iczgukWpQOFrBzQzQJz0fZRT2-azIMUHIKUaX6vSShVDFuREZwCVYlbcl2nH4f3WqCVjjRFKOoop-1n5cc1JfKNunkE2dl4sCUdi86YjYSFUrUx3kV9ccfw
+```
+
+#### Response in case of a known user
+
+ℹ️ This is the exact same JWT as when calling `/json/read`. Except here, the token is used as part of a redirect URL, not as response payload.
+
+<!--
+Use token from /json/read
+-->
+```shell
+302 https://advertiserA.com/pageA.html?prebid=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJvcGVyYXRvck8ucHJlYmlkc3NvLmNvbSIsImF1ZCI6ImFkdmVydGlzZXJBLmNvbSIsImV4cCI6MTYzOTA1OTY5Mjc5MywicHJlZmVyZW5jZXMiOnsidmVyc2lvbiI6MSwiZGF0YSI6eyJvcHRfaW4iOnRydWV9LCJzb3VyY2UiOnsiZG9tYWluIjoiY21wQy5jb20iLCJkYXRlIjoiMjAyMS0wNC0yM1QxODoyNTo0My41MTFaIiwic2lnbmF0dXJlIjoicHJlZmVyZW5jZXNfc2lnbmF0dXJlX3h5ejEyMzQ1In19LCJpZGVudGlmaWVycyI6W3sidmVyc2lvbiI6MSwidHlwZSI6InByZWJpZF9pZCIsInZhbHVlIjoiNzQzNTMxM2UtY2FlZS00ODg5LThhZDctMGFjZDAxMTRhZTNjIiwic291cmNlIjp7ImRvbWFpbiI6Im9wZXJhdG9yMC5jb20iLCJkYXRlIjoiMjAyMS0wNC0yM1QxODoyNTo0My41MTFaIiwic2lnbmF0dXJlIjoicHJlYmlkX2lkX3NpZ25hdHVyZV94eXoxMjM0NSJ9fV19.OUGKBqbK9DDZ0LS3igIgMKPSl_QxdjnYhBpZEtU3bAx8YltId2irt9hWcsEZWzOrNCULaQaEAKt_HrlGCSrQvkmmt66iTHMg4efvhMI73nXkgUBsL2k5BRX3eygYKXPfwyIZF0M-keWbPs09thOx9NxJJQ97bvgyKJVg4IMvyicbh7QHqZkjsWwH9Ly7ZVWyjWe2ZiKJU9pVppL0srRUO_k1pEfnuf3cALuMLOYL5X6LAykDuJ1pKVIXEs9wkoAMgM6Z0gpYiaQFTGz3IEp5ceFH6U00NqUGwQj5RGOwdbkcHe9wdg5x7Nj519fU-tFFIWswyifzX0DDvTIKIKKZyg
+```
+
+#### Response in case of an unknown user
+
+ℹ️ This is the exact same JWT as when calling `/json/read`. Except here, the token is used as part of a redirect URL, not as response payload.
+
+<!--
+Use token from /json/read
+-->
+```shell
+302 https://advertiserA.com/pageA.html?prebid=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJvcGVyYXRvck8ucHJlYmlkc3NvLmNvbSIsImF1ZCI6ImFkdmVydGlzZXJBLmNvbSIsImV4cCI6MTYzOTA1OTY5Mjc5MywicHJlZmVyZW5jZXMiOnsidmVyc2lvbiI6MSwiZGF0YSI6eyJvcHRfaW4iOnRydWV9LCJzb3VyY2UiOnsiZG9tYWluIjoiY21wQy5jb20iLCJkYXRlIjoiMjAyMS0wNC0yM1QxODoyNTo0My41MTFaIiwic2lnbmF0dXJlIjoicHJlZmVyZW5jZXNfc2lnbmF0dXJlX3h5ejEyMzQ1In19LCJpZGVudGlmaWVycyI6W3sidmVyc2lvbiI6MSwidHlwZSI6InByZWJpZF9pZCIsInZhbHVlIjoiNzQzNTMxM2UtY2FlZS00ODg5LThhZDctMGFjZDAxMTRhZTNjIiwic291cmNlIjp7ImRvbWFpbiI6Im9wZXJhdG9yMC5jb20iLCJkYXRlIjoiMjAyMS0wNC0yM1QxODoyNTo0My41MTFaIiwic2lnbmF0dXJlIjoicHJlYmlkX2lkX3NpZ25hdHVyZV94eXoxMjM0NSJ9fV19.OUGKBqbK9DDZ0LS3igIgMKPSl_QxdjnYhBpZEtU3bAx8YltId2irt9hWcsEZWzOrNCULaQaEAKt_HrlGCSrQvkmmt66iTHMg4efvhMI73nXkgUBsL2k5BRX3eygYKXPfwyIZF0M-keWbPs09thOx9NxJJQ97bvgyKJVg4IMvyicbh7QHqZkjsWwH9Ly7ZVWyjWe2ZiKJU9pVppL0srRUO_k1pEfnuf3cALuMLOYL5X6LAykDuJ1pKVIXEs9wkoAMgM6Z0gpYiaQFTGz3IEp5ceFH6U00NqUGwQj5RGOwdbkcHe9wdg5x7Nj519fU-tFFIWswyifzX0DDvTIKIKKZyg
+```
+
+### GET /v1/redirect/readOrInit
+
+#### Request
+
+JWT payload before encoding:
+<!--
+cat jwt-request-publisherP.json | npx json -e 'this.redirectUrl="https://publisherP.com/pageP.html"'
+-->
+```json
+{
+  "iss": "publisherP.com",
+  "aud": "operatorO.prebidsso.com",
+  "exp": 1639057962145,
+  "redirectUrl": "https://publisherP.com/pageP.html"
+}
+```
+
+JWT:
+<!--
+npx jwt --encode --algorithm 'RS256' --private-key-file ./private.key `cat jwt-request-publisherP.json | npx json -e 'this.redirectUrl="https://publisherP.com/pageP.html"' | npx json -o json-0`
+-->
+```text
+eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJwdWJsaXNoZXJQLmNvbSIsImF1ZCI6Im9wZXJhdG9yTy5wcmViaWRzc28uY29tIiwiZXhwIjoxNjM5MDU3OTYyMTQ1LCJyZWRpcmVjdFVybCI6Imh0dHBzOi8vcHVibGlzaGVyUC5jb20vcGFnZVAuaHRtbCJ9.X4DpVeskwaSJzqChw2plb4DLZMP69VVdBDqAGqFzw-o1Tt40gRN6Vl1CMFW62F9phY0PyP-VuS5q1JMoXdCb2vw8P_7kkLIcoHr1qip8llOimJY0G4FVwFxSvusrmYgC5o6pJPMT-1sRoNjwY695g-jqwN2trrIhHsKdkWJP6UNRoXoRyH18WG3yjIk1GguXCj3rohhWxisKeLENPaMMbk46vbg0LysbQmjOkwZGDzMZAzfRl4-SF5EqgrUVJkiB1txZijAdERsIrLRFhtUPQ4mwyFDRDNXqGd0bSIlBRxwWhLAPt0jXiglNTC5thP2r5fLCK3BJSSQEk_X64Ec9Gg
+```
+
+#### Response
+
+ℹ️ This is the exact same JWT as when calling `/json/readOrInit`. Except here, the token is used as part of a redirect URL, not as response payload.
+
+<!--
+Use token from /json/readOrInit
+-->
+```shell
+302 https://publisherP.com/pageP.html?prebid=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJvcGVyYXRvck8ucHJlYmlkc3NvLmNvbSIsImF1ZCI6ImFkdmVydGlzZXJBLmNvbSIsImV4cCI6MTYzOTA1OTY5Mjc5MywicHJlZmVyZW5jZXMiOnt9LCJpZGVudGlmaWVycyI6W3sidmVyc2lvbiI6MSwidHlwZSI6InByZWJpZF9pZCIsInZhbHVlIjoiNzQzNTMxM2UtY2FlZS00ODg5LThhZDctMGFjZDAxMTRhZTNjIiwic291cmNlIjp7ImRvbWFpbiI6Im9wZXJhdG9yMC5jb20iLCJkYXRlIjoiMjAyMS0wNC0yM1QxODoyNTo0My41MTFaIiwic2lnbmF0dXJlIjoicHJlYmlkX2lkX3NpZ25hdHVyZV94eXoxMjM0NSJ9fV19.TsaRbJAWBSVqIV3LRQ2G6sJ0Cu-JD5oYJ1wuyxK6hADTmHJjd7mOTrawXLm3WoXokS2kl7XkIjVv9H1qyiJNBpCGZ8gFg1AJT6ZdygUJRD5TdSjAd_CdcdSbb8sSIfTpzqN0cshG81mJ0q4OhjEnO14LFDpmiEIwbThbFw9RTjsByrntH4X8XuV620QbZlCt9gk2pTsRn3tqaMZHyGLxAZC1nysWUBbLznHlUpTV6RXVD9DwhQoSCIQEiZcvlxa8cbD0a_aCV4TNmeO_ExZCzr5LYdRK8nBPQYkmISAQFNnXI2TU0wHpSCmcySdzNP9M-E0SSf7ot_kOCrPPegzIMw
+```
+
+### GET /v1/redirect/write
+
+### Request
+
+JWT payload before encoding:
+<!--
+{cat jwt-request-cmpC.json | npx json -e 'this.redirectUrl="https://publisherP.com/pageP.html"'; cat body-id-and-preferences.json | npx json body } | npx json --merge
+-->
+```json
+{
+  "iss": "cmpC.com",
+  "aud": "operatorO.prebidsso.com",
+  "exp": 1639057962145,
+  "redirectUrl": "https://publisherP.com/pageP.html",
+  "preferences": {
+    "version": 1,
+    "data": {
+      "opt_in": true
+    },
+    "source": {
+      "domain": "cmpC.com",
+      "date": "2021-04-23T18:25:43.511Z",
+      "signature": "preferences_signature_xyz12345"
+    }
+  },
+  "identifiers": [
+    {
+      "version": 1,
+      "type": "prebid_id",
+      "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
+      "source": {
+        "domain": "operator0.com",
+        "date": "2021-04-23T18:25:43.511Z",
+        "signature": "prebid_id_signature_xyz12345"
+      }
+    }
+  ]
+}
+```
+
+JWT:
+<!--
+npx jwt --encode --algorithm 'RS256' --private-key-file ./private.key `{cat jwt-request-cmpC.json | npx json -e 'this.redirectUrl="https://publisherP.com/pageP.html"'; cat body-id-and-preferences.json | npx json body } | npx json --merge | npx json -o json-0`
+-->
+```text
+eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJjbXBDLmNvbSIsImF1ZCI6Im9wZXJhdG9yTy5wcmViaWRzc28uY29tIiwiZXhwIjoxNjM5MDU3OTYyMTQ1LCJyZWRpcmVjdFVybCI6Imh0dHBzOi8vcHVibGlzaGVyUC5jb20vcGFnZVAuaHRtbCIsInByZWZlcmVuY2VzIjp7InZlcnNpb24iOjEsImRhdGEiOnsib3B0X2luIjp0cnVlfSwic291cmNlIjp7ImRvbWFpbiI6ImNtcEMuY29tIiwiZGF0ZSI6IjIwMjEtMDQtMjNUMTg6MjU6NDMuNTExWiIsInNpZ25hdHVyZSI6InByZWZlcmVuY2VzX3NpZ25hdHVyZV94eXoxMjM0NSJ9fSwiaWRlbnRpZmllcnMiOlt7InZlcnNpb24iOjEsInR5cGUiOiJwcmViaWRfaWQiLCJ2YWx1ZSI6Ijc0MzUzMTNlLWNhZWUtNDg4OS04YWQ3LTBhY2QwMTE0YWUzYyIsInNvdXJjZSI6eyJkb21haW4iOiJvcGVyYXRvcjAuY29tIiwiZGF0ZSI6IjIwMjEtMDQtMjNUMTg6MjU6NDMuNTExWiIsInNpZ25hdHVyZSI6InByZWJpZF9pZF9zaWduYXR1cmVfeHl6MTIzNDUifX1dfQ.TQAXBz05-llsvvYeAFSpFSaEAEj6HgDttzBl8P9L2ViYpZX6Fr17tlhzeU7rqSHX6KN-3a3t1UEH9SJHDgyNINLfNFIKqq3RzsBeLMfdaasRGX3i5tTDLULrQ2l_lMq2AnMjgEITmaPtXlAkEbdo3iqa_6KOliJ5UKB5JlZ_a2BKBNn7X-mhqIghcxWZcVqrQlyF6B70-xxP9zRLz1EHRKZpByb0VywOdsoA7UaU74AObL4lx3AEpynDOENqtHA8FrGmtJLQblL78k_bKGfmOCsv3KRTVMjp_1bdouEGMd3Q1iViIOdNgqKwBUm1aDqXIz2vir49yF-fJUJ9vy95YA
+```
+
+The HTTP request issue by cmpC is:
+```http request
+GET /v1/redirect/write?eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJjbXBDLmNvbSIsImF1ZCI6Im9wZXJhdG9yTy5wcmViaWRzc28uY29tIiwiZXhwIjoxNjM5MDU3OTYyMTQ1LCJyZWRpcmVjdFVybCI6Imh0dHBzOi8vcHVibGlzaGVyUC5jb20vcGFnZVAuaHRtbCIsInByZWZlcmVuY2VzIjp7InZlcnNpb24iOjEsImRhdGEiOnsib3B0X2luIjp0cnVlfSwic291cmNlIjp7ImRvbWFpbiI6ImNtcEMuY29tIiwiZGF0ZSI6IjIwMjEtMDQtMjNUMTg6MjU6NDMuNTExWiIsInNpZ25hdHVyZSI6InByZWZlcmVuY2VzX3NpZ25hdHVyZV94eXoxMjM0NSJ9fSwiaWRlbnRpZmllcnMiOlt7InZlcnNpb24iOjEsInR5cGUiOiJwcmViaWRfaWQiLCJ2YWx1ZSI6Ijc0MzUzMTNlLWNhZWUtNDg4OS04YWQ3LTBhY2QwMTE0YWUzYyIsInNvdXJjZSI6eyJkb21haW4iOiJvcGVyYXRvcjAuY29tIiwiZGF0ZSI6IjIwMjEtMDQtMjNUMTg6MjU6NDMuNTExWiIsInNpZ25hdHVyZSI6InByZWJpZF9pZF9zaWduYXR1cmVfeHl6MTIzNDUifX1dfQ.TQAXBz05-llsvvYeAFSpFSaEAEj6HgDttzBl8P9L2ViYpZX6Fr17tlhzeU7rqSHX6KN-3a3t1UEH9SJHDgyNINLfNFIKqq3RzsBeLMfdaasRGX3i5tTDLULrQ2l_lMq2AnMjgEITmaPtXlAkEbdo3iqa_6KOliJ5UKB5JlZ_a2BKBNn7X-mhqIghcxWZcVqrQlyF6B70-xxP9zRLz1EHRKZpByb0VywOdsoA7UaU74AObL4lx3AEpynDOENqtHA8FrGmtJLQblL78k_bKGfmOCsv3KRTVMjp_1bdouEGMd3Q1iViIOdNgqKwBUm1aDqXIz2vir49yF-fJUJ9vy95YA
+```
+
+### Response
+
+ℹ️ This is the exact same JWT as when calling `/json/write`. Except here, the token is used as part of a redirect URL, not as response payload.
+
+<!--
+Use token from /json/write
+-->
+```shell
+302 https://publisherP.com/pageP.html?prebid=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJvcGVyYXRvck8ucHJlYmlkc3NvLmNvbSIsImF1ZCI6ImNtcEMuY29tIiwiZXhwIjoxNjM5MDU5NjkyNzkzLCJwcmVmZXJlbmNlcyI6eyJ2ZXJzaW9uIjoxLCJkYXRhIjp7Im9wdF9pbiI6dHJ1ZX0sInNvdXJjZSI6eyJkb21haW4iOiJjbXBDLmNvbSIsImRhdGUiOiIyMDIxLTA0LTIzVDE4OjI1OjQzLjUxMVoiLCJzaWduYXR1cmUiOiJwcmVmZXJlbmNlc19zaWduYXR1cmVfeHl6MTIzNDUifX0sImlkZW50aWZpZXJzIjpbeyJ2ZXJzaW9uIjoxLCJ0eXBlIjoicHJlYmlkX2lkIiwidmFsdWUiOiI3NDM1MzEzZS1jYWVlLTQ4ODktOGFkNy0wYWNkMDExNGFlM2MiLCJzb3VyY2UiOnsiZG9tYWluIjoib3BlcmF0b3IwLmNvbSIsImRhdGUiOiIyMDIxLTA0LTIzVDE4OjI1OjQzLjUxMVoiLCJzaWduYXR1cmUiOiJwcmViaWRfaWRfc2lnbmF0dXJlX3h5ejEyMzQ1In19XX0.bwZW_qF5Yu1DfmkYI7Oc9Sb7ivoGbV3SINavnKnNeMtxjMwqWfe3uXk1fpUr17bPEtg-XIqogRomG3aR42T2ga2q1eA4ImJPIQcZecHsCNWS--xMAs-HIRn2_DXKpealW22k9XFnd4J253xrWG5AlwzfUOuOGJcop_ELCyM-kbBfoJRp5bppOXBg2TmkEAcEpxOxp41DPvQr0V7p0M-s0rbIMic3roC9ObUrePe_rewxEMBu6kXq3s5uM-bfaHwmYV68CiLYBWjHClcb1boqcPkhElgMKkSvDIaVNP9l-Q-teW7yNxLdmq6iVsu5sNdNnGph7pZ5nzGF-jOgHiBLQg
+```
+
+### GET /v1/redirect/newId
+
+#### Request
+
+JWT payload before encoding:
+<!--
+cat jwt-request-cmpC.json | npx json -e 'this.redirectUrl="https://publisherP.com/pageP.html"'
+-->
+```json
+{
+  "iss": "cmpC.com",
+  "aud": "operatorO.prebidsso.com",
+  "exp": 1639057962145,
+  "redirectUrl": "https://publisherP.com/pageP.html"
+}
+```
+
+JWT:
+<!--
+npx jwt --encode --algorithm 'RS256' --private-key-file ./private.key `cat jwt-request-cmpC.json | npx json -e 'this.redirectUrl="https://publisherP.com/pageP.html"' | npx json -o json-0`
+-->
+```text
+eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJjbXBDLmNvbSIsImF1ZCI6Im9wZXJhdG9yTy5wcmViaWRzc28uY29tIiwiZXhwIjoxNjM5MDU3OTYyMTQ1LCJyZWRpcmVjdFVybCI6Imh0dHBzOi8vcHVibGlzaGVyUC5jb20vcGFnZVAuaHRtbCJ9.RsPTy74AyCrHCvmzEllQhVt3tHWaFj_-dXyal4LF5kR_5f59qpoBtGTabVedpOZyxjA27YnpCDV7OfZCt4Ge_mPyRS6H5ouNz822I-EUv6xZZ5KaSSCW1d11f3KiBjsgcKRT7MvaRdNrghO15aDHMqFhM_KO4WzID6cL5k_l0GHrTQ-FaMjR4KUiLeiqUpLKWapnLluqTxpfk_8Xtfn0ue9vD3jie-AuH7gLQn8s5AQPZx28UIei5ykXgTTIMWXU2sK5WfWlG7EZ1hlTYOvj5SP9SVpqFWbfLl1kQPsrVQHnsl372OphC2UwuNGUmAJCi79h2cUWi1IFQSx_RXcF_w
+```
+
+The HTTP request issued by cmpC is:
+```http request
+GET /v1/json/newId?eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJjbXBDLmNvbSIsImF1ZCI6Im9wZXJhdG9yTy5wcmViaWRzc28uY29tIiwiZXhwIjoxNjM5MDU3OTYyMTQ1LCJyZWRpcmVjdFVybCI6Imh0dHBzOi8vcHVibGlzaGVyUC5jb20vcGFnZVAuaHRtbCJ9.RsPTy74AyCrHCvmzEllQhVt3tHWaFj_-dXyal4LF5kR_5f59qpoBtGTabVedpOZyxjA27YnpCDV7OfZCt4Ge_mPyRS6H5ouNz822I-EUv6xZZ5KaSSCW1d11f3KiBjsgcKRT7MvaRdNrghO15aDHMqFhM_KO4WzID6cL5k_l0GHrTQ-FaMjR4KUiLeiqUpLKWapnLluqTxpfk_8Xtfn0ue9vD3jie-AuH7gLQn8s5AQPZx28UIei5ykXgTTIMWXU2sK5WfWlG7EZ1hlTYOvj5SP9SVpqFWbfLl1kQPsrVQHnsl372OphC2UwuNGUmAJCi79h2cUWi1IFQSx_RXcF_w
+```
+
+#### Response
+
+ℹ️ This is the exact same JWT as when calling `/json/newId`. Except here, the token is used as part of a redirect URL, not as response payload.
+
+<!--
+Use token from /json/newId
+-->
+```shell
+302 https://publisherP.com/pageP.html?prebid=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJvcGVyYXRvck8ucHJlYmlkc3NvLmNvbSIsImF1ZCI6ImNtcEMuY29tIiwiZXhwIjoxNjM5MDU5NjkyNzkzLCJ2ZXJzaW9uIjoxLCJ0eXBlIjoicHJlYmlkX2lkIiwidmFsdWUiOiI3NDM1MzEzZS1jYWVlLTQ4ODktOGFkNy0wYWNkMDExNGFlM2MiLCJzb3VyY2UiOnsiZG9tYWluIjoib3BlcmF0b3IwLmNvbSIsImRhdGUiOiIyMDIxLTA0LTIzVDE4OjI1OjQzLjUxMVoiLCJzaWduYXR1cmUiOiIxMjM0NV9zaWduYXR1cmUifX0.zBfjgWE71xW3-Xl8VKp6f9nMa0eG1tmEOX0l6F89h3fBDitvuVua6In83HtM_ekzWmSp6SlKfhEAB0Oj0iWWsp4IVGKRjHnu-2Z7OzOVZNmc1HQjRchPODwzRCKqbdorKuO6ELvRNw-SZvhyEgrjt3YTxKAOQVjgfAK3DI78IrMCfMYfGN2eb-jra8OLLly_fKrHV5p8kY5q0lFebn4hPdXk3x9m6G974mmq8l5be-t5doLkf_brBCGcL3k5AW-_reRYFjHPSKi4xSz4w7F2i6IYQ9ph6syCcWOBz-pXDq4GanvKtKxosifZIA9sVc8c6WSAH3aZEnwaILjZF9Ad8g
+```
+
+### GET /v1/identity
+
+ℹ️ This endpoint is not using JWT.
+
+#### Request
+
+```http request
+GET /v1/identity
+```
+
+#### Response
+
+<!-- Update this code block with the content of identity.json
+-->
+
+```json
+{
+  "name": "Operator O",
+  "type": "vendor",
+  "keys": [
+    {
+      "key": "04f3b7ec9095779b119cc6d30a21a6a3920c5e710d13ea8438727b7fd5cca47d048f020539d24e74b049a418ac68c03ea75c66982eef7fdc60d8fb2c7707df3dcd",
+      "start": "2021-01-01T00:00:00+00:00",
+      "end": "2021-02-01T00:00:00+00:00"
+    },
+    {
+      "key": "044782dd8b7a6b8affa0f6cd94ede3682e85307224064f39db20e8f49b5f415d83fef66f3818ee549b04e443efa63c2d7f1fe9a631dc05c9f51ad98139b202f9f3",
+      "start": "2021-02-01T00:00:00+00:00",
+      "end": "2021-03-01T09:01:00+00:00"
+    }
+  ]
+}
+```
+
+## Implementation based on JSON
+
+ℹ️ This implementation option has been deprecated
+
+<details>
+  <summary>Click to see the details of the "JSON" implementation</summary>
 
 Here are some examples of the operator endpoints, assuming:
 - usage of JSON format for payloads
@@ -1031,7 +1611,7 @@ npx encode-query-string -nd `cat request-advertiserA.json | npx json -e 'this.bo
 GET /v1/json/read?sender=advertiserA.com&timestamp=1639057962145&signature=message_signature_xyz1234
 ```
 
-#### Response: known user
+#### Response in case of a known user
 
 <!-- Update this code block with:
 cat response-operatorO.json body-id-and-preferences.json | npx json --merge
@@ -1039,7 +1619,7 @@ cat response-operatorO.json body-id-and-preferences.json | npx json --merge
 
 ```json
 {
-  "sender": "operatorO.com",
+  "sender": "operatorO.prebidsso.com",
   "timestamp": 1639059692793,
   "signature": "message_signature_xyz1234",
   "body": {
@@ -1070,7 +1650,7 @@ cat response-operatorO.json body-id-and-preferences.json | npx json --merge
 }
 ```
 
-#### Response: unknown user
+#### Response in case of an unknown user
 
 <!-- Update this code block with:
 cat response-operatorO.json body-id-and-preferences.json | npx json --merge -e 'this.body.preferences = {}; this.body.identifiers = []'
@@ -1078,7 +1658,7 @@ cat response-operatorO.json body-id-and-preferences.json | npx json --merge -e '
 
 ```json
 {
-  "sender": "operatorO.com",
+  "sender": "operatorO.prebidsso.com",
   "timestamp": 1639059692793,
   "signature": "message_signature_xyz1234",
   "body": {
@@ -1111,7 +1691,7 @@ cat response-operatorO.json body-id-and-preferences.json | npx json --merge -e '
 
 ```json
 {
-  "sender": "operatorO.com",
+  "sender": "operatorO.prebidsso.com",
   "timestamp": 1639059692793,
   "signature": "message_signature_xyz1234",
   "body": {
@@ -1192,7 +1772,7 @@ cat response-operatorO.json body-id-and-preferences.json | npx json --merge
 
 ```json
 {
-  "sender": "operatorO.com",
+  "sender": "operatorO.prebidsso.com",
   "timestamp": 1639059692793,
   "signature": "message_signature_xyz1234",
   "body": {
@@ -1243,7 +1823,7 @@ cat response-operatorO.json body-id.json | npx json --merge
 
 ```json
 {
-  "sender": "operatorO.com",
+  "sender": "operatorO.prebidsso.com",
   "timestamp": 1639059692793,
   "signature": "message_signature_xyz1234",
   "body": {
@@ -1271,14 +1851,14 @@ npx encode-query-string -nd `cat request-advertiserA.json | npx json -e 'this.bo
 GET /v1/redirect/read?sender=advertiserA.com&timestamp=1639057962145&signature=message_signature_xyz1234&redirectUrl=https://advertiserA.com/pageA.html
 ```
 
-#### Response: known user
+#### Response in case of a known user
 
 <!-- The query string below is generated with taking the response-operatorO.json file, adding body, and encoding it as query string:
 npx encode-query-string -nd `cat response-operatorO.json body-id-and-preferences.json | npx json --merge -o json-0`
 -->
 
 ```shell
-302 https://advertiserA.com/pageA.html?sender=operatorO.com&timestamp=1639059692793&signature=message_signature_xyz1234&body.preferences.version=1&body.preferences.data.opt_in=true&body.preferences.source.domain=cmpC.com&body.preferences.source.date=2021-04-23T18:25:43.511Z&body.preferences.source.signature=preferences_signature_xyz12345&body.identifiers[0].version=1&body.identifiers[0].type=prebid_id&body.identifiers[0].value=7435313e-caee-4889-8ad7-0acd0114ae3c&body.identifiers[0].source.domain=operator0.com&body.identifiers[0].source.date=2021-04-23T18:25:43.511Z&body.identifiers[0].source.signature=prebid_id_signature_xyz12345
+302 https://advertiserA.com/pageA.html?sender=operatorO.prebidsso.com&timestamp=1639059692793&signature=message_signature_xyz1234&body.preferences.version=1&body.preferences.data.opt_in=true&body.preferences.source.domain=cmpC.com&body.preferences.source.date=2021-04-23T18:25:43.511Z&body.preferences.source.signature=preferences_signature_xyz12345&body.identifiers[0].version=1&body.identifiers[0].type=prebid_id&body.identifiers[0].value=7435313e-caee-4889-8ad7-0acd0114ae3c&body.identifiers[0].source.domain=operator0.com&body.identifiers[0].source.date=2021-04-23T18:25:43.511Z&body.identifiers[0].source.signature=prebid_id_signature_xyz12345
 ```
 
 ...which corresponds to the following query string values:
@@ -1288,7 +1868,7 @@ npx encode-query-string -nd `cat response-operatorO.json body-id-and-preferences
 -->
 
 ```
-sender=operatorO.com
+sender=operatorO.prebidsso.com
 timestamp=1639059692793
 signature=message_signature_xyz1234
 body.preferences.version=1
@@ -1304,14 +1884,14 @@ body.identifiers[0].source.date=2021-04-23T18:25:43.511Z
 body.identifiers[0].source.signature=prebid_id_signature_xyz12345
 ```
 
-#### Response: unknown user
+#### Response in case of an unknown user
 
 <!-- The query string below is generated with taking the response-operatorO.json file, editing body, and encoding it as query string:
 npx encode-query-string -nd `cat response-operatorO.json body-id-and-preferences.json | npx json --merge -e 'this.body.preferences = {}; this.body.identifiers = []' -o json-0`
 -->
 
 ```shell
-302 https://advertiserA.com/pageA.html?sender=operatorO.com&timestamp=1639059692793&signature=message_signature_xyz1234
+302 https://advertiserA.com/pageA.html?sender=operatorO.prebidsso.com&timestamp=1639059692793&signature=message_signature_xyz1234
 ```
 
 ### GET /v1/redirect/readOrInit
@@ -1335,7 +1915,7 @@ npx encode-query-string -nd `cat response-operatorO.json body-id-and-preferences
 -->
 
 ```shell
-302 https://publisherP.com/pageP.html?sender=operatorO.com&timestamp=1639059692793&signature=message_signature_xyz1234&body.identifiers[0].version=1&body.identifiers[0].type=prebid_id&body.identifiers[0].value=7435313e-caee-4889-8ad7-0acd0114ae3c&body.identifiers[0].source.domain=operator0.com&body.identifiers[0].source.date=2021-04-23T18:25:43.511Z&body.identifiers[0].source.signature=prebid_id_signature_xyz12345
+302 https://publisherP.com/pageP.html?sender=operatorO.prebidsso.com&timestamp=1639059692793&signature=message_signature_xyz1234&body.identifiers[0].version=1&body.identifiers[0].type=prebid_id&body.identifiers[0].value=7435313e-caee-4889-8ad7-0acd0114ae3c&body.identifiers[0].source.domain=operator0.com&body.identifiers[0].source.date=2021-04-23T18:25:43.511Z&body.identifiers[0].source.signature=prebid_id_signature_xyz12345
 ```
 
 ...which corresponds to the following query string values:
@@ -1345,7 +1925,7 @@ npx encode-query-string -nd `cat response-operatorO.json body-id-and-preferences
 -->
 
 ```
-sender=operatorO.com
+sender=operatorO.prebidsso.com
 timestamp=1639059692793
 signature=message_signature_xyz1234
 body.identifiers[0].version=1
@@ -1399,7 +1979,7 @@ npx encode-query-string -nd `cat response-operatorO.json body-id-and-preferences
 -->
 
 ```shell
-302 https://publisherP.com/pageP.html?sender=operatorO.com&timestamp=1639059692793&signature=message_signature_xyz1234&body.preferences.version=1&body.preferences.data.opt_in=true&body.preferences.source.domain=cmpC.com&body.preferences.source.date=2021-04-23T18:25:43.511Z&body.preferences.source.signature=preferences_signature_xyz12345&body.identifiers[0].version=1&body.identifiers[0].type=prebid_id&body.identifiers[0].value=7435313e-caee-4889-8ad7-0acd0114ae3c&body.identifiers[0].source.domain=operator0.com&body.identifiers[0].source.date=2021-04-23T18:25:43.511Z&body.identifiers[0].source.signature=prebid_id_signature_xyz12345
+302 https://publisherP.com/pageP.html?sender=operatorO.prebidsso.com&timestamp=1639059692793&signature=message_signature_xyz1234&body.preferences.version=1&body.preferences.data.opt_in=true&body.preferences.source.domain=cmpC.com&body.preferences.source.date=2021-04-23T18:25:43.511Z&body.preferences.source.signature=preferences_signature_xyz12345&body.identifiers[0].version=1&body.identifiers[0].type=prebid_id&body.identifiers[0].value=7435313e-caee-4889-8ad7-0acd0114ae3c&body.identifiers[0].source.domain=operator0.com&body.identifiers[0].source.date=2021-04-23T18:25:43.511Z&body.identifiers[0].source.signature=prebid_id_signature_xyz12345
 ```
 
 ...which corresponds to the following query string values:
@@ -1409,7 +1989,7 @@ npx encode-query-string -nd `cat response-operatorO.json body-id-and-preferences
 -->
 
 ```
-sender=operatorO.com
+sender=operatorO.prebidsso.com
 timestamp=1639059692793
 signature=message_signature_xyz1234
 body.preferences.version=1
@@ -1444,7 +2024,7 @@ npx encode-query-string -nd `cat response-operatorO.json body-id.json | npx json
 -->
 
 ```shell
-302 https://publisherP.com/pageP.html?sender=operatorO.com&timestamp=1639059692793&signature=message_signature_xyz1234&body.version=1&body.type=prebid_id&body.value=7435313e-caee-4889-8ad7-0acd0114ae3c&body.source.domain=operator0.com&body.source.date=2021-04-23T18:25:43.511Z&body.source.signature=12345_signature
+302 https://publisherP.com/pageP.html?sender=operatorO.prebidsso.com&timestamp=1639059692793&signature=message_signature_xyz1234&body.version=1&body.type=prebid_id&body.value=7435313e-caee-4889-8ad7-0acd0114ae3c&body.source.domain=operator0.com&body.source.date=2021-04-23T18:25:43.511Z&body.source.signature=12345_signature
 ```
 
 ...which corresponds to the following query string values:
@@ -1454,7 +2034,7 @@ npx encode-query-string -nd `cat response-operatorO.json body-id.json | npx json
 -->
 
 ```
-sender=operatorO.com
+sender=operatorO.prebidsso.com
 timestamp=1639059692793
 signature=message_signature_xyz1234
 body.version=1
@@ -1497,7 +2077,7 @@ GET /v1/identity
 }
 ```
 
-## Message signature
+### Message signature
 
 All messages (requests or responses, except for `/identity` endpoint) **are signed** before to be sent.
 
@@ -1509,20 +2089,18 @@ The signature of messages happens as follows:
 4. Encode it **as a query string**
 5. Sign it with the sender's private key, using ECDSA NIST P-256
 
-### Examples
+#### Examples
 
-#### Request from cmpC.com to operatorO.prebidsso.com, on a call to `write`
+###### Request from cmpC.com to operatorO.prebidsso.com, on a call to `write`
 
 When calling `write`, the message will be different if calling the `/JSON` or `/redirect` version,
 because in the later case, a `redirectUrl` parameter is provided and must be part of the signature.
 
-##### POST /v1/json/write
+###### POST /v1/json/write
 
-<details>
-  <summary>Click to see the step by step example</summary>
 
 1. Take request object as JSON.
-In this case it means the POST body JSON object, except the `signature` field (of course).
+   In this case it means the POST body JSON object, except the `signature` field (of course).
 <!-- 
 cat request-cmpC.json body-id-and-preferences.json | npx json --merge -e 'this.signature = undefined'
 -->
@@ -1661,16 +2239,13 @@ then the end value, to be used as `signature` field, is:
 3045022100820853799948174fc35d7dff368275313a733bc1699b979d138bba3305688296022075b80651c1b7a66e4164958dd80c751061121238fce02093202b5002ff6372a3
 ```
 
-</details>
 
-##### GET /v1/redirect/write
+###### GET /v1/redirect/write
 
-<details>
-  <summary>Click to see the step by step example</summary>
 
 1. Build request object as JSON.
    Notice that compared to the `/json` version, the additional `redirectUrl` is present.
-2. 
+2.
 <!-- 
 cat request-cmpC.json body-id-and-preferences.json | npx json --merge -e 'this.signature = undefined; this.redirectUrl="https://publisherP.com/pageP.html"'
 -->
@@ -1813,14 +2388,9 @@ then the end value, to be used as `signature` field, is:
 30460221009224c93236a50b669e0777f65721d5bfbcc393be7ed6f3acded2fd7088b0f1c2022100ff14f97e67345d80198164da47c28e1b2b9a6a795c334c3754dad756a693e040
 ```
 
-</details>
-
-#### Response from operatorO.prebidsso.com to publisherP.com, on a call to `newId`
+##### Response from operatorO.prebidsso.com to publisherP.com, on a call to `newId`
 
 Regardless if it's a `GET /v1/redirect/newId` or `GET /v1/json/newId`, the process is the same:
-
-<details>
-  <summary>Click to see the step by step example</summary>
 
 1. Build response object as JSON
 <!-- 
@@ -1829,7 +2399,7 @@ cat response-operatorO.json body-id.json | npx json --merge -e "this.signature =
 
 ```json
 {
-  "sender": "operatorO.com",
+  "sender": "operatorO.prebidsso.com",
   "timestamp": 1639059692793,
   "signature": "message_signature_xyz1234",
   "body": {
@@ -1850,7 +2420,7 @@ cat response-operatorO.json body-id.json | npx json --merge -e 'this.signature =
 -->
 ```json
 {
-  "sender": "operatorO.com",
+  "sender": "operatorO.prebidsso.com",
   "timestamp": 1639059692793,
   "body": {
     "version": 1,
@@ -1885,7 +2455,7 @@ cat .tmp.json && rm .tmp.json;
     "version": 1
   },
   "receiver": "publisherP.com",
-  "sender": "operatorO.com",
+  "sender": "operatorO.prebidsso.com",
   "timestamp": 1639059692793
 }
 ```
@@ -1897,7 +2467,7 @@ npx encode-query-string -nd `cat .tmp.json | npx json -o json-0` && rm .tmp.json
 
 -->
 ```
-body.source.date=2021-04-23T18:25:43.511Z&body.source.domain=operator0.com&body.source.signature=12345_signature&body.type=prebid_id&body.value=7435313e-caee-4889-8ad7-0acd0114ae3c&body.version=1&receiver=publisherP.com&sender=operatorO.com&timestamp=1639059692793
+body.source.date=2021-04-23T18:25:43.511Z&body.source.domain=operator0.com&body.source.signature=12345_signature&body.type=prebid_id&body.value=7435313e-caee-4889-8ad7-0acd0114ae3c&body.version=1&receiver=publisherP.com&sender=operatorO.prebidsso.com&timestamp=1639059692793
 ```
 
 5. sign.
@@ -1916,4 +2486,5 @@ then the end value, to be used as `signature` field, is:
 ```
 304602210087657703efe0d084d32bb2ec03bfe36022797fd86f4737b4a399d4f95bd3855f022100d92d5f1e00ac8909b9639cf18969cadc0d1b4c196a8718fbe4bad1b390abd1ca
 ```
+
 </details>
