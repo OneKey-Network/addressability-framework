@@ -933,7 +933,7 @@ rect rgba(255, 255, 255, .55)
 end
 ```
 
-### Messages
+### Data
 
 Two types of data is manipulated by the operator API:
 
@@ -944,7 +944,7 @@ Two types of data is manipulated by the operator API:
 Example:
 
 <!-- To get this JSON example, run:
-cat payload-id.json | npx json payload
+cat body-id.json | npx json body
 -->
 
 ```json
@@ -966,7 +966,7 @@ cat payload-id.json | npx json payload
 Example:
 
 <!-- To get this JSON example, run:
-cat payload-id-and-preferences.json | npx json payload.preferences
+cat body-id-and-preferences.json | npx json body.preferences
 -->
 
 ```json
@@ -987,7 +987,7 @@ While the Prebid ID is really created (randomly generated) **by an operator**, w
 
 ### Source
 
-For traceability, in particular in the context of an audit, we need to be able to verify that:
+For traceability, in particular in the context of an audit, we need to be able to verify that:
 
 - the "creator" of the data is indeed who it said it was
 - the data has not been modified since it was saved
@@ -1013,7 +1013,7 @@ To **verify that a signature is valid**, *anyone* can:
 
 For more details and examples on signature, see [DSP API design](https://github.com/criteo/addressable-network-proposals/mvp-spec/dsp-api.md).
 
-## Endpoint details
+## Endpoint details - JSON
 
 Here are some examples of the operator endpoints, assuming:
 - usage of JSON format for payloads
@@ -1023,8 +1023,8 @@ Here are some examples of the operator endpoints, assuming:
 
 #### Request
 
-<!-- The query string below is generated with taking the request-advertiserA.json file, removing payload, and encoding it as query string:
-npx encode-query-string -nd `cat request-advertiserA.json | npx json -e 'this.payload = undefined' -o json-0`
+<!-- The query string below is generated with taking the request-advertiserA.json file, removing body, and encoding it as query string:
+npx encode-query-string -nd `cat request-advertiserA.json | npx json -e 'this.body = undefined' -o json-0`
 -->
 
 ```http request
@@ -1034,7 +1034,7 @@ GET /v1/json/read?sender=advertiserA.com&timestamp=1639057962145&signature=messa
 #### Response: known user
 
 <!-- Update this code block with:
-cat response-operatorO.json payload-id-and-preferences.json | npx json --merge
+cat response-operatorO.json body-id-and-preferences.json | npx json --merge
 -->
 
 ```json
@@ -1042,7 +1042,7 @@ cat response-operatorO.json payload-id-and-preferences.json | npx json --merge
   "sender": "operatorO.com",
   "timestamp": 1639059692793,
   "signature": "message_signature_xyz1234",
-  "payload": {
+  "body": {
     "preferences": {
       "version": 1,
       "data": {
@@ -1073,7 +1073,7 @@ cat response-operatorO.json payload-id-and-preferences.json | npx json --merge
 #### Response: unknown user
 
 <!-- Update this code block with:
-cat response-operatorO.json payload-id-and-preferences.json | npx json --merge -e 'this.payload.preferences = {}; this.payload.identifiers = []'
+cat response-operatorO.json body-id-and-preferences.json | npx json --merge -e 'this.body.preferences = {}; this.body.identifiers = []'
 -->
 
 ```json
@@ -1081,7 +1081,7 @@ cat response-operatorO.json payload-id-and-preferences.json | npx json --merge -
   "sender": "operatorO.com",
   "timestamp": 1639059692793,
   "signature": "message_signature_xyz1234",
-  "payload": {
+  "body": {
     "preferences": {},
     "identifiers": []
   }
@@ -1093,8 +1093,8 @@ cat response-operatorO.json payload-id-and-preferences.json | npx json --merge -
 
 #### Request
 
-<!-- The query string below is generated with taking the request-publisherP.json file, removing payload, and encoding it as query string:
-npx encode-query-string -nd `cat request-publisherP.json | npx json -e 'this.payload = undefined' -o json-0`
+<!-- The query string below is generated with taking the request-publisherP.json file, removing body, and encoding it as query string:
+npx encode-query-string -nd `cat request-publisherP.json | npx json -e 'this.body = undefined' -o json-0`
 -->
 
 ```http request
@@ -1106,7 +1106,7 @@ GET /v1/json/readOrInit?sender=publisherP.com&timestamp=1639057962145&signature=
 Note: list of identifiers **cannot** be empty.
 
 <!-- Update this code block with:
-cat response-operatorO.json payload-id-and-preferences.json | npx json --merge -e 'this.payload.preferences = {}'
+cat response-operatorO.json body-id-and-preferences.json | npx json --merge -e 'this.body.preferences = {}'
 -->
 
 ```json
@@ -1114,7 +1114,7 @@ cat response-operatorO.json payload-id-and-preferences.json | npx json --merge -
   "sender": "operatorO.com",
   "timestamp": 1639059692793,
   "signature": "message_signature_xyz1234",
-  "payload": {
+  "body": {
     "preferences": {},
     "identifiers": [
       {
@@ -1136,52 +1136,58 @@ cat response-operatorO.json payload-id-and-preferences.json | npx json --merge -
 
 ### Request
 
-<!-- The query string below is generated with taking the request-cmpC.json file, removing payload, and encoding it as query string:
-npx encode-query-string -nd `cat request-cmpC.json | npx json -e 'this.payload = undefined' -o json-0`
+<!-- The query string below is generated with taking the request-cmpC.json file, removing body, and encoding it as query string:
+npx encode-query-string -nd `cat request-cmpC.json | npx json -e 'this.body = undefined' -o json-0`
 -->
 
 ```http request
-POST /v1/json/write?sender=cmpC.com&timestamp=1639057962145&signature=message_signature_xyz1234
+POST /v1/json/write
 ```
 
 Request payload:
 
-<!-- Update this code block with just taking the payload of payload-id-and-preferences.json:
-cat payload-id-and-preferences.json | npx json payload
+<!-- Update this code block with just taking the body of body-id-and-preferences.json:
+cat request-cmpC.json body-id-and-preferences.json | npx json --merge
 -->
 
 ```json
 {
-  "preferences": {
-    "version": 1,
-    "data": {
-      "opt_in": true
-    },
-    "source": {
-      "domain": "cmpC.com",
-      "date": "2021-04-23T18:25:43.511Z",
-      "signature": "preferences_signature_xyz12345"
-    }
-  },
-  "identifiers": [
-    {
+  "sender": "cmpC.com",
+  "timestamp": 1639057962145,
+  "signature": "message_signature_xyz1234",
+  "body": {
+    "preferences": {
       "version": 1,
-      "type": "prebid_id",
-      "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
+      "data": {
+        "opt_in": true
+      },
       "source": {
-        "domain": "operator0.com",
+        "domain": "cmpC.com",
         "date": "2021-04-23T18:25:43.511Z",
-        "signature": "prebid_id_signature_xyz12345"
+        "signature": "preferences_signature_xyz12345"
       }
-    }
-  ]
+    },
+    "identifiers": [
+      {
+        "version": 1,
+        "type": "prebid_id",
+        "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
+        "source": {
+          "domain": "operator0.com",
+          "date": "2021-04-23T18:25:43.511Z",
+          "signature": "prebid_id_signature_xyz12345"
+        }
+      }
+    ]
+  }
 }
+
 ```
 
 ### Response
 
 <!-- Update this code block with:
-cat response-operatorO.json payload-id-and-preferences.json | npx json --merge
+cat response-operatorO.json body-id-and-preferences.json | npx json --merge
 -->
 
 ```json
@@ -1189,7 +1195,7 @@ cat response-operatorO.json payload-id-and-preferences.json | npx json --merge
   "sender": "operatorO.com",
   "timestamp": 1639059692793,
   "signature": "message_signature_xyz1234",
-  "payload": {
+  "body": {
     "preferences": {
       "version": 1,
       "data": {
@@ -1221,8 +1227,8 @@ cat response-operatorO.json payload-id-and-preferences.json | npx json --merge
 
 #### Request
 
-<!-- The query string below is generated with taking the request-cmpC.json file, removing payload, and encoding it as query string:
-npx encode-query-string -nd `cat request-cmpC.json | npx json -e 'this.payload = undefined' -o json-0`
+<!-- The query string below is generated with taking the request-cmpC.json file, removing body, and encoding it as query string:
+npx encode-query-string -nd `cat request-cmpC.json | npx json -e 'this.body = undefined' -o json-0`
 -->
 
 ```http request
@@ -1232,7 +1238,7 @@ GET /v1/json/newId?sender=cmpC.com&timestamp=1639057962145&signature=message_sig
 #### Response
 
 <!-- Update this code block with:
-cat response-operatorO.json payload-id.json | npx json --merge
+cat response-operatorO.json body-id.json | npx json --merge
 -->
 
 ```json
@@ -1240,7 +1246,7 @@ cat response-operatorO.json payload-id.json | npx json --merge
   "sender": "operatorO.com",
   "timestamp": 1639059692793,
   "signature": "message_signature_xyz1234",
-  "payload": {
+  "body": {
     "version": 1,
     "type": "prebid_id",
     "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
@@ -1257,8 +1263,8 @@ cat response-operatorO.json payload-id.json | npx json --merge
 
 #### Request
 
-<!-- The query string below is generated with taking the request-advertiserA.json file, removing payload, adding the redirect URL, and encoding it as query string:
-npx encode-query-string -nd `cat request-advertiserA.json | npx json -e 'this.payload = undefined; redirectUrl="https://advertiserA.com/pageA.html"' -o json-0`
+<!-- The query string below is generated with taking the request-advertiserA.json file, removing body, adding the redirect URL, and encoding it as query string:
+npx encode-query-string -nd `cat request-advertiserA.json | npx json -e 'this.body = undefined; redirectUrl="https://advertiserA.com/pageA.html"' -o json-0`
 -->
 
 ```http request
@@ -1267,12 +1273,12 @@ GET /v1/redirect/read?sender=advertiserA.com&timestamp=1639057962145&signature=m
 
 #### Response: known user
 
-<!-- The query string below is generated with taking the response-operatorO.json file, adding payload, and encoding it as query string:
-npx encode-query-string -nd `cat response-operatorO.json payload-id-and-preferences.json | npx json --merge -o json-0`
+<!-- The query string below is generated with taking the response-operatorO.json file, adding body, and encoding it as query string:
+npx encode-query-string -nd `cat response-operatorO.json body-id-and-preferences.json | npx json --merge -o json-0`
 -->
 
 ```shell
-302 https://advertiserA.com/pageA.html?sender=operatorO.com&timestamp=1639059692793&signature=message_signature_xyz1234&payload.preferences.version=1&payload.preferences.data.opt_in=true&payload.preferences.source.domain=cmpC.com&payload.preferences.source.date=2021-04-23T18:25:43.511Z&payload.preferences.source.signature=preferences_signature_xyz12345&payload.identifiers[0].version=1&payload.identifiers[0].type=prebid_id&payload.identifiers[0].value=7435313e-caee-4889-8ad7-0acd0114ae3c&payload.identifiers[0].source.domain=operator0.com&payload.identifiers[0].source.date=2021-04-23T18:25:43.511Z&payload.identifiers[0].source.signature=prebid_id_signature_xyz12345
+302 https://advertiserA.com/pageA.html?sender=operatorO.com&timestamp=1639059692793&signature=message_signature_xyz1234&body.preferences.version=1&body.preferences.data.opt_in=true&body.preferences.source.domain=cmpC.com&body.preferences.source.date=2021-04-23T18:25:43.511Z&body.preferences.source.signature=preferences_signature_xyz12345&body.identifiers[0].version=1&body.identifiers[0].type=prebid_id&body.identifiers[0].value=7435313e-caee-4889-8ad7-0acd0114ae3c&body.identifiers[0].source.domain=operator0.com&body.identifiers[0].source.date=2021-04-23T18:25:43.511Z&body.identifiers[0].source.signature=prebid_id_signature_xyz12345
 ```
 
 ...which corresponds to the following query string values:
@@ -1285,23 +1291,23 @@ npx encode-query-string -nd `cat response-operatorO.json payload-id-and-preferen
 sender=operatorO.com
 timestamp=1639059692793
 signature=message_signature_xyz1234
-payload.preferences.version=1
-payload.preferences.data.opt_in=true
-payload.preferences.source.domain=cmpC.com
-payload.preferences.source.date=2021-04-23T18:25:43.511Z
-payload.preferences.source.signature=preferences_signature_xyz12345
-payload.identifiers[0].version=1
-payload.identifiers[0].type=prebid_id
-payload.identifiers[0].value=7435313e-caee-4889-8ad7-0acd0114ae3c
-payload.identifiers[0].source.domain=operator0.com
-payload.identifiers[0].source.date=2021-04-23T18:25:43.511Z
-payload.identifiers[0].source.signature=prebid_id_signature_xyz12345
+body.preferences.version=1
+body.preferences.data.opt_in=true
+body.preferences.source.domain=cmpC.com
+body.preferences.source.date=2021-04-23T18:25:43.511Z
+body.preferences.source.signature=preferences_signature_xyz12345
+body.identifiers[0].version=1
+body.identifiers[0].type=prebid_id
+body.identifiers[0].value=7435313e-caee-4889-8ad7-0acd0114ae3c
+body.identifiers[0].source.domain=operator0.com
+body.identifiers[0].source.date=2021-04-23T18:25:43.511Z
+body.identifiers[0].source.signature=prebid_id_signature_xyz12345
 ```
 
 #### Response: unknown user
 
-<!-- The query string below is generated with taking the response-operatorO.json file, editing payload, and encoding it as query string:
-npx encode-query-string -nd `cat response-operatorO.json payload-id-and-preferences.json | npx json --merge -e 'this.payload.preferences = {}; this.payload.identifiers = []' -o json-0`
+<!-- The query string below is generated with taking the response-operatorO.json file, editing body, and encoding it as query string:
+npx encode-query-string -nd `cat response-operatorO.json body-id-and-preferences.json | npx json --merge -e 'this.body.preferences = {}; this.body.identifiers = []' -o json-0`
 -->
 
 ```shell
@@ -1312,8 +1318,8 @@ npx encode-query-string -nd `cat response-operatorO.json payload-id-and-preferen
 
 #### Request
 
-<!-- The query string below is generated with taking the request-publisherP.json file, removing payload, adding the redirect URL, and encoding it as query string:
-npx encode-query-string -nd `cat request-publisherP.json | npx json -e 'this.payload = undefined; this.redirectUrl="https://publisherP.com/pageP.html"' -o json-0`
+<!-- The query string below is generated with taking the request-publisherP.json file, removing body, adding the redirect URL, and encoding it as query string:
+npx encode-query-string -nd `cat request-publisherP.json | npx json -e 'this.body = undefined; this.redirectUrl="https://publisherP.com/pageP.html"' -o json-0`
 -->
 
 ```http request
@@ -1324,12 +1330,12 @@ GET /v1/redirect/readOrInit?sender=publisherP.com&timestamp=1639057962145&signat
 
 Note: list of identifiers **cannot** be empty.
 
-<!-- The query string below is generated with taking the response-operatorO.json file, adding payload, removing preferences, and encoding it as query string:
-npx encode-query-string -nd `cat response-operatorO.json payload-id-and-preferences.json | npx json --merge -e 'this.payload.preferences = {}' -o json-0`
+<!-- The query string below is generated with taking the response-operatorO.json file, adding body, removing preferences, and encoding it as query string:
+npx encode-query-string -nd `cat response-operatorO.json body-id-and-preferences.json | npx json --merge -e 'this.body.preferences = {}' -o json-0`
 -->
 
 ```shell
-302 https://publisherP.com/pageP.html?sender=operatorO.com&timestamp=1639059692793&signature=message_signature_xyz1234&payload.identifiers[0].version=1&payload.identifiers[0].type=prebid_id&payload.identifiers[0].value=7435313e-caee-4889-8ad7-0acd0114ae3c&payload.identifiers[0].source.domain=operator0.com&payload.identifiers[0].source.date=2021-04-23T18:25:43.511Z&payload.identifiers[0].source.signature=prebid_id_signature_xyz12345
+302 https://publisherP.com/pageP.html?sender=operatorO.com&timestamp=1639059692793&signature=message_signature_xyz1234&body.identifiers[0].version=1&body.identifiers[0].type=prebid_id&body.identifiers[0].value=7435313e-caee-4889-8ad7-0acd0114ae3c&body.identifiers[0].source.domain=operator0.com&body.identifiers[0].source.date=2021-04-23T18:25:43.511Z&body.identifiers[0].source.signature=prebid_id_signature_xyz12345
 ```
 
 ...which corresponds to the following query string values:
@@ -1342,24 +1348,24 @@ npx encode-query-string -nd `cat response-operatorO.json payload-id-and-preferen
 sender=operatorO.com
 timestamp=1639059692793
 signature=message_signature_xyz1234
-payload.identifiers[0].version=1
-payload.identifiers[0].type=prebid_id
-payload.identifiers[0].value=7435313e-caee-4889-8ad7-0acd0114ae3c
-payload.identifiers[0].source.domain=operator0.com
-payload.identifiers[0].source.date=2021-04-23T18:25:43.511Z
-payload.identifiers[0].source.signature=prebid_id_signature_xyz12345
+body.identifiers[0].version=1
+body.identifiers[0].type=prebid_id
+body.identifiers[0].value=7435313e-caee-4889-8ad7-0acd0114ae3c
+body.identifiers[0].source.domain=operator0.com
+body.identifiers[0].source.date=2021-04-23T18:25:43.511Z
+body.identifiers[0].source.signature=prebid_id_signature_xyz12345
 ```
 
 ### GET /v1/redirect/write
 
 ### Request
 
-<!-- The query string below is generated with taking the request-cmpC.json file, adding payload, and encoding it as query string:
-npx encode-query-string -nd `cat request-cmpC.json payload-id-and-preferences.json | npx json --merge -e 'this.redirectUrl="https://publisherP.com/pageP.html"' -o json-0`
+<!-- The query string below is generated with taking the request-cmpC.json file, adding body, and encoding it as query string:
+npx encode-query-string -nd `cat request-cmpC.json body-id-and-preferences.json | npx json --merge -e 'this.redirectUrl="https://publisherP.com/pageP.html"' -o json-0`
 -->
 
 ```http request
-GET /v1/redirect/write?sender=cmpC.com&timestamp=1639057962145&signature=message_signature_xyz1234&payload.preferences.version=1&payload.preferences.data.opt_in=true&payload.preferences.source.domain=cmpC.com&payload.preferences.source.date=2021-04-23T18:25:43.511Z&payload.preferences.source.signature=preferences_signature_xyz12345&payload.identifiers[0].version=1&payload.identifiers[0].type=prebid_id&payload.identifiers[0].value=7435313e-caee-4889-8ad7-0acd0114ae3c&payload.identifiers[0].source.domain=operator0.com&payload.identifiers[0].source.date=2021-04-23T18:25:43.511Z&payload.identifiers[0].source.signature=prebid_id_signature_xyz12345&redirectUrl=https://publisherP.com/pageP.html
+GET /v1/redirect/write?sender=cmpC.com&timestamp=1639057962145&signature=message_signature_xyz1234&body.preferences.version=1&body.preferences.data.opt_in=true&body.preferences.source.domain=cmpC.com&body.preferences.source.date=2021-04-23T18:25:43.511Z&body.preferences.source.signature=preferences_signature_xyz12345&body.identifiers[0].version=1&body.identifiers[0].type=prebid_id&body.identifiers[0].value=7435313e-caee-4889-8ad7-0acd0114ae3c&body.identifiers[0].source.domain=operator0.com&body.identifiers[0].source.date=2021-04-23T18:25:43.511Z&body.identifiers[0].source.signature=prebid_id_signature_xyz12345&redirectUrl=https://publisherP.com/pageP.html
 ```
 
 ...which corresponds to the following query string values:
@@ -1372,28 +1378,28 @@ GET /v1/redirect/write?sender=cmpC.com&timestamp=1639057962145&signature=message
 sender=cmpC.com
 timestamp=1639057962145
 signature=message_signature_xyz1234
-payload.preferences.version=1
-payload.preferences.data.opt_in=true
-payload.preferences.source.domain=cmpC.com
-payload.preferences.source.date=2021-04-23T18:25:43.511Z
-payload.preferences.source.signature=preferences_signature_xyz12345
-payload.identifiers[0].version=1
-payload.identifiers[0].type=prebid_id
-payload.identifiers[0].value=7435313e-caee-4889-8ad7-0acd0114ae3c
-payload.identifiers[0].source.domain=operator0.com
-payload.identifiers[0].source.date=2021-04-23T18:25:43.511Z
-payload.identifiers[0].source.signature=prebid_id_signature_xyz12345
+body.preferences.version=1
+body.preferences.data.opt_in=true
+body.preferences.source.domain=cmpC.com
+body.preferences.source.date=2021-04-23T18:25:43.511Z
+body.preferences.source.signature=preferences_signature_xyz12345
+body.identifiers[0].version=1
+body.identifiers[0].type=prebid_id
+body.identifiers[0].value=7435313e-caee-4889-8ad7-0acd0114ae3c
+body.identifiers[0].source.domain=operator0.com
+body.identifiers[0].source.date=2021-04-23T18:25:43.511Z
+body.identifiers[0].source.signature=prebid_id_signature_xyz12345
 redirectUrl=https://publisherP.com/pageP.html
 ```
 
 ### Response
 
-<!-- The query string below is generated with taking the response-operatorO.json file, adding payload, and encoding it as query string:
-npx encode-query-string -nd `cat response-operatorO.json payload-id-and-preferences.json | npx json --merge -o json-0`
+<!-- The query string below is generated with taking the response-operatorO.json file, adding body, and encoding it as query string:
+npx encode-query-string -nd `cat response-operatorO.json body-id-and-preferences.json | npx json --merge -o json-0`
 -->
 
 ```shell
-302 https://publisherP.com/pageP.html?sender=operatorO.com&timestamp=1639059692793&signature=message_signature_xyz1234&payload.preferences.version=1&payload.preferences.data.opt_in=true&payload.preferences.source.domain=cmpC.com&payload.preferences.source.date=2021-04-23T18:25:43.511Z&payload.preferences.source.signature=preferences_signature_xyz12345&payload.identifiers[0].version=1&payload.identifiers[0].type=prebid_id&payload.identifiers[0].value=7435313e-caee-4889-8ad7-0acd0114ae3c&payload.identifiers[0].source.domain=operator0.com&payload.identifiers[0].source.date=2021-04-23T18:25:43.511Z&payload.identifiers[0].source.signature=prebid_id_signature_xyz12345
+302 https://publisherP.com/pageP.html?sender=operatorO.com&timestamp=1639059692793&signature=message_signature_xyz1234&body.preferences.version=1&body.preferences.data.opt_in=true&body.preferences.source.domain=cmpC.com&body.preferences.source.date=2021-04-23T18:25:43.511Z&body.preferences.source.signature=preferences_signature_xyz12345&body.identifiers[0].version=1&body.identifiers[0].type=prebid_id&body.identifiers[0].value=7435313e-caee-4889-8ad7-0acd0114ae3c&body.identifiers[0].source.domain=operator0.com&body.identifiers[0].source.date=2021-04-23T18:25:43.511Z&body.identifiers[0].source.signature=prebid_id_signature_xyz12345
 ```
 
 ...which corresponds to the following query string values:
@@ -1406,25 +1412,25 @@ npx encode-query-string -nd `cat response-operatorO.json payload-id-and-preferen
 sender=operatorO.com
 timestamp=1639059692793
 signature=message_signature_xyz1234
-payload.preferences.version=1
-payload.preferences.data.opt_in=true
-payload.preferences.source.domain=cmpC.com
-payload.preferences.source.date=2021-04-23T18:25:43.511Z
-payload.preferences.source.signature=preferences_signature_xyz12345
-payload.identifiers[0].version=1
-payload.identifiers[0].type=prebid_id
-payload.identifiers[0].value=7435313e-caee-4889-8ad7-0acd0114ae3c
-payload.identifiers[0].source.domain=operator0.com
-payload.identifiers[0].source.date=2021-04-23T18:25:43.511Z
-payload.identifiers[0].source.signature=prebid_id_signature_xyz12345
+body.preferences.version=1
+body.preferences.data.opt_in=true
+body.preferences.source.domain=cmpC.com
+body.preferences.source.date=2021-04-23T18:25:43.511Z
+body.preferences.source.signature=preferences_signature_xyz12345
+body.identifiers[0].version=1
+body.identifiers[0].type=prebid_id
+body.identifiers[0].value=7435313e-caee-4889-8ad7-0acd0114ae3c
+body.identifiers[0].source.domain=operator0.com
+body.identifiers[0].source.date=2021-04-23T18:25:43.511Z
+body.identifiers[0].source.signature=prebid_id_signature_xyz12345
 ```
 
 ### GET /v1/redirect/newId
 
 #### Request
 
-<!-- The query string below is generated with taking the request-cmpC.json file, removing payload, adding redirect URL and encoding it as query string:
-npx encode-query-string -nd `cat request-cmpC.json | npx json -e 'this.payload = undefined; this.redirectUrl="https://publisherP.com/pageP.html"' -o json-0`
+<!-- The query string below is generated with taking the request-cmpC.json file, removing body, adding redirect URL and encoding it as query string:
+npx encode-query-string -nd `cat request-cmpC.json | npx json -e 'this.body = undefined; this.redirectUrl="https://publisherP.com/pageP.html"' -o json-0`
 -->
 
 ```http request
@@ -1433,12 +1439,12 @@ GET /v1/redirect/newId?sender=cmpC.com&timestamp=1639057962145&signature=message
 
 #### Response
 
-<!-- The query string below is generated with taking the response-operatorO.json file, adding payload, and encoding it as query string:
-npx encode-query-string -nd `cat response-operatorO.json payload-id.json | npx json --merge -o json-0`
+<!-- The query string below is generated with taking the response-operatorO.json file, adding body, and encoding it as query string:
+npx encode-query-string -nd `cat response-operatorO.json body-id.json | npx json --merge -o json-0`
 -->
 
 ```shell
-302 https://publisherP.com/pageP.html?sender=operatorO.com&timestamp=1639059692793&signature=message_signature_xyz1234&payload.version=1&payload.type=prebid_id&payload.value=7435313e-caee-4889-8ad7-0acd0114ae3c&payload.source.domain=operator0.com&payload.source.date=2021-04-23T18:25:43.511Z&payload.source.signature=12345_signature
+302 https://publisherP.com/pageP.html?sender=operatorO.com&timestamp=1639059692793&signature=message_signature_xyz1234&body.version=1&body.type=prebid_id&body.value=7435313e-caee-4889-8ad7-0acd0114ae3c&body.source.domain=operator0.com&body.source.date=2021-04-23T18:25:43.511Z&body.source.signature=12345_signature
 ```
 
 ...which corresponds to the following query string values:
@@ -1451,12 +1457,12 @@ npx encode-query-string -nd `cat response-operatorO.json payload-id.json | npx j
 sender=operatorO.com
 timestamp=1639059692793
 signature=message_signature_xyz1234
-payload.version=1
-payload.type=prebid_id
-payload.value=7435313e-caee-4889-8ad7-0acd0114ae3c
-payload.source.domain=operator0.com
-payload.source.date=2021-04-23T18:25:43.511Z
-payload.source.signature=12345_signature
+body.version=1
+body.type=prebid_id
+body.value=7435313e-caee-4889-8ad7-0acd0114ae3c
+body.source.domain=operator0.com
+body.source.date=2021-04-23T18:25:43.511Z
+body.source.signature=12345_signature
 ```
 
 ### GET /v1/identity
@@ -1497,8 +1503,7 @@ All messages (requests or responses, except for `/identity` endpoint) **are sign
 
 The signature of messages happens as follows:
 
-1. Build the complete message as a JSON object: `sender`, `timestamp`, `redirectUrl` (if any) and `payload` if any POST payload.
-   If some parameters are provided as query string and others as POST payload, merge it all together into a single object.
+1. Build the complete message as a JSON object: `sender`, `timestamp`, `redirectUrl` (if any) and `body`.
 2. Add a `receiver` element to this JSON object and set it to **the domain name of the recipient of the message**.
 3. Recursively alphabetically **sort all keys** of the JSON object.
 4. Encode it **as a query string**
@@ -1516,17 +1521,17 @@ because in the later case, a `redirectUrl` parameter is provided and must be par
 <details>
   <summary>Click to see the step by step example</summary>
 
-1. Build request object as JSON.
- Notice `sender` and `timestamp` (which will be in the query string) and `payload` (which will be the POST body) are merged together in a single JSON object
+1. Take request object as JSON.
+In this case it means the POST body JSON object, except the `signature` field (of course).
 <!-- 
-cat request-cmpC.json payload-id-and-preferences.json | npx json --merge -e 'this.signature = undefined'
+cat request-cmpC.json body-id-and-preferences.json | npx json --merge -e 'this.signature = undefined'
 -->
 
 ```json
 {
   "sender": "cmpC.com",
   "timestamp": 1639057962145,
-  "payload": {
+  "body": {
     "preferences": {
       "version": 1,
       "data": {
@@ -1555,13 +1560,13 @@ cat request-cmpC.json payload-id-and-preferences.json | npx json --merge -e 'thi
 ```
 2. add `receiver`
 <!-- 
-cat request-cmpC.json payload-id-and-preferences.json | npx json --merge -e 'this.signature = undefined; this.receiver="operatorO.prebidsso.com"'
+cat request-cmpC.json body-id-and-preferences.json | npx json --merge -e 'this.signature = undefined; this.receiver="operatorO.prebidsso.com"'
 -->
 ```json
 {
   "sender": "cmpC.com",
   "timestamp": 1639057962145,
-  "payload": {
+  "body": {
     "preferences": {
       "version": 1,
       "data": {
@@ -1591,14 +1596,14 @@ cat request-cmpC.json payload-id-and-preferences.json | npx json --merge -e 'thi
 ```
 3. recursive sort
 <!--
-cat request-cmpC.json payload-id-and-preferences.json | npx json --merge -e 'this.signature = undefined; this.receiver="operatorO.prebidsso.com"' > .tmp.json;
+cat request-cmpC.json body-id-and-preferences.json | npx json --merge -e 'this.signature = undefined; this.receiver="operatorO.prebidsso.com"' > .tmp.json;
 npx jsonsort .tmp.json;
 cat .tmp.json && rm .tmp.json;
 
 -->
 ```json
 {
-  "payload": {
+  "body": {
     "identifiers": [
       {
         "source": {
@@ -1630,13 +1635,13 @@ cat .tmp.json && rm .tmp.json;
 ```
 4. encode as query string
 <!--
-cat request-cmpC.json payload-id-and-preferences.json | npx json --merge -e 'this.signature = undefined; this.receiver="operatorO.prebidsso.com"' > .tmp.json;
+cat request-cmpC.json body-id-and-preferences.json | npx json --merge -e 'this.signature = undefined; this.receiver="operatorO.prebidsso.com"' > .tmp.json;
 npx jsonsort .tmp.json;
 npx encode-query-string -nd `cat .tmp.json | npx json -o json-0` && rm .tmp.json;
 
 -->
 ```
-payload.identifiers[0].source.date=2021-04-23T18:25:43.511Z&payload.identifiers[0].source.domain=operator0.com&payload.identifiers[0].source.signature=prebid_id_signature_xyz12345&payload.identifiers[0].type=prebid_id&payload.identifiers[0].value=7435313e-caee-4889-8ad7-0acd0114ae3c&payload.identifiers[0].version=1&payload.preferences.data.opt_in=true&payload.preferences.source.date=2021-04-23T18:25:43.511Z&payload.preferences.source.domain=cmpC.com&payload.preferences.source.signature=preferences_signature_xyz12345&payload.preferences.version=1&receiver=operatorO.prebidsso.com&sender=cmpC.com&timestamp=1639057962145
+body.identifiers[0].source.date=2021-04-23T18:25:43.511Z&body.identifiers[0].source.domain=operator0.com&body.identifiers[0].source.signature=prebid_id_signature_xyz12345&body.identifiers[0].type=prebid_id&body.identifiers[0].value=7435313e-caee-4889-8ad7-0acd0114ae3c&body.identifiers[0].version=1&body.preferences.data.opt_in=true&body.preferences.source.date=2021-04-23T18:25:43.511Z&body.preferences.source.domain=cmpC.com&body.preferences.source.signature=preferences_signature_xyz12345&body.preferences.version=1&receiver=operatorO.prebidsso.com&sender=cmpC.com&timestamp=1639057962145
 ```
 
 5. sign.
@@ -1667,14 +1672,14 @@ then the end value, to be used as `signature` field, is:
    Notice that compared to the `/json` version, the additional `redirectUrl` is present.
 2. 
 <!-- 
-cat request-cmpC.json payload-id-and-preferences.json | npx json --merge -e 'this.signature = undefined; this.redirectUrl="https://publisherP.com/pageP.html"'
+cat request-cmpC.json body-id-and-preferences.json | npx json --merge -e 'this.signature = undefined; this.redirectUrl="https://publisherP.com/pageP.html"'
 -->
 
 ```json
 {
   "sender": "cmpC.com",
   "timestamp": 1639057962145,
-  "payload": {
+  "body": {
     "preferences": {
       "version": 1,
       "data": {
@@ -1704,13 +1709,13 @@ cat request-cmpC.json payload-id-and-preferences.json | npx json --merge -e 'thi
 ```
 2. add `receiver`
 <!-- 
-cat request-cmpC.json payload-id-and-preferences.json | npx json --merge -e 'this.signature = undefined; this.receiver="operatorO.prebidsso.com"; this.redirectUrl="https://publisherP.com/pageP.html"'
+cat request-cmpC.json body-id-and-preferences.json | npx json --merge -e 'this.signature = undefined; this.receiver="operatorO.prebidsso.com"; this.redirectUrl="https://publisherP.com/pageP.html"'
 -->
 ```json
 {
   "sender": "cmpC.com",
   "timestamp": 1639057962145,
-  "payload": {
+  "body": {
     "preferences": {
       "version": 1,
       "data": {
@@ -1741,14 +1746,14 @@ cat request-cmpC.json payload-id-and-preferences.json | npx json --merge -e 'thi
 ```
 3. recursive sort
 <!--
-cat request-cmpC.json payload-id-and-preferences.json | npx json --merge -e 'this.signature = undefined; this.receiver="operatorO.prebidsso.com"; this.redirectUrl="https://publisherP.com/pageP.html"' > .tmp.json;
+cat request-cmpC.json body-id-and-preferences.json | npx json --merge -e 'this.signature = undefined; this.receiver="operatorO.prebidsso.com"; this.redirectUrl="https://publisherP.com/pageP.html"' > .tmp.json;
 npx jsonsort .tmp.json;
 cat .tmp.json && rm .tmp.json;
 
 -->
 ```json
 {
-  "payload": {
+  "body": {
     "identifiers": [
       {
         "source": {
@@ -1781,13 +1786,13 @@ cat .tmp.json && rm .tmp.json;
 ```
 4. encode as query string
 <!--
-cat request-cmpC.json payload-id-and-preferences.json | npx json --merge -e 'this.signature = undefined; this.receiver="operatorO.prebidsso.com"; this.redirectUrl="https://publisherP.com/pageP.html"' > .tmp.json;
+cat request-cmpC.json body-id-and-preferences.json | npx json --merge -e 'this.signature = undefined; this.receiver="operatorO.prebidsso.com"; this.redirectUrl="https://publisherP.com/pageP.html"' > .tmp.json;
 npx jsonsort .tmp.json;
 npx encode-query-string -nd `cat .tmp.json | npx json -o json-0` && rm .tmp.json;
 
 -->
 ```
-payload.identifiers[0].source.date=2021-04-23T18:25:43.511Z&payload.identifiers[0].source.domain=operator0.com&payload.identifiers[0].source.signature=prebid_id_signature_xyz12345&payload.identifiers[0].type=prebid_id&payload.identifiers[0].value=7435313e-caee-4889-8ad7-0acd0114ae3c&payload.identifiers[0].version=1&payload.preferences.data.opt_in=true&payload.preferences.source.date=2021-04-23T18:25:43.511Z&payload.preferences.source.domain=cmpC.com&payload.preferences.source.signature=preferences_signature_xyz12345&payload.preferences.version=1&receiver=operatorO.prebidsso.com&redirectUrl=https://publisherP.com/pageP.html&sender=cmpC.com&timestamp=1639057962145
+body.identifiers[0].source.date=2021-04-23T18:25:43.511Z&body.identifiers[0].source.domain=operator0.com&body.identifiers[0].source.signature=prebid_id_signature_xyz12345&body.identifiers[0].type=prebid_id&body.identifiers[0].value=7435313e-caee-4889-8ad7-0acd0114ae3c&body.identifiers[0].version=1&body.preferences.data.opt_in=true&body.preferences.source.date=2021-04-23T18:25:43.511Z&body.preferences.source.domain=cmpC.com&body.preferences.source.signature=preferences_signature_xyz12345&body.preferences.version=1&receiver=operatorO.prebidsso.com&redirectUrl=https://publisherP.com/pageP.html&sender=cmpC.com&timestamp=1639057962145
 ```
 
 
@@ -1819,7 +1824,7 @@ Regardless if it's a `GET /v1/redirect/newId` or `GET /v1/json/newId`, the proce
 
 1. Build response object as JSON
 <!-- 
-cat response-operatorO.json payload-id.json | npx json --merge -e "this.signature = undefined"
+cat response-operatorO.json body-id.json | npx json --merge -e "this.signature = undefined"
 -->
 
 ```json
@@ -1827,7 +1832,7 @@ cat response-operatorO.json payload-id.json | npx json --merge -e "this.signatur
   "sender": "operatorO.com",
   "timestamp": 1639059692793,
   "signature": "message_signature_xyz1234",
-  "payload": {
+  "body": {
     "version": 1,
     "type": "prebid_id",
     "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
@@ -1841,13 +1846,13 @@ cat response-operatorO.json payload-id.json | npx json --merge -e "this.signatur
 ```
 2. add `receiver`
 <!-- 
-cat response-operatorO.json payload-id.json | npx json --merge -e 'this.signature = undefined; this.receiver="publisherP.com"'
+cat response-operatorO.json body-id.json | npx json --merge -e 'this.signature = undefined; this.receiver="publisherP.com"'
 -->
 ```json
 {
   "sender": "operatorO.com",
   "timestamp": 1639059692793,
-  "payload": {
+  "body": {
     "version": 1,
     "type": "prebid_id",
     "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
@@ -1862,14 +1867,14 @@ cat response-operatorO.json payload-id.json | npx json --merge -e 'this.signatur
 ```
 3. recursive sort
 <!--
-cat response-operatorO.json payload-id.json | npx json --merge -e 'this.signature = undefined; this.receiver="publisherP.com"' > .tmp.json;
+cat response-operatorO.json body-id.json | npx json --merge -e 'this.signature = undefined; this.receiver="publisherP.com"' > .tmp.json;
 npx jsonsort .tmp.json;
 cat .tmp.json && rm .tmp.json;
 
 -->
 ```json
 {
-  "payload": {
+  "body": {
     "source": {
       "date": "2021-04-23T18:25:43.511Z",
       "domain": "operator0.com",
@@ -1886,13 +1891,13 @@ cat .tmp.json && rm .tmp.json;
 ```
 4. encode as query string
 <!--
-cat response-operatorO.json payload-id.json | npx json --merge -e 'this.signature = undefined; this.receiver="publisherP.com"' > .tmp.json;
+cat response-operatorO.json body-id.json | npx json --merge -e 'this.signature = undefined; this.receiver="publisherP.com"' > .tmp.json;
 npx jsonsort .tmp.json;
 npx encode-query-string -nd `cat .tmp.json | npx json -o json-0` && rm .tmp.json;
 
 -->
 ```
-payload.source.date=2021-04-23T18:25:43.511Z&payload.source.domain=operator0.com&payload.source.signature=12345_signature&payload.type=prebid_id&payload.value=7435313e-caee-4889-8ad7-0acd0114ae3c&payload.version=1&receiver=publisherP.com&sender=operatorO.com&timestamp=1639059692793
+body.source.date=2021-04-23T18:25:43.511Z&body.source.domain=operator0.com&body.source.signature=12345_signature&body.type=prebid_id&body.value=7435313e-caee-4889-8ad7-0acd0114ae3c&body.version=1&receiver=publisherP.com&sender=operatorO.com&timestamp=1639059692793
 ```
 
 5. sign.

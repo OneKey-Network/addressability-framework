@@ -2,5 +2,5 @@
   "sender": "publisherP.com",
   "timestamp": 1639057962145,
   "signature": "message_signature_xyz1234",
-  "payload": ""
+  "body": ""
 }
