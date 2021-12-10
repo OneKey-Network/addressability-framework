@@ -1,5 +1,7 @@
 # Operator API proposal
 
+⚠️ To **view diagrams** in this page, you are invited to install a browser extension such as [mermaid-diagrams](https://chrome.google.com/webstore/detail/mermaid-diagrams/phfcghedmopjadpojhmmaffjmfiakfil)
+
 ## Context
 
 Operators are contracting parties responsible for storing and controlling access to users data, in a secured way.
@@ -51,9 +53,6 @@ When 3d party cookies are available, all calls to read cookies can be made via J
   - the values are saved on the advertiser's domain
 
 ℹ️ in this scenario, no full page redirect is needed
-
-<details>
-  <summary>Click to see diagram</summary>
 
 ```mermaid
 sequenceDiagram
@@ -159,8 +158,6 @@ rect rgba(255, 255, 255, .55)
 end
 ```
 
-</details>
-
 ### Without 3PC
 
 Without 3d party cookies,
@@ -193,9 +190,6 @@ So the only way to interact with Prebid SSO cookies is through  **full page "red
   - the operator  **redirects**  back to the original page, this time with a Prebid SSO ID & preferences as part of
     the URL
   - the values are saved on the advertiser's domain
-
-<details>
-  <summary>Click to see diagram</summary>
 
 ```mermaid
 sequenceDiagram
@@ -332,8 +326,6 @@ rect rgba(255, 255, 255, .55)
 end
 ```
 
-</details>
-
 ## Endpoints
 
 To support the previous workflows (and more), a few endpoints are needed on the operator API.
@@ -403,9 +395,6 @@ Limitations:
 🟠 complex integration and debug
 
 ℹ️ the diagram below is based on the SWAN demo, where CMP is considered to be a dedicated web site that the user is redirected to, not an integrated widget. This counts for a few extra redirects that could probably be avoided.
-
-<details>
-  <summary>Click to see diagram</summary>
 
 ```mermaid
 sequenceDiagram
@@ -699,8 +688,6 @@ note right of U: Time T2<br>"READ" scenario: user visits a "new" advertiser
 end
 ```
 
-</details>
-
 ### Proposed protocol
 
 The proposed solution enforces the usage of TLS (HTTPS) for all communication to and from the operator, to prevent middle men to "spy" on data that is passed.
@@ -750,9 +737,6 @@ Limitations:
 🟠 data remains visible in URLs, so it can be used by web browser as part of the browsing history.
 
 🟠 it can also appear in web server logs.
-
-<details>
-  <summary>Click to see diagram</summary>
 
 ```mermaid
 sequenceDiagram
@@ -948,8 +932,6 @@ rect rgba(255, 255, 255, .55)
     deactivate U
 end
 ```
-
-</details>
 
 ### Messages
 
