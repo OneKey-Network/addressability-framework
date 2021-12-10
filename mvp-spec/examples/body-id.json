@@ -1,0 +1,12 @@
+{
+  "body": {
+    "version": 1,
+    "type": "prebid_id",
+    "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
+    "source": {
+      "domain": "operator0.com",
+      "date": "2021-04-23T18:25:43.511Z",
+      "signature": "12345_signature"
+    }
+  }
+}
