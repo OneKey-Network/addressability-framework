@@ -210,14 +210,14 @@ Note that the "data" field is a simple dictionnary.
 
 ````json
 {
-    "version": 0.1,
+    "version": 0,
     "seed": {
-        "version": 0.1,
+        "version": 0,
         "transaction_id": 1234567,
         "display_responsibility": "publisher",
         "identifiers": [
             {
-                "version": 0.1,
+                "version": 0,
                 "type": "prebid_id",
                 "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
                 "source": {
@@ -229,7 +229,7 @@ Note that the "data" field is a simple dictionnary.
         ],
         "preferences": {
             "data": [
-                { "version": 0.1, "type": "opt_in", "value": true }
+                { "type": "opt_in", "value": true }
             ],
             "source": {
                 "domain": "cmp1.com",
@@ -245,7 +245,7 @@ Note that the "data" field is a simple dictionnary.
     },
     "parents": [
         {
-            "version": 0.1,
+            "version": 0,
             "receiver": "ssp1.com",
             "status": "SUCCESS",
             "details": "",
@@ -256,7 +256,7 @@ Note that the "data" field is a simple dictionnary.
             },
         },
         {
-            "version": 0.1,
+            "version": 0,
             "receiver": "publisher.com",
             "status": "SUCCESS",
             "details": "",
@@ -331,7 +331,7 @@ transmission_response.details
 
 ````json
 {
-    "version": 0.1,
+    "version": 0,
     "receiver": "dsp1.com",
     "status": "success",
     "details": "",
@@ -378,14 +378,14 @@ Transmission is named "prebid_sso_transmission".
             },
             "ext": {
                 "prebid_sso_transmission": {
-                    "version": 0.1,
+                    "version": 0,
                     "seed": {
-                        "version": 0.1,
+                        "version": 0,
                         "transaction_id": 1234567,
                         "display_responsibility": "publisher",
                         "identifiers": [
                             {
-                                "version": 0.1,
+                                "version": 0,
                                 "type": "prebid_id",
                                 "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
                                 "source": {
@@ -396,7 +396,7 @@ Transmission is named "prebid_sso_transmission".
                             }
                         ],
                         "preferences": {
-                            "version": 0.1,
+                            "version": 0,
                             "data": [
                                 { "key":"opt_in", "value": true }
                             ],
@@ -414,7 +414,7 @@ Transmission is named "prebid_sso_transmission".
                     },
                     "parents": [
                         {
-                            "version": 0.1,
+                            "version": 0,
                             "receiver": "ssp1.com",
                             "status": "success",
                             "details": "",
@@ -425,7 +425,7 @@ Transmission is named "prebid_sso_transmission".
                             },
                         },
                         {
-                            "version": 0.1,
+                            "version": 0,
                             "receiver": "publisher.com",
                             "status": "success",
                             "details": "",
@@ -508,7 +508,7 @@ Transmission.
             {
                 "impid": "1",
                 "response": {
-                    "version": 0.1,
+                    "version": 0,
                     "receiver": "dsp1.com",
                     "status": "success",
                     "details": "",
@@ -523,7 +523,7 @@ Transmission.
             {
                 "impid": "1",
                 "response": {
-                    "version": 0.1,
+                    "version": 0,
                     "receiver": "dsp1.com",
                     "status": "success",
                     "details": "",
@@ -603,12 +603,12 @@ document).
 ```json
 {
     "seed": {
-        "version": 0.1,
+        "version": 0,
         "transaction_id": 1234567,
         "display_responsibility": "publisher",
         "identifiers": [
             {
-                "version": 0.1,
+                "version": 0,
                 "type": "prebid_id",
                 "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
                 "source": {
@@ -619,7 +619,7 @@ document).
             }
         ],
         "preferences": {
-            "version": 0.1,
+            "version": 0,
             "data": [
                 { 
                     "key":"opt_in",
@@ -640,7 +640,7 @@ document).
     },
     "transmissions": [
         {
-            "version": 0.1,
+            "version": 0,
             "receiver": "party2.com",
             "status": "success",
             "details": "",
@@ -651,7 +651,7 @@ document).
             }
         },
         {
-            "version": 0.1,
+            "version": 0,
             "receiver": "party3.com",
             "status": "success",
             "details": "",
