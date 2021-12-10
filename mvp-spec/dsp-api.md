@@ -228,9 +228,9 @@ Note that the "data" field is a simple dictionnary.
             }
         ],
         "preferences": {
-            "data": [
-                { "type": "opt_in", "value": true }
-            ],
+            "data": { 
+                "opt_in": true 
+            },
             "source": {
                 "domain": "cmp1.com",
                 "date": "2021-04-23T18:25:43.511Z",
@@ -397,9 +397,9 @@ Transmission is named "prebid_sso_transmission".
                         ],
                         "preferences": {
                             "version": 0,
-                            "data": [
-                                { "key":"opt_in", "value": true }
-                            ],
+                            "data": { 
+                                "opt_in": true 
+                            },
                             "source": {
                                 "domain": "cmp1.com",
                                 "date": "2021-04-23T18:25:43.511Z",
@@ -620,12 +620,9 @@ document).
         ],
         "preferences": {
             "version": 0,
-            "data": [
-                { 
-                    "key":"opt_in",
-                    "value": true 
-                }
-            ],
+            "data": { 
+                "opt_in": true 
+            },
             "source": {
                 "domain": "cmp1.com",
                 "date": "2021-04-23T18:25:43.511Z",
