@@ -180,7 +180,7 @@ standalone transmission can be used.
 |---------|------------------------|-------------------------------------------|
 | version | Number                 | The Prebid SSO version of the object.                                                                                                                                                                       |
 | data    | Dictionary             | The key is a string and represents the name of the preference. <br /> The values represent the value of the preference. <br /> For now there is only one preference named "optin" and its value is a boolean.|
-| source  | Source object          | The source contains the data for identifying and trusting the Operator that signed lastly the Preferences.<br /> <table><tr><th>Field</th><th>Type</th><th>Details</th></tr><tr><td>domain</td><td>String</td><td>The domain of the Operator.</td></tr><tr><td>date</td><td>Date</td><td>The date of the signature.</td></tr><tr><td>signature</td><td>String</td><td>Encoded signature in UTF-8 of the Operator.</td></tr></table>|
+| source  | Source object          | The source contains the data for identifying and trusting the CMP that signed lastly the Preferences.<br /> <table><tr><th>Field</th><th>Type</th><th>Details</th></tr><tr><td>domain</td><td>String</td><td>The domain of the CMP.</td></tr><tr><td>date</td><td>Date</td><td>The date of the signature.</td></tr><tr><td>signature</td><td>String</td><td>Encoded signature in UTF-8 of the CMP.</td></tr></table>|
 
 Note that the "data" field is a simple dictionnary.
 
@@ -232,7 +232,7 @@ Note that the "data" field is a simple dictionnary.
                 { "version": 0.1, "type": "opt_in", "value": true }
             ],
             "source": {
-                "domain": "operator1.com",
+                "domain": "cmp1.com",
                 "date": "2021-04-23T18:25:43.511Z",
                 "signature": "12345_signature"
             }
@@ -401,13 +401,13 @@ Transmission is named "prebid_sso_transmission".
                                 { "key":"opt_in", "value": true }
                             ],
                             "source": {
-                                "domain": "operator1.com",
+                                "domain": "cmp1.com",
                                 "date": "2021-04-23T18:25:43.511Z",
                                 "signature": "12345_signature"
                             }
                         },
                         "source": {
-                            "domain": "operator0.com",
+                            "domain": "publisher0.com",
                             "date": "2021-04-23T18:25:43.511Z",
                             "signature": "12345_signature"
                         }
@@ -627,7 +627,7 @@ document).
                 }
             ],
             "source": {
-                "domain": "operator1.com",
+                "domain": "cmp1.com",
                 "date": "2021-04-23T18:25:43.511Z",
                 "signature": "12345_signature"
             }
@@ -662,7 +662,6 @@ document).
             }
         }
     ]
-  }
 }
 ```
 
