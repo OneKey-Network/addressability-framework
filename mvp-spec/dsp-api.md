@@ -168,7 +168,6 @@ In a case of an ad-hoc communication between two Contracting Parties, the
 |------------------------|------------------------------------------|----------|
 | version                | Number                                   | The Prebid SSO version of the object.                                                                                                                                                                                            |
 | transaction_id         | String                                   | A GUID in a String format dedicated to the share of the Prebid SSO data for one Addressable Content.                                                                                                                                    |
-| display_responsability | String                                   | Equals "publisher" if the publisher takes the responsibility to display the Audit Button and the Audit UI.<br /> Equals "vendor" if the publisher delegates the responsibility to display the Audit Button and the Audit UI to the DSP. |
 | preferences            | Preferences object                       | The Preferences of the user.                                                                                                                                                                                                            |
 | identifiers            | Array of Pseudonymous-Identifier objects | The Pseudonymous-Identifiers of the user. For now, it only contains a Prebid ID.                                                                                                                                                        |
 | source                 | Source object                            | The source contains data for identifying and trusting the Publisher.<br /><table><tr><th>Field</th><th>Type</th><th>Details</th></tr><tr><td>domain</td><td>String</td><td>The domain of the Root Party (Publisher in most of the cases).</td></tr><tr><td>date</td><td>Date</td><td>The date of the signature.</td></tr><tr><td>signature</td><td>String</td><td>Encoded signature in UTF-8 of the Root Party/Publisher.</td></tr></table>|
@@ -214,7 +213,6 @@ Note that the "data" field is a simple dictionnary.
     "seed": {
         "version": 0,
         "transaction_id": 1234567,
-        "display_responsibility": "publisher",
         "identifiers": [
             {
                 "version": 0,
@@ -382,7 +380,6 @@ Transmission is named "prebid_sso_transmission".
                     "seed": {
                         "version": 0,
                         "transaction_id": 1234567,
-                        "display_responsibility": "publisher",
                         "identifiers": [
                             {
                                 "version": 0,
@@ -544,9 +541,7 @@ Transmission.
 
 ## The interface
 
-If the Seed included in the Transmission contains
-_"display_responsibility" = "vendor"_,
-then the DSP must include an Audit Button within the Addressable Content.
+Tthe DSP must include an Audit Button within the Addressable Content.
 
 The standard approach is to use an HTML button for the Audit Button. This HTML
 button is in a form containing also a hidden input for retaining the Audit Log.
@@ -568,8 +563,7 @@ hosted by the DSP.
 
 ## The Audit Log
 
-In the case where the DSP has the display responsibility, it must build a valid
-Audit Log. For this purpose, it must:
+The DSP must build a valid Audit Log. For this purpose, it must:
 
 1. Take the Seed and the Transmission Parents from the Transmission Request that
 it received for this Addressable content.
@@ -590,12 +584,8 @@ it received for this Addressable content.
 A Transmission Result is the output of a Transmission. It can be a
 Transmission Response without the "children" field when the Receiver of 
 a Transmission responded correctly to a Transmission Request. 
-However, if there is a communication timeout or a
-bad Transmission Response, then the Sender generates a Transmission Result
-following the same structure as a Transmission Response with its own
-signature. Those Transmission Results are appended to the Audit Log. Therefore,
-if the DSP has the responsibility to display the Audit Button and the Audit UI,
-it handles those objects (see the Transmission Response object in this
+Those Transmission Results are appended to the Audit Log. Therefore,
+the DSP handles those objects (see the Transmission Response object in this
 document).
 
 ### Example of Audit Log
@@ -605,7 +595,6 @@ document).
     "seed": {
         "version": 0,
         "transaction_id": 1234567,
-        "display_responsibility": "publisher",
         "identifiers": [
             {
                 "version": 0,
@@ -666,8 +655,7 @@ document).
 
 ## Web Page interface
 
-If the Seed included in the Transmission contains "display_responsibility", then
-the DSP must include an Audit Button within the Addressable Content.
+The DSP must include an Audit Button within the Addressable Content.
 
 Once the user has clicked on the Audit Button, she/he is redirected to the
 Audit UI. The DSP generates the UI based on the validations of the Prebid SSO
