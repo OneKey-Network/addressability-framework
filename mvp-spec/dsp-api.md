@@ -77,12 +77,15 @@ rotations.
 # Transmission Overview
 
 ## Definitions
-A Transmission is the act of sharing Prebid SSO Data (Pseudonymous-Identifiers
+
+A **Transaction** is the sending of SWAN Data from the Root Party through the SWAN ecosystem by consecutive Transmissions.
+
+A **Transmission** is the act of sharing Prebid SSO Data (Pseudonymous-Identifiers
 and Preferences) between two Contracting Parties of Prebid SSO: the Sender and
 the Receiver.
 
-The Sender sends a Transmission Request and the Receiver sends back a 
-Transaction Response.
+The **Sender** sends a **Transmission Request** and the **Receiver** sends back 
+a **Transaction Response**.
 
 ```mermaid
 flowchart LR
@@ -109,8 +112,8 @@ sequenceDiagram
     Publisher->>User: Display the Addressable Content<br />with an Audit button
 ```
 
-At the end of a Transmission, the Sender sets a Transmission Result. Either by
-using the Transmission Response if it fits. Or by generating it with a
+At the end of a Transmission, the Sender sets a **Transmission Result**. Either
+by using the Transmission Response if it fits. Or by generating it with a
 status error. The Transmission Results are described in detail in a further
 section.
 
