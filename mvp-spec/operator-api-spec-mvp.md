@@ -734,7 +734,9 @@ This protocol:
 
 Limitations:
 
-🟠 data remains visible in URLs, so it can be used by web browser as part of the browsing history.
+🟠 operator needs to keep track of (potentially numerous) clients' public keys for signature verification
+
+🟠 data remains visible (or can be made visible) in URLs, so it can be used by web browser as part of the browsing history.
 
 🟠 it can also appear in web server logs.
 
