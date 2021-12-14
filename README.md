@@ -17,8 +17,13 @@ It looks like this:
 
 !["Reference in new issue screenshot"](https://docs.github.com/assets/images/help/repository/open-new-issue-specific-line.png)
 
-# Content
+# Repository structure
 
-## ./mvp-spec
+## [mvp-spec/](/mvp-spec)
 
-Specifications for a MVP, covering only a single id managed by several operators sharing a common registrable domain (TLD+1, e.g. operator1.prebidsso.com and operator2.prebidsso.com)
+Specifications for a MVP, covering only a single id managed by several operators sharing a common registrable domain (e.g. operator1.prebidsso.com and operator2.prebidsso.com).
+
+| Document                                                                 | Description                                                                |
+|--------------------------------------------------------------------------|----------------------------------------------------------------------------|
+| [mvp-spec/dsp-api.md](./mvp-spec/dsp-api.md)                             | Data exchange specification, from the point of view of a DSP implementer.  |
+| [mvp-spec/operator-api-spec-mvp.md](./mvp-spec/operator-api-spec-mvp.md) | Operator API specification                                                 |
