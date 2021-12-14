@@ -109,7 +109,7 @@ cat body-id-and-preferences.json | npx json body.preferences
 
 While the Prebid ID is really created (randomly generated) **by an operator**, we can say that the preferences data is "*created*" **by a CMP or web site**, based on user input.
 
-### Source
+### Source (data signature)
 
 For traceability, in particular in the context of an audit, we need to be able to verify that:
 
@@ -137,6 +137,18 @@ To **verify that a signature is valid**, *anyone* can:
 
 For more details and examples on signature, see [DSP API design](https://github.com/criteo/addressable-network-proposals/mvp-spec/dsp-api.md).
 
+### Message signature
+
+All messages (requests or responses, except for `/identity` endpoint) **are signed** before to be sent.
+
+The signature takes all "key" data (see below), concatenate it and signs it.
+- Note that the receiver of each message is not part of the message, while **it is part of the signature**.
+- Also, when preferences and ids are provided for write or returned for read, only the signature of this is data
+is considered for the whole message signature, not the data value itself. It means to fully verify the integrity of the received data,
+the receiver needs to do a verification in two steps:
+  - verify **the message signature** to consider its included signatures can be trusted
+  - verify each data **source signature** to consider its data has not been tempered.
+
 ## Endpoint details - JSON
 
 Here are some examples of the operator endpoints, assuming:
@@ -154,6 +166,15 @@ npx encode-query-string -nd `cat request-advertiserA.json | npx json -e 'this.bo
 ```http request
 GET /v1/json/read?sender=advertiserA.com&timestamp=1639057962145&signature=message_signature_xyz1234
 ```
+
+#### Signature
+
+Signature of the concatenation of:
+````
+sender + '\u2063' +
+receiver + '\u2063' +
+timestamp
+````
 
 #### Response: known user
 
@@ -194,6 +215,20 @@ cat response-operatorO.json body-id-and-preferences.json | npx json --merge
 }
 ```
 
+#### Signature
+
+Signature of the concatenation of:
+````
+sender + '\u2063' +
+receiver + '\u2063' +
+preferences.source.signature + '\u2063' +
+identifiers[0].source.signature + '\u2063' +
+identifiers[1].source.signature + '\u2063' +
+...
+identifiers[n].source.signature + '\u2063' +
+timestamp
+````
+
 #### Response: unknown user
 
 <!-- Update this code block with:
@@ -213,6 +248,15 @@ cat response-operatorO.json body-id-and-preferences.json | npx json --merge -e '
 
 ```
 
+#### Signature
+
+Signature of the concatenation of:
+````
+sender + '\u2063' +
+receiver + '\u2063' +
+timestamp
+````
+
 ### GET /v1/json/readOrInit
 
 #### Request
@@ -224,6 +268,15 @@ npx encode-query-string -nd `cat request-publisherP.json | npx json -e 'this.bod
 ```http request
 GET /v1/json/readOrInit?sender=publisherP.com&timestamp=1639057962145&signature=message_signature_xyz1234
 ```
+
+#### Signature
+
+Signature of the concatenation of:
+````
+sender + '\u2063' +
+receiver + '\u2063' +
+timestamp 
+````
 
 #### Response
 
@@ -255,6 +308,20 @@ cat response-operatorO.json body-id-and-preferences.json | npx json --merge -e '
   }
 }
 ```
+
+#### Signature
+
+Signature of the concatenation of:
+````
+sender + '\u2063' +
+receiver + '\u2063' +
+preferences.source.signature + '\u2063' +
+identifiers[0].source.signature + '\u2063' +
+identifiers[1].source.signature + '\u2063' +
+...
+identifiers[n].source.signature + '\u2063' +
+timestamp
+````
 
 ### POST /v1/json/write
 
@@ -308,6 +375,20 @@ cat request-cmpC.json body-id-and-preferences.json | npx json --merge
 
 ```
 
+#### Signature
+
+Signature of the concatenation of:
+````
+sender + '\u2063' +
+receiver + '\u2063' +
+preferences.source.signature + '\u2063' +
+identifiers[0].source.signature + '\u2063' +
+identifiers[1].source.signature + '\u2063' +
+...
+identifiers[n].source.signature + '\u2063' +
+timestamp
+````
+
 ### Response
 
 <!-- Update this code block with:
@@ -347,6 +428,20 @@ cat response-operatorO.json body-id-and-preferences.json | npx json --merge
 }
 ```
 
+#### Signature
+
+Signature of the concatenation of:
+````
+sender + '\u2063' +
+receiver + '\u2063' +
+preferences.source.signature + '\u2063' +
+identifiers[0].source.signature + '\u2063' +
+identifiers[1].source.signature + '\u2063' +
+...
+identifiers[n].source.signature + '\u2063' +
+timestamp
+````
+
 ### GET /v1/json/newId
 
 #### Request
@@ -358,6 +453,15 @@ npx encode-query-string -nd `cat request-cmpC.json | npx json -e 'this.body = un
 ```http request
 GET /v1/json/newId?sender=cmpC.com&timestamp=1639057962145&signature=message_signature_xyz1234
 ```
+
+#### Signature
+
+Signature of the concatenation of:
+````
+sender + '\u2063' +
+receiver + '\u2063' +
+timestamp 
+````
 
 #### Response
 
@@ -395,6 +499,16 @@ npx encode-query-string -nd `cat request-advertiserA.json | npx json -e 'this.bo
 GET /v1/redirect/read?sender=advertiserA.com&timestamp=1639057962145&signature=message_signature_xyz1234&redirectUrl=https://advertiserA.com/pageA.html
 ```
 
+#### Signature
+
+Signature of the concatenation of:
+````
+sender + '\u2063' +
+receiver + '\u2063' +
+timestamp + '\u2063' +
+redirectUrl
+````
+
 #### Response: known user
 
 <!-- The query string below is generated with taking the response-operatorO.json file, adding body, and encoding it as query string:
@@ -428,6 +542,20 @@ body.identifiers[0].source.date=2021-04-23T18:25:43.511Z
 body.identifiers[0].source.signature=prebid_id_signature_xyz12345
 ```
 
+#### Signature
+
+Signature of the concatenation of:
+````
+sender + '\u2063' +
+receiver + '\u2063' +
+preferences.source.signature + '\u2063' +
+identifiers[0].source.signature + '\u2063' +
+identifiers[1].source.signature + '\u2063' +
+...
+identifiers[n].source.signature + '\u2063' +
+timestamp
+````
+
 #### Response: unknown user
 
 <!-- The query string below is generated with taking the response-operatorO.json file, editing body, and encoding it as query string:
@@ -437,6 +565,15 @@ npx encode-query-string -nd `cat response-operatorO.json body-id-and-preferences
 ```shell
 302 https://advertiserA.com/pageA.html?sender=operatorO.com&timestamp=1639059692793&signature=message_signature_xyz1234
 ```
+
+#### Signature
+
+Signature of the concatenation of:
+````
+sender + '\u2063' +
+receiver + '\u2063' +
+timestamp
+````
 
 ### GET /v1/redirect/readOrInit
 
@@ -449,6 +586,16 @@ npx encode-query-string -nd `cat request-publisherP.json | npx json -e 'this.bod
 ```http request
 GET /v1/redirect/readOrInit?sender=publisherP.com&timestamp=1639057962145&signature=message_signature_xyz1234&redirectUrl=https://publisherP.com/pageP.html
 ```
+
+#### Signature
+
+Signature of the concatenation of:
+````
+sender + '\u2063' +
+receiver + '\u2063' +
+timestamp + '\u2063' +
+redirectUrl
+````
 
 #### Response
 
@@ -479,6 +626,20 @@ body.identifiers[0].source.domain=operator0.com
 body.identifiers[0].source.date=2021-04-23T18:25:43.511Z
 body.identifiers[0].source.signature=prebid_id_signature_xyz12345
 ```
+
+#### Signature
+
+Signature of the concatenation of:
+````
+sender + '\u2063' +
+receiver + '\u2063' +
+preferences.source.signature + '\u2063' +
+identifiers[0].source.signature + '\u2063' +
+identifiers[1].source.signature + '\u2063' +
+...
+identifiers[n].source.signature + '\u2063' +
+timestamp
+````
 
 ### GET /v1/redirect/write
 
@@ -516,6 +677,20 @@ body.identifiers[0].source.signature=prebid_id_signature_xyz12345
 redirectUrl=https://publisherP.com/pageP.html
 ```
 
+#### Signature
+
+Signature of the concatenation of:
+````
+sender + '\u2063' +
+receiver + '\u2063' +
+preferences.source.signature + '\u2063' +
+identifiers[0].source.signature + '\u2063' +
+identifiers[1].source.signature + '\u2063' +
+...
+identifiers[n].source.signature + '\u2063' +
+timestamp
+````
+
 ### Response
 
 <!-- The query string below is generated with taking the response-operatorO.json file, adding body, and encoding it as query string:
@@ -549,6 +724,20 @@ body.identifiers[0].source.date=2021-04-23T18:25:43.511Z
 body.identifiers[0].source.signature=prebid_id_signature_xyz12345
 ```
 
+#### Signature
+
+Signature of the concatenation of:
+````
+sender + '\u2063' +
+receiver + '\u2063' +
+preferences.source.signature + '\u2063' +
+identifiers[0].source.signature + '\u2063' +
+identifiers[1].source.signature + '\u2063' +
+...
+identifiers[n].source.signature + '\u2063' +
+timestamp
+````
+
 ### GET /v1/redirect/newId
 
 #### Request
@@ -560,6 +749,16 @@ npx encode-query-string -nd `cat request-cmpC.json | npx json -e 'this.body = un
 ```http request
 GET /v1/redirect/newId?sender=cmpC.com&timestamp=1639057962145&signature=message_signature_xyz1234&redirectUrl=https://publisherP.com/pageP.html
 ```
+
+#### Signature
+
+Signature of the concatenation of:
+````
+sender + '\u2063' +
+receiver + '\u2063' +
+timestamp + '\u2063' +
+redirectUrl
+````
 
 #### Response
 
@@ -620,372 +819,3 @@ GET /v1/identity
   ]
 }
 ```
-
-## Message signature
-
-All messages (requests or responses, except for `/identity` endpoint) **are signed** before to be sent.
-
-The signature of messages happens as follows:
-
-1. Build the complete message as a JSON object: `sender`, `timestamp`, `redirectUrl` and `body`.
-2. **Add a `receiver` element** to this JSON object and set it to **the domain name of the recipient of the message**.
-3. Recursively alphabetically **sort all keys** of the JSON object.
-4. "Stringify" the object as a one-liner without spaces (`JSON.stringify(xxx)`)
-5. Sign it with the sender's private key, using ECDSA NIST P-256
-
-### Examples
-
-#### Request from cmpC.com to operatorO.prebidsso.com, on a call to `write`
-
-When calling `write`, the message will be different if calling the `/JSON` or `/redirect` version,
-because in the later case, a `redirectUrl` parameter is provided and must be part of the signature.
-
-##### POST /v1/json/write
-
-<details>
-  <summary>Click to see the step by step example</summary>
-
-1. Take request object as JSON.
-In this case it means the POST body JSON object, except the `signature` field (of course).
-<!-- 
-cat request-cmpC.json body-id-and-preferences.json | npx json --merge -e 'this.signature = undefined'
--->
-
-```json
-{
-  "sender": "cmpC.com",
-  "timestamp": 1639057962145,
-  "body": {
-    "preferences": {
-      "version": 1,
-      "data": {
-        "opt_in": true
-      },
-      "source": {
-        "domain": "cmpC.com",
-        "date": "2021-04-23T18:25:43.511Z",
-        "signature": "preferences_signature_xyz12345"
-      }
-    },
-    "identifiers": [
-      {
-        "version": 1,
-        "type": "prebid_id",
-        "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
-        "source": {
-          "domain": "operator0.com",
-          "date": "2021-04-23T18:25:43.511Z",
-          "signature": "prebid_id_signature_xyz12345"
-        }
-      }
-    ]
-  }
-}
-```
-2. add `receiver`
-<!-- 
-cat request-cmpC.json body-id-and-preferences.json | npx json --merge -e 'this.signature = undefined; this.receiver="operatorO.prebidsso.com"'
--->
-```json
-{
-  "sender": "cmpC.com",
-  "timestamp": 1639057962145,
-  "body": {
-    "preferences": {
-      "version": 1,
-      "data": {
-        "opt_in": true
-      },
-      "source": {
-        "domain": "cmpC.com",
-        "date": "2021-04-23T18:25:43.511Z",
-        "signature": "preferences_signature_xyz12345"
-      }
-    },
-    "identifiers": [
-      {
-        "version": 1,
-        "type": "prebid_id",
-        "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
-        "source": {
-          "domain": "operator0.com",
-          "date": "2021-04-23T18:25:43.511Z",
-          "signature": "prebid_id_signature_xyz12345"
-        }
-      }
-    ]
-  },
-  "receiver": "operatorO.prebidsso.com"
-}
-```
-3. recursive sort
-<!--
-cat request-cmpC.json body-id-and-preferences.json | npx json --merge -e 'this.signature = undefined; this.receiver="operatorO.prebidsso.com"' > .tmp.json;
-npx jsonsort .tmp.json;
-cat .tmp.json && rm .tmp.json;
-
--->
-```json
-{
-  "body": {
-    "identifiers": [
-      {
-        "source": {
-          "date": "2021-04-23T18:25:43.511Z",
-          "domain": "operator0.com",
-          "signature": "prebid_id_signature_xyz12345"
-        },
-        "type": "prebid_id",
-        "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
-        "version": 1
-      }
-    ],
-    "preferences": {
-      "data": {
-        "opt_in": true
-      },
-      "source": {
-        "date": "2021-04-23T18:25:43.511Z",
-        "domain": "cmpC.com",
-        "signature": "preferences_signature_xyz12345"
-      },
-      "version": 1
-    }
-  },
-  "receiver": "operatorO.prebidsso.com",
-  "sender": "cmpC.com",
-  "timestamp": 1639057962145
-}
-```
-4. stringify
-<!--
-cat request-cmpC.json body-id-and-preferences.json | npx json --merge -e 'this.signature = undefined; this.receiver="operatorO.prebidsso.com"' > .tmp.json;
-npx jsonsort .tmp.json;
-cat .tmp.json | npx json -o json-0 && rm .tmp.json;
-
--->
-```
-{"body":{"identifiers":[{"source":{"date":"2021-04-23T18:25:43.511Z","domain":"operator0.com","signature":"prebid_id_signature_xyz12345"},"type":"prebid_id","value":"7435313e-caee-4889-8ad7-0acd0114ae3c","version":1}],"preferences":{"data":{"opt_in":true},"source":{"date":"2021-04-23T18:25:43.511Z","domain":"cmpC.com","signature":"preferences_signature_xyz12345"},"version":1}},"receiver":"operatorO.prebidsso.com","sender":"cmpC.com","timestamp":1639057962145}
-```
-
-</details>
-
-##### GET /v1/redirect/write
-
-<details>
-  <summary>Click to see the step by step example</summary>
-
-1. Build request object as JSON.
-   Notice that compared to the `/json` version, the additional `redirectUrl` is present.
-2. 
-<!-- 
-cat request-cmpC.json body-id-and-preferences.json | npx json --merge -e 'this.signature = undefined; this.redirectUrl="https://publisherP.com/pageP.html"'
--->
-
-```json
-{
-  "sender": "cmpC.com",
-  "timestamp": 1639057962145,
-  "body": {
-    "preferences": {
-      "version": 1,
-      "data": {
-        "opt_in": true
-      },
-      "source": {
-        "domain": "cmpC.com",
-        "date": "2021-04-23T18:25:43.511Z",
-        "signature": "preferences_signature_xyz12345"
-      }
-    },
-    "identifiers": [
-      {
-        "version": 1,
-        "type": "prebid_id",
-        "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
-        "source": {
-          "domain": "operator0.com",
-          "date": "2021-04-23T18:25:43.511Z",
-          "signature": "prebid_id_signature_xyz12345"
-        }
-      }
-    ]
-  },
-  "redirectUrl": "https://publisherP.com/pageP.html"
-}
-```
-2. add `receiver`
-<!-- 
-cat request-cmpC.json body-id-and-preferences.json | npx json --merge -e 'this.signature = undefined; this.receiver="operatorO.prebidsso.com"; this.redirectUrl="https://publisherP.com/pageP.html"'
--->
-```json
-{
-  "sender": "cmpC.com",
-  "timestamp": 1639057962145,
-  "body": {
-    "preferences": {
-      "version": 1,
-      "data": {
-        "opt_in": true
-      },
-      "source": {
-        "domain": "cmpC.com",
-        "date": "2021-04-23T18:25:43.511Z",
-        "signature": "preferences_signature_xyz12345"
-      }
-    },
-    "identifiers": [
-      {
-        "version": 1,
-        "type": "prebid_id",
-        "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
-        "source": {
-          "domain": "operator0.com",
-          "date": "2021-04-23T18:25:43.511Z",
-          "signature": "prebid_id_signature_xyz12345"
-        }
-      }
-    ]
-  },
-  "receiver": "operatorO.prebidsso.com",
-  "redirectUrl": "https://publisherP.com/pageP.html"
-}
-```
-3. recursive sort
-<!--
-cat request-cmpC.json body-id-and-preferences.json | npx json --merge -e 'this.signature = undefined; this.receiver="operatorO.prebidsso.com"; this.redirectUrl="https://publisherP.com/pageP.html"' > .tmp.json;
-npx jsonsort .tmp.json;
-cat .tmp.json && rm .tmp.json;
-
--->
-```json
-{
-  "body": {
-    "identifiers": [
-      {
-        "source": {
-          "date": "2021-04-23T18:25:43.511Z",
-          "domain": "operator0.com",
-          "signature": "prebid_id_signature_xyz12345"
-        },
-        "type": "prebid_id",
-        "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
-        "version": 1
-      }
-    ],
-    "preferences": {
-      "data": {
-        "opt_in": true
-      },
-      "source": {
-        "date": "2021-04-23T18:25:43.511Z",
-        "domain": "cmpC.com",
-        "signature": "preferences_signature_xyz12345"
-      },
-      "version": 1
-    }
-  },
-  "receiver": "operatorO.prebidsso.com",
-  "redirectUrl": "https://publisherP.com/pageP.html",
-  "sender": "cmpC.com",
-  "timestamp": 1639057962145
-}
-```
-4. stringify
-<!--
-cat request-cmpC.json body-id-and-preferences.json | npx json --merge -e 'this.signature = undefined; this.receiver="operatorO.prebidsso.com"; this.redirectUrl="https://publisherP.com/pageP.html"' > .tmp.json;
-npx jsonsort .tmp.json;
-cat .tmp.json | npx json -o json-0 && rm .tmp.json;
-
--->
-```
-{"body":{"identifiers":[{"source":{"date":"2021-04-23T18:25:43.511Z","domain":"operator0.com","signature":"prebid_id_signature_xyz12345"},"type":"prebid_id","value":"7435313e-caee-4889-8ad7-0acd0114ae3c","version":1}],"preferences":{"data":{"opt_in":true},"source":{"date":"2021-04-23T18:25:43.511Z","domain":"cmpC.com","signature":"preferences_signature_xyz12345"},"version":1}},"receiver":"operatorO.prebidsso.com","redirectUrl":"https://publisherP.com/pageP.html","sender":"cmpC.com","timestamp":1639057962145}
-```
-
-</details>
-
-#### Response from operatorO.prebidsso.com to publisherP.com, on a call to `newId`
-
-Regardless if it's a `GET /v1/redirect/newId` or `GET /v1/json/newId`, the process is the same:
-
-<details>
-  <summary>Click to see the step by step example</summary>
-
-1. Build response object as JSON
-<!-- 
-cat response-operatorO.json body-id.json | npx json --merge -e "this.signature = undefined"
--->
-
-```json
-{
-  "sender": "operatorO.com",
-  "timestamp": 1639059692793,
-  "signature": "message_signature_xyz1234",
-  "body": {
-    "version": 1,
-    "type": "prebid_id",
-    "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
-    "source": {
-      "domain": "operator0.com",
-      "date": "2021-04-23T18:25:43.511Z",
-      "signature": "12345_signature"
-    }
-  }
-}
-```
-2. add `receiver`
-<!-- 
-cat response-operatorO.json body-id.json | npx json --merge -e 'this.signature = undefined; this.receiver="publisherP.com"'
--->
-```json
-{
-  "sender": "operatorO.com",
-  "timestamp": 1639059692793,
-  "body": {
-    "version": 1,
-    "type": "prebid_id",
-    "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
-    "source": {
-      "domain": "operator0.com",
-      "date": "2021-04-23T18:25:43.511Z",
-      "signature": "12345_signature"
-    }
-  },
-  "receiver": "publisherP.com"
-}
-```
-3. recursive sort
-<!--
-cat response-operatorO.json body-id.json | npx json --merge -e 'this.signature = undefined; this.receiver="publisherP.com"' > .tmp.json;
-npx jsonsort .tmp.json;
-cat .tmp.json && rm .tmp.json;
-
--->
-```json
-{
-  "body": {
-    "source": {
-      "date": "2021-04-23T18:25:43.511Z",
-      "domain": "operator0.com",
-      "signature": "12345_signature"
-    },
-    "type": "prebid_id",
-    "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
-    "version": 1
-  },
-  "receiver": "publisherP.com",
-  "sender": "operatorO.com",
-  "timestamp": 1639059692793
-}
-```
-4. stringify
-<!--
-cat response-operatorO.json body-id.json | npx json --merge -e 'this.signature = undefined; this.receiver="publisherP.com"' > .tmp.json;
-npx jsonsort .tmp.json;
-cat .tmp.json | npx json -o json-0 && rm .tmp.json;
-
--->
-```
-{"body":{"source":{"date":"2021-04-23T18:25:43.511Z","domain":"operator0.com","signature":"12345_signature"},"type":"prebid_id","value":"7435313e-caee-4889-8ad7-0acd0114ae3c","version":1},"receiver":"publisherP.com","sender":"operatorO.com","timestamp":1639059692793}
-```
-</details>
