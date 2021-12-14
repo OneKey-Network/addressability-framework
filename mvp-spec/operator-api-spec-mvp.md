@@ -627,10 +627,10 @@ All messages (requests or responses, except for `/identity` endpoint) **are sign
 
 The signature of messages happens as follows:
 
-1. Build the complete message as a JSON object: `sender`, `timestamp`, `redirectUrl` (if any) and `body`.
-2. Add a `receiver` element to this JSON object and set it to **the domain name of the recipient of the message**.
+1. Build the complete message as a JSON object: `sender`, `timestamp`, `redirectUrl` and `body`.
+2. **Add a `receiver` element** to this JSON object and set it to **the domain name of the recipient of the message**.
 3. Recursively alphabetically **sort all keys** of the JSON object.
-4. Encode it **as a query string**
+4. "Stringify" the object as a one-liner without spaces (`JSON.stringify(xxx)`)
 5. Sign it with the sender's private key, using ECDSA NIST P-256
 
 ### Examples
@@ -757,32 +757,15 @@ cat .tmp.json && rm .tmp.json;
   "timestamp": 1639057962145
 }
 ```
-4. encode as query string
+4. stringify
 <!--
 cat request-cmpC.json body-id-and-preferences.json | npx json --merge -e 'this.signature = undefined; this.receiver="operatorO.prebidsso.com"' > .tmp.json;
 npx jsonsort .tmp.json;
-npx encode-query-string -nd `cat .tmp.json | npx json -o json-0` && rm .tmp.json;
+cat .tmp.json | npx json -o json-0 && rm .tmp.json;
 
 -->
 ```
-body.identifiers[0].source.date=2021-04-23T18:25:43.511Z&body.identifiers[0].source.domain=operator0.com&body.identifiers[0].source.signature=prebid_id_signature_xyz12345&body.identifiers[0].type=prebid_id&body.identifiers[0].value=7435313e-caee-4889-8ad7-0acd0114ae3c&body.identifiers[0].version=1&body.preferences.data.opt_in=true&body.preferences.source.date=2021-04-23T18:25:43.511Z&body.preferences.source.domain=cmpC.com&body.preferences.source.signature=preferences_signature_xyz12345&body.preferences.version=1&receiver=operatorO.prebidsso.com&sender=cmpC.com&timestamp=1639057962145
-```
-
-5. sign.
-<!--
-- Visit https://kjur.github.io/jsrsasign/sample/sample-ecdsa.html
-- Generate keys
-- copy the content from previous step into the "Message to be signed" field
-- copy paste both the key and the signed value here
-
--->
-Assuming the operator's private key is:
-```
-f74810bc6b5ffe53a2b18e94fdb9426ddea4fc674648cca1869b0b8e13cc6060
-```
-then the end value, to be used as `signature` field, is:
-```
-3045022100820853799948174fc35d7dff368275313a733bc1699b979d138bba3305688296022075b80651c1b7a66e4164958dd80c751061121238fce02093202b5002ff6372a3
+{"body":{"identifiers":[{"source":{"date":"2021-04-23T18:25:43.511Z","domain":"operator0.com","signature":"prebid_id_signature_xyz12345"},"type":"prebid_id","value":"7435313e-caee-4889-8ad7-0acd0114ae3c","version":1}],"preferences":{"data":{"opt_in":true},"source":{"date":"2021-04-23T18:25:43.511Z","domain":"cmpC.com","signature":"preferences_signature_xyz12345"},"version":1}},"receiver":"operatorO.prebidsso.com","sender":"cmpC.com","timestamp":1639057962145}
 ```
 
 </details>
@@ -908,33 +891,15 @@ cat .tmp.json && rm .tmp.json;
   "timestamp": 1639057962145
 }
 ```
-4. encode as query string
+4. stringify
 <!--
 cat request-cmpC.json body-id-and-preferences.json | npx json --merge -e 'this.signature = undefined; this.receiver="operatorO.prebidsso.com"; this.redirectUrl="https://publisherP.com/pageP.html"' > .tmp.json;
 npx jsonsort .tmp.json;
-npx encode-query-string -nd `cat .tmp.json | npx json -o json-0` && rm .tmp.json;
+cat .tmp.json | npx json -o json-0 && rm .tmp.json;
 
 -->
 ```
-body.identifiers[0].source.date=2021-04-23T18:25:43.511Z&body.identifiers[0].source.domain=operator0.com&body.identifiers[0].source.signature=prebid_id_signature_xyz12345&body.identifiers[0].type=prebid_id&body.identifiers[0].value=7435313e-caee-4889-8ad7-0acd0114ae3c&body.identifiers[0].version=1&body.preferences.data.opt_in=true&body.preferences.source.date=2021-04-23T18:25:43.511Z&body.preferences.source.domain=cmpC.com&body.preferences.source.signature=preferences_signature_xyz12345&body.preferences.version=1&receiver=operatorO.prebidsso.com&redirectUrl=https://publisherP.com/pageP.html&sender=cmpC.com&timestamp=1639057962145
-```
-
-
-5. sign.
-<!--
-- Visit https://kjur.github.io/jsrsasign/sample/sample-ecdsa.html
-- Generate keys
-- copy the content from previous step into the "Message to be signed" field
-- copy paste both the key and the signed value here
-
--->
-Assuming the operator's private key is:
-```
-f74810bc6b5ffe53a2b18e94fdb9426ddea4fc674648cca1869b0b8e13cc6060
-```
-then the end value, to be used as `signature` field, is:
-```
-30460221009224c93236a50b669e0777f65721d5bfbcc393be7ed6f3acded2fd7088b0f1c2022100ff14f97e67345d80198164da47c28e1b2b9a6a795c334c3754dad756a693e040
+{"body":{"identifiers":[{"source":{"date":"2021-04-23T18:25:43.511Z","domain":"operator0.com","signature":"prebid_id_signature_xyz12345"},"type":"prebid_id","value":"7435313e-caee-4889-8ad7-0acd0114ae3c","version":1}],"preferences":{"data":{"opt_in":true},"source":{"date":"2021-04-23T18:25:43.511Z","domain":"cmpC.com","signature":"preferences_signature_xyz12345"},"version":1}},"receiver":"operatorO.prebidsso.com","redirectUrl":"https://publisherP.com/pageP.html","sender":"cmpC.com","timestamp":1639057962145}
 ```
 
 </details>
@@ -1013,31 +978,14 @@ cat .tmp.json && rm .tmp.json;
   "timestamp": 1639059692793
 }
 ```
-4. encode as query string
+4. stringify
 <!--
 cat response-operatorO.json body-id.json | npx json --merge -e 'this.signature = undefined; this.receiver="publisherP.com"' > .tmp.json;
 npx jsonsort .tmp.json;
-npx encode-query-string -nd `cat .tmp.json | npx json -o json-0` && rm .tmp.json;
+cat .tmp.json | npx json -o json-0 && rm .tmp.json;
 
 -->
 ```
-body.source.date=2021-04-23T18:25:43.511Z&body.source.domain=operator0.com&body.source.signature=12345_signature&body.type=prebid_id&body.value=7435313e-caee-4889-8ad7-0acd0114ae3c&body.version=1&receiver=publisherP.com&sender=operatorO.com&timestamp=1639059692793
-```
-
-5. sign.
-<!--
-- Visit https://kjur.github.io/jsrsasign/sample/sample-ecdsa.html
-- Generate keys
-- copy the content from previous step into the "Message to be signed" field
-- copy paste both the key and the signed value here
-
--->
-Assuming the operator's private key is:
-```
-f74810bc6b5ffe53a2b18e94fdb9426ddea4fc674648cca1869b0b8e13cc6060
-```
-then the end value, to be used as `signature` field, is:
-```
-304602210087657703efe0d084d32bb2ec03bfe36022797fd86f4737b4a399d4f95bd3855f022100d92d5f1e00ac8909b9639cf18969cadc0d1b4c196a8718fbe4bad1b390abd1ca
+{"body":{"source":{"date":"2021-04-23T18:25:43.511Z","domain":"operator0.com","signature":"12345_signature"},"type":"prebid_id","value":"7435313e-caee-4889-8ad7-0acd0114ae3c","version":1},"receiver":"publisherP.com","sender":"operatorO.com","timestamp":1639059692793}
 ```
 </details>
