@@ -2,7 +2,7 @@
 
 ⚠️ To **view diagrams** in this page, you are invited to install a browser extension such as [mermaid-diagrams](https://chrome.google.com/webstore/detail/mermaid-diagrams/phfcghedmopjadpojhmmaffjmfiakfil)
 
-## Context
+## Requirements
 
 Operators are contracting parties responsible for storing and controlling access to users data, in a secured way.
 
@@ -326,9 +326,9 @@ rect rgba(255, 255, 255, .55)
 end
 ```
 
-## Designed protocol
+## Designed solution
 
-This protocol:
+The designed solution is a protocol:
 
 ✅ reduces the server to server (S2S) calls to a minimum, making nodes more reliable.
 
