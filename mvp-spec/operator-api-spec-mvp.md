@@ -2,7 +2,7 @@
 
 ## Endpoints
 
-To support the previous workflows (and more), a few endpoints are needed on the operator API.
+To support the [Operator Design](operator-design.md), a few endpoints are needed on the operator API.
 
 These endpoints need to support both the "3PC" and "no 3PC" contexts.
 
