@@ -26,4 +26,4 @@ Specifications for a MVP, covering only a single id managed by several operators
 | Document                                                                 | Description                                                                |
 |--------------------------------------------------------------------------|----------------------------------------------------------------------------|
 | [mvp-spec/dsp-api.md](./mvp-spec/dsp-api.md)                             | Data exchange specification, from the point of view of a DSP implementer.  |
-| [mvp-spec/operator-api-spec-mvp.md](./mvp-spec/operator-api-spec-mvp.md) | Operator API specification                                                 |
+| [mvp-spec/operator-api.md](./mvp-spec/operator-api.md)                   | Operator API specification                                                 |
