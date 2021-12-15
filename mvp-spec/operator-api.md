@@ -1,4 +1,4 @@
-# Operator design
+# Operator API
 
 ## Endpoints
 
