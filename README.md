@@ -23,7 +23,9 @@ It looks like this:
 
 Specifications for a MVP, covering only a single id managed by several operators sharing a common registrable domain (e.g. operator1.prebidsso.com and operator2.prebidsso.com).
 
-| Document                                                                 | Description                                                                |
-|--------------------------------------------------------------------------|----------------------------------------------------------------------------|
-| [mvp-spec/dsp-api.md](./mvp-spec/dsp-api.md)                             | Data exchange specification, from the point of view of a DSP implementer.  |
-| [mvp-spec/operator-api.md](./mvp-spec/operator-api.md)                   | Operator API specification                                                 |
+| Document                                                                                        | Description                                                                       |
+|-------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------|
+| [mvp-spec/dsp-api.md](./mvp-spec/dsp-api.md)                                                    | Data exchange specification, from the point of view of a DSP implementer.         |
+| [mvp-spec/operator-api.md](./mvp-spec/operator-api.md)                                          | Operator API specification                                                        |
+| [mvp-spec/operator-design.md](./mvp-spec/operator-design.md)                                    | Requirements for generating Prebid SSO Data and design of a solution.             |
+| [mvp-spec/operator-design-alternative-swan.md](./mvp-spec/operator-design-alternative-swan.md)  | Summary of the SWAN solution for generating Prebid SSO Data                       |
