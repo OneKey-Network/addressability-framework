@@ -3,6 +3,10 @@
 Describe the technical requirements for a DSP engaged through the Model Terms
 with a supply partner.
 
+# General note about formats
+
+The described API use timestamps based on 1970 (unix epoch time).
+
 # General note about signature
 
 Prebid SSO Data format is design to let the user audit how his preference got
@@ -45,11 +49,11 @@ rotations.
 
 ## Key object
 
-| Field | Type   | Details                                                             |
-|-------|--------|---------------------------------------------------------------------|
-| key   | String | Public key for verifying the signature. Encoded in an UTF-8 String. |
-| start | Date   | Date when the Contracting Party started to use this key for signing.         |
-| end   | Date   | Date when the Contracting Party stoped to use this key for signing.          |
+| Field | Type      | Details                                                             |
+|-------|-----------|---------------------------------------------------------------------|
+| key   | String    | Public key for verifying the signature. Encoded in an UTF-8 String. |
+| start | Integer   | Timestamp when the Contracting Party started to use this key for signing.         |
+| end   | Integer   | Timestamp when the Contracting Party stoped to use this key for signing.          |
 
 
 ## Example of an Identity response
@@ -62,13 +66,13 @@ rotations.
     "keys": [
         { 
             "key": "04f3b7ec9095779b119cc6d30a21a6a3920c5e710d13ea8438727b7fd5cca47d048f020539d24e74b049a418ac68c03ea75c66982eef7fdc60d8fb2c7707df3dcd",
-            "start": "2021-01-01T00:00:00+00:00",
-            "end": "2021-02-01T09:01:00+00:00"
+            "start": 1639500000,
+            "end": 1639510000
         },
         { 
             "key": "044782dd8b7a6b8affa0f6cd94ede3682e85307224064f39db20e8f49b5f415d83fef66f3818ee549b04e443efa63c2d7f1fe9a631dc05c9f51ad98139b202f9f3",
-            "start": "2021-02-01T00:00:00+00:00",
-            "end": "2021-03-01T09:01:00+00:00"
+            "start": 1639510000,
+            "end":  1639520000
         }
     ]
 }
@@ -162,7 +166,7 @@ In a case of an ad-hoc communication between two Contracting Parties, the
 | version| Number                          | The Prebid SSO version of the object.               |
 | seed   | Seed object                     | A Seed object contains all the Prebid SSO Data gathered and signed by the Publisher concerning the user. |
 | parents| Array of Transmission Results   | A list of Transmission Results that participate to a chain of Transmissions and make this Transmission possible. |  
-| source | Source object                   | The source object contains data for identifying the Sender of the Transmission.<br /><table><tr><th>Field</th><th>Type</th><th>Details</th></tr><tr><td>domain</td><td>String</td><td>The domain of the Sender.</td></tr><tr><td>date</td><td>Date</td><td>The date of the signature.</td></tr><tr><td>signature</td><td>String</td><td>Encoded signature in UTF-8 of the Tranmission sender.</td></tr></table>|
+| source | Source object                   | The source object contains data for identifying the Sender of the Transmission.<br /><table><tr><th>Field</th><th>Type</th><th>Details</th></tr><tr><td>domain</td><td>String</td><td>The domain of the Sender.</td></tr><tr><td>timestamp</td><td>Integer</td><td>The timestamp of the signature.</td></tr><tr><td>signature</td><td>String</td><td>Encoded signature in UTF-8 of the Tranmission sender.</td></tr></table>|
 
 
 ### The Seed object
@@ -173,7 +177,7 @@ In a case of an ad-hoc communication between two Contracting Parties, the
 | transaction_id         | String                                   | A GUID in a String format dedicated to the share of the Prebid SSO data for one Addressable Content.                                                                                                                                    |
 | preferences            | Preferences object                       | The Preferences of the user.                                                                                                                                                                                                            |
 | identifiers            | Array of Pseudonymous-Identifier objects | The Pseudonymous-Identifiers of the user. For now, it only contains a Prebid ID.                                                                                                                                                        |
-| source                 | Source object                            | The source contains data for identifying and trusting the Publisher.<br /><table><tr><th>Field</th><th>Type</th><th>Details</th></tr><tr><td>domain</td><td>String</td><td>The domain of the Root Party (Publisher in most of the cases).</td></tr><tr><td>date</td><td>Date</td><td>The date of the signature.</td></tr><tr><td>signature</td><td>String</td><td>Encoded signature in UTF-8 of the Root Party/Publisher.</td></tr></table>|
+| source                 | Source object                            | The source contains data for identifying and trusting the Publisher.<br /><table><tr><th>Field</th><th>Type</th><th>Details</th></tr><tr><td>domain</td><td>String</td><td>The domain of the Root Party (Publisher in most of the cases).</td></tr><tr><td>timestamp</td><td>Integer</td><td>The timestamp of the signature.</td></tr><tr><td>signature</td><td>String</td><td>Encoded signature in UTF-8 of the Root Party/Publisher.</td></tr></table>|
 
 
 ### The Preferences object
@@ -182,7 +186,7 @@ In a case of an ad-hoc communication between two Contracting Parties, the
 |---------|------------------------|-------------------------------------------|
 | version | Number                 | The Prebid SSO version of the object.                                                                                                                                                                       |
 | data    | Dictionary             | The key is a string and represents the name of the preference. <br /> The values represent the value of the preference. <br /> For now there is only one preference named "optin" and its value is a boolean.|
-| source  | Source object          | The source contains the data for identifying and trusting the CMP that signed lastly the Preferences.<br /> <table><tr><th>Field</th><th>Type</th><th>Details</th></tr><tr><td>domain</td><td>String</td><td>The domain of the CMP.</td></tr><tr><td>date</td><td>Date</td><td>The date of the signature.</td></tr><tr><td>signature</td><td>String</td><td>Encoded signature in UTF-8 of the CMP.</td></tr></table>|
+| source  | Source object          | The source contains the data for identifying and trusting the CMP that signed lastly the Preferences.<br /> <table><tr><th>Field</th><th>Type</th><th>Details</th></tr><tr><td>domain</td><td>String</td><td>The domain of the CMP.</td></tr><tr><td>timestamp</td><td>Integer</td><td>The timestamp of the signature.</td></tr><tr><td>signature</td><td>String</td><td>Encoded signature in UTF-8 of the CMP.</td></tr></table>|
 
 Note that the "data" field is a simple dictionnary.
 
@@ -194,7 +198,7 @@ Note that the "data" field is a simple dictionnary.
 | version | Number        | The version of Prebid SSO used for signing the Identifier.                                                                       |
 | type    | String        | The type of Pseudonymous-Identifier. For now, there is only one: "prebid_id".                                                    |
 | value   | String        | The Pseudonymous-Identifier value in UTF-8.                                                                                      |
-| source  | Source object | The Source contains all the data for identifying and trusting the Operator that generated the Pseudonymous-Identifier. <br /> <table><tr><th>Field</th><th>Type</th><th>Details</th></tr><tr><td>domain</td><td>String</td><td>The domain of the Operator.</td></tr><tr><td>date</td><td>Date</td><td>The date of the signature.</td></tr><tr><td>signature</td><td>String</td><td>Encoded signature in UTF-8 of the Operator.</td></tr></table>|
+| source  | Source object | The Source contains all the data for identifying and trusting the Operator that generated the Pseudonymous-Identifier. <br /> <table><tr><th>Field</th><th>Type</th><th>Details</th></tr><tr><td>domain</td><td>String</td><td>The domain of the Operator.</td></tr><tr><td>timestamp</td><td>Integer</td><td>The timestamp of the signature.</td></tr><tr><td>signature</td><td>String</td><td>Encoded signature in UTF-8 of the Operator.</td></tr></table>|
 
 ## The Transaction Result object
 
@@ -204,7 +208,7 @@ Note that the "data" field is a simple dictionnary.
 | receiver | String           | The domain name of the DSP.                                                                                                                                                                                                                                                                                |
 | status   | String           | Equals "success" if the Receiver signed properly the Transmission.<br /> Equals "error_bad_request" if the receiver doesn't understand or see inconsistency in the Transmission Request but still share it accross the network.<br /> Equals "error_cannot_proceed" if the receiver cannot handle the Transmission Request properly but still share the Prebid SSO Data. |
 | details  | String           | In case of an error status, the DSP can provide details concerning the error.                                                                                                                                                                                                                              |
-| source   | Source object    | The source object contains data for identifying the Sender of a Transmission.<br /><table><tr><th>Field</th><th>Type</th><th>Details</th></tr><tr><td>domain</td><td>String</td><td>The domain of the Sender.</td></tr><tr><td>date</td><td>Date</td><td>The date of the signature.</td></tr><tr><td>signature</td><td>String</td><td>Encoded signature in UTF-8 of the Tranmission sender.</td></tr></table>|
+| source   | Source object    | The source object contains data for identifying the Sender of a Transmission.<br /><table><tr><th>Field</th><th>Type</th><th>Details</th></tr><tr><td>domain</td><td>String</td><td>The domain of the Sender.</td></tr><tr><td>timestamp</td><td>Integer</td><td>The timestamp of the signature.</td></tr><tr><td>signature</td><td>String</td><td>Encoded signature in UTF-8 of the Tranmission sender.</td></tr></table>|
 
 
 ### Example of a Transmission Request
@@ -223,7 +227,7 @@ Note that the "data" field is a simple dictionnary.
                 "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
                 "source": {
                     "domain": "operator0.com",
-                    "date": "2021-04-23T18:25:43.511Z",
+                    "timestamp": 1639580000,
                     "signature": "12345_signature"
                 }
             }
@@ -234,13 +238,13 @@ Note that the "data" field is a simple dictionnary.
             },
             "source": {
                 "domain": "cmp1.com",
-                "date": "2021-04-23T18:25:43.511Z",
+                "timestamp": 1639581000,
                 "signature": "12345_signature"
             }
         },
         "source": {
             "domain": "publisher.com",
-            "date": "2021-04-23T18:25:43.511Z",
+            "timestamp": 1639582000,
             "signature": "12345_signature"
         }
     },
@@ -252,7 +256,7 @@ Note that the "data" field is a simple dictionnary.
             "details": "",
             "source": {
                 "domain": "ssp1.com",
-                "date": "2021-04-23T18:25:43.511Z",
+                "timestamp": 1639583000,
                 "signature": "12345_signature"
             },
         },
@@ -263,14 +267,14 @@ Note that the "data" field is a simple dictionnary.
             "details": "",
             "source": {
                 "domain": "publisher.com",
-                "date": "2021-04-23T18:25:43.511Z",
+                "timestamp": 1639583001,
                 "signature": "12345_signature"
             },
         },
     ],
     "source" : {
         "domain": "ssp1.com",
-        "date": "2021-04-23T18:25:43.511Z",
+        "timestamp": 1639581000,
         "signature": "123_signature",
     }
 }
@@ -309,12 +313,12 @@ To build the UTF-8 string, the DSP must concat the following fields:
 
 ````
 transmission_result.source.domain + '\u2063' + 
-transmission_result.source.date + '\u2063' + 
+transmission_result.source.timestamp + '\u2063' + 
 
 seed.source.signature + '\u2063' + 
 
 source.domain + '\u2063' + 
-source.date + '\u2063' + 
+source.timestamp + '\u2063' + 
 
 transmission_response.receiver + '\u2063' + 
 transmission_response.status + '\u2063' +
@@ -324,7 +328,7 @@ transmission_response.details
 | Name                  | Details                                              |
 |-----------------------|------------------------------------------------------|
 | source.domain         | The Domain of the DSP. It matches the "domain" field in the Source object of the Transmission Response.   |
-| source.date           | The Date of the signature. It matches the "date" field in the Source object of the Transmission Response. |
+| source.timestamp      | The timestamp of the signature. It matches the "timestamp" field in the Source object of the Transmission Response. |
 | seed.source.signature | The signature of the Seed available in the Transmission Request.                                          |
 | '\u2063'              | The invisible separator in UTF-8.
 
@@ -338,7 +342,7 @@ transmission_response.details
     "details": "",
     "source": {
         "domain": "dsp1.com",
-        "date": "2021-04-23T18:25:43.511Z",
+        "timestamp": 1639589531,
         "signature": "12345_signature"
     },
     "children": []
@@ -390,7 +394,7 @@ Transmission is named "prebid_sso_transmission".
                                 "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
                                 "source": {
                                     "domain": "operotor0.com",
-                                    "date": "2021-04-23T18:25:43.511Z",
+                                    "timestamp": 1639589531,
                                     "signature": "12345_signature"
                                 }
                             }
@@ -402,13 +406,13 @@ Transmission is named "prebid_sso_transmission".
                             },
                             "source": {
                                 "domain": "cmp1.com",
-                                "date": "2021-04-23T18:25:43.511Z",
+                                "timestamp": 1639589531,
                                 "signature": "12345_signature"
                             }
                         },
                         "source": {
                             "domain": "publisher0.com",
-                            "date": "2021-04-23T18:25:43.511Z",
+                            "timestamp": 1639589531,
                             "signature": "12345_signature"
                         }
                     },
@@ -420,7 +424,7 @@ Transmission is named "prebid_sso_transmission".
                             "details": "",
                             "source": {
                                 "domain": "ssp1.com",
-                                "date": "2021-04-23T18:25:43.511Z",
+                                "timestamp": 1639589531,
                                 "signature": "12345_signature"
                             },
                         },
@@ -431,7 +435,7 @@ Transmission is named "prebid_sso_transmission".
                             "details": "",
                             "source": {
                                 "domain": "publisher.com",
-                                "date": "2021-04-23T18:25:43.511Z",
+                                "timestamp": 1639589531,
                                 "signature": "12345_signature"
                             },
                         },
@@ -514,7 +518,7 @@ Transmission.
                     "details": "",
                     "source": {
                         "domain": "dsp1.com",
-                        "date": "2021-04-23T18:25:43.511Z",
+                        "timestamp": 1639589531,
                         "signature": "12345_signature"
                     },
                     "children": []
@@ -529,7 +533,7 @@ Transmission.
                     "details": "",
                     "source": {
                         "domain": "dsp1.com",
-                        "date": "2021-04-23T18:25:44.123Z",
+                        "timestamp": 1639589531,
                         "signature": "12345_signature"
                     },
                     "children": []
@@ -605,7 +609,7 @@ document).
                 "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
                 "source": {
                     "domain": "operotor0.com",
-                    "date": "2021-04-23T18:25:43.511Z",
+                    "timestamp": 1639589531,
                     "signature": "12345_signature"
                 }
             }
@@ -617,13 +621,13 @@ document).
             },
             "source": {
                 "domain": "cmp1.com",
-                "date": "2021-04-23T18:25:43.511Z",
+                "timestamp": 1639589531,
                 "signature": "12345_signature"
             }
         },
         "source": {
           "domain": "operator0.com",
-          "date": "2021-04-23T18:25:43.511Z",
+          "timestamp": 1639589531,
           "signature": "12345_signature"
         }
     },
@@ -635,7 +639,7 @@ document).
             "details": "",
             "source": {
                 "domain": "party2.com",
-                "date": "2021-04-23T18:25:43.511Z",
+                "timestamp": 1639589531,
                 "signature": "12345_signature"
             }
         },
@@ -646,7 +650,7 @@ document).
             "details": "",
             "source": {
                 "domain": "party3.com",
-                "date": "2021-04-23T18:25:43.511Z",
+                "timestamp": 1639589531,
                 "signature": "12345_signature"
             }
         }
@@ -702,7 +706,7 @@ signed. The UTF-8 string for a specific Pseudo-Identifier must be built as follo
 
 ```
 identifier.source.domain + '\u2063' + 
-identifier.source.date + '\u2063' + 
+identifier.source.timestamp + '\u2063' + 
 identifier.type + '\u2063'+
 identifier.value
 ```
@@ -713,7 +717,7 @@ The Audit Log contains a list of Preferences with one signature. The UTF-8 strin
 
 ```
 preferences.source.domain + '\u2063' +
-preferences.source.date + '\u2063' +
+preferences.source.timestamp + '\u2063' +
 
 prebid_id + '\u2063' +
 
@@ -733,7 +737,7 @@ followed:
 
 ```
 seed.source.domain + '\u2063' + 
-seed.source.date + '\u2063' + 
+seed.source.timestamp + '\u2063' + 
 
 seed.transaction_id + '\u2063' + 
 
@@ -755,7 +759,7 @@ as follows:
 
 ```
 transmission_result.source.domain + '\u2063' + 
-transmission_result.source.date + '\u2063' + 
+transmission_result.source.timestamp + '\u2063' + 
 
 seed.source.signature + '\u2063' + 
 
