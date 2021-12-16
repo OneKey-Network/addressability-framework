@@ -78,7 +78,7 @@ cat body-id.json | npx json body
   "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
   "source": {
     "domain": "operator0.com",
-    "date": "2021-04-23T18:25:43.511Z",
+    "timestamp": 1639643112,
     "signature": "12345_signature"
   }
 }
@@ -101,7 +101,7 @@ cat body-id-and-preferences.json | npx json body.preferences
   },
   "source": {
     "domain": "cmpC.com",
-    "date": "2021-04-23T18:25:43.511Z",
+    "timestamp": 1639643110,
     "signature": "preferences_signature_xyz12345"
   }
 }
@@ -120,7 +120,7 @@ For traceability, in particular in the context of an audit, we need to be able t
 To achieve this, identifiers and preferences are always stored and transported along with their respective "**source**":
 
 - creator domain name
-- creation date
+- creation timestamp
 - signature
 
 The signature is calculated as follow:
@@ -195,7 +195,7 @@ cat response-operatorO.json body-id-and-preferences.json | npx json --merge
       },
       "source": {
         "domain": "cmpC.com",
-        "date": "2021-04-23T18:25:43.511Z",
+        "timestamp": 1639643112,
         "signature": "preferences_signature_xyz12345"
       }
     },
@@ -206,7 +206,7 @@ cat response-operatorO.json body-id-and-preferences.json | npx json --merge
         "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
         "source": {
           "domain": "operator0.com",
-          "date": "2021-04-23T18:25:43.511Z",
+          "timestamp": 1639643110,
           "signature": "prebid_id_signature_xyz12345"
         }
       }
@@ -300,7 +300,7 @@ cat response-operatorO.json body-id-and-preferences.json | npx json --merge -e '
         "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
         "source": {
           "domain": "operator0.com",
-          "date": "2021-04-23T18:25:43.511Z",
+          "timestamp": 1639643110,
           "signature": "prebid_id_signature_xyz12345"
         }
       }
@@ -354,7 +354,7 @@ cat request-cmpC.json body-id-and-preferences.json | npx json --merge
       },
       "source": {
         "domain": "cmpC.com",
-        "date": "2021-04-23T18:25:43.511Z",
+        "timestamp": 1639643112,
         "signature": "preferences_signature_xyz12345"
       }
     },
@@ -365,14 +365,13 @@ cat request-cmpC.json body-id-and-preferences.json | npx json --merge
         "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
         "source": {
           "domain": "operator0.com",
-          "date": "2021-04-23T18:25:43.511Z",
+          "timestamp": 1639643110,
           "signature": "prebid_id_signature_xyz12345"
         }
       }
     ]
   }
 }
-
 ```
 
 #### Signature
@@ -408,7 +407,7 @@ cat response-operatorO.json body-id-and-preferences.json | npx json --merge
       },
       "source": {
         "domain": "cmpC.com",
-        "date": "2021-04-23T18:25:43.511Z",
+        "timestamp": 1639643112,
         "signature": "preferences_signature_xyz12345"
       }
     },
@@ -419,7 +418,7 @@ cat response-operatorO.json body-id-and-preferences.json | npx json --merge
         "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
         "source": {
           "domain": "operator0.com",
-          "date": "2021-04-23T18:25:43.511Z",
+          "timestamp": 1639643110,
           "signature": "prebid_id_signature_xyz12345"
         }
       }
@@ -480,7 +479,7 @@ cat response-operatorO.json body-id.json | npx json --merge
     "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
     "source": {
       "domain": "operator0.com",
-      "date": "2021-04-23T18:25:43.511Z",
+      "timestamp": 1639643112,
       "signature": "12345_signature"
     }
   }
@@ -516,7 +515,7 @@ npx encode-query-string -nd `cat response-operatorO.json body-id-and-preferences
 -->
 
 ```shell
-302 https://advertiserA.com/pageA.html?sender=operatorO.com&timestamp=1639059692793&signature=message_signature_xyz1234&body.preferences.version=1&body.preferences.data.opt_in=true&body.preferences.source.domain=cmpC.com&body.preferences.source.date=2021-04-23T18:25:43.511Z&body.preferences.source.signature=preferences_signature_xyz12345&body.identifiers[0].version=1&body.identifiers[0].type=prebid_id&body.identifiers[0].value=7435313e-caee-4889-8ad7-0acd0114ae3c&body.identifiers[0].source.domain=operator0.com&body.identifiers[0].source.date=2021-04-23T18:25:43.511Z&body.identifiers[0].source.signature=prebid_id_signature_xyz12345
+302 https://advertiserA.com/pageA.html?sender=operatorO.com&timestamp=1639059692793&signature=message_signature_xyz1234&body.preferences.version=1&body.preferences.data.opt_in=true&body.preferences.source.domain=cmpC.com&body.preferences.source.timestamp=1639643112&body.preferences.source.signature=preferences_signature_xyz12345&body.identifiers[0].version=1&body.identifiers[0].type=prebid_id&body.identifiers[0].value=7435313e-caee-4889-8ad7-0acd0114ae3c&body.identifiers[0].source.domain=operator0.com&body.identifiers[0].source.timestamp=1639643110&body.identifiers[0].source.signature=prebid_id_signature_xyz12345
 ```
 
 ...which corresponds to the following query string values:
@@ -532,13 +531,13 @@ signature=message_signature_xyz1234
 body.preferences.version=1
 body.preferences.data.opt_in=true
 body.preferences.source.domain=cmpC.com
-body.preferences.source.date=2021-04-23T18:25:43.511Z
+body.preferences.source.timestamp=1639643112
 body.preferences.source.signature=preferences_signature_xyz12345
 body.identifiers[0].version=1
 body.identifiers[0].type=prebid_id
 body.identifiers[0].value=7435313e-caee-4889-8ad7-0acd0114ae3c
 body.identifiers[0].source.domain=operator0.com
-body.identifiers[0].source.date=2021-04-23T18:25:43.511Z
+body.identifiers[0].source.timestamp=1639643110
 body.identifiers[0].source.signature=prebid_id_signature_xyz12345
 ```
 
@@ -606,7 +605,7 @@ npx encode-query-string -nd `cat response-operatorO.json body-id-and-preferences
 -->
 
 ```shell
-302 https://publisherP.com/pageP.html?sender=operatorO.com&timestamp=1639059692793&signature=message_signature_xyz1234&body.identifiers[0].version=1&body.identifiers[0].type=prebid_id&body.identifiers[0].value=7435313e-caee-4889-8ad7-0acd0114ae3c&body.identifiers[0].source.domain=operator0.com&body.identifiers[0].source.date=2021-04-23T18:25:43.511Z&body.identifiers[0].source.signature=prebid_id_signature_xyz12345
+302 https://publisherP.com/pageP.html?sender=operatorO.com&timestamp=1639059692793&signature=message_signature_xyz1234&body.identifiers[0].version=1&body.identifiers[0].type=prebid_id&body.identifiers[0].value=7435313e-caee-4889-8ad7-0acd0114ae3c&body.identifiers[0].source.domain=operator0.com&body.identifiers[0].source.timestamp=1639643110&body.identifiers[0].source.signature=prebid_id_signature_xyz12345
 ```
 
 ...which corresponds to the following query string values:
@@ -623,7 +622,7 @@ body.identifiers[0].version=1
 body.identifiers[0].type=prebid_id
 body.identifiers[0].value=7435313e-caee-4889-8ad7-0acd0114ae3c
 body.identifiers[0].source.domain=operator0.com
-body.identifiers[0].source.date=2021-04-23T18:25:43.511Z
+body.identifiers[0].source.timestamp=1639643110
 body.identifiers[0].source.signature=prebid_id_signature_xyz12345
 ```
 
@@ -650,7 +649,7 @@ npx encode-query-string -nd `cat request-cmpC.json body-id-and-preferences.json 
 -->
 
 ```http request
-GET /v1/redirect/write?sender=cmpC.com&timestamp=1639057962145&signature=message_signature_xyz1234&body.preferences.version=1&body.preferences.data.opt_in=true&body.preferences.source.domain=cmpC.com&body.preferences.source.date=2021-04-23T18:25:43.511Z&body.preferences.source.signature=preferences_signature_xyz12345&body.identifiers[0].version=1&body.identifiers[0].type=prebid_id&body.identifiers[0].value=7435313e-caee-4889-8ad7-0acd0114ae3c&body.identifiers[0].source.domain=operator0.com&body.identifiers[0].source.date=2021-04-23T18:25:43.511Z&body.identifiers[0].source.signature=prebid_id_signature_xyz12345&redirectUrl=https://publisherP.com/pageP.html
+GET /v1/redirect/write?sender=cmpC.com&timestamp=1639057962145&signature=message_signature_xyz1234&body.preferences.version=1&body.preferences.data.opt_in=true&body.preferences.source.domain=cmpC.com&body.preferences.source.timestamp=1639643112&body.preferences.source.signature=preferences_signature_xyz12345&body.identifiers[0].version=1&body.identifiers[0].type=prebid_id&body.identifiers[0].value=7435313e-caee-4889-8ad7-0acd0114ae3c&body.identifiers[0].source.domain=operator0.com&body.identifiers[0].source.timestamp=1639643110&body.identifiers[0].source.signature=prebid_id_signature_xyz12345&redirectUrl=https://publisherP.com/pageP.html
 ```
 
 ...which corresponds to the following query string values:
@@ -666,13 +665,13 @@ signature=message_signature_xyz1234
 body.preferences.version=1
 body.preferences.data.opt_in=true
 body.preferences.source.domain=cmpC.com
-body.preferences.source.date=2021-04-23T18:25:43.511Z
+body.preferences.source.timestamp=1639643112
 body.preferences.source.signature=preferences_signature_xyz12345
 body.identifiers[0].version=1
 body.identifiers[0].type=prebid_id
 body.identifiers[0].value=7435313e-caee-4889-8ad7-0acd0114ae3c
 body.identifiers[0].source.domain=operator0.com
-body.identifiers[0].source.date=2021-04-23T18:25:43.511Z
+body.identifiers[0].source.timestamp=1639643110
 body.identifiers[0].source.signature=prebid_id_signature_xyz12345
 redirectUrl=https://publisherP.com/pageP.html
 ```
@@ -698,7 +697,7 @@ npx encode-query-string -nd `cat response-operatorO.json body-id-and-preferences
 -->
 
 ```shell
-302 https://publisherP.com/pageP.html?sender=operatorO.com&timestamp=1639059692793&signature=message_signature_xyz1234&body.preferences.version=1&body.preferences.data.opt_in=true&body.preferences.source.domain=cmpC.com&body.preferences.source.date=2021-04-23T18:25:43.511Z&body.preferences.source.signature=preferences_signature_xyz12345&body.identifiers[0].version=1&body.identifiers[0].type=prebid_id&body.identifiers[0].value=7435313e-caee-4889-8ad7-0acd0114ae3c&body.identifiers[0].source.domain=operator0.com&body.identifiers[0].source.date=2021-04-23T18:25:43.511Z&body.identifiers[0].source.signature=prebid_id_signature_xyz12345
+302 https://publisherP.com/pageP.html?sender=operatorO.com&timestamp=1639059692793&signature=message_signature_xyz1234&body.preferences.version=1&body.preferences.data.opt_in=true&body.preferences.source.domain=cmpC.com&body.preferences.source.timestamp=1639643112&body.preferences.source.signature=preferences_signature_xyz12345&body.identifiers[0].version=1&body.identifiers[0].type=prebid_id&body.identifiers[0].value=7435313e-caee-4889-8ad7-0acd0114ae3c&body.identifiers[0].source.domain=operator0.com&body.identifiers[0].source.timestamp=1639643110&body.identifiers[0].source.signature=prebid_id_signature_xyz12345
 ```
 
 ...which corresponds to the following query string values:
@@ -714,13 +713,13 @@ signature=message_signature_xyz1234
 body.preferences.version=1
 body.preferences.data.opt_in=true
 body.preferences.source.domain=cmpC.com
-body.preferences.source.date=2021-04-23T18:25:43.511Z
+body.preferences.source.timestamp=1639643112
 body.preferences.source.signature=preferences_signature_xyz12345
 body.identifiers[0].version=1
 body.identifiers[0].type=prebid_id
 body.identifiers[0].value=7435313e-caee-4889-8ad7-0acd0114ae3c
 body.identifiers[0].source.domain=operator0.com
-body.identifiers[0].source.date=2021-04-23T18:25:43.511Z
+body.identifiers[0].source.timestamp=1639643110
 body.identifiers[0].source.signature=prebid_id_signature_xyz12345
 ```
 
@@ -767,7 +766,7 @@ npx encode-query-string -nd `cat response-operatorO.json body-id.json | npx json
 -->
 
 ```shell
-302 https://publisherP.com/pageP.html?sender=operatorO.com&timestamp=1639059692793&signature=message_signature_xyz1234&body.version=1&body.type=prebid_id&body.value=7435313e-caee-4889-8ad7-0acd0114ae3c&body.source.domain=operator0.com&body.source.date=2021-04-23T18:25:43.511Z&body.source.signature=12345_signature
+302 https://publisherP.com/pageP.html?sender=operatorO.com&timestamp=1639059692793&signature=message_signature_xyz1234&body.version=1&body.type=prebid_id&body.value=7435313e-caee-4889-8ad7-0acd0114ae3c&body.source.domain=operator0.com&body.source.timestamp=1639643112&body.source.signature=12345_signature
 ```
 
 ...which corresponds to the following query string values:
@@ -784,7 +783,7 @@ body.version=1
 body.type=prebid_id
 body.value=7435313e-caee-4889-8ad7-0acd0114ae3c
 body.source.domain=operator0.com
-body.source.date=2021-04-23T18:25:43.511Z
+body.source.timestamp=1639643112
 body.source.signature=12345_signature
 ```
 
@@ -806,15 +805,15 @@ GET /v1/identity
   "name": "Operator O",
   "type": "vendor",
   "keys": [
-    {
+    { 
       "key": "04f3b7ec9095779b119cc6d30a21a6a3920c5e710d13ea8438727b7fd5cca47d048f020539d24e74b049a418ac68c03ea75c66982eef7fdc60d8fb2c7707df3dcd",
-      "start": "2021-01-01T00:00:00+00:00",
-      "end": "2021-02-01T00:00:00+00:00"
+      "start": 1639500000,
+      "end": 1639510000
     },
-    {
+    { 
       "key": "044782dd8b7a6b8affa0f6cd94ede3682e85307224064f39db20e8f49b5f415d83fef66f3818ee549b04e443efa63c2d7f1fe9a631dc05c9f51ad98139b202f9f3",
-      "start": "2021-02-01T00:00:00+00:00",
-      "end": "2021-03-01T09:01:00+00:00"
+      "start": 1639510000,
+      "end":  1639520000
     }
   ]
 }
