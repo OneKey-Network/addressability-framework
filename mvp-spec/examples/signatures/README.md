@@ -11,7 +11,7 @@ python generate-keys.py
 ```
 - sign and verify
 ```shell
-python sign-and-verify-identifier.py
+ts-node sign-and-verify-identifier.ts
 ```
 - if everything works as expected, no input. otherwise, something like:
 ```
