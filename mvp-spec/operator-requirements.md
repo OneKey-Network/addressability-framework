@@ -1,6 +1,9 @@
 # Operator Requirements
 
-⚠️ To **view diagrams** in this page, you are invited to install a browser extension such as [mermaid-diagrams](https://chrome.google.com/webstore/detail/mermaid-diagrams/phfcghedmopjadpojhmmaffjmfiakfil)
+⚠️ **Diagrams** in this page use the [Mermaid](https://mermaidjs.github.io/) language.
+We plan to install GitHub actions to automatically generate images from the diagrams, but until then,
+you are invited to install a browser extension such as [mermaid-diagrams](https://chrome.google.com/webstore/detail/mermaid-diagrams/phfcghedmopjadpojhmmaffjmfiakfil) to visualise them.
+You might need to **refresh the page** to get the rendered image.
 
 ## Introduction and definitions
 
@@ -83,7 +86,7 @@ rect rgba(224, 224, 224, .55)
             activate O
                 note over B,O: make sure this URL cannot be "replayed" by hackers to read central cookies
                 note over O: make sure<br/>CMP is authorized to read
-                O ->> O: create ID
+                O ->> O: create and sign ID
                 O -->> B: Prebid SSO ID
             deactivate O
 
@@ -98,10 +101,10 @@ rect rgba(224, 224, 224, .55)
     activate U
 
         activate B
-            B ->> C: JS call: "package" preferences value
+            B ->> C: JS call: sign preferences value
 
             activate C
-                C -->> B: packaged preferences
+                C -->> B: signed preferences
             deactivate C
 
             B ->> O: JS call "write" endpoint<br>id = xxx<br>preferences = yyy
@@ -223,7 +226,7 @@ rect rgba(224, 224, 224, .55)
         activate O
             note over B,O: make sure this URL cannot be "replayed" by hackers to read central cookies
             note over O: make sure<br/>CMP is authorized to read
-            O ->> O: create ID
+            O ->> O: create and sign ID
             O -->> B: REDIRECT
         deactivate O
 
@@ -247,9 +250,9 @@ rect rgba(224, 224, 224, .55)
     activate U
 
         activate B
-            B ->> C: JS call to sign preferences value
+            B ->> C: JS call: sign preferences value
             activate C
-                C -->> B: url to call = ...
+                C -->> B: { signed preferences + URL to call on operator }
             deactivate C
 
             B -->> B: REDIRECT
