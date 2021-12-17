@@ -1,3 +1,5 @@
 /mvp-spec/examples/node_modules/
 /**/.idea
-/mvp-spec/examples/signatures/*.ecdsa-NIST256p
+mvp-spec/examples/signatures/*.ecdsa-NIST256p
+mvp-spec/examples/signatures/prebid-sso-signature/Lib/
+mvp-spec/examples/signatures/prebid-sso-signature/Scripts/
