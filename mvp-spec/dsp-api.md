@@ -719,7 +719,7 @@ The Audit Log contains a list of Preferences with one signature. The UTF-8 strin
 preferences.source.domain + '\u2063' +
 preferences.source.timestamp + '\u2063' +
 
-prebid_id + '\u2063' +
+prebid_id.source.signature + '\u2063' +
 
 preferences.data.key1 + '\u2063' + preferences.data[key1].value + '\u2063' +
 preferences.data.key2 + '\u2063' + preferences.data[key2].value + '\u2063' +
