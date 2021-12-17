@@ -28,35 +28,6 @@ In practice, this will translate into endpoints available under different root p
 
 ## Design
 
-### Proposed protocol
-
-The proposed solution enforces the usage of TLS (HTTPS) for all communication to and from the operator, to prevent middle men to "spy" on data that is passed.
-
-- data is **transfered in a human readable fashion**, even when transported as part of the query string ("redirect" scenario without 3PC). Note that when using HTTPS, query string parameters are encrypted.
-
-- data is **stored in a human readable fashion** as cookies
-
-- **signatures** are used to secure communications, but **not encryption**:
-  
-  - when **sending** a request or a response, the sender:
-    
-    - provides a **timestamp** and its own domain (the **domain name of the *sender***) are part of the payload
-    
-    - signs the whole **payload + the domain name of the *receiver*** (which is not part of the payload), using its **own private key**
-  
-  - when **receiving** a request or a response, the receiver:
-    
-    - recalls the **public key of the sender** based on the domain name that was provided as part of the payload (this can be done via a cache + regular calls to `/identity` endpoint, similar to what is done in SWAN)
-    
-    - **verifies** the provided **signature**, based on (the complete payload + its own domain name), using the sender's public key
-      
-      - ℹ️ verifying the signature is the way to authenticate the sender
-    
-    - (in the case of the operator) verifies the **permissions** associated with this domain name
-    
-    - verify the provided **timestamp** is in an acceptable time frame
-
-
 ### Data
 
 Two types of data is manipulated by the operator API:
