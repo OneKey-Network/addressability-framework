@@ -35,7 +35,7 @@ def get_verifying_key():
         return sk
 
 def get_identifier_to_sign():
-    with open("identifier.json", "r") as f:
+    with open("../id.json", "r") as f:
         json_val = f.read()
         id = json.loads(json_val)
         return id

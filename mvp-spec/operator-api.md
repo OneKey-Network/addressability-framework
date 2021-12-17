@@ -68,12 +68,12 @@ Two types of data is manipulated by the operator API:
 Example:
 
 <!-- To get this JSON example, run:
-cat body-id.json | npx json body
+cat id.json
 -->
 
 ```json
 {
-  "version": 1,
+  "version": 0,
   "type": "prebid_id",
   "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
   "source": {
@@ -95,7 +95,7 @@ cat body-id-and-preferences.json | npx json body.preferences
 
 ```json
 {
-  "version": 1,
+  "version": 0,
   "data": {
     "opt_in": true
   },
@@ -189,7 +189,7 @@ cat response-operatorO.json body-id-and-preferences.json | npx json --merge
   "signature": "message_signature_xyz1234",
   "body": {
     "preferences": {
-      "version": 1,
+      "version": 0,
       "data": {
         "opt_in": true
       },
@@ -201,7 +201,7 @@ cat response-operatorO.json body-id-and-preferences.json | npx json --merge
     },
     "identifiers": [
       {
-        "version": 1,
+        "version": 0,
         "type": "prebid_id",
         "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
         "source": {
@@ -295,7 +295,7 @@ cat response-operatorO.json body-id-and-preferences.json | npx json --merge -e '
     "preferences": {},
     "identifiers": [
       {
-        "version": 1,
+        "version": 0,
         "type": "prebid_id",
         "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
         "source": {
@@ -348,7 +348,7 @@ cat request-cmpC.json body-id-and-preferences.json | npx json --merge
   "signature": "message_signature_xyz1234",
   "body": {
     "preferences": {
-      "version": 1,
+      "version": 0,
       "data": {
         "opt_in": true
       },
@@ -360,7 +360,7 @@ cat request-cmpC.json body-id-and-preferences.json | npx json --merge
     },
     "identifiers": [
       {
-        "version": 1,
+        "version": 0,
         "type": "prebid_id",
         "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
         "source": {
@@ -401,7 +401,7 @@ cat response-operatorO.json body-id-and-preferences.json | npx json --merge
   "signature": "message_signature_xyz1234",
   "body": {
     "preferences": {
-      "version": 1,
+      "version": 0,
       "data": {
         "opt_in": true
       },
@@ -413,7 +413,7 @@ cat response-operatorO.json body-id-and-preferences.json | npx json --merge
     },
     "identifiers": [
       {
-        "version": 1,
+        "version": 0,
         "type": "prebid_id",
         "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
         "source": {
@@ -465,7 +465,7 @@ timestamp
 #### Response
 
 <!-- Update this code block with:
-cat response-operatorO.json body-id.json | npx json --merge
+cat response-operatorO.json | npx json -e "this.body=$(cat id.json | npx json -o json-0)"
 -->
 
 ```json
@@ -474,7 +474,7 @@ cat response-operatorO.json body-id.json | npx json --merge
   "timestamp": 1639059692793,
   "signature": "message_signature_xyz1234",
   "body": {
-    "version": 1,
+    "version": 0,
     "type": "prebid_id",
     "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
     "source": {
@@ -762,7 +762,7 @@ redirectUrl
 #### Response
 
 <!-- The query string below is generated with taking the response-operatorO.json file, adding body, and encoding it as query string:
-npx encode-query-string -nd `cat response-operatorO.json body-id.json | npx json --merge -o json-0`
+npx encode-query-string -nd `cat response-operatorO.json | npx json -e "this.body=$(cat id.json | npx json -o json-0)" | npx json -o json-0`
 -->
 
 ```shell
