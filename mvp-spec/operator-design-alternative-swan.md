@@ -1,5 +1,10 @@
 # SWAN
 
+⚠️ **Diagrams** in this page use the [Mermaid](https://mermaidjs.github.io/) language.
+We plan to install GitHub actions to automatically generate images from the diagrams, but until then,
+you are invited to install a browser extension such as [mermaid-diagrams](https://chrome.google.com/webstore/detail/mermaid-diagrams/phfcghedmopjadpojhmmaffjmfiakfil) to visualise them.
+You might need to **refresh the page** to get the rendered image.
+
 Although not implementing the same [Operator Design](operator-design.md), [SWAN]([swan/apis.md at main · SWAN-community/swan · GitHub](https://github.com/SWAN-community/swan/blob/main/apis.md)) provides a solution that can be used for all workflows.
 
 Some core principles of SWAN are:
