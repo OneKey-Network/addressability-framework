@@ -37,7 +37,7 @@ The designed solution is a protocol:
 
 ✅ reduces the server to server (S2S) calls to a minimum, making nodes more reliable.
 
-✅ is transparent to users and regulators (cookies and requests are human readable).
+✅ is easier to debug (cookies and requests are human-readable).
 
 ✅ data received from the operator as a full page redirect can be processed by a web server **or in the browser**, in Javascript, because no decryption is needed.
 
