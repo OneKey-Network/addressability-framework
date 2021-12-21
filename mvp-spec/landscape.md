@@ -2,7 +2,7 @@
 
 An overview of the different actors and their roles.
 
-ℹ️ Reminder: any signature or encryption **cannot be done in the browser** because secret keys must remain server side.
+ℹ️ Reminder: any signature or encryption **cannot be done in the browser** because secret keys must remain server side.  However, in most cases they can be done through a tech-vendor provided server module separate from the web content server.
 
 ## Operator
 
@@ -18,6 +18,7 @@ To do so, it needs to sign messages sent to and received from the operator.
 This can only be done **server side** because a secret key is used.
 
 So, regardless if ids and preferences are read in javascript from an `Advertiser web page`, an `Advertiser server: operator client` is needed.
+This role can be played directly by the advertiser or by another module _on behalf of the advertiser_ 
 
 ## CMP (Consent Management Platform)
 
