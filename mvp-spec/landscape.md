@@ -2,6 +2,50 @@
 
 An overview of the different actors and their roles.
 
+```mermaid
+flowchart LR
+
+    subgraph Publisher
+        PF(Publisher web page)
+        PBO(Publisher server: operator client)
+        PBI(Publisher server: inventory)
+        
+        PBO -. sign operator requests .-> PBO
+    end
+
+    subgraph CMP
+        CJS(CMP JS)
+        CB(CMP server: operator client)
+        
+        CB -. sign user preferences<br>sign operator requests .-> CB
+    end
+    
+    subgraph Advertiser
+        AF(Advertiser web page)
+        ABO(Advertiser server: operator client)
+        ABO -. sign operator requests .-> ABO
+    end
+    
+    SSP(SSP server)
+    DSP(DSP server)
+    O(Operator server)
+    
+    O -. sign id<br>sign operator responses .-> O
+    
+    PF -. include .-> CJS
+    PBI -. create & sign seed<br>sign transaction .-> PBI
+    Publisher -- start transaction --> SSP
+    
+    SSP -. sign transmission .-> SSP
+    SSP -- send transmission --> DSP
+    DSP -. sign transmission .-> DSP
+    
+    Advertiser -- read user preferences --> O
+    Publisher -- read user preferences --> O
+    CMP -- write user preferences --> O
+
+```
+
 ℹ️ Reminder: any signature or encryption **cannot be done in the browser** because secret keys must remain server side.  However, in most cases they can be done through a tech-vendor provided server module separate from the web content server.
 
 ## Operator
@@ -48,47 +92,3 @@ The SSP receives a seed and transaction from the publisher and initiates (signed
 ## DSP (Demand Side Platform)
 
 DSPs receive transmissions that they must sign before they respond to the SSP
-
-```mermaid
-flowchart LR
-
-    subgraph Publisher
-        PF(Publisher web page)
-        PBO(Publisher server: operator client)
-        PBI(Publisher server: inventory)
-        
-        PBO -. sign operator requests .-> PBO
-    end
-
-    subgraph CMP
-        CJS(CMP JS)
-        CB(CMP server: operator client)
-        
-        CB -. sign user preferences<br>sign operator requests .-> CB
-    end
-    
-    subgraph Advertiser
-        AF(Advertiser web page)
-        ABO(Advertiser server: operator client)
-        ABO -. sign operator requests .-> ABO
-    end
-    
-    SSP(SSP server)
-    DSP(DSP server)
-    O(Operator server)
-    
-    O -. sign id<br>sign operator responses .-> O
-    
-    PF -. include .-> CJS
-    PBI -. create & sign seed<br>sign transaction .-> PBI
-    Publisher -- start transaction --> SSP
-    
-    SSP -. sign transmission .-> SSP
-    SSP -- send transmission --> DSP
-    DSP -. sign transmission .-> DSP
-    
-    Advertiser -- read user preferences --> O
-    Publisher -- read user preferences --> O
-    CMP -- write user preferences --> O
-
-```
