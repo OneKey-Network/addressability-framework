@@ -19,11 +19,6 @@ we will tend to reduce the usage of "SWAN" word in the benefits of "Prebid SSO".
 
 -   [SWAN Model Terms](https://github.com/SWAN-community/swan/blob/main/model-terms.md)
 -   [SWAN Model Terms explainer](https://github.com/SWAN-community/swan/blob/main/model-terms-explainer.md)
--   [Data auditability - Questions](https://confluence.criteois.com/display/USRF/Data+auditability+-+Questions)
--   [PMC - Architecture & API - Discussions](https://docs.google.com/presentation/d/1eBE2uYQPaZVerNhRAHLAEN5iSYrb4KntHpKG3lLnpNU/edit#slide=id.p)
--   [Open RTB specifications](https://www.iab.com/wp-content/uploads/2016/03/OpenRTB-API-Specification-Version-2-5-FINAL.pdf)
--   [Prebid SSO Summary](https://docs.google.com/document/d/1kadSeDQjInga2ntLhzWKjLoiSWnuk47z-0zSgvogN20/edit#heading=h.4br0jw9owljf)
--   [Prebid SSO Trust Model](https://docs.google.com/document/d/1d2u6KyL3250pjIVcqr68jmpVbSncupknNGVerMFWATc/edit#heading=h.yl1nksrqzh1l)
 
 # Definitions
 
