@@ -42,7 +42,8 @@ Audits to the user.
 **Contracting Party** means any party bound to an agreement containing these 
 Model Terms and “**Parties**” shall be construed accordingly.
 
-**Operator** means a Contracting Party that generates and signs Prebid SSO Data.
+**Operator** means the Party or Parties responsible for adding, updating, 
+deleting and controlling access to the Prebid SSO Data;
 
 **Prebid SSO Data** means all Pseudonymous Identifiers and associated 
 Preferences
