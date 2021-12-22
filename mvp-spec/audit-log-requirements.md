@@ -65,8 +65,8 @@ the Receiver.
 **Sign** means a cryptographic confirmation of generating, sending or 
 receipt of Prebid SSO Data.
 
-**Transaction**: the sending of SWAN Data from the Root Party through the 
-SWAN ecosystem by consecutive Transmissions.
+**Transaction**: the sending of Prebid SSO Data from the Root Party through the 
+Prebid SSO ecosystem by consecutive Transmissions.
 
 **Transaction ID** is the generated identifier for a dedicated placement. One 
 Transaction ID per Audit Log.
