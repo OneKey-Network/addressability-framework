@@ -37,5 +37,5 @@ e.g. operator1.prebidsso.com and operator2.prebidsso.com).
 
 ⚠️ **Diagrams** in these documents use the [Mermaid](https://mermaidjs.github.io/) language.
 We plan to install GitHub actions to automatically generate images from the diagrams, but until then,
-you are invited to install a browser extension such as [mermaid-diagrams](https://chrome.google.com/webstore/detail/mermaid-diagrams/phfcghedmopjadpojhmmaffjmfiakfil) to visualise them.
+you are invited to install a browser extension such as [markdown-diagrams](https://chrome.google.com/webstore/detail/markdown-diagrams/pmoglnmodacnbbofbgcagndelmgaclel/related) to visualise them.
 You might need to **refresh the page** to get the rendered image.
