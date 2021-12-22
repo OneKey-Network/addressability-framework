@@ -340,8 +340,8 @@ Transmission Result and signs it;
 The Parties must sign when generating Prebid SSO Data or when they received it
 with the Transaction ID. Those signatures are cryptographic ones and so:
 
-* It cannot be reproducible by anybody;
-* It can be verifiable by everybody;
+* It cannot be reproduced by anybody;
+* It can be verified by everybody;
 * Data cannot be altered else the signature is invalid;
 * The Contracting Party cannot repudiate it.
 
