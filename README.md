@@ -1,10 +1,10 @@
-# Adressable Network Proposals
+# Addressable Network Proposals
 
 At Criteo Engineering we are working on:
 
 - Clarifying and documenting our understanding of the Prebid SSO project requirements.
 - Drafting specification and demonstrable prototypes that answer those
-- Delivering a MVP of the necessary components
+- Delivering an MVP of the necessary components
 
 This repository is intended to share this work with the Prebid SSO community, get feedback and reviews.
 
@@ -22,8 +22,8 @@ It looks like this:
 
 ## [mvp-spec/](/mvp-spec)
 
-Specifications for a MVP, covering only a single id managed by several operators sharing a common registrable domain (
-e.g. operator1.prebidsso.com and operator2.prebidsso.com).
+Specifications for a MVP, covering only a single id managed by several operators sharing a common registrable domain 
+(e.g. operator1.prebidsso.com and operator2.prebidsso.com).
 
 | Document                                                                                       | Description                                                               |
 |------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------|
