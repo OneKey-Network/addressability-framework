@@ -72,7 +72,7 @@ Prebid SSO ecosystem by consecutive Transmissions.
 Transaction ID per Audit Log.
 
 **Transmission** means the sending of Prebid SSO Data from the Sender to
-the Receiver.
+the Receiver. One Transaction can be composed of many Transmissions.
 
 **Transmission Request** means the communication of the Prebid SSO Data from 
 a Sender to a Receiver.
