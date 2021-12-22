@@ -277,7 +277,8 @@ The API must:
 * respect the technical details of further specifications.
 
 For performance reasons, the Contracting Party can fetch this data once
-and cache it for 24h.
+and cache it. The time-to-live of the cache must be treated in a technical
+document.
 
 The general philosophy of Prebid SSO is to have a purely decentralized 
 ecosystem. Therefore, there is no centralized list of all the 
