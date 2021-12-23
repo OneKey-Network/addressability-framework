@@ -388,7 +388,13 @@ Audit_Log   -> (Seed, Parties)
 ````
 
 To put it in perspective, we need tho highligh that differents entities contain
- signatures (for each). Those 
+one signatures:
+* The Identifiers (one for each)
+* The Preferences (one for all)
+* The Seed
+* The Transmission Result
+
+Here are details:
 
 | Entity     | Type               | Value           |
 |------------|--------------------|-----------------|
