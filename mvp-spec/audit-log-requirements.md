@@ -382,24 +382,24 @@ Identifiers                 -> List of unique Identifiers with their signatures 
 Preferences                 -> Preference of the user with their signatures (for now opt-in/opt-out)
 Seed                        -> (Transaction_ID, Audit_log_responsibility, Identifiers, Preferences, Signature<Root_Party>)
 
-Parties     -> List<Transmission_Result>
+Transmissions     -> List<Transmission_Result>
 
-Audit_Log   -> (Seed, Parties)
+Audit_Log   -> (Seed, Transmissions)
 ````
 
-To put it in perspective, we need tho highligh that differents entities contain
-one signatures:
+To put it in perspective, we need tho highligh that Prebid SSO Data
+and transmissions contain signatures:
 * The Identifiers (one for each)
 * The Preferences (one for all)
 * The Seed
-* The Transmission Result
+* The Transmission (one for each)
 
 Here are details:
 
 | Entity     | Type               | Value           |
 |------------|--------------------|-----------------|
 | Seed       | object             | <table> <tr> <th>Name</th> <th>Type</th> <th>Value</th> </tr> <tr> <td>Transaction ID</td> <td>GUID</td> <td>8b4cf0ff-8b4c-4d79-4d79-69b65402f0ff</td> </tr> <tr> <td>Audit Responsibility</td> <td>String</td> <td>"Publisher"</td> </tr> <tr> <td>Identifier</td> <td>List<Pseudonymous-Identifier></td> <td> Each Identifier also includes: <ul> <li>A digital signature</li> <li>The domain of the Contracting Party that signs</li> <li>The date of the signature</li> </ul> </td> </tr> <tr> <td>Preferences</td> <td>List<Preferences></td> <td> For all Preferences, there are: <ul> <li>A digital signature</li> <li>The domain of the Contracting Party that signs</li> <li>The date of the signature</li> </ul> </td> </tr> <tr> <td>Signature</td> <td>Signature object</td> <td> <ul> <li>Domain - string</li> <li>Date - date</li> <li>Signature - string</li> </ul> </td> </tr> </table>|
-| Parties    | Array of objects   | <table> <tr> <th>Name</th> <th>Type</th> <th>Value</th> </tr> <tr> <td>Receiver</td> <td>String</td> <td>"party42.com"</td> </tr> <tr> <td>Status</td> <td>String</td> <td>"success", "bad_response", "no_response"</td> </tr> <tr> <td>Detail</td> <td>String</td> <td>"Error: The Receiver wasn't able to verify the identity of the sender."</td> </tr> </table> Each Identifier also includes: <ul> <li>A digital signature</li> <li>The domain of the Contracting Party that signs</li> <li>The date of the signature</li> </ul> If the transmission was successful, the Contracting Party is the Receiver. Else it is the sender. |
+| Transmissions    | Array of objects   | <table> <tr> <th>Name</th> <th>Type</th> <th>Value</th> </tr> <tr> <td>Receiver</td> <td>String</td> <td>"party42.com"</td> </tr> <tr> <td>Status</td> <td>String</td> <td>"success", "bad_response", "no_response"</td> </tr> <tr> <td>Detail</td> <td>String</td> <td>"Error: The Receiver wasn't able to verify the identity of the sender."</td> </tr> </table> Each Transmission also includes: <ul> <li>A digital signature</li> <li>The domain of the Contracting Party that signs</li> <li>The date of the signature</li> </ul> If the transmission was successful, the Contracting Party is the Receiver. Else it is the sender. |
 
 A concrete example using a JSON format (that is subject to change in Technical 
 Specifications):
