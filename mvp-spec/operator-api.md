@@ -16,46 +16,17 @@ These endpoints need to support both the "3PC" and "no 3PC" contexts.
 
 In practice, this will translate into endpoints available under different root paths. Example paths are specified in the last column of the table.
 
-| Endpoint                               | Input*                  | Output                                                | Description                                                                                                                                        | Notes                                                                                                                                                                                                                                                                                   | Rest                                   | Redirect                    |
-| -------------------------------------- | ----------------------- | ----------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- | --------------------------- |
-| Read data                              | -                       | List of IDs (if any).<br>List of preferences (if any) | If ID 🍪 exist, return it.<br>If preferences 🍪 exist, return them                                                                                 | -                                                                                                                                                                                                                                                                                       | GET /v1/json/read                      | GET /v1/redirect/read       |
-| Read or init data                      | -                       | List of IDs.<br>List of preferences (if any)          | If ID exist, return it.<br>otherwise:<br>create a new ID and sign it.<br>do not store a cookie.<br>return ID.<br>If preferences exist, return them | Why don't we save the newly generated ID?<br>Because haven't yet received consent. It will be provided via the "Write data" endpoint ⬇️ and saved along with preferences.                                                                                                               | GET /v1/json/readOrInit                | GET /v1/redirect/readOrInit |
-| Write data.<br>and return written data | main ID.<br>preferences | List of IDs.<br>List of preferences                   | Read provided ID.<br>Verify provided signatures.<br>Write ID 🍪.<br>Write preferences 🍪                                                           | ID is mandatory input for the "first visit" use case so is considered always mandatory, for consistency.<br>Data is written because it will be used for confirmation.                                                                                                                   | POST /v1/json/write                    | GET /v1/redirect/write      |
-| Get new main ID                        | -                       | main ID                                               | create a new ID and sign it.<br>do not store a cookie.<br>return ID                                                                                | Cookie is not saved at this stage because we show the new value to the user before they validate it (and then it is saved, using the "Write data" endpoint ⬆️ ).<br>Since there is no cookie to read or write, no redirect version is needed, it can be made in JS with our without 3PC | GET /v1/json/newId                     | Not available               |
-| Get identity                           | -                       | list of:<br>public key + start and end dates if any   | Get the operator's "key" to use it for verifying an ID signed by this operator                                                                     | This is used by websites to get the operator identity to verify signatures of preferences and id.<br>Also used by audits.                                                                                                                                                               | GET /v1/json/identity.<br>(plain text) | Not available               |
+| Endpoint                                | Input*                  | Output                                                | Description                                                                                                                                                                               | Notes                                                                                                                                                                                                                                                                                   | Rest                        | Redirect                        |
+| --------------------------------------- | ----------------------- | ----------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------- | ------------------------------- |
+| Read data                               | -                       | List of IDs (if any).<br>List of preferences (if any) | If ID 🍪 exist, return it.<br>If preferences 🍪 exist, return them                                                                                                                        | -                                                                                                                                                                                                                                                                                       | GET /v1/json/read           | GET /v1/redirect/read           |
+| Read data if exists, or return a new Id | -                       | List of IDs.<br>List of preferences (if any)          | If ID 🍪 exist, return it.<br><br>Otherwise: create a new ID, sign it and return it. In this case, the **new ID is not stored in a cookie yet**..<br>If preferences 🍪 exist, return them | Why don't we save the newly generated ID?<br>Because haven't yet received consent. The new ID will be saved as cookie, along with preferences, when it is provided via the "Write data" endpoint ⬇️                                                                                     | GET /v1/json/readOrGetNewId | GET /v1/redirect/readOrGetNewId |
+| Write data.<br>and return written data  | main ID.<br>preferences | List of IDs.<br>List of preferences                   | Read provided ID.<br>Verify provided signatures.<br>Write ID 🍪.<br>Write preferences 🍪                                                                                                  | ID is mandatory input for the "first visit" use case so is considered always mandatory, for consistency.<br>Data is written because it will be used for confirmation.                                                                                                                   | POST /v1/json/write         | GET /v1/redirect/write          |
+| Get new ID                              | -                       | main ID                                               | create a new ID and sign it.<br>do not store a cookie.<br>return ID                                                                                                                       | Cookie is not saved at this stage because we show the new value to the user before they validate it (and then it is saved, using the "Write data" endpoint ⬆️ ).<br>Since there is no cookie to read or write, no redirect version is needed, it can be made in JS with our without 3PC | GET /v1/json/newId          | Not available                   |
+| Get identity                            | -                       | list of:<br>public key + start and end dates if any   | Get the operator's "key" to use it for verifying an ID signed by this operator                                                                                                            | This is used by websites to get the operator identity to verify signatures of preferences and id.<br>Also used by audits.                                                                                                                                                               | GET /v1/json/identity       | Not available                   |
 
 ℹ️ See below for details and examples
 
 ## Design
-
-### Proposed protocol
-
-The proposed solution enforces the usage of TLS (HTTPS) for all communication to and from the operator, to prevent middle men to "spy" on data that is passed.
-
-- data is **transfered in a human readable fashion**, even when transported as part of the query string ("redirect" scenario without 3PC). Note that when using HTTPS, query string parameters are encrypted.
-
-- data is **stored in a human readable fashion** as cookies
-
-- **signatures** are used to secure communications, but **not encryption**:
-  
-  - when **sending** a request or a response, the sender:
-    
-    - provides a **timestamp** and its own domain (the **domain name of the *sender***) are part of the payload
-    
-    - signs the whole **payload + the domain name of the *receiver*** (which is not part of the payload), using its **own private key**
-  
-  - when **receiving** a request or a response, the receiver:
-    
-    - recalls the **public key of the sender** based on the domain name that was provided as part of the payload (this can be done via a cache + regular calls to `/identity` endpoint, similar to what is done in SWAN)
-    
-    - **verifies** the provided **signature**, based on (the complete payload + its own domain name), using the sender's public key
-      
-      - ℹ️ verifying the signature is the way to authenticate the sender
-    
-    - (in the case of the operator) verifies the **permissions** associated with this domain name
-    
-    - verify the provided **timestamp** is in an acceptable time frame
-
 
 ### Data
 
@@ -142,18 +113,17 @@ For more details and examples on signature, see [DSP API design](https://github.
 All messages (requests or responses, except for `/identity` endpoint) **are signed** before to be sent.
 
 The signature takes all "key" data (see below), concatenate it and signs it.
+
 - Note that the receiver of each message is not part of the message, while **it is part of the signature**.
 - Also, when preferences and ids are provided for write or returned for read, only the signature of this is data
-is considered for the whole message signature, not the data value itself. It means to fully verify the integrity of the received data,
-the receiver needs to do a verification in two steps:
+  is considered for the whole message signature, not the data value itself. It means to fully verify the integrity of the received data,
+  the receiver needs to do a verification in two steps:
   - verify **the message signature** to consider its included signatures can be trusted
   - verify each data **source signature** to consider its data has not been tempered.
 
-## Endpoint details - JSON
+## Endpoint details
 
-Here are some examples of the operator endpoints, assuming:
-- usage of JSON format for payloads
-- query strings and payloads are **not** encrypted
+Here are some examples of the operator endpoints, assuming that query strings and payloads are **not** encrypted
 
 ### GET /v1/json/read
 
@@ -163,18 +133,19 @@ Here are some examples of the operator endpoints, assuming:
 npx encode-query-string -nd `cat request-advertiserA.json | npx json -e 'this.body = undefined' -o json-0`
 -->
 
-```http request
+```http
 GET /v1/json/read?sender=advertiserA.com&timestamp=1639057962145&signature=message_signature_xyz1234
 ```
 
 #### Signature
 
 Signature of the concatenation of:
-````
+
+```
 sender + '\u2063' +
 receiver + '\u2063' +
 timestamp
-````
+```
 
 #### Response: known user
 
@@ -218,7 +189,8 @@ cat response-operatorO.json body-id-and-preferences.json | npx json --merge
 #### Signature
 
 Signature of the concatenation of:
-````
+
+```
 sender + '\u2063' +
 receiver + '\u2063' +
 preferences.source.signature + '\u2063' +
@@ -227,7 +199,7 @@ identifiers[1].source.signature + '\u2063' +
 ...
 identifiers[n].source.signature + '\u2063' +
 timestamp
-````
+```
 
 #### Response: unknown user
 
@@ -245,19 +217,19 @@ cat response-operatorO.json body-id-and-preferences.json | npx json --merge -e '
     "identifiers": []
   }
 }
-
 ```
 
 #### Signature
 
 Signature of the concatenation of:
-````
+
+```
 sender + '\u2063' +
 receiver + '\u2063' +
 timestamp
-````
+```
 
-### GET /v1/json/readOrInit
+### GET /v1/json/readOrGetNewId
 
 #### Request
 
@@ -265,18 +237,19 @@ timestamp
 npx encode-query-string -nd `cat request-publisherP.json | npx json -e 'this.body = undefined' -o json-0`
 -->
 
-```http request
-GET /v1/json/readOrInit?sender=publisherP.com&timestamp=1639057962145&signature=message_signature_xyz1234
+```http
+GET /v1/json/readOrGetNewId?sender=publisherP.com&timestamp=1639057962145&signature=message_signature_xyz1234
 ```
 
 #### Signature
 
 Signature of the concatenation of:
-````
+
+```
 sender + '\u2063' +
 receiver + '\u2063' +
 timestamp 
-````
+```
 
 #### Response
 
@@ -312,7 +285,8 @@ cat response-operatorO.json body-id-and-preferences.json | npx json --merge -e '
 #### Signature
 
 Signature of the concatenation of:
-````
+
+```
 sender + '\u2063' +
 receiver + '\u2063' +
 preferences.source.signature + '\u2063' +
@@ -321,7 +295,7 @@ identifiers[1].source.signature + '\u2063' +
 ...
 identifiers[n].source.signature + '\u2063' +
 timestamp
-````
+```
 
 ### POST /v1/json/write
 
@@ -331,7 +305,7 @@ timestamp
 npx encode-query-string -nd `cat request-cmpC.json | npx json -e 'this.body = undefined' -o json-0`
 -->
 
-```http request
+```http
 POST /v1/json/write
 ```
 
@@ -377,7 +351,8 @@ cat request-cmpC.json body-id-and-preferences.json | npx json --merge
 #### Signature
 
 Signature of the concatenation of:
-````
+
+```
 sender + '\u2063' +
 receiver + '\u2063' +
 preferences.source.signature + '\u2063' +
@@ -386,7 +361,7 @@ identifiers[1].source.signature + '\u2063' +
 ...
 identifiers[n].source.signature + '\u2063' +
 timestamp
-````
+```
 
 ### Response
 
@@ -430,7 +405,8 @@ cat response-operatorO.json body-id-and-preferences.json | npx json --merge
 #### Signature
 
 Signature of the concatenation of:
-````
+
+```
 sender + '\u2063' +
 receiver + '\u2063' +
 preferences.source.signature + '\u2063' +
@@ -439,7 +415,7 @@ identifiers[1].source.signature + '\u2063' +
 ...
 identifiers[n].source.signature + '\u2063' +
 timestamp
-````
+```
 
 ### GET /v1/json/newId
 
@@ -449,18 +425,19 @@ timestamp
 npx encode-query-string -nd `cat request-cmpC.json | npx json -e 'this.body = undefined' -o json-0`
 -->
 
-```http request
+```http
 GET /v1/json/newId?sender=cmpC.com&timestamp=1639057962145&signature=message_signature_xyz1234
 ```
 
 #### Signature
 
 Signature of the concatenation of:
-````
+
+```
 sender + '\u2063' +
 receiver + '\u2063' +
 timestamp 
-````
+```
 
 #### Response
 
@@ -494,19 +471,20 @@ cat response-operatorO.json | npx json -e "this.body=$(cat id.json | npx json -o
 npx encode-query-string -nd `cat request-advertiserA.json | npx json -e 'this.body = undefined; redirectUrl="https://advertiserA.com/pageA.html"' -o json-0`
 -->
 
-```http request
+```http
 GET /v1/redirect/read?sender=advertiserA.com&timestamp=1639057962145&signature=message_signature_xyz1234&redirectUrl=https://advertiserA.com/pageA.html
 ```
 
 #### Signature
 
 Signature of the concatenation of:
-````
+
+```
 sender + '\u2063' +
 receiver + '\u2063' +
 timestamp + '\u2063' +
 redirectUrl
-````
+```
 
 #### Response: known user
 
@@ -544,7 +522,8 @@ body.identifiers[0].source.signature=prebid_id_signature_xyz12345
 #### Signature
 
 Signature of the concatenation of:
-````
+
+```
 sender + '\u2063' +
 receiver + '\u2063' +
 preferences.source.signature + '\u2063' +
@@ -553,7 +532,7 @@ identifiers[1].source.signature + '\u2063' +
 ...
 identifiers[n].source.signature + '\u2063' +
 timestamp
-````
+```
 
 #### Response: unknown user
 
@@ -568,13 +547,14 @@ npx encode-query-string -nd `cat response-operatorO.json body-id-and-preferences
 #### Signature
 
 Signature of the concatenation of:
-````
+
+```
 sender + '\u2063' +
 receiver + '\u2063' +
 timestamp
-````
+```
 
-### GET /v1/redirect/readOrInit
+### GET /v1/redirect/readOrGetNewId
 
 #### Request
 
@@ -582,19 +562,20 @@ timestamp
 npx encode-query-string -nd `cat request-publisherP.json | npx json -e 'this.body = undefined; this.redirectUrl="https://publisherP.com/pageP.html"' -o json-0`
 -->
 
-```http request
-GET /v1/redirect/readOrInit?sender=publisherP.com&timestamp=1639057962145&signature=message_signature_xyz1234&redirectUrl=https://publisherP.com/pageP.html
+```http
+GET /v1/redirect/readOrGetNewId?sender=publisherP.com&timestamp=1639057962145&signature=message_signature_xyz1234&redirectUrl=https://publisherP.com/pageP.html
 ```
 
 #### Signature
 
 Signature of the concatenation of:
-````
+
+```
 sender + '\u2063' +
 receiver + '\u2063' +
 timestamp + '\u2063' +
 redirectUrl
-````
+```
 
 #### Response
 
@@ -629,7 +610,8 @@ body.identifiers[0].source.signature=prebid_id_signature_xyz12345
 #### Signature
 
 Signature of the concatenation of:
-````
+
+```
 sender + '\u2063' +
 receiver + '\u2063' +
 preferences.source.signature + '\u2063' +
@@ -638,7 +620,7 @@ identifiers[1].source.signature + '\u2063' +
 ...
 identifiers[n].source.signature + '\u2063' +
 timestamp
-````
+```
 
 ### GET /v1/redirect/write
 
@@ -648,7 +630,7 @@ timestamp
 npx encode-query-string -nd `cat request-cmpC.json body-id-and-preferences.json | npx json --merge -e 'this.redirectUrl="https://publisherP.com/pageP.html"' -o json-0`
 -->
 
-```http request
+```http
 GET /v1/redirect/write?sender=cmpC.com&timestamp=1639057962145&signature=message_signature_xyz1234&body.preferences.version=1&body.preferences.data.opt_in=true&body.preferences.source.domain=cmpC.com&body.preferences.source.timestamp=1639643112&body.preferences.source.signature=preferences_signature_xyz12345&body.identifiers[0].version=1&body.identifiers[0].type=prebid_id&body.identifiers[0].value=7435313e-caee-4889-8ad7-0acd0114ae3c&body.identifiers[0].source.domain=operator0.com&body.identifiers[0].source.timestamp=1639643110&body.identifiers[0].source.signature=prebid_id_signature_xyz12345&redirectUrl=https://publisherP.com/pageP.html
 ```
 
@@ -679,7 +661,8 @@ redirectUrl=https://publisherP.com/pageP.html
 #### Signature
 
 Signature of the concatenation of:
-````
+
+```
 sender + '\u2063' +
 receiver + '\u2063' +
 preferences.source.signature + '\u2063' +
@@ -688,7 +671,7 @@ identifiers[1].source.signature + '\u2063' +
 ...
 identifiers[n].source.signature + '\u2063' +
 timestamp
-````
+```
 
 ### Response
 
@@ -726,7 +709,8 @@ body.identifiers[0].source.signature=prebid_id_signature_xyz12345
 #### Signature
 
 Signature of the concatenation of:
-````
+
+```
 sender + '\u2063' +
 receiver + '\u2063' +
 preferences.source.signature + '\u2063' +
@@ -735,7 +719,7 @@ identifiers[1].source.signature + '\u2063' +
 ...
 identifiers[n].source.signature + '\u2063' +
 timestamp
-````
+```
 
 ### GET /v1/redirect/newId
 
@@ -745,19 +729,20 @@ timestamp
 npx encode-query-string -nd `cat request-cmpC.json | npx json -e 'this.body = undefined; this.redirectUrl="https://publisherP.com/pageP.html"' -o json-0`
 -->
 
-```http request
+```http
 GET /v1/redirect/newId?sender=cmpC.com&timestamp=1639057962145&signature=message_signature_xyz1234&redirectUrl=https://publisherP.com/pageP.html
 ```
 
 #### Signature
 
 Signature of the concatenation of:
-````
+
+```
 sender + '\u2063' +
 receiver + '\u2063' +
 timestamp + '\u2063' +
 redirectUrl
-````
+```
 
 #### Response
 
@@ -791,7 +776,7 @@ body.source.signature=12345_signature
 
 #### Request
 
-```http request
+```http
 GET /v1/identity
 ```
 
