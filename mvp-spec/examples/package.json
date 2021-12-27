@@ -4,7 +4,6 @@
   "description": "Operator API tools",
   "main": "index.js",
   "scripts": {
-    "test": "ts-node signatures/sign-and-verify-identifier.ts"
   },
   "author": "",
   "license": "ISC",
