@@ -29,7 +29,7 @@ The logic to test if third party cookies are supported and use full page redirec
 ```mermaid
 flowchart TD
     subgraph noMiddleware [HTTP server without middleware]
-        NoMiddlewareServe[HTTP return page]
+        NoMiddlewareServe[serve HTML page]
     end
     
     subgraph middleware[HTTP server with middleware]
@@ -37,7 +37,7 @@ flowchart TD
         MiddlewareAfterRedirect{Redirected from operator?}
         MiddlewareNonEmptyData{Received data?}
         Middleware3PC{Browser known to support 3PC?}
-        MiddlewareServe[HTTP return page]
+        MiddlewareServe[serve HTML page]
         MiddlewareRedirect[HTTP redirect]
         MiddlewareSave["Set 1st party Prebid 🍪 = data"]
         MiddlewareSaveNothing["Set 1st party Prebid 🍪 = 'unknown'"]
@@ -86,7 +86,7 @@ flowchart TD
         OperatorVerify3PC["json/verify3PC endpoint"]
     end
     
-    OperatorRedirect -. redirect back .-> Get
+    
     User[User visit] -------> Get
     style User stroke:#333,stroke-width:4px
     
@@ -113,15 +113,19 @@ flowchart TD
     
     ClientJsRedirect -- document.location = operator/redirect/read --> OperatorRedirect
     ClientCallJson -- operator/json/read --> OperatorJson
+    ClientCallJson -- operator/json/read --> ClientNonEmptyData
     
     ClientNonEmptyData -->|No| ClientCallTest3PC
     ClientNonEmptyData -->|Yes| HtmlSave
     ClientCallTest3PC -- "operator/json/verify3PC" --> OperatorVerify3PC
     
-    Client3PCOk -->|Yes| HtmlSaveNothing
     Client3PCOk -->|No| ClientJsRedirect
+    Client3PCOk -->|Yes| HtmlSaveNothing
     
     OperatorJson -- "Attempt to set 'test' 🍪<br>(a 3d party cookie)" --> ClientNonEmptyData
     OperatorVerify3PC --> Client3PCOk
     
+    OperatorRedirect -. redirect back .-> Get2
+    
+    Get2["GET web page<br>(back to the top)"]
 ```
