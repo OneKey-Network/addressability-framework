@@ -113,7 +113,6 @@ flowchart TD
     
     ClientJsRedirect -- document.location = operator/redirect/read --> OperatorRedirect
     ClientCallJson -- operator/json/read --> OperatorJson
-    ClientCallJson -- operator/json/read --> ClientNonEmptyData
     
     ClientNonEmptyData -->|No| ClientCallTest3PC
     ClientNonEmptyData -->|Yes| HtmlSave
