@@ -70,7 +70,6 @@ flowchart TD
         
         ClientBrowser3PC{Browser known to support 3PC?}
         ClientNonEmptyData{Received data?}
-        ClientCallTest3PC["Javascript call test3PC"]
         Client3PCOk{3d party cookie ok?}
         
     end
@@ -78,6 +77,7 @@ flowchart TD
     subgraph "operator proxy"
         ClientJsRedirect[javascript redirect]
         ClientCallJson["javascript call read"]
+        ClientCallTest3PC["Javascript call test3PC"]
     end
 
     subgraph "operator (API)"
