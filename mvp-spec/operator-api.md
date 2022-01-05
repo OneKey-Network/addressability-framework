@@ -16,13 +16,14 @@ These endpoints need to support both the "3PC" and "no 3PC" contexts.
 
 In practice, this will translate into endpoints available under different root paths. Example paths are specified in the last column of the table.
 
-| Endpoint                                | Input*                  | Output                                                | Description                                                                                                                                                                               | Notes                                                                                                                                                                                                                                                                                   | Rest                        | Redirect                        |
-| --------------------------------------- | ----------------------- | ----------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------- | ------------------------------- |
-| Read data                               | -                       | List of IDs (if any).<br>List of preferences (if any) | If ID 🍪 exist, return it.<br>If preferences 🍪 exist, return them                                                                                                                        | -                                                                                                                                                                                                                                                                                       | GET /v1/json/read           | GET /v1/redirect/read           |
-| Read data if exists, or return a new Id | -                       | List of IDs.<br>List of preferences (if any)          | If ID 🍪 exist, return it.<br><br>Otherwise: create a new ID, sign it and return it. In this case, the **new ID is not stored in a cookie yet**..<br>If preferences 🍪 exist, return them | Why don't we save the newly generated ID?<br>Because haven't yet received consent. The new ID will be saved as cookie, along with preferences, when it is provided via the "Write data" endpoint ⬇️                                                                                     | GET /v1/json/readOrGetNewId | GET /v1/redirect/readOrGetNewId |
-| Write data.<br>and return written data  | main ID.<br>preferences | List of IDs.<br>List of preferences                   | Read provided ID.<br>Verify provided signatures.<br>Write ID 🍪.<br>Write preferences 🍪                                                                                                  | ID is mandatory input for the "first visit" use case so is considered always mandatory, for consistency.<br>Data is written because it will be used for confirmation.                                                                                                                   | POST /v1/json/write         | GET /v1/redirect/write          |
-| Get new ID                              | -                       | main ID                                               | create a new ID and sign it.<br>do not store a cookie.<br>return ID                                                                                                                       | Cookie is not saved at this stage because we show the new value to the user before they validate it (and then it is saved, using the "Write data" endpoint ⬆️ ).<br>Since there is no cookie to read or write, no redirect version is needed, it can be made in JS with our without 3PC | GET /v1/json/newId          | Not available                   |
-| Get identity                            | -                       | list of:<br>public key + start and end dates if any   | Get the operator's "key" to use it for verifying an ID signed by this operator                                                                                                            | This is used by websites to get the operator identity to verify signatures of preferences and id.<br>Also used by audits.                                                                                                                                                               | GET /v1/json/identity       | Not available                   |
+| Endpoint                                | Input*                  | Output                                                | Description                                                                                                                                                                                                                                                              | Notes                                                                                                                                                                                                                                                                                   | Rest                        | Redirect                        |
+| --------------------------------------- | ----------------------- | ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------- | ------------------------------- |
+| Read data                               | -                       | List of IDs (if any).<br>List of preferences (if any) | If ID 🍪 exist, return it.<br>If preferences 🍪 exist, return them                                                                                                                                                                                                       | -                                                                                                                                                                                                                                                                                       | GET /v1/json/read           | GET /v1/redirect/read           |
+| Read data if exists, or return a new Id | -                       | List of IDs.<br>List of preferences (if any)          | If ID 🍪 exist, return it.<br><br>Otherwise: create a new ID, sign it and return it. In this case, the **new ID is not stored in a cookie yet**..<br>If preferences 🍪 exist, return them<br><br>When called in REST mode, a special short-life "3PC" cookie is also set | Why don't we save the newly generated ID?<br>Because haven't yet received consent. The new ID will be saved as cookie, along with preferences, when it is provided via the "Write data" endpoint ⬇️                                                                                     | GET /v1/json/readOrGetNewId | GET /v1/redirect/readOrGetNewId |
+| Write data.<br>and return written data  | main ID.<br>preferences | List of IDs.<br>List of preferences                   | Read provided ID.<br>Verify provided signatures.<br>Write ID 🍪.<br>Write preferences 🍪                                                                                                                                                                                 | ID is mandatory input for the "first visit" use case so is considered always mandatory, for consistency.<br>Data is written because it will be used for confirmation.                                                                                                                   | POST /v1/json/write         | GET /v1/redirect/write          |
+| Get new ID                              | -                       | main ID                                               | create a new ID and sign it.<br>do not store a cookie.<br>return ID                                                                                                                                                                                                      | Cookie is not saved at this stage because we show the new value to the user before they validate it (and then it is saved, using the "Write data" endpoint ⬆️ ).<br>Since there is no cookie to read or write, no redirect version is needed, it can be made in JS with our without 3PC | GET /v1/json/newId          | Not available                   |
+| Verify 3PC                              | -                       | boolean                                               | Attempts to read the short-life cookie that was set by the "Read" endpoint.<br>Return true if found, false if not.                                                                                                                                                       | The goal is to confirm that 3PC are supported. If the cookie set at previous step can be read, it means 3PC are supported.<br>See [website-design](./website-design.md) for details.<br><br>Note this endpoint doesn't require any signature.                                           | GET /v1/json/verify3PC      | Not available                   |
+| Get identity                            | -                       | list of:<br>public key + start and end dates if any   | Get the operator's "key" to use it for verifying an ID signed by this operator                                                                                                                                                                                           | This is used by websites to get the operator identity to verify signatures of preferences and id.<br>Also used by audits.                                                                                                                                                               | GET /v1/json/identity       | Not available                   |
 
 ℹ️ See below for details and examples
 
@@ -461,6 +462,35 @@ cat response-operatorO.json body-id.json | npx json --merge
     }
   }
 }
+```
+
+### GET /v1/json/verify3PC
+
+This endpoint is very "technical" and used only when a first attempt to read Prebid cookies via REST failed.
+
+In this case, it can mean two things:
+1. there were no cookies yet (the user was unknown)
+2. 3PC are not supported
+
+This endpoint will distinguish between the two.
+
+**No signature** is required to call it.
+
+#### Request
+
+```http
+GET /v1/json/verify3PC
+```
+
+#### Response
+
+- 3PC supported (test cookie was found)
+```json
+true
+```
+- 3PC **not** supported (test cookie could not be found)
+```json
+false
 ```
 
 ### GET /v1/redirect/read
