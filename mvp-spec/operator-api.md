@@ -16,10 +16,7 @@ These endpoints need to support both the "3PC" and "no 3PC" contexts.
 
 In practice, this will translate into endpoints available under different root paths. 
 
-
-Note: values returned by the endpoints are based cookies stored on the web user's browser.
-Of course, it means the same calls made on different web browsers will return different responses.
-
+Note: values returned by the endpoints are based cookies stored on the web user's browser. Of course it means the same calls on different web browsers will return different responses.
 
 Example paths are specified in the last column of the table.
 
@@ -156,6 +153,8 @@ timestamp
 
 #### Response in case of known user
 
+Response HTTP code: `200`
+
 <!-- Update this code block with:
 cat response-operatorO.json body-id-and-preferences.json | npx json --merge
 -->
@@ -210,8 +209,10 @@ timestamp
 
 #### Response in case of unknown user
 
+Response HTTP code: `404` ⚠️
+
 <!-- Update this code block with:
-cat response-operatorO.json body-id-and-preferences.json body-new-id.json | npx json --merge -e 'this.body.preferences = undefined; this.body.identifiers = undefined'
+cat response-operatorO.json body-id-and-preferences.json body-new-id.json | npx json --merge -e 'this.body.preferences = undefined'
 -->
 
 ```json
@@ -220,16 +221,18 @@ cat response-operatorO.json body-id-and-preferences.json body-new-id.json | npx 
   "timestamp": 1639059692793,
   "signature": "message_signature_xyz1234",
   "body": {
-    "newIdentifier": {
-      "version": 1,
-      "type": "prebid_id",
-      "value": "560cead0-eed5-4d3f-a308-b818b4827979",
-      "source": {
-        "domain": "operator0.com",
-        "timestamp": 1639643110,
-        "signature": "prebid_id_signature_xyz12345"
+    "identifiers": [
+      {
+        "version": 1,
+        "type": "prebid_id",
+        "value": "560cead0-eed5-4d3f-a308-b818b4827979",
+        "source": {
+          "domain": "operator0.com",
+          "timestamp": 1639643110,
+          "signature": "prebid_id_signature_xyz12345"
+        }
       }
-    }
+    ]
   }
 }
 ```
@@ -313,6 +316,8 @@ timestamp
 
 #### Response
 
+Response HTTP code: `200`
+
 <!-- Update this code block with:
 cat response-operatorO.json body-id-and-preferences.json | npx json --merge
 -->
@@ -389,8 +394,10 @@ timestamp
 
 #### Response
 
+Response HTTP code: `200`
+
 <!-- Update this code block with: (same as read with unknown user)
-cat response-operatorO.json body-id-and-preferences.json body-new-id.json | npx json --merge -e 'this.body.preferences = undefined; this.body.identifiers = undefined'
+cat response-operatorO.json body-id-and-preferences.json body-new-id.json | npx json --merge -e 'this.body.preferences = undefined;'
 -->
 
 ```json
@@ -399,16 +406,18 @@ cat response-operatorO.json body-id-and-preferences.json body-new-id.json | npx 
   "timestamp": 1639059692793,
   "signature": "message_signature_xyz1234",
   "body": {
-    "newIdentifier": {
-      "version": 1,
-      "type": "prebid_id",
-      "value": "560cead0-eed5-4d3f-a308-b818b4827979",
-      "source": {
-        "domain": "operator0.com",
-        "timestamp": 1639643110,
-        "signature": "prebid_id_signature_xyz12345"
+    "identifiers": [
+      {
+        "version": 1,
+        "type": "prebid_id",
+        "value": "560cead0-eed5-4d3f-a308-b818b4827979",
+        "source": {
+          "domain": "operator0.com",
+          "timestamp": 1639643110,
+          "signature": "prebid_id_signature_xyz12345"
+        }
       }
-    }
+    ]
   }
 }
 ```
@@ -443,23 +452,27 @@ GET /v1/3pc
 
 **No signature** is required.
 
-#### Response
+#### Response in case of 3PC supported (test cookie was found)
 
-- 3PC supported (test cookie was found)
-  
-  HTTP response code: `200`
-  
-  ```json
-  {
-    "3pc": true
-  }
-  ```
+HTTP response code: `200`
 
-- 3PC **not** supported (test cookie could not be found)
-  
-  HTTP response code: `404`
-  
-  empty response
+```json
+{
+  "3pc": true
+}
+```
+
+#### Response in case of 3PC **not** supported (test cookie could not be found)
+
+HTTP response code: `404`
+
+```json
+{
+  "3pc": false
+}
+```
+
+#### Response signature
 
 **No signature** is sent back.
 
@@ -541,7 +554,7 @@ npx encode-query-string -nd `cat response-operatorO.json body-new-id.json | npx 
 -->
 
 ```shell
-303 https://publisherP.com/pageP.html?sender=operatorO.com&timestamp=1639059692793&signature=message_signature_xyz1234&body.newIdentifier.version=1&body.newIdentifier.type=prebid_id&body.newIdentifier.value=560cead0-eed5-4d3f-a308-b818b4827979&body.newIdentifier.source.domain=operator0.com&body.newIdentifier.source.timestamp=1639643110&body.newIdentifier.source.signature=prebid_id_signature_xyz12345
+303 https://publisherP.com/pageP.html?sender=operatorO.com&timestamp=1639059692793&signature=message_signature_xyz1234&body.identifiers[0].version=1&body.identifiers[0].type=prebid_id&body.identifiers[0].value=560cead0-eed5-4d3f-a308-b818b4827979&body.identifiers[0].source.domain=operator0.com&body.identifiers[0].source.timestamp=1639643110&body.identifiers[0].source.signature=prebid_id_signature_xyz12345
 ```
 
 ...which corresponds to the following query string values:
@@ -554,13 +567,15 @@ npx encode-query-string -nd `cat response-operatorO.json body-new-id.json | npx 
 sender=operatorO.com
 timestamp=1639059692793
 signature=message_signature_xyz1234
-body.newIdentifier.version=1
-body.newIdentifier.type=prebid_id
-body.newIdentifier.value=560cead0-eed5-4d3f-a308-b818b4827979
-body.newIdentifier.source.domain=operator0.com
-body.newIdentifier.source.timestamp=1639643110
-body.newIdentifier.source.signature=prebid_id_signature_xyz12345
+body.identifiers[0].version=1
+body.identifiers[0].type=prebid_id
+body.identifiers[0].value=560cead0-eed5-4d3f-a308-b818b4827979
+body.identifiers[0].source.domain=operator0.com
+body.identifiers[0].source.timestamp=1639643110
+body.identifiers[0].source.signature=prebid_id_signature_xyz12345
 ```
+
+**Note**: because there are no preferences returned, it means the id has just been generated on the fly
 
 ##### Response signature
 
@@ -569,7 +584,7 @@ Signature of the concatenation of:
 ```
 sender + '\u2063' +
 receiver + '\u2063' +
-newIdentifier.source.signature + '\u2063' +
+body.identifiers[0].source.signature + '\u2063' +
 timestamp
 ```
 
@@ -702,7 +717,7 @@ npx encode-query-string -nd `cat response-operatorO.json body-new-id.json | npx 
 -->
 
 ```shell
-303 https://publisherP.com/pageP.html?sender=operatorO.com&timestamp=1639059692793&signature=message_signature_xyz1234&body.newIdentifier.version=1&body.newIdentifier.type=prebid_id&body.newIdentifier.value=560cead0-eed5-4d3f-a308-b818b4827979&body.newIdentifier.source.domain=operator0.com&body.newIdentifier.source.timestamp=1639643110&body.newIdentifier.source.signature=prebid_id_signature_xyz12345
+303 https://publisherP.com/pageP.html?sender=operatorO.com&timestamp=1639059692793&signature=message_signature_xyz1234&body.identifiers[0].version=1&body.identifiers[0].type=prebid_id&body.identifiers[0].value=560cead0-eed5-4d3f-a308-b818b4827979&body.identifiers[0].source.domain=operator0.com&body.identifiers[0].source.timestamp=1639643110&body.identifiers[0].source.signature=prebid_id_signature_xyz12345
 ```
 
 ...which corresponds to the following query string values:
@@ -715,12 +730,12 @@ npx encode-query-string -nd `cat response-operatorO.json body-new-id.json | npx 
 sender=operatorO.com
 timestamp=1639059692793
 signature=message_signature_xyz1234
-body.newIdentifier.version=1
-body.newIdentifier.type=prebid_id
-body.newIdentifier.value=560cead0-eed5-4d3f-a308-b818b4827979
-body.newIdentifier.source.domain=operator0.com
-body.newIdentifier.source.timestamp=1639643110
-body.newIdentifier.source.signature=prebid_id_signature_xyz12345
+body.identifiers[0].version=1
+body.identifiers[0].type=prebid_id
+body.identifiers[0].value=560cead0-eed5-4d3f-a308-b818b4827979
+body.identifiers[0].source.domain=operator0.com
+body.identifiers[0].source.timestamp=1639643110
+body.identifiers[0].source.signature=prebid_id_signature_xyz12345
 ```
 
 ##### Response signature
