@@ -22,11 +22,13 @@ It looks like this:
 
 ## [mvp-spec/](/mvp-spec)
 
+
 Specifications for a MVP, covering only a single id managed by several operators sharing a common registrable domain (
 e.g. operator1.prebidsso.com and operator2.prebidsso.com).
 
 | Document                                                                              | Description                                                               |
 |---------------------------------------------------------------------------------------|---------------------------------------------------------------------------|
+| [mvp-spec/audit-log-requirements.md](./mvp-spec/audit-log-requirements.md)            | Functional requirements related to the Audit Log and the Transmissions.   |
 | [landscape.md](./mvp-spec/landscape.md)                                               | An overview of the different actors and their roles.                      |
 | [dsp-api.md](./mvp-spec/dsp-api.md)                                                   | Data exchange specification, from the point of view of a DSP implementer. |
 | [operator-api.md](./mvp-spec/operator-api.md)                                         | Operator API specification                                                |
