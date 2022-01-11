@@ -1,9 +1,7 @@
 # Goal
 
-Gather general requirements to clarify the Model Terms of Prebid SSO for:
-
-* Sharing Prebid SSO data across Contracting Parties
-* Auditing those shares
+Define the use cases and associated requirements for the auditing of Prebid SSO
+data exchange targeted in the MVP.
 
 # Disclaimer
 
