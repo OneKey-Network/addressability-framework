@@ -12,17 +12,24 @@ These endpoints need to support both the "3PC" and "no 3PC" contexts.
   - return code is HTTP 200 and return type is JSON
 - where 3PC are not available, a full page redirect is required to read or write cookies on Prebid SSO TLD+1 domain
   - in this context, POST is not possible
-  - return code is 302 with no content: data is part of the redirect URL
+  - return code is 303 with no content: data is part of the redirect URL
 
-In practice, this will translate into endpoints available under different root paths. Example paths are specified in the last column of the table.
+In practice, this will translate into endpoints available under different root paths. 
 
-| Endpoint                                | Input*                  | Output                                                                     | Description                                                                                                                                                                                                                                                                    | Notes                                                                                                                                                                                                                                                                                   | Rest                   | Redirect               |
-| --------------------------------------- | ----------------------- | -------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- | ---------------------- |
-| Read data if exists, or return a new Id | -                       | List of IDs.<br>List of preferences (if any)<br>newly generated ID, if any | If ID 🍪 exist, return it.<br><br>Otherwise: create a new ID, sign it and return it. In this case, the **new ID is not stored in a cookie yet**..<br>If preferences 🍪 exist, return them<br><br>Note: when called in REST mode, a special short-life "3PC" cookie is also set | Why don't we save the newly generated ID?<br>Because haven't yet received consent. The new ID will be saved as cookie, along with preferences, when it is provided via the "Write data" endpoint ⬇️                                                                                     | GET /v1/json/read      | GET /v1/redirect/read  |
-| Write data.<br>and return written data  | main ID.<br>preferences | List of IDs.<br>List of preferences                                        | Read provided ID.<br>Verify provided signatures.<br>Write ID 🍪.<br>Write preferences 🍪                                                                                                                                                                                       | ID is mandatory input for the "first visit" use case so is considered always mandatory, for consistency.<br>Data is written because it will be used for confirmation.                                                                                                                   | POST /v1/json/write    | GET /v1/redirect/write |
-| Get new ID                              | -                       | main ID                                                                    | create a new ID and sign it.<br>do not store a cookie.<br>return ID                                                                                                                                                                                                            | Cookie is not saved at this stage because we show the new value to the user before they validate it (and then it is saved, using the "Write data" endpoint ⬆️ ).<br>Since there is no cookie to read or write, no redirect version is needed, it can be made in JS with our without 3PC | GET /v1/json/newId     | Not available          |
-| Verify 3PC                              | -                       | boolean                                                                    | Attempts to read the short-life cookie that was set by the "Read" endpoint.<br>Return true if found, false if not.                                                                                                                                                             | The goal is to confirm that 3PC are supported. If the cookie set at previous step can be read, it means 3PC are supported.<br>See [website-design](./website-design.md) for details.<br><br>Note this endpoint doesn't require any signature.                                           | GET /v1/json/verify3PC | Not available          |
-| Get identity                            | -                       | list of:<br>public key + start and end dates if any                        | Get the operator's "key" to use it for verifying an ID signed by this operator                                                                                                                                                                                                 | This is used by websites to get the operator identity to verify signatures of preferences and id.<br>Also used by audits.                                                                                                                                                               | GET /v1/json/identity  | Not available          |
+
+Note: values returned by the endpoints are based cookies stored on the web user's browser.
+Of course, it means the same calls made on different web browsers will return different responses.
+
+
+Example paths are specified in the last column of the table.
+
+| Endpoint                                | Input*                  | Output                                                                     | Description                                                                                                                                                                                                                                                                            | Notes                                                                                                                                                                                                                                                                                   | REST              | Redirect               |
+| --------------------------------------- | ----------------------- | -------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------- | ---------------------- |
+| Read data if exists, or return a new Id | -                       | List of IDs.<br>List of preferences (if any)<br>newly generated ID, if any | If ID cookie exist, return it.<br><br>Otherwise: create a new ID, sign it and return it. In this case, the **new ID is not stored in a cookie yet**..<br>If preferences cookie exist, return them<br><br>Note: when called in REST mode, a special short-life "3PC" cookie is also set | Why don't we save the newly generated ID?<br>Because haven't yet received consent. The new ID will be saved as cookie, along with preferences, when it is provided via the "Write data" endpoint ⬇️                                                                                     | GET /v1/id-prefs  | GET /v1/redirect/read  |
+| Write data.<br>and return written data  | main ID.<br>preferences | List of IDs.<br>List of preferences                                        | Read provided ID.<br>Verify provided signatures.<br>Write ID cookie.<br>Write preferences cookie                                                                                                                                                                                       | ID is mandatory input for the "first visit" use case so is considered always mandatory, for consistency.<br>Data is written because it will be used for confirmation.                                                                                                                   | POST /v1/id-prefs | GET /v1/redirect/write |
+| Get new ID                              | -                       | main ID                                                                    | create a new ID and sign it.<br>do not store a cookie.<br>return ID                                                                                                                                                                                                                    | Cookie is not saved at this stage because we show the new value to the user before they validate it (and then it is saved, using the "Write data" endpoint ⬆️ ).<br>Since there is no cookie to read or write, no redirect version is needed, it can be made in JS with our without 3PC | GET /v1/new-id    | Not available          |
+| Verify 3PC                              | -                       | boolean                                                                    | Attempts to read the short-life cookie that was set by the "Read" endpoint.<br>Return true if found, false if not.                                                                                                                                                                     | The goal is to confirm that 3PC are supported. If the cookie set at previous step can be read, it means 3PC are supported.<br>See [website-design](./website-design.md) for details.<br><br>Note this endpoint doesn't require any signature.                                           | GET /v1/3pc       | Not available          |
+| Get identity                            | -                       | list of:<br>public key + start and end dates if any                        | Get the operator's "key" to use it for verifying an ID signed by this operator                                                                                                                                                                                                         | This is used by websites to get the operator identity to verify signatures of preferences and id.<br>Also used by audits.                                                                                                                                                               | GET /v1/identity  | Not available          |
 
 ℹ️ See below for details and examples
 
@@ -125,7 +132,7 @@ The signature takes all "key" data (see below), concatenate it and signs it.
 
 Here are some examples of the operator endpoints, assuming that query strings and payloads are **not** encrypted
 
-### GET /v1/json/read
+### GET /v1/id-prefs
 
 #### Request
 
@@ -134,7 +141,7 @@ npx encode-query-string -nd `cat request-advertiserA.json | npx json -e 'this.bo
 -->
 
 ```http
-GET /v1/json/read?sender=advertiserA.com&timestamp=1639057962145&signature=message_signature_xyz1234
+GET /v1/id-prefs/read?sender=advertiserA.com&timestamp=1639057962145&signature=message_signature_xyz1234
 ```
 
 ##### Request signature
@@ -238,7 +245,7 @@ newIdentifier.source.signature + '\u2063' +
 timestamp
 ```
 
-### POST /v1/json/write
+### POST /v1/id-prefs
 
 #### Request
 
@@ -247,7 +254,7 @@ npx encode-query-string -nd `cat request-cmpC.json | npx json -e 'this.body = un
 -->
 
 ```http
-POST /v1/json/write
+POST /v1/id-prefs
 ```
 
 ##### Request payload
@@ -358,7 +365,7 @@ identifiers[n].source.signature + '\u2063' +
 timestamp
 ```
 
-### GET /v1/json/newId
+### GET /v1/new-id
 
 #### Request
 
@@ -367,7 +374,7 @@ npx encode-query-string -nd `cat request-cmpC.json | npx json -e 'this.body = un
 -->
 
 ```http
-GET /v1/json/newId?sender=cmpC.com&timestamp=1639057962145&signature=message_signature_xyz1234
+GET /v1/new-id?sender=cmpC.com&timestamp=1639057962145&signature=message_signature_xyz1234
 ```
 
 ##### Request signature
@@ -417,9 +424,9 @@ newIdentifier.source.signature + '\u2063' +
 timestamp
 ```
 
-### GET /v1/json/verify3PC
+### GET /v1/3pc
 
-This endpoint is very "technical" and used only when a first attempt to read Prebid cookies via REST failed.
+This endpoint is only used when a first attempt to read Prebid cookies via REST failed.
 
 In this case, it can mean two things:
 
@@ -431,7 +438,7 @@ This endpoint will distinguish between the two.
 #### Request
 
 ```http
-GET /v1/json/verify3PC
+GET /v1/3pc
 ```
 
 **No signature** is required.
@@ -440,15 +447,19 @@ GET /v1/json/verify3PC
 
 - 3PC supported (test cookie was found)
   
+  HTTP response code: `200`
+  
   ```json
-  true
+  {
+    "3pc": true
+  }
   ```
 
 - 3PC **not** supported (test cookie could not be found)
   
-  ```json
-  false
-  ```
+  HTTP response code: `404`
+  
+  empty response
 
 **No signature** is sent back.
 
@@ -482,7 +493,7 @@ npx encode-query-string -nd `cat response-operatorO.json body-id-and-preferences
 -->
 
 ```shell
-302 https://advertiserA.com/pageA.html?sender=operatorO.com&timestamp=1639059692793&signature=message_signature_xyz1234&body.preferences.version=1&body.preferences.data.opt_in=true&body.preferences.source.domain=cmpC.com&body.preferences.source.timestamp=1639643112&body.preferences.source.signature=preferences_signature_xyz12345&body.identifiers[0].version=1&body.identifiers[0].type=prebid_id&body.identifiers[0].value=7435313e-caee-4889-8ad7-0acd0114ae3c&body.identifiers[0].source.domain=operator0.com&body.identifiers[0].source.timestamp=1639643110&body.identifiers[0].source.signature=prebid_id_signature_xyz12345
+303 https://advertiserA.com/pageA.html?sender=operatorO.com&timestamp=1639059692793&signature=message_signature_xyz1234&body.preferences.version=1&body.preferences.data.opt_in=true&body.preferences.source.domain=cmpC.com&body.preferences.source.timestamp=1639643112&body.preferences.source.signature=preferences_signature_xyz12345&body.identifiers[0].version=1&body.identifiers[0].type=prebid_id&body.identifiers[0].value=7435313e-caee-4889-8ad7-0acd0114ae3c&body.identifiers[0].source.domain=operator0.com&body.identifiers[0].source.timestamp=1639643110&body.identifiers[0].source.signature=prebid_id_signature_xyz12345
 ```
 
 ...which corresponds to the following query string values:
@@ -530,7 +541,7 @@ npx encode-query-string -nd `cat response-operatorO.json body-new-id.json | npx 
 -->
 
 ```shell
-302 https://publisherP.com/pageP.html?sender=operatorO.com&timestamp=1639059692793&signature=message_signature_xyz1234&body.newIdentifier.version=1&body.newIdentifier.type=prebid_id&body.newIdentifier.value=560cead0-eed5-4d3f-a308-b818b4827979&body.newIdentifier.source.domain=operator0.com&body.newIdentifier.source.timestamp=1639643110&body.newIdentifier.source.signature=prebid_id_signature_xyz12345
+303 https://publisherP.com/pageP.html?sender=operatorO.com&timestamp=1639059692793&signature=message_signature_xyz1234&body.newIdentifier.version=1&body.newIdentifier.type=prebid_id&body.newIdentifier.value=560cead0-eed5-4d3f-a308-b818b4827979&body.newIdentifier.source.domain=operator0.com&body.newIdentifier.source.timestamp=1639643110&body.newIdentifier.source.signature=prebid_id_signature_xyz12345
 ```
 
 ...which corresponds to the following query string values:
@@ -620,7 +631,7 @@ npx encode-query-string -nd `cat response-operatorO.json body-id-and-preferences
 -->
 
 ```shell
-302 https://publisherP.com/pageP.html?sender=operatorO.com&timestamp=1639059692793&signature=message_signature_xyz1234&body.preferences.version=1&body.preferences.data.opt_in=true&body.preferences.source.domain=cmpC.com&body.preferences.source.timestamp=1639643112&body.preferences.source.signature=preferences_signature_xyz12345&body.identifiers[0].version=1&body.identifiers[0].type=prebid_id&body.identifiers[0].value=7435313e-caee-4889-8ad7-0acd0114ae3c&body.identifiers[0].source.domain=operator0.com&body.identifiers[0].source.timestamp=1639643110&body.identifiers[0].source.signature=prebid_id_signature_xyz12345
+303 https://publisherP.com/pageP.html?sender=operatorO.com&timestamp=1639059692793&signature=message_signature_xyz1234&body.preferences.version=1&body.preferences.data.opt_in=true&body.preferences.source.domain=cmpC.com&body.preferences.source.timestamp=1639643112&body.preferences.source.signature=preferences_signature_xyz12345&body.identifiers[0].version=1&body.identifiers[0].type=prebid_id&body.identifiers[0].value=7435313e-caee-4889-8ad7-0acd0114ae3c&body.identifiers[0].source.domain=operator0.com&body.identifiers[0].source.timestamp=1639643110&body.identifiers[0].source.signature=prebid_id_signature_xyz12345
 ```
 
 ...which corresponds to the following query string values:
@@ -661,7 +672,7 @@ identifiers[n].source.signature + '\u2063' +
 timestamp
 ```
 
-### GET /v1/redirect/newId
+### GET /v1/redirect/new-id
 
 #### Request
 
@@ -670,7 +681,7 @@ npx encode-query-string -nd `cat request-cmpC.json | npx json -e 'this.body = un
 -->
 
 ```http
-GET /v1/redirect/newId?sender=cmpC.com&timestamp=1639057962145&signature=message_signature_xyz1234&redirectUrl=https://publisherP.com/pageP.html
+GET /v1/redirect/new-id?sender=cmpC.com&timestamp=1639057962145&signature=message_signature_xyz1234&redirectUrl=https://publisherP.com/pageP.html
 ```
 
 ##### Request signature
@@ -691,7 +702,7 @@ npx encode-query-string -nd `cat response-operatorO.json body-new-id.json | npx 
 -->
 
 ```shell
-302 https://publisherP.com/pageP.html?sender=operatorO.com&timestamp=1639059692793&signature=message_signature_xyz1234&body.newIdentifier.version=1&body.newIdentifier.type=prebid_id&body.newIdentifier.value=560cead0-eed5-4d3f-a308-b818b4827979&body.newIdentifier.source.domain=operator0.com&body.newIdentifier.source.timestamp=1639643110&body.newIdentifier.source.signature=prebid_id_signature_xyz12345
+303 https://publisherP.com/pageP.html?sender=operatorO.com&timestamp=1639059692793&signature=message_signature_xyz1234&body.newIdentifier.version=1&body.newIdentifier.type=prebid_id&body.newIdentifier.value=560cead0-eed5-4d3f-a308-b818b4827979&body.newIdentifier.source.domain=operator0.com&body.newIdentifier.source.timestamp=1639643110&body.newIdentifier.source.signature=prebid_id_signature_xyz12345
 ```
 
 ...which corresponds to the following query string values:
