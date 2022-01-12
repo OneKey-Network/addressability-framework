@@ -90,12 +90,14 @@ The Publisher isn't a Vendor.
 
 ## User interactions
 
-When a user browses a Publisher's website with ads, he wants to be able to audit
-the Contracting Parties that participated to the creation of those ads. The
-audit is achievable through a dedicated Audit Log UI. Each ad has an Audit Log
-that can be displayed independently in the Audit Log UI. Those Audit Logs are 
-available at least as long as the ads are shown. More generally, a Prebid SSO ad
-is a Addressable Content.
+When a user noticing an ad that is obviously personalized when he asked for
+no personalization, we wants to provide him with evidence of which parties were
+involved in the creation of that ad, so that material may be used to support a
+formal complaint through the law enforcement mechanism of the relevant 
+jurisdiction. The audit is achievable through a dedicated Audit Log UI. Each ad 
+has an Audit Log that can be displayed independently in the Audit Log UI. 
+Those Audit Logs are available at least as long as the ads are shown. 
+More generally, a Prebid SSO ad is a Addressable Content.
 
 ![Audit Button and Audit UI](./assets/audit-button-and-audit-ui-example.png)
 
