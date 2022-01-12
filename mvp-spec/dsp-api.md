@@ -208,7 +208,7 @@ Note that the "data" field is a simple dictionnary.
 | receiver | String           | The domain name of the DSP.                                                                                                                                                                                                                                                                                |
 | status   | String           | Equals "success" if the Receiver signed properly the Transmission.<br /> Equals "error_bad_request" if the receiver doesn't understand or see inconsistency in the Transmission Request but still share it accross the network.<br /> Equals "error_cannot_proceed" if the receiver cannot handle the Transmission Request properly but still share the Prebid SSO Data. |
 | details  | String           | In case of an error status, the DSP can provide details concerning the error.                                                                                                                                                                                                                              |
-| source   | Source object    | The source object contains data for identifying the Sender of a Transmission.<br /><table><tr><th>Field</th><th>Type</th><th>Details</th></tr><tr><td>domain</td><td>String</td><td>The domain of the Sender.</td></tr><tr><td>timestamp</td><td>Integer</td><td>The timestamp of the signature.</td></tr><tr><td>signature</td><td>String</td><td>Encoded signature in UTF-8 of the Tranmission sender.</td></tr></table>|
+| source   | Source object    | The source object contains data for identifying the Receiver of a Transmission.<br /><table><tr><th>Field</th><th>Type</th><th>Details</th></tr><tr><td>domain</td><td>String</td><td>The domain of the Receiver.</td></tr><tr><td>timestamp</td><td>Integer</td><td>The timestamp of the signature.</td></tr><tr><td>signature</td><td>String</td><td>Encoded signature in UTF-8 of the Receiver of the Tranmission.</td></tr></table>|
 
 
 ### Example of a Transmission Request
@@ -258,19 +258,8 @@ Note that the "data" field is a simple dictionnary.
                 "domain": "ssp1.com",
                 "timestamp": 1639583000,
                 "signature": "12345_signature"
-            },
-        },
-        {
-            "version": 0,
-            "receiver": "publisher.com",
-            "status": "SUCCESS",
-            "details": "",
-            "source": {
-                "domain": "publisher.com",
-                "timestamp": 1639583001,
-                "signature": "12345_signature"
-            },
-        },
+            }
+        }
     ],
     "source" : {
         "domain": "ssp1.com",
