@@ -5,13 +5,12 @@ data exchange targeted in the MVP.
 
 # Disclaimer
 
-This document consider for now that the SWAN Model Terms are the Prebid SSO
-Model Terms. Therefore some terminologies are reused and tacite references are 
-done to it. We compromise the fact of using too much periphrasis of the Model
-Terms and making this document self-contained. Don't hesitate to add comments 
-when some terminologies aren't clear. However, we encourage you to read the 
-Model Terms before this document. To prevent any confusion, 
-we will tend to reduce the usage of "SWAN" word in the benefits of "Prebid SSO".
+While this document doesn't fully cover nor 100% aligns with the current 
+version of SWAN Model Terms and its description of the Audit Log, it reuses 
+definitions and makes some implicit references to it. The intention is for this
+document to be self-contained, so don't hesitate to challenge or request 
+clarification when it's not the case. However, we do recommend reading the 
+Model Terms before this document.
 
 # Resources
 
