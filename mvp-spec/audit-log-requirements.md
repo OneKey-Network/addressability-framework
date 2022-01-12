@@ -315,9 +315,10 @@ different technical objects including the "imp" object (for impression). It can
 be a location for a Transmission request for each placement;
 * a Bid response can also be extended (field "ext") in different objects. It 
 can be a place for Transmission responses.
-* It is acceptable in OpenRTB to send an empty response for a no-bid. It must 
-be considered as a Receiver failure of the Prebid SSO Transmission if the
-Transmission relies on the Bid request/response..
+* It is acceptable in OpenRTB to send an empty response for a no-bid. In this
+case, the Transmissions must end with a failing status. This should not impact
+the final Audit Log because if there is no bid, the bidder doesn't provide any
+Addressable Content and won't appear in the Audit Log.
 
 # The Transmission Results
 
