@@ -16,6 +16,7 @@ Model Terms before this document.
 
 -   [SWAN Model Terms](https://github.com/SWAN-community/swan/blob/main/model-terms.md)
 -   [SWAN Model Terms explainer](https://github.com/SWAN-community/swan/blob/main/model-terms-explainer.md)
+-   [Open RTB specifications](https://www.iab.com/wp-content/uploads/2016/03/OpenRTB-API-Specification-Version-2-5-FINAL.pdf)
 
 # Definitions
 
