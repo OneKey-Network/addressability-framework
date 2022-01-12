@@ -86,7 +86,7 @@ The Publisher isn't a Vendor.
 
 ![Definitions Overview](./assets/definitions-overview.png)
 
-# Use case
+# MVP target use case
 
 ## User interactions
 
