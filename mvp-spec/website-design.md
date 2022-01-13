@@ -36,6 +36,7 @@ flowchart TD
         MiddlewareCookies{"Any Prebid 1st party 🍪?"}
         MiddlewareAfterRedirect{Redirected from operator?}
         MiddlewareNonEmptyData{Received data?}
+        MiddlewareVerifyRead["verify signature"]
         Middleware3PC{Browser known to support 3PC?}
         MiddlewareServe[serve HTML page]
         MiddlewareRedirect[HTTP redirect]
@@ -50,11 +51,9 @@ flowchart TD
         MiddlewareAfterRedirect -->|No| Middleware3PC
         MiddlewareAfterRedirect -->|Yes| MiddlewareNonEmptyData
         
-        MiddlewareNonEmptyData -->|No| MiddlewareSaveNothing
-        MiddlewareNonEmptyData -->|Yes| MiddlewareSave
-        
-        MiddlewareSaveNothing --> MiddlewareServe
-        MiddlewareSave --> MiddlewareServe
+        MiddlewareNonEmptyData -->|No| MiddlewareSaveNothing --> MiddlewareServe
+        MiddlewareNonEmptyData -->|Yes| MiddlewareVerifyRead
+        MiddlewareVerifyRead --> MiddlewareSave --> MiddlewareServe
         
         MiddlewareCookies -->|Yes| MiddlewareServe
     end
@@ -75,9 +74,10 @@ flowchart TD
     end
     
     subgraph "operator proxy"
-        ClientJsRedirect[javascript redirect]
-        ClientCallJson["javascript call read"]
-        ClientCallTest3PC["Javascript call test3PC"]
+        ClientJsRedirect[redirect read]
+        ClientCallJson["read"]
+        ClientCallTest3PC["test3PC"]
+        ClientVerifyRead["verify signature"]
     end
 
     subgraph "operator (API)"
@@ -85,7 +85,6 @@ flowchart TD
         OperatorRedirect[redirect/read endpoint]
         OperatorVerify3PC["json/verify3PC endpoint"]
     end
-    
     
     User[User visit] -------> Get
     style User stroke:#333,stroke-width:4px
@@ -100,7 +99,8 @@ flowchart TD
     HtmlLoad --> HtmlCookies
     
     HtmlAnyData -->|No| HtmlSaveNothing --> HtmlDone  
-    HtmlAnyData -->|Yes| HtmlSave --> HtmlDone
+    HtmlAnyData -->|Yes| ClientVerifyRead
+    ClientVerifyRead --> HtmlSave --> HtmlDone
     
     HtmlCookies -->|No| HtmlAfterRedirect
     HtmlCookies -->|Yes| HtmlDone
