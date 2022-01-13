@@ -3,16 +3,16 @@
 ## Read data
 
 This diagram details the steps needed to read existing cookies from Prebid SSO
-- at HTTP level **if the website hosts a middleware** that can trigger HTTP redirects when needed
-- at Javascript level in any case
-  - the Javascript integration relies on the **operator client**, a component responsible for building operator URLs to call,
-  hosted by the website or by a vendor _on the website's behalf_
-  (see [landscape](./landscape.md) for context)
-  - depending on the context, this operator client will call a JSON or "redirect" endpoint on the operator
+- at server level, **if the website decides to use a specific library**, HTTP redirects can be triggered when needed (referred to as "middleware" in the diagram)
+- at browser level, a Javascript library is used
+  - depending on the context, the JS library call a JSON or "redirect" endpoint on the operator
+  - it relies on the **operator proxy**, a component responsible for building operator URLs to call.
+ It is hosted by the website or by a vendor _on the website's behalf_  (see [landscape](./landscape.md) for context)
+  
 
 ### Test support of 3rd party cookies
 
-The logic to test if third party cookies are supported and use full page redirect if they aren't is the following:
+To test if third party cookies are supported and trigger redirect otherwise, the following logic is used:
 
 1. if an HTTP middleware is used, then
    1. based on user agent, if the browser is known to **not** support 3PC (ex: Safari) ➡️ consider no 3PC and immediately **HTTP redirect**
