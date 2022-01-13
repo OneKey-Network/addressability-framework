@@ -89,7 +89,7 @@ rect rgba(224, 224, 224, .55)
 
         activate B
             B ->> B: JS: full page REDIRECT<br>(or wait for user click)
-            B ->> O: GET /readOrInit?[...clear Data]&signature=xxx
+            B ->> O: GET /readOrGetNewId?[...clear Data]&signature=xxx
         deactivate B
 
         activate O
