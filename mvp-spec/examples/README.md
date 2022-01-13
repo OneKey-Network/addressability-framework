@@ -28,5 +28,3 @@ true
 Verification:
 false
 ```
-
-
