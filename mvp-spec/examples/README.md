@@ -1,6 +1,6 @@
 # Examples
 
-Contains the JSON examples used throughout the documentation
+This directory contains the JSON examples used throughout the documentation
 
 - sign an "id" json message:
 ```shell
