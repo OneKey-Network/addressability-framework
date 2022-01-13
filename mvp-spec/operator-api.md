@@ -43,12 +43,12 @@ Two types of data is manipulated by the operator API:
 Example:
 
 <!-- To get this JSON example, run:
-cat body-id.json | npx json body
+cat id.json
 -->
 
 ```json
 {
-  "version": 1,
+  "version": 0,
   "type": "prebid_id",
   "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
   "source": {
@@ -70,7 +70,7 @@ cat body-id-and-preferences.json | npx json body.preferences
 
 ```json
 {
-  "version": 1,
+  "version": 0,
   "data": {
     "opt_in": true
   },
@@ -166,7 +166,7 @@ cat response-operatorO.json body-id-and-preferences.json | npx json --merge
   "signature": "message_signature_xyz1234",
   "body": {
     "preferences": {
-      "version": 1,
+      "version": 0,
       "data": {
         "opt_in": true
       },
@@ -178,7 +178,7 @@ cat response-operatorO.json body-id-and-preferences.json | npx json --merge
     },
     "identifiers": [
       {
-        "version": 1,
+        "version": 0,
         "type": "prebid_id",
         "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
         "source": {
@@ -223,7 +223,7 @@ cat response-operatorO.json body-id-and-preferences.json body-new-id.json | npx 
   "body": {
     "identifiers": [
       {
-        "version": 1,
+        "version": 0,
         "type": "prebid_id",
         "value": "560cead0-eed5-4d3f-a308-b818b4827979",
         "source": {
@@ -273,7 +273,7 @@ cat request-cmpC.json body-id-and-preferences.json | npx json --merge
   "signature": "message_signature_xyz1234",
   "body": {
     "preferences": {
-      "version": 1,
+      "version": 0,
       "data": {
         "opt_in": true
       },
@@ -285,7 +285,7 @@ cat request-cmpC.json body-id-and-preferences.json | npx json --merge
     },
     "identifiers": [
       {
-        "version": 1,
+        "version": 0,
         "type": "prebid_id",
         "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
         "source": {
@@ -329,7 +329,7 @@ cat response-operatorO.json body-id-and-preferences.json | npx json --merge
   "signature": "message_signature_xyz1234",
   "body": {
     "preferences": {
-      "version": 1,
+      "version": 0,
       "data": {
         "opt_in": true
       },
@@ -341,7 +341,7 @@ cat response-operatorO.json body-id-and-preferences.json | npx json --merge
     },
     "identifiers": [
       {
-        "version": 1,
+        "version": 0,
         "type": "prebid_id",
         "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
         "source": {

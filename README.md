@@ -1,6 +1,7 @@
 # Adressable Network Proposals
 
 At Criteo Engineering we are working on:
+
 - Clarifying and documenting our understanding of the Prebid SSO project requirements.
 - Drafting specification and demonstrable prototypes that answer those
 - Delivering a MVP of the necessary components
@@ -21,12 +22,16 @@ It looks like this:
 
 ## [mvp-spec/](/mvp-spec)
 
-Specifications for a MVP, covering only a single id managed by several operators sharing a common registrable domain (e.g. operator1.prebidsso.com and operator2.prebidsso.com).
 
-| Document                                                                                        | Description                                                                       |
-|-------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------|
-| [mvp-spec/dsp-api.md](./mvp-spec/dsp-api.md)                                                    | Data exchange specification, from the point of view of a DSP implementer.         |
-| [mvp-spec/operator-api.md](./mvp-spec/operator-api.md)                                          | Operator API specification                                                        |
-| [mvp-spec/operator-design.md](./mvp-spec/operator-design.md)                                    | Design of the generation of Prebid SSO Data.                                      |
-| [mvp-spec/operator-design-alternative-swan.md](./mvp-spec/operator-design-alternative-swan.md)  | Summary of the SWAN solution for generating Prebid SSO Data.                      |
-| [mvp-spec/operator-requirements.md](./mvp-spec/operator-requirements.md)                        | Requirements for the generation of the Prebid SSO Data.                           |
+Specifications for a MVP, covering only a single id managed by several operators sharing a common registrable domain (
+e.g. operator1.prebidsso.com and operator2.prebidsso.com).
+
+| Document                                                                              | Description                                                               |
+|---------------------------------------------------------------------------------------|---------------------------------------------------------------------------|
+| [mvp-spec/audit-log-requirements.md](./mvp-spec/audit-log-requirements.md)            | Functional requirements related to the Audit Log and the Transmissions.   |
+| [landscape.md](./mvp-spec/landscape.md)                                               | An overview of the different actors and their roles.                      |
+| [dsp-api.md](./mvp-spec/dsp-api.md)                                                   | Data exchange specification, from the point of view of a DSP implementer. |
+| [operator-api.md](./mvp-spec/operator-api.md)                                         | Operator API specification                                                |
+| [operator-design.md](./mvp-spec/operator-design.md)                                   | Design of the generation of Prebid SSO Data.                              |
+| [operator-design-alternative-swan.md](./mvp-spec/operator-design-alternative-swan.md) | Summary of the SWAN solution for generating Prebid SSO Data.              |
+| [operator-requirements.md](./mvp-spec/operator-requirements.md)                       | Requirements for the generation of the Prebid SSO Data.                   |
