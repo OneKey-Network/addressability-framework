@@ -30,6 +30,7 @@ Specifications for a MVP, covering only a single id managed by several operators
 |---------------------------------------------------------------------------------------|---------------------------------------------------------------------------|
 | [audit-log-requirements.md](./mvp-spec/audit-log-requirements.md)                     | Functional requirements related to the Audit Log and the Transmissions.   |
 | [landscape.md](./mvp-spec/landscape.md)                                               | An overview of the different actors and their roles.                      |
+| [ad-server-implementation.md](./mvp-spec/ad-server-implementation.md)          | Details the implementation of Prebid SSO in an Ad Server.                 |
 | [dsp-api.md](./mvp-spec/dsp-api.md)                                                   | Data exchange specification, from the point of view of a DSP implementer. |
 | [operator-api.md](./mvp-spec/operator-api.md)                                         | Operator API specification                                                |
 | [operator-design.md](./mvp-spec/operator-design.md)                                   | Design of the generation of Prebid SSO Data.                              |
