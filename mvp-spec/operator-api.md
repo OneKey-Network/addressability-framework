@@ -16,7 +16,9 @@ These endpoints need to support both the "3PC" and "no 3PC" contexts.
 
 In practice, this will translate into endpoints available under different root paths. 
 
-Note: values returned by the endpoints are based cookies stored on the web user's browser. Of course it means the same calls on different web browsers will return different responses.
+Notes:
+- the endpoints called by the browser Javascript are called "REST" endpoints in this document even though they are not 100% RESTfull, but this naming seems the most appropriate to distinguish them from "redirect" endpoints.
+- values returned by the endpoints are based cookies stored on the web user's browser. Of course, it means the same calls on different web browsers will return different responses.
 
 Example paths are specified in the last column of the table.
 
@@ -209,10 +211,17 @@ timestamp
 
 #### Response in case of unknown user
 
-Response HTTP code: `404` ⚠️
+Response HTTP code: `200`
+
+In this case and to avoid an extra call to the API, a **newly generated ID** is returned.
+
+This id is **not** stored as 3d party Prebid SSO cookie yet.
+
+For this reason, the `persisted` property is set to `false`.
+- Note that this property is optional and the default value is `true`. In all other cases (when the returned data _is_ persisted), this attribute will be omited.
 
 <!-- Update this code block with:
-cat response-operatorO.json body-id-and-preferences.json body-new-id.json | npx json --merge -e 'this.body.preferences = undefined'
+cat response-operatorO.json body-id-and-preferences.json body-new-id.json | npx json --merge -e 'this.body.preferences = undefined; this.body.identifiers[0].persisted = false'
 -->
 
 ```json
@@ -223,28 +232,35 @@ cat response-operatorO.json body-id-and-preferences.json body-new-id.json | npx 
   "body": {
     "identifiers": [
       {
-        "version": 0,
+        "version": 1,
         "type": "prebid_id",
         "value": "560cead0-eed5-4d3f-a308-b818b4827979",
         "source": {
           "domain": "operator0.com",
           "timestamp": 1639643110,
           "signature": "prebid_id_signature_xyz12345"
-        }
+        },
+        "persisted": false
       }
     ]
   }
 }
 ```
 
+(notice the `persisted` property)
+
 ##### Response signature
 
-Signature of the concatenation of:
+Signature is the same, except that in this case there should always be only one identifier:
 
 ```
 sender + '\u2063' +
 receiver + '\u2063' +
-newIdentifier.source.signature + '\u2063' +
+preferences.source.signature + '\u2063' +
+identifiers[0].source.signature + '\u2063' +
+identifiers[1].source.signature + '\u2063' +
+...
+identifiers[n].source.signature + '\u2063' +
 timestamp
 ```
 
@@ -397,7 +413,7 @@ timestamp
 Response HTTP code: `200`
 
 <!-- Update this code block with: (same as read with unknown user)
-cat response-operatorO.json body-id-and-preferences.json body-new-id.json | npx json --merge -e 'this.body.preferences = undefined;'
+cat response-operatorO.json body-id-and-preferences.json body-new-id.json | npx json --merge -e 'this.body.preferences = undefined; this.body.identifiers[0].persisted = false'
 -->
 
 ```json
@@ -415,12 +431,15 @@ cat response-operatorO.json body-id-and-preferences.json body-new-id.json | npx 
           "domain": "operator0.com",
           "timestamp": 1639643110,
           "signature": "prebid_id_signature_xyz12345"
-        }
+        },
+        "persisted": false
       }
     ]
   }
 }
 ```
+
+(notice the `persisted` property)
 
 ##### Response signature
 
@@ -429,9 +448,15 @@ Signature of the concatenation of:
 ```
 sender + '\u2063' +
 receiver + '\u2063' +
-newIdentifier.source.signature + '\u2063' +
+preferences.source.signature + '\u2063' +
+identifiers[0].source.signature + '\u2063' +
+identifiers[1].source.signature + '\u2063' +
+...
+identifiers[n].source.signature + '\u2063' +
 timestamp
 ```
+
+(there should always be only one identifier)
 
 ### GET /v1/3pc
 
