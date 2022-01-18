@@ -46,8 +46,8 @@ My shared content.
 
 ```
 
-You can add many files, the updated will contain them before inserting it in
-the document.
+It is possible to add many files name in the `files` array. The updater 
+concats them before inserting it in the document.
 
 ### Partials in block
 
