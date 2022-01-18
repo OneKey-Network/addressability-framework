@@ -69,7 +69,7 @@ async function interpretPartialBeginToken(token: LexerToken) : Promise<string> {
             const partial = getPartialInCodeBlock(json);
             return partial;
         } 
-        const partials = config.files.map(loadPartial);
+        const partials = await Promise.all(config.files.map(loadPartial));
         const lineBreak = getLineBreakSymbol(config.files[0]);
         let merged = partials.join(lineBreak)
         if (config.hasOwnProperty('block')) {
