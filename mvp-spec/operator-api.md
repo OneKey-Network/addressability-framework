@@ -576,11 +576,11 @@ timestamp
 #### Response in case of unknown user
 
 <!-- The query string below is generated with taking the response-operatorO.json file, adding body, and encoding it as query string:
-npx encode-query-string -nd `cat response-404.json response-operatorO.json body-new-id.json | npx json --merge -o json-0`
+npx encode-query-string -nd `cat response-200.json response-operatorO.json body-new-id.json | npx json --merge -o json-0`
 -->
 
 ```shell
-303 https://publisherP.com/pageP.html?code=404&sender=operatorO.com&timestamp=1639059692793&signature=message_signature_xyz1234&body.identifiers[0].version=1&body.identifiers[0].type=prebid_id&body.identifiers[0].value=560cead0-eed5-4d3f-a308-b818b4827979&body.identifiers[0].source.domain=operator0.com&body.identifiers[0].source.timestamp=1639643110&body.identifiers[0].source.signature=prebid_id_signature_xyz12345
+303 https://publisherP.com/pageP.html?code=200&sender=operatorO.com&timestamp=1639059692793&signature=message_signature_xyz1234&body.identifiers[0].version=1&body.identifiers[0].type=prebid_id&body.identifiers[0].value=560cead0-eed5-4d3f-a308-b818b4827979&body.identifiers[0].source.domain=operator0.com&body.identifiers[0].source.timestamp=1639643110&body.identifiers[0].source.signature=prebid_id_signature_xyz12345&body.identifiers[0].persisted=false
 ```
 
 ...which corresponds to the following query string values:
@@ -590,7 +590,7 @@ npx encode-query-string -nd `cat response-404.json response-operatorO.json body-
 -->
 
 ```
-code=404
+code=200
 sender=operatorO.com
 timestamp=1639059692793
 signature=message_signature_xyz1234
@@ -600,10 +600,10 @@ body.identifiers[0].value=560cead0-eed5-4d3f-a308-b818b4827979
 body.identifiers[0].source.domain=operator0.com
 body.identifiers[0].source.timestamp=1639643110
 body.identifiers[0].source.signature=prebid_id_signature_xyz12345
+body.identifiers[0].persisted=false
 ```
 
-**Note**: because there are no preferences returned, it means the id has just been generated on the fly
-
+Notice `persisted=false`
 ##### Response signature
 
 Signature of the concatenation of:
@@ -745,7 +745,7 @@ npx encode-query-string -nd `cat response-200.json response-operatorO.json body-
 -->
 
 ```shell
-303 https://publisherP.com/pageP.html?code=200&sender=operatorO.com&timestamp=1639059692793&signature=message_signature_xyz1234&body.identifiers[0].version=1&body.identifiers[0].type=prebid_id&body.identifiers[0].value=560cead0-eed5-4d3f-a308-b818b4827979&body.identifiers[0].source.domain=operator0.com&body.identifiers[0].source.timestamp=1639643110&body.identifiers[0].source.signature=prebid_id_signature_xyz12345
+303 https://publisherP.com/pageP.html?code=200&sender=operatorO.com&timestamp=1639059692793&signature=message_signature_xyz1234&body.identifiers[0].version=1&body.identifiers[0].type=prebid_id&body.identifiers[0].value=560cead0-eed5-4d3f-a308-b818b4827979&body.identifiers[0].source.domain=operator0.com&body.identifiers[0].source.timestamp=1639643110&body.identifiers[0].source.signature=prebid_id_signature_xyz12345&body.identifiers[0].persisted=false
 ```
 
 ...which corresponds to the following query string values:
@@ -765,7 +765,10 @@ body.identifiers[0].value=560cead0-eed5-4d3f-a308-b818b4827979
 body.identifiers[0].source.domain=operator0.com
 body.identifiers[0].source.timestamp=1639643110
 body.identifiers[0].source.signature=prebid_id_signature_xyz12345
+body.identifiers[0].persisted=false
 ```
+
+Notice `persisted=false`
 
 ##### Response signature
 

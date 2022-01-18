@@ -9,7 +9,8 @@
           "domain": "operator0.com",
           "timestamp": 1639643110,
           "signature": "prebid_id_signature_xyz12345"
-        }
+        },
+        "persisted": false
       }
     ]
   }
