@@ -82,6 +82,9 @@ Run the script. The output will be:
 <!--partial-end-->
 ````
 
+Note that all the partials of the document are proccessed when the script 
+is launched.
+
 # Partials with JQ
 
 As we use a lot of JSON, the partial configuration supports [JQ](https://stedolan.github.io/jq/) filters.
