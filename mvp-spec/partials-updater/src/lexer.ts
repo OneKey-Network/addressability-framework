@@ -74,11 +74,11 @@ function getLines(content: string): string[] {
     const separators = [ '\n', '\r\n' ];
     const recuder = (min: string, sep: string): string => 
         min.length < sep.length ? min : sep;
-    const minLenght = separators.reduce(recuder).length;
+    const minLength = separators.reduce(recuder).length;
     const lines: string[] = []; 
     let lineStart = 0;
     
-    for (let i = minLenght; i < content.length; i++) {
+    for (let i = minLength; i < content.length; i++) {
         const filtered = separators.filter(x => x.length <= i - lineStart);
         for (let sep of filtered) {
             const separatorStart = i - sep.length;
