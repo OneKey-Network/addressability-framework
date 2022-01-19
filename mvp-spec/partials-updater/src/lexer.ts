@@ -71,29 +71,6 @@ export function lex(content: string): LexerToken[] {
  * @returns An array of lines including the separator.
  */
 function getLines(content: string): string[] {
-    const separators = [ '\n', '\r\n' ];
-    const recuder = (min: string, sep: string): string => 
-        min.length < sep.length ? min : sep;
-    const minLength = separators.reduce(recuder).length;
-    const lines: string[] = []; 
-    let lineStart = 0;
-    
-    for (let i = minLength; i < content.length; i++) {
-        const filtered = separators.filter(x => x.length <= i - lineStart);
-        for (let sep of filtered) {
-            const separatorStart = i - sep.length;
-            const candidat = content.substring(separatorStart, i);
-            if (candidat == sep) {
-                const newLine = content.substring(lineStart, i);
-                lines.push(newLine);
-                lineStart = i;
-                break;
-            }
-        }
-    }
-    if (lineStart < content.length) {
-        const newLine = content.substring(lineStart, content.length);
-        lines.push(newLine);
-    }
-    return lines;
+    //  Possible separators:  [ '\n', '\r\n' ]
+    return content.match(/[^\r\n]+(\r?\n)?|\r?\n/g);
 }
