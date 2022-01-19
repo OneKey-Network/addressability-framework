@@ -71,6 +71,13 @@ export function lex(content: string): LexerToken[] {
  * @returns An array of lines including the separator.
  */
 function getLines(content: string): string[] {
-    //  Possible separators:  [ '\n', '\r\n' ]
-    return content.match(/[^\r\n]+(\r?\n)?|\r?\n/g);
+    // Detect which separator is used in the file: \r\n, \r or \n
+    const separator = (content.match(/\r\n|\r|\n/))[0]
+
+    // Includes an empty "line" AFTER the last separator. Need to remove it
+    const lines = content.split(separator);
+    lines.pop()
+
+    // Re-inject the separator
+    return lines.map(line => `${line}${separator}`);
 }
