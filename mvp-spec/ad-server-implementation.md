@@ -2,23 +2,23 @@
 
 ## Goal of the document
 
-This document provides the guidances and the requirements for implementing 
+This document provides the guidance and the requirements for implementing 
 Prebid SSO on an Ad Server.
 
 ## Overview
 
-For performance purpose, it is recommanded to implement the 
+For performance purposes, it is recommended to implement the 
 Addressable Content Service directly in the Ad Server. Therefore, the following
 section is focused on this setup.
 
-Comparing to a usual setup with an Ad Server, the Publisher have to implement
+Compared to a usual setup with an Ad Server, the Publisher has to implement
 additional features to enable Prebid SSO. Those features are:
 * The generation of the Seeds of the Addressable Contents;
 * The emission of Transmissions to the Ad Network;
 * The support of the Audit Log for the user;
 * The exposition of an endpoint for the Prebid SSO Identity.
 
-The following diagram introduces an overview a this basic setup:
+The following diagram introduces an overview of this basic setup:
 
 <!--partial-begin { "files": [ "ad-server-flow.mmd" ], "block": "mermaid" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
@@ -43,16 +43,16 @@ sequenceDiagram
 ## Offer inventory with Prebid SSO Data
 
 Prebid SSO doesn't standardize the API of the Ad Server for offering
-inventory because each Ad Server has existing and specific API. 
+inventory because each Ad Server has an existing and specific API. 
 However, to implement Prebid SSO, the Ad Server need to implement new features
 in the existing endpoints called by the Publisher website to offer inventory 
 and get back Addressable Contents.
 
-To understand the steps, it is important to overview how generate the data and
+To understand the steps, it is important to overview how to generate the data and
 the relationships between them:
 * A Publisher offers multiple placements for Addressable Contents via an Ad Server
 * An Ad Server generates one Seed for each Addressable Content
-* An Ad Server generates and sends one Transaction Request per Seed and per Supplier
+* An Ad Server generates and sends one Transaction Request per Seed and Supplier
 * A Supplier generates and sends one Transaction Response per Transaction Request
 
 
@@ -181,7 +181,7 @@ Prebid SSO Parties. In the case of an existing custom communication
 (a.k.a not OpenRTB), Transmission Requests must be included in the existing
 communication and bound structurally or by references to the data of the 
 impressions (also named Addressable Content). One Transmission Requests 
-per Supplier and per Seed.
+per Supplier and Seed.
 
 ```mermaid
 flowchart LR
@@ -319,7 +319,7 @@ A Transmission Response is composed as followed:
 | source          | Source object                 | The source contains all the data for identifying the DSP and verifying the Transmission.                                                                                                                                                                                                                   |
 <!--partial-end-->
 
-Therefore, here is a example of Transmission Responses that
+Therefore, here is an example of Transmission Responses that
 must be adapted to the existing API:
 
 <!--partial-begin { "files": [ "transmission-requests.json" ], "block": "json" } -->
@@ -590,7 +590,7 @@ an example:
 ```
 <!--partial-end-->
 
-### Setp 7: Display the Addressable Content and make the Audit Log available
+### Step 7: Display the Addressable Content and make the Audit Log available
 
 Finally, the Addressable Content can be displayed and depending on the 
 implementation choice, the Audit Log can be added in a hidden tag in the
@@ -598,7 +598,7 @@ DOM or log in to the console.
 
 ### Transmissions with OpenRTB
 
-If the used protocol for offering the inventory is OpenRTB, the Ad Server need
+If the used protocol for offering the inventory is OpenRTB, the Ad Server needs
 to respect the following for integrating Prebid SSO.
 
 #### The OpenRTB Bid Request
@@ -607,7 +607,7 @@ In step **Step 4**, the Ad Server must share the Prebid SSO Data in the
 extensions of the Bid Request:
 
 First, The Transmission Request object in an OpenRTB request keeps the same structure.
-It embedded in the `ext` field of each impression. It is 
+It is embedded in the `ext` field of each impression. It is 
 reachable at `imp`.`ext`.`prebid_sso`.
 
 Second, the Pseudonymous-Identifiers structure change in the OpenRTB request to take the
@@ -617,9 +617,9 @@ Comparting to the solution without OpenRTB:
 1. The Pseudonymous-Identifier value is stored in the `eids`.`id` field.
 2. The `eids`.`atype` is set to `1` because the ID is tied to a specific browser
 for nom.
-3. The `version`, `type` and `source` fields are gathered in an extension of the `eid`: `eids`.`ext`.`prebid_sso`.
+3. The `version`, `type`, and `source` fields are gathered in an extension of the `eid`: `eids`.`ext`.`prebid_sso`.
 
-Finaly, The Preferences are in the extension of the user. It keeps the same structure 
+Finally, The Preferences are in the extension of the user. It keeps the same structure 
 and is reachable at `user`.`ext`.`prebid_sso`.
 
 #### Example of a OpenRTB Bid Request
@@ -720,7 +720,7 @@ and is reachable at `user`.`ext`.`prebid_sso`.
 #### The OpenRTB Bid Response
 
 In step 5, the bidder (named Receiver in Prebid SSO Transmission) send back a 
-OpenRTB Bid Response. Each `bid` is associated to a Transaction Response. The 
+OpenRTB Bid Response. Each `bid` is associated with a Transaction Response. The 
 Transaction has the same structure explained in **Step 5** and is reachable in
 the `ext` field of a `bid` (full path: `seatbid[].bid.ext.prebid_sso`).
 
