@@ -163,11 +163,10 @@ In a case of an ad-hoc communication between two Contracting Parties, the
 
 | Field  | Type                            | Details                           |
 |--------|---------------------------------|-----------------------------------|
-| version| Number                          | The Prebid SSO version of the object.               |
+| version| Number                          | The Prebid SSO version used.               |
 | seed   | Seed object                     | A Seed object contains all the Prebid SSO Data gathered and signed by the Publisher concerning the user. |
 | parents| Array of Transmission Results   | A list of Transmission Results that currently participate to a chain of Transmissions and make this Transmission possible. |  
 | source | Source object                   | The source object contains data for identifying the Sender of the Transmission.<br /><table><tr><th>Field</th><th>Type</th><th>Details</th></tr><tr><td>domain</td><td>String</td><td>The domain of the Sender.</td></tr><tr><td>timestamp</td><td>Integer</td><td>The timestamp of the signature.</td></tr><tr><td>signature</td><td>String</td><td>Encoded signature in UTF-8 of the Tranmission sender.</td></tr></table>|
-
 
 ### The Seed object
 
@@ -202,14 +201,16 @@ Note that the "data" field is a simple dictionnary.
 
 ## The Transmission Result object
 
-| Field    | Type             | Details                                        |
-|----------|------------------|------------------------------------------------|
-| version  | Number           | The Prebid SSO version of the object.          |
-| receiver | String           | The domain name of the DSP.                                                                                                                                                                                                                                                                                |
-| status   | String           | Equals "success" if the Receiver signed properly the Transmission.<br /> Equals "error_bad_request" if the receiver doesn't understand or see inconsistency in the Transmission Request but still share it across the network.<br /> Equals "error_cannot_proceed" if the receiver failed to use the data of the Transmission Request properly. |
-| details  | String           | In case of an error status, the DSP can provide details concerning the error.                                                                                                                                                                                                                              |
-| source   | Source object    | The source object contains data for identifying the Receiver of a Transmission.<br /><table><tr><th>Field</th><th>Type</th><th>Details</th></tr><tr><td>domain</td><td>String</td><td>The domain of the Receiver.</td></tr><tr><td>timestamp</td><td>Integer</td><td>The timestamp of the signature.</td></tr><tr><td>signature</td><td>String</td><td>Encoded signature in UTF-8 of the Receiver of the Tranmission.</td></tr></table>|
-
+<!--partial-begin { "files": [ "transmission-result-table.md" ] } -->
+<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
+| Field           | Type                          | Details                           |
+|-----------------|-------------------------------|-----------------------------------|
+| version         | Number                        | The version of the Prebid SSO used.                                                                                                                                                                                                                               |
+| receiver        | String                        | The domain name of the DSP.                                                                                                                                                                                                                                                                                |
+| status          | String                        | Equals "success" if the DSP signed the Transmission and returns it to the sender.<br /> Equals "error_bad_request" if the receiver doesn't understand or see inconsistency in the Transmission Request.<br /> Equals "error_cannot_process" if the receiver failed to use the data of the Transmission Request properly. |
+| details         | String                        | In case of an error status, the DSP can provide details concerning the error.                                                                                                                                                                                                                              |
+| source          | Source object                 | The source contains all the data for identifying the DSP and verifying the Transmission.                                                                                                                                                                                                                   |
+<!--partial-end-->
 
 ### Example of a Transmission Request
 
