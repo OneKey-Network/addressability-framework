@@ -693,22 +693,24 @@ and is reachable at `user`.`ext`.`prebid_sso`.
             "eids": 
             [
                 {
-                    "id": "7435313e-caee-4889-8ad7-0acd0114ae3c",
-                    "atype": 1,
-                    "ext": 
-                    {
-                        "prebid_sso": 
+                    "source": "prebid_sso",
+                    "uids": [
                         {
-                            "version": 0,
-                            "type": "prebid_id",
-                            "source": 
+                            "atype": 1,
+                            "id": "7435313e-caee-4889-8ad7-0acd0114ae3c",
+                            "ext": 
                             {
-                                "domain": "operotor0.com",
-                                "timestamp": 1639589531,
-                                "signature": "12345_signature"
+                                "version": 0,
+                                "type": "prebid_id",
+                                "source": 
+                                {
+                                    "domain": "operotor0.com",
+                                    "timestamp": 1639589531,
+                                    "signature": "12345_signature"
+                                }
                             }
                         }
-                    }
+                    ]
                 }
             ],
             "prebid_sso": {
