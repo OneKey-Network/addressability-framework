@@ -596,3 +596,175 @@ Finally, the Addressable Content can be displayed and depending on the
 implementation choice, the Audit Log can be added in a hidden tag in the
 DOM or log in to the console.
 
+### Transmissions with OpenRTB
+
+If the used protocol for offering the inventory is OpenRTB, the Ad Server need
+to respect the following for integrating Prebid SSO.
+
+#### The OpenRTB Bid Request
+
+In step **Step 4**, the Ad Server must share the Prebid SSO Data in the 
+extensions of the Bid Request:
+
+First, The Transmission Request object in an OpenRTB request keeps the same structure.
+It embedded in the `ext` field of each impression. It is 
+reachable at `imp`.`ext`.`prebid_sso`.
+
+Second, the Pseudonymous-Identifiers structure change in the OpenRTB request to take the
+advantage of the [Extended Identifiers](https://github.com/InteractiveAdvertisingBureau/openrtb/blob/master/extensions/2.x_official_extensions/eids.md). 
+One `eid` per Pseudonymous-Identifier. It is reachable at `user`.`ext`.`eids`
+Comparting to the solution without OpenRTB:
+1. The Pseudonymous-Identifier value is stored in the `eids`.`id` field.
+2. The `eids`.`atype` is set to `1` because the ID is tied to a specific browser
+for nom.
+3. The `version`, `type` and `source` fields are gathered in an extension of the `eid`: `eids`.`ext`.`prebid_sso`.
+
+Finaly, The Preferences are in the extension of the user. It keeps the same structure 
+and is reachable at `user`.`ext`.`prebid_sso`.
+
+#### Example of a OpenRTB Bid Request
+
+<!--partial-begin { "files": [ "openrtb-request-with-transmissions.json" ], "block": "json" } -->
+<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
+```json
+{
+    "id": "80ce30c53c16e6ede735f123ef6e32361bfc7b22",
+    "at": 1, 
+    "cur": [ "USD" ],
+    "imp": [
+        {
+            "id": "1",
+            "bidfloor": 0.03,
+            "banner": {
+                "h": 250,
+                "w": 300,
+                "pos": 0
+            },
+            "ext": {
+                "prebid_sso": {
+                    "version": 0,
+                    "seed": {
+                        "version": 0,
+                        "transaction_id": 1234567,
+                        "source": {
+                            "domain": "publisher0.com",
+                            "timestamp": 1639589531,
+                            "signature": "12345_signature"
+                        }
+                    },
+                    "parents": [],
+                }
+            }
+        }
+    ],
+    "site": {
+        "id": "102855",
+        "cat": [ "IAB3-1" ],
+        "domain": "www.publisher.com",
+        "page": "http://www.publisher.com/1234.html ",
+        "publisher": {
+            "id": "8953",
+            "name": "publisher.com",
+            "cat": ["IAB3-1"],
+            "domain": "publisher.com"
+        }
+    },
+    "device": {
+        "ua": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_8) AppleWebKit/537.13 (KHTML, like Gecko) Version/5.1.7 Safari/534.57.2",
+        "ip": "123.145.167.10"
+    },
+    "user": {
+        "id": "55816b39711f9b5acf3b90e313ed29e51665623f",
+         "ext":
+         {
+            "eids": 
+            [
+                {
+                    "id": "7435313e-caee-4889-8ad7-0acd0114ae3c",
+                    "atype": 1,
+                    "ext": 
+                    {
+                        "prebid_sso": 
+                        {
+                            "version": 0,
+                            "type": "prebid_id",
+                            "source": 
+                            {
+                                "domain": "operotor0.com",
+                                "timestamp": 1639589531,
+                                "signature": "12345_signature"
+                            }
+                        }
+                    }
+                }
+            ],
+            "prebid_sso": {
+                "preferences": {
+                    "version": 0,
+                    "data": { 
+                        "opt_in": true 
+                    },
+                    "source": {
+                        "domain": "cmp1.com",
+                        "timestamp": 1639589531,
+                        "signature": "12345_signature"
+                    }
+                }
+            }
+        }
+    }
+}
+```
+<!--partial-end-->
+
+#### The OpenRTB Bid Response
+
+In step 5, the bidder (named Receiver in Prebid SSO Transmission) send back a 
+OpenRTB Bid Response. Each `bid` is associated to a Transaction Response. The 
+Transaction has the same structure explained in **Step 5** and is reachable in
+the `ext` field of a `bid` (full path: `seatbid[].bid.ext.prebid_sso`).
+
+Here is an example:
+
+<!--partial-begin { "files": [ "openrtb-response-with-transmissions.json" ], "block": "json" } -->
+<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
+```json
+{
+    "id": "1234567890",
+    "bidid": "abc1123",
+    "cur": "USD",
+    "seatbid": [
+        {
+            "seat": "512",
+            "bid": [
+                {
+                    "id": "1",
+                    "impid": "1",
+                    "price": 9.43,
+                    "nurl": "http://adserver.com/winnotice?impid=102",
+                    "iurl": "http://adserver.com/pathtosampleimage",
+                    "adomain": [ "advertiserdomain.com" ],
+                    "cid": "campaign111",
+                    "crid": "creative112",
+                    "attr": [ 1, 2, 3, 4, 5, 6, 7, 12 ],
+                    "ext": {
+                        "prebid_sso": {
+                            "version": 0,
+                            "receiver": "dsp1.com",
+                            "status": "success",
+                            "details": "",
+                            "source": {
+                                "domain": "dsp1.com",
+                                "timestamp": 1639589531,
+                                "signature": "12345_signature"
+                            },
+                            "children": []
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+}
+```
+<!--partial-end-->
