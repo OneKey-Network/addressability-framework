@@ -29,6 +29,7 @@
             "seed": {
                 "version": 0,
                 "transaction_id": 1234567,
+                "publisher": "publisher.com",
                 "source": {
                     "domain": "publisher.com",
                     "timestamp": 1639582000,
@@ -47,6 +48,7 @@
             "seed": {
                 "version": 0,
                 "transaction_id": 1234567,
+                "publisher": "publisher.com",
                 "source": {
                     "domain": "publisher.com",
                     "timestamp": 1639582000,

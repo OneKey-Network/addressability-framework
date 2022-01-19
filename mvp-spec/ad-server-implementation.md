@@ -9,16 +9,18 @@ Prebid SSO on an Ad Server.
 
 For performance purposes, it is recommended to implement the 
 Addressable Content Service directly in the Ad Server. Therefore, the following
-section is focused on this setup.
+document is focused on this setup.
 
-Compared to a usual setup with an Ad Server, the Publisher has to implement
-additional features to enable Prebid SSO. Those features are:
+Compared to a usual setup with an Ad Server, the Publisher or the Provider of
+the Ad Server has to implement additional features to enable Prebid SSO. 
+
+Those features are:
 * The generation of the Seeds of the Addressable Contents;
 * The emission of Transmissions to the Ad Network;
 * The support of the Audit Log for the user;
 * The exposition of an endpoint for the Prebid SSO Identity.
 
-The following diagram introduces an overview of this basic setup:
+The following diagram introduces an overview of this setup:
 
 <!--partial-begin { "files": [ "ad-server-flow.mmd" ], "block": "mermaid" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
@@ -50,10 +52,11 @@ and get back Addressable Contents.
 
 To understand the steps, it is important to overview how to generate the data and
 the relationships between them:
-* A Publisher offers multiple placements for Addressable Contents via an Ad Server
-* An Ad Server generates one Seed for each Addressable Content
-* An Ad Server generates and sends one Transaction Request per Seed and Supplier
-* A Supplier generates and sends one Transaction Response per Transaction Request
+* A Publisher offers *multiple* placements - one for each for 
+Addressable Contents - via an Ad Server.
+* An Ad Server generates *one* Seed for each Addressable Content
+* An Ad Server generates and sends *one* Transaction Request per Seed and Supplier
+* A Supplier generates and sends *one* Transaction Response per Transaction Request
 
 
 ```mermaid
@@ -114,10 +117,11 @@ Here is the structure of the Preferences:
 ### Step 3: Generate the Seeds
 
 The Seed is the association of the Pseudonymous-Identifiers and the
-Preferences of the user for a given Addressable Content. Once generated, a
-Prebid SSO party in possession of a Seed can share it with another party via 
-Transmissions (the next steps). A Seed is signed by the Ad Server for 
-audit purposes. 
+Preferences of the user for a given Addressable Content. The Ad Server must
+generate this association and sign it.
+Once generated, a Prebid SSO party - including the Ad Server- in possession of 
+a Seed can share it with another party via Transmissions (see the next steps). 
+A Seed is signed by the Ad Server for audit purposes. 
 
 Here is the composition of a Seed:
 
@@ -260,6 +264,7 @@ Here is an example that must be adapted to the existing API of the Ad Server:
             "seed": {
                 "version": 0,
                 "transaction_id": 1234567,
+                "publisher": "publisher.com",
                 "source": {
                     "domain": "publisher.com",
                     "timestamp": 1639582000,
@@ -278,6 +283,7 @@ Here is an example that must be adapted to the existing API of the Ad Server:
             "seed": {
                 "version": 0,
                 "transaction_id": 1234567,
+                "publisher": "publisher.com",
                 "source": {
                     "domain": "publisher.com",
                     "timestamp": 1639582000,
@@ -322,73 +328,40 @@ A Transmission Response is composed as followed:
 Therefore, here is an example of Transmission Responses that
 must be adapted to the existing API:
 
-<!--partial-begin { "files": [ "transmission-requests.json" ], "block": "json" } -->
+<!--partial-begin { "files": [ "transmission-responses.json" ], "block": "json" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```json
 {
-    "data": {
-        "identifiers": [
-            {
-                "version": 0,
-                "type": "prebid_id",
-                "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
-                "source": {
-                    "domain": "operator0.com",
-                    "timestamp": 1639580000,
-                    "signature": "12345_signature"
-                }
-            }
-        ],
-        "preferences": {
-            "data": { 
-                "opt_in": true 
-            },
-            "source": {
-                "domain": "cmp1.com",
-                "timestamp": 1639581000,
-                "signature": "12345_signature"
-            }
-        }
-    },
     "transmissions": [
         {
             "version": 0,
-            "seed": {
-                "version": 0,
-                "transaction_id": 1234567,
-                "source": {
-                    "domain": "publisher.com",
-                    "timestamp": 1639582000,
-                    "signature": "12345_signature"
-                }
-            },
+            "transaction_id": 1234567,
+            "receiver": "dsp1.com",
+            "status": "success",
+            "details": "",
             "source": {
                 "domain": "dsp1.com",
-                "timestamp": 1639581000,
+                "timestamp": 1639589531,
                 "signature": "12345_signature"
             },
-            "parents": []
+            "children": []
         },
         {
             "version": 0,
-            "seed": {
-                "version": 0,
-                "transaction_id": 1234567,
-                "source": {
-                    "domain": "publisher.com",
-                    "timestamp": 1639582000,
-                    "signature": "12345_signature"
-                }
-            },
+            "transaction_id": 12345678,
+            "receiver": "dsp1.com",
+            "status": "success",
+            "details": "",
             "source": {
-                "domain": "dps1.com",
-                "timestamp": 1639581000,
+                "domain": "dsp1.com",
+                "timestamp": 1639589531,
                 "signature": "12345_signature"
             },
-            "parents": []
+            "children": []
         }
     ]
 }
+
 ```
 <!--partial-end-->
 
@@ -422,7 +395,7 @@ Here is the structure of a Transmission Result:
 |-----------------|-------------------------------|-----------------------------------|
 | version         | Number                        | The version of the Prebid SSO used.                                                                                                                                                                                                                               |
 | receiver        | String                        | The domain name of the DSP.                                                                                                                                                                                                                                                                                |
-| status          | String                        | Equals "success" if the DSP signed the Transmission and returns it to the sender.<br /> Equals "error_bad_request" if the receiver doesn't understand or see inconsistency in the Transmission Request.<br /> Equals "error_cannot_process" if the receiver cannot handle the Transmission Request properly. |
+| status          | String                        | Equals "success" if the DSP signed the Transmission and returns it to the sender.<br /> Equals "error_bad_request" if the receiver doesn't understand or see inconsistency in the Transmission Request.<br /> Equals "error_cannot_process" if the receiver failed to use the data of the Transmission Request properly. |
 | details         | String                        | In case of an error status, the DSP can provide details concerning the error.                                                                                                                                                                                                                              |
 | source          | Source object                 | The source contains all the data for identifying the DSP and verifying the Transmission.                                                                                                                                                                                                                   |
 <!--partial-end-->
@@ -472,7 +445,7 @@ Here is a received Transmission Response that helps to generate the Addressable 
 
 Here is the associated list of Transmission Results:
 
-<!--partial-begin { "files": [ "transmission-responses.json" ], "block": "json" } -->
+<!--partial-begin { "files": [ "transmission-results.json" ], "block": "json" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```json
 {
@@ -480,32 +453,37 @@ Here is the associated list of Transmission Results:
         {
             "version": 0,
             "transaction_id": 1234567,
-            "receiver": "dsp1.com",
+            "receiver": "ssp1.com",
             "status": "success",
             "details": "",
             "source": {
-                "domain": "dsp1.com",
+                "domain": "ssp1.com",
                 "timestamp": 1639589531,
                 "signature": "12345_signature"
-            },
-            "children": []
+            }
         },
         {
-            "version": 0,
-            "transaction_id": 12345678,
-            "receiver": "dsp1.com",
+            "receiver": "ssp2.com",
             "status": "success",
             "details": "",
             "source": {
-                "domain": "dsp1.com",
+                "domain": "ssp2.com",
                 "timestamp": 1639589531,
                 "signature": "12345_signature"
-            },
-            "children": []
+            }
+        },
+        {
+            "receiver": "dsp.com",
+            "status": "success",
+            "details": "",
+            "source": {
+                "domain": "dsp.com",
+                "timestamp": 1639589531,
+                "signature": "12345_signature"
+            }
         }
     ]
 }
-
 ```
 <!--partial-end-->
 
@@ -646,6 +624,7 @@ and is reachable at `user`.`ext`.`prebid_sso`.
                     "seed": {
                         "version": 0,
                         "transaction_id": 1234567,
+                        "publisher": "publisher.com",
                         "source": {
                             "domain": "publisher0.com",
                             "timestamp": 1639589531,
