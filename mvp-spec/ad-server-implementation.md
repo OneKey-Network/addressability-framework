@@ -206,7 +206,20 @@ A Transmission Request is composed as followed:
 | source | Source object                   | The source object contains data for identifying the Sender of the Transmission.<br /><table><tr><th>Field</th><th>Type</th><th>Details</th></tr><tr><td>domain</td><td>String</td><td>The domain of the Sender.</td></tr><tr><td>timestamp</td><td>Integer</td><td>The timestamp of the signature.</td></tr><tr><td>signature</td><td>String</td><td>Encoded signature in UTF-8 of the Tranmission sender.</td></tr></table>|
 <!--partial-end-->
 
-Similar to the Seed, the Transmission Request contains a signature for 
+The Transmission Request list is always associated to Prebid SSO Data that has
+been used for generating the Seed. Here is a hypothetical structure of it that
+we name `data` in the following example: 
+
+<!--partial-begin { "files": [ "data-id-and-preferences-table.md" ] } -->
+<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
+
+| Field                  | Type                                     | Details  |
+|------------------------|------------------------------------------|----------|
+| preferences            | Preferences object                       | The Preferences of the user.|
+| identifiers            | Array of Pseudonymous-Identifier objects | The Pseudonymous-Identifiers of the user. For now, it only contains a Prebid ID.|
+<!--partial-end-->
+
+Similar to the Seed, each Transmission Request contains a signature for 
 audit purposes. It used the data of the Transaction Request and the domain
 name of the Receiver with the same cryptographic algorithm.
 
@@ -377,7 +390,8 @@ The Audit Log has the following structure:
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 | Field         | Type                         | Detail                        |
 |---------------|------------------------------|-------------------------------|
-| seed          | Seed Object                  | The Seed object is the association of an Addressable Content with Prebid SSO Data. |
+| data          | Prebid SSO Object            | List the Pseudonymous-Identifiers and the Preferences of the user. |
+| seed          | Seed Object                  | The Seed object is the association of an Addressable Content to the Prebid SSO Data. |
 | transmissions | List of Transmission Results | A list of Transmission Results |
 <!--partial-end-->
 
@@ -387,8 +401,28 @@ Transmission Response that participates in the Addressable Content. The required
 data are the status and the signature of the Transmission Response and its 
 children.
 
-Here is the structure of a Transmission Result:
+As a reminder, here is the structure of the Prebid SSO Object:
+<!--partial-begin { "files": [ "data-id-and-preferences-table.md" ] } -->
+<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 
+| Field                  | Type                                     | Details  |
+|------------------------|------------------------------------------|----------|
+| preferences            | Preferences object                       | The Preferences of the user.|
+| identifiers            | Array of Pseudonymous-Identifier objects | The Pseudonymous-Identifiers of the user. For now, it only contains a Prebid ID.|
+<!--partial-end-->
+
+As a reminder, here is the structure of the Seed:
+<!--partial-begin { "files": [ "seed-optimized-table.md" ] } -->
+<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
+| Field                  | Type                                     | Details  |
+|------------------------|------------------------------------------|----------|
+| version                | Number                                   | The Prebid SSO version used.|
+| transaction_id         | String                                   | A GUID in a String format dedicated to the share of the Prebid SSO data for one Addressable Content.|
+| publisher              | String                                   | The domain name of the Publisher that displays the Addressable Content|
+| source                 | Source object                            | The source contains data for identifying and trusting the Publisher.<br /><table><tr><th>Field</th><th>Type</th><th>Details</th></tr><tr><td>domain</td><td>String</td><td>The domain of the Root Party (Publisher in most of the cases).</td></tr><tr><td>timestamp</td><td>Integer</td><td>The timestamp of the signature.</td></tr><tr><td>signature</td><td>String</td><td>Encoded signature in UTF-8 of the Root Party/Publisher.</td></tr></table>|
+<!--partial-end-->
+
+Here is the structure of a Transmission Result:
 <!--partial-begin { "files": [ "transmission-result-table.md" ] } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 | Field           | Type                          | Details                           |
