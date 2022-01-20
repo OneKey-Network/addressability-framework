@@ -315,9 +315,10 @@ different technical objects including the "imp" object (for impression). It can
 be a location for a Transmission request for each placement;
 * a Bid response can also be extended (field "ext") in different objects. It 
 can be a place for Transmission responses.
-* It is acceptable in OpenRTB to send an empty response for a no-bid. It must 
-be considered as a Receiver failure of the Prebid SSO Transmission if the
-Transmission relies on the Bid request/response..
+* It is acceptable in OpenRTB to send an empty response for a no-bid. In this
+case, the Transmissions must end with a no_bid status. This should not impact
+the final Audit Log because if there is no bid, the bidder doesn't provide any
+Addressable Content and won't appear in the Audit Log.
 
 # The Transmission Results
 
@@ -371,9 +372,10 @@ Signature<Contracting_Party> -> Cryptographic signature relying on Prebid SSO Da
 
 # Transmissions
 Transmission_Success            -> (Receiver, Signature<Receiver>)
+Transmission_No_Bid             -> (Receiver, Signature<Receiver>)
 Transmission_Error_Response     -> (Receiver, Signature<Sender>, Detail)
 Transmission_Error_No_Response  -> (Receiver, Signature<Sender>)
-Transmission_Result             -> Transmission_Success | Transmission_Error_No_Response | Transmission_Error_Response
+Transmission_Result             -> Transmission_Success | Transmission_No_Bid | Transmission_Error_No_Response | Transmission_Error_Response
 
 # Seed and Prebid SSO Data
 Transaction_ID              -> Unique Identifier

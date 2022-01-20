@@ -460,18 +460,18 @@ Transmission is named "prebid_sso_transmission".
 ## Many Transmission Responses in one OpenRTB Bid Response
 
 Similar to the OpenRTB Bid Request for the Transmission Requests, the OpenRTB
-Bid Response must contain multiple Transmission Responses - one for each
-impression. However, the OpenRTB Bid Response is focused on BidSeat and Bid with
-potential cases where impressions don't appear in the response because there is
-no bid on them. Therefore, each Transmission Request must be expressed in the
-"ext" object of the root Bid Response paired with the impression ids provided in
-the request. The name of this new object in the "ext" object is 
-"prebid_sso_transmissions".
+Bid Response can contain multiple Transmission Responses - one for each
+bid. It is not required to provide a Transmission Response for each impression:
+if there is no bid for a given impression, the bidder won't share any 
+Addressable Content to it and so, it won't be in the Audit Log of this latest.
 
-Each Transmission Request presented in the Bid Request must have a Transmission
-Response in the Bid Response. The OpenRTB specification allows providing an
-empty payload for a "No Bid". However, this is not acceptable in the presence of
-Transmission.
+Each Transmission Request must be expressed in the "ext" object of the root 
+Bid Response paired with the impression ids provided in the request. The name 
+of this new object in the "ext" object is "prebid_sso_transmissions".
+
+The OpenRTB specification allows providing an empty payload for a "No Bid". In
+this case, there is no Transmission Response and the Transmission won't be
+in the Audit Logs.
 
 #### Example of a Transmission Response in an OpenRTB Bid Response
 ```json
