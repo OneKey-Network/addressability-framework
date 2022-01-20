@@ -1,10 +1,5 @@
 # Operator Design
 
-⚠️ **Diagrams** in this page use the [Mermaid](https://mermaidjs.github.io/) language.
-We plan to install GitHub actions to automatically generate images from the diagrams, but until then,
-you are invited to install a browser extension such as [mermaid-diagrams](https://chrome.google.com/webstore/detail/mermaid-diagrams/phfcghedmopjadpojhmmaffjmfiakfil) to visualise them.
-You might need to **refresh the page** to get the rendered image.
-
 ## Protocol
 
 The proposed solution enforces the usage of TLS (HTTPS) for all communication to and from the operator, to prevent middle men to "spy" on data that is passed.
