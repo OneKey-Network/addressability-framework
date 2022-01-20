@@ -87,7 +87,7 @@ The publisher has multiple roles
 
 ## SSP (Supply Side Platform)
 
-The SSP receives a seed and transaction from the publisher and initiates (signed) transmissions to DSPs.
+The SSP shares Prebid SSO Data to DSPs via Transmission Requests. Depending of the context, it can generate the Seed and emit the first Transmission of the Transaction or receive the Seed from a previous Transmission Request.
 
 ## DSP (Demand Side Platform)
 
