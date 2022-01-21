@@ -101,14 +101,13 @@ async function transformMermaids(config: PartialConfig) {
     cmdAndPathes.forEach((val) => {
         child.execSync(val[0]);
     });
-    const asyncContents = cmdAndPathes.map((val) => {
+    const contents = cmdAndPathes.map((val) => {
         const assetFile = val[1];
         const assetPath = getAssetPathRelativeToDocuments(assetFile);
         const assetName = assetFile.substring(0, assetFile.lastIndexOf('.'));
         const imgRef = `![${assetName}](${assetPath})`;
         return imgRef;
-    })
-    const contents = await Promise.all(asyncContents);
+    });
     let joined = contents.join(lineBreak);
     return joined;
 }
