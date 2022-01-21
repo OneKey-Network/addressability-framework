@@ -1,6 +1,8 @@
-export const PartialBeginStartKey = "<!--partial-begin"
-export const PartialBeginEndKey = "-->\r\n"
-export const PartialEndKey = "<!--partial-end-->\r\n"
+import {Document} from "./files";
+
+export const PartialEnd = /^<!--partial-end-->[\s\S]*$/
+
+export const PartialBegin = /^<!--partial-begin *(.*) *-->[\s\S]*$/
 
 /** All type of tokens for a simplified lexing for partials. */
 export enum LexerTokenType {
@@ -16,12 +18,12 @@ export interface LexerToken {
 }
 
 /** Split a content in tokens. */
-export function lex(content: string): LexerToken[] {
+export function lex({content, eolChar}: Document): LexerToken[] {
     const tokens = new Array<LexerToken>();
-    const lines = getLines(content);
+    const lines = getLines(content, eolChar);
     let textAcc = '';
     lines.forEach(line => {
-        if (line.startsWith(PartialBeginStartKey) && line.endsWith(PartialBeginEndKey)) {
+        if (line.match(PartialBegin)) {
             if (textAcc != '') {
                 const token: LexerToken = {
                     type: LexerTokenType.PlainText,
@@ -35,7 +37,7 @@ export function lex(content: string): LexerToken[] {
                 text: line
             };
             tokens.push(token);
-        } else if (line == PartialEndKey) {
+        } else if (line.match(PartialEnd)) {
             if (textAcc != '') {
                 const token: LexerToken = {
                     type: LexerTokenType.PlainText,
@@ -66,18 +68,16 @@ export function lex(content: string): LexerToken[] {
 
 /**
  * Split a content in lines including the separators.
- * 
+ *
  * @param content String to split in lines
+ * @param eolChar separator character (end of line)
  * @returns An array of lines including the separator.
  */
-function getLines(content: string): string[] {
-    // Detect which separator is used in the file: \r\n, \r or \n
-    const separator = (content.match(/\r\n|\r|\n/))[0]
-
+function getLines(content: string, eolChar: string): string[] {
     // Includes an empty "line" AFTER the last separator. Need to remove it
-    const lines = content.split(separator);
+    const lines = content.split(eolChar);
     lines.pop()
 
     // Re-inject the separator
-    return lines.map(line => `${line}${separator}`);
+    return lines.map(line => `${line}${eolChar}`);
 }
