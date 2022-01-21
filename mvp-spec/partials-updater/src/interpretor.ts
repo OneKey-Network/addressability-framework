@@ -67,7 +67,7 @@ async function interpretPartialBeginToken(token: LexerToken) : Promise<string> {
             throw new Error(`Partial with bad configuration: ${token.text}`)
         }
         
-        if (config.hasOwnProperty('jq')) {
+        if (config.jq !== undefined) {
             const jsonPaths = config.files.map(getPartialPath);
             const options = (config.files.length > 1) ? { slurp: true } : undefined;
             const json = (await jq.run(config.jq, jsonPaths, options)).toString();
@@ -75,7 +75,7 @@ async function interpretPartialBeginToken(token: LexerToken) : Promise<string> {
             return partial;
         } 
         
-        if (config.hasOwnProperty("transformation")) {
+        if (config.transformation !== undefined) {
             if (config.transformation == "mermaid") {
                 return transformMermaids(config);
             } else {
@@ -86,7 +86,7 @@ async function interpretPartialBeginToken(token: LexerToken) : Promise<string> {
         const partials = await Promise.all(config.files.map(loadPartial));
         const lineBreak = getLineBreakSymbol(config.files[0]);
         let merged = partials.join(lineBreak)
-        if (config.hasOwnProperty('block')) {
+        if (config.block !== undefined) {
             merged = getPartialInCodeBlock(merged, config.block);
         }
         return merged;
