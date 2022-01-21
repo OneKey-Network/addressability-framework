@@ -1,8 +1,7 @@
 import fs from "fs";
-import { getAssetPath, getAssetPathRelativeToDocuments, getBinPath, getPartialPath, loadAsset, loadPartial } from "./files";
+import { getAssetPath, getAssetPathRelativeToDocuments, getBinPath, getPartialPath, loadPartial } from "./files";
 import { LexerToken, LexerTokenType, PartialBeginStartKey, PartialBeginEndKey } from "./lexer";
 import * as jq from "node-jq";
-import { fileURLToPath } from "url";
 import * as child from 'child_process';
 
 interface PartialConfig {
@@ -120,8 +119,6 @@ function buildMermaidCommand(partialFile): [string, string] {
     const destPath = getAssetPath(destFile);
     const srcPath = getPartialPath(partialFile);
     const binPath = getBinPath('mmdc');
-    console.log(`SRC: ${srcPath}`);
-    console.log(`DEST: ${destPath}`);
     const cmd = `"${binPath}" -i "${srcPath}" -o "${destPath}"`;
     return [cmd, destFile]; 
 }
