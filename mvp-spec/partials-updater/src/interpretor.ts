@@ -99,10 +99,10 @@ async function transformMermaids(config: PartialConfig) {
     const lineBreak = getLineBreakSymbol(config.files[0]);
     const cmdAndPathes = config.files.map(buildMermaidCommand);
     cmdAndPathes.forEach((val) => {
-        child.execSync(val[0]);
+        child.execSync(val.cmd);
     });
     const contents = cmdAndPathes.map((val) => {
-        const assetFile = val[1];
+        const assetFile = val.assetFile;
         const assetPath = getAssetPathRelativeToDocuments(assetFile);
         const assetName = assetFile.substring(0, assetFile.lastIndexOf('.'));
         const imgRef = `![${assetName}](${assetPath})`;
@@ -112,14 +112,14 @@ async function transformMermaids(config: PartialConfig) {
     return joined;
 }
 
-function buildMermaidCommand(partialFile): [string, string] {
+function buildMermaidCommand(partialFile): { cmd: string; assetFile: string; } {
     const fileName = partialFile.substring(0, partialFile.lastIndexOf('.'));
     const destFile = `generated-${fileName}.svg`;
     const destPath = getAssetPath(destFile);
     const srcPath = getPartialPath(partialFile);
     const binPath = getBinPath('mmdc');
     const cmd = `"${binPath}" -i "${srcPath}" -o "${destPath}"`;
-    return [cmd, destFile]; 
+    return { cmd: cmd, assetFile: destFile};
 }
 
 function getPartialInCodeBlock(partial: string, type: string = "json"): string {
