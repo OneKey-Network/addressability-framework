@@ -2,9 +2,19 @@ import RootPath from "app-root-path";
 import fs from "fs";
 import path from "path";
 
+const BinDir = path.join(RootPath.path, "node_modules", ".bin");
+const AssetsDir = path.join(RootPath.path, "..", "assets");
+const AssetPathForDocuments = path.join(".", "assets");
 const PartialsDir = path.join(RootPath.path, "..", "partials");
 const DocumentsDir = path.join(RootPath.path, "..");
 const DocumentExts = [ ".md" ]
+
+
+export const getBinPath = (bin: string): string => path.join(BinDir, bin);
+
+export const getAssetPath = (file: string): string => path.join(AssetsDir, file);
+
+export const getAssetPathRelativeToDocuments = (file: string): string => path.join(AssetPathForDocuments, file);
 
 export const getPartialPath = (file: string): string => path.join(PartialsDir, file);
 

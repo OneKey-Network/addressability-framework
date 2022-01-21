@@ -1,14 +1,17 @@
 import fs from "fs";
-import { getPartialPath, loadPartial } from "./files";
+import { getAssetPath, getAssetPathRelativeToDocuments, getBinPath, getPartialPath, loadAsset, loadPartial } from "./files";
 import { LexerToken, LexerTokenType, PartialBeginStartKey, PartialBeginEndKey } from "./lexer";
 import * as jq from "node-jq";
 import { fileURLToPath } from "url";
+import * as child from 'child_process';
 
 interface PartialConfig {
     files: string[];
     block?: string;
     jq?: string;
+    transformation?: string;
 }
+
 
 /** Interpret the token to generate the content. */
 export async function interpret(tokens: LexerToken[]): Promise<string> {
@@ -44,6 +47,9 @@ export async function interpret(tokens: LexerToken[]): Promise<string> {
                 doc += token.text;
                 doc += "<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->" + lineBreak;
                 doc += await interpretPartialBeginToken(token);
+                if (!doc.endsWith(lineBreak)) {
+                    doc += lineBreak;
+                }
                 doc += nextToken.text;
                 break;
             }
@@ -69,6 +75,15 @@ async function interpretPartialBeginToken(token: LexerToken) : Promise<string> {
             const partial = getPartialInCodeBlock(json);
             return partial;
         } 
+        
+        if (config.hasOwnProperty("transformation")) {
+            if (config.transformation == "mermaid") {
+                return transformMermaids(config);
+            } else {
+                throw new Error(`Unknown type of Transformation: ${config.transformation}`);
+            }
+        }
+        
         const partials = await Promise.all(config.files.map(loadPartial));
         const lineBreak = getLineBreakSymbol(config.files[0]);
         let merged = partials.join(lineBreak)
@@ -79,6 +94,36 @@ async function interpretPartialBeginToken(token: LexerToken) : Promise<string> {
     } catch (e) {
         throw new Error(`Partial with bad configuration: ${token.text} - ${e}`)
     }
+}
+
+async function transformMermaids(config: PartialConfig) {
+    const lineBreak = getLineBreakSymbol(config.files[0]);
+    const cmdAndPathes = config.files.map(buildMermaidCommand);
+    cmdAndPathes.forEach((val) => {
+        child.execSync(val[0]);
+    });
+    const asyncContents = cmdAndPathes.map((val) => {
+        const assetFile = val[1];
+        const assetPath = getAssetPathRelativeToDocuments(assetFile);
+        const assetName = assetFile.substring(0, assetFile.lastIndexOf('.'));
+        const imgRef = `![${assetName}](${assetPath})`;
+        return imgRef;
+    })
+    const contents = await Promise.all(asyncContents);
+    let joined = contents.join(lineBreak);
+    return joined;
+}
+
+function buildMermaidCommand(partialFile): [string, string] {
+    const fileName = partialFile.substring(0, partialFile.lastIndexOf('.'));
+    const destFile = `generated-${fileName}.svg`;
+    const destPath = getAssetPath(destFile);
+    const srcPath = getPartialPath(partialFile);
+    const binPath = getBinPath('mmdc');
+    console.log(`SRC: ${srcPath}`);
+    console.log(`DEST: ${destPath}`);
+    const cmd = `"${binPath}" -i "${srcPath}" -o "${destPath}"`;
+    return [cmd, destFile]; 
 }
 
 function getPartialInCodeBlock(partial: string, type: string = "json"): string {
