@@ -21,6 +21,7 @@
     "@mermaid-js/mermaid-cli": "^8.13.8",
     "@types/app-root-path": "^1.2.4",
     "app-root-path": "^3.0.0",
+    "mermaid.cli": "^0.5.1",
     "node-jq": "^2.1.0"
   }
 }

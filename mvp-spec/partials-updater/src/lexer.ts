@@ -18,9 +18,9 @@ export interface LexerToken {
 }
 
 /** Split a content in tokens. */
-export function lex({content, eolChar}: Document): LexerToken[] {
+export function lex({content, lineBreak}: Document): LexerToken[] {
     const tokens = new Array<LexerToken>();
-    const lines = getLines(content, eolChar);
+    const lines = getLines(content, lineBreak);
     let textAcc = '';
     lines.forEach(line => {
         if (line.match(PartialBegin)) {
