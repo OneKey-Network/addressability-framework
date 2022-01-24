@@ -22,15 +22,16 @@ clear how they will co-operate.
 
 ## Example workflows
 
-We represent two typical workflows:
-
-- the first interaction with Prebid where a user visits a publisher's page, that triggers a CMP
-- a visit to a advertiser while the user already opted in to Prebid
-
-...in two different contexts:
-
-- where the browser supports third party cookies (3PC)
-- where it doesn't
+We represent:
+- two typical workflows
+  - the first interaction with Prebid where a user visits a publisher's page, that triggers a CMP
+  - a visit to an advertiser while the user already opted in to Prebid
+- with different configurations
+  - the publisher doesn't use an operator **backend** client: redirects, when needed, are triggered in Javascript
+  - the advertiser uses an operator backend client: when needed, redirects can be triggered via an HTTP response
+- in two different contexts
+  - where the browser supports third party cookies (3PC)
+  - where it doesn't
 
 ### With 3PC
 
