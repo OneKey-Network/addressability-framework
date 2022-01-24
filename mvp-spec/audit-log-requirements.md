@@ -181,7 +181,7 @@ OpenRTB requests and the election of a bid winner:
 
 <!--partial-begin { "files": [ "transaction-nominal-case.mmd" ], "transformation": "mermaid" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
-![generated-transaction-nominal-case](assets\generated-transaction-nominal-case.svg)
+![generated-transaction-nominal-case](assets/generated-transaction-nominal-case.svg)
 <!--partial-end-->
 
 In the diagram above, the Publisher, the SSP, and the DSPs MUST be part of the

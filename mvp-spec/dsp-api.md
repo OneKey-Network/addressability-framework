@@ -210,6 +210,7 @@ Note that the "data" field is a simple dictionnary.
 | status          | String                        | Equals "success" if the DSP signed the Transmission and returns it to the sender.<br /> Equals "error_bad_request" if the receiver doesn't understand or see inconsistency in the Transmission Request.<br /> Equals "error_cannot_process" if the receiver failed to use the data of the Transmission Request properly. |
 | details         | String                        | In case of an error status, the DSP can provide details concerning the error.                                                                                                                                                                                                                              |
 | source          | Source object                 | The source contains all the data for identifying the DSP and verifying the Transmission.                                                                                                                                                                                                                   |
+
 <!--partial-end-->
 
 ### Example of a Transmission Request
