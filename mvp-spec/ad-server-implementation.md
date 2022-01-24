@@ -602,8 +602,9 @@ reachable at `imp`.`ext`.`prebid_sso`.
 
 Second, the Pseudonymous-Identifiers structure change in the OpenRTB request to take the
 advantage of the [Extended Identifiers](https://github.com/InteractiveAdvertisingBureau/openrtb/blob/master/extensions/2.x_official_extensions/eids.md). 
-One `eid` per Pseudonymous-Identifier. It is reachable at `user`.`ext`.`eids`
-Comparting to the solution without OpenRTB:
+One `eid` per Pseudonymous-Identifier. It is reachable at `user`.`ext`.`eids`.
+
+Comparing to the solution without OpenRTB:
 1. The Pseudonymous-Identifier value is stored in the `eids`.`id` field.
 2. The `eids`.`atype` is set to `1` because the ID is tied to a specific browser
 for nom.
