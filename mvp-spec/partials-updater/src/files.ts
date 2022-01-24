@@ -3,7 +3,7 @@ import fs from "fs";
 import path from "path";
 
 const binDir = path.join(RootPath.path, "node_modules", ".bin");
-export const assetsDir = path.join(RootPath.path, "..", "assets");
+const assetsDir = path.join(RootPath.path, "..", "assets");
 const assetPathForDocuments = path.join(".", "assets");
 const partialsDir = path.join(RootPath.path, "..", "partials");
 const documentsDir = path.join(RootPath.path, "..");
