@@ -78,7 +78,7 @@ flowchart LR
 
 The Ad Server API has to be extended to require the Prebid SSO cookies of 
 the Publisher website for a given user in addition to the inventory information. 
-Those cookies contain the encrypted Prebid SSO Data. As a reminder, 
+Those cookies contain the Prebid SSO Data. As a reminder, 
 Prebid SSO Data are Pseudonymous-Identifiers and Preferences of the user.
 
 ```mermaid
@@ -86,10 +86,9 @@ flowchart LR
     Publisher-- Send Placements info <br /> with Prebid SSO Cookies -->AdServer[Ad Server]
 ```
 
-### Step 2: Decrypt the Prebid SSO Data
+### Step 2: Deserialize the Prebid SSO Data
 
-Via a shared cryptographic key, the Ad Server decrypts the Prebid SSO Cookies
-so that it can read the Prebid SSO Data.
+The Ad Server can then deserialize the cookie for having the Prebid SSO Data.
 
 Here is the structure of a Pseudonymous-Identifier:
 
