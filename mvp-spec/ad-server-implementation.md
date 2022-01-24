@@ -536,7 +536,7 @@ an example:
         "transaction_id": 1234567,
         "publisher": "publisher.com",
         "source": {
-          "domain": "operator0.com",
+          "domain": "ad-server.com",
           "timestamp": 1639589531,
           "signature": "12345_signature"
         }
