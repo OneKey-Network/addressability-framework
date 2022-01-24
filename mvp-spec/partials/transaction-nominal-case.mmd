@@ -1,0 +1,18 @@
+sequenceDiagram
+
+  participant U as User
+  participant P as Publisher
+  participant SSP as SSP
+  participant DSP1 as DSP1
+  participant DSP2 as DSP2
+
+  U ->> P: Go to publisher.com
+  P ->> SSP: Offer ad inventory
+  SSP ->> DSP1: Send an OpenRTB bid request
+  DSP1 ->> SSP: Return an OpenRTB bid response
+  SSP ->> DSP2: Send an OpenRTB bid request
+  DSP2 ->> SSP: Return an OpenRTB bid response
+  SSP ->> SSP: Select a winner to the bid request
+  SSP ->> P: Return data to display the ad
+  P ->> U: Display the webpage with the ad.
+
