@@ -644,7 +644,7 @@ and is reachable at `user`.`ext`.`prebid_sso`.
                             "signature": "12345_signature"
                         }
                     },
-                    "parents": [],
+                    "parents": []
                 }
             }
         }
