@@ -179,27 +179,10 @@ Prebid SSO Data. Those data flow through different Contracting Parties. The
 communication between those Parties can includes OpenRTB responses and 
 OpenRTB requests and the election of a bid winner:
 
-```mermaid
-sequenceDiagram
-
-
-  participant U as User
-  participant P as Publisher
-  participant SSP as SSP
-  participant DSP1 as DSP1
-  participant DSP2 as DSP2
-
-  U ->> P: Go to publisher.com
-  P ->> SSP: Offer ad inventory
-  SSP ->> DSP1: Send an OpenRTB bid request
-  DSP1 ->> SSP: Return an OpenRTB bid response
-  SSP ->> DSP2: Send an OpenRTB bid request
-  DSP2 ->> SSP: Return an OpenRTB bid response
-  SSP ->> SSP: Select a winner to the bid request
-  SSP ->> P: Return data to display the ad
-  P ->> U: Display the webpage with the ad.
-
-```
+<!--partial-begin { "files": [ "transaction-nominal-case.mmd" ], "transformation": "mermaid" } -->
+<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
+![generated-transaction-nominal-case](assets\generated-transaction-nominal-case.svg)
+<!--partial-end-->
 
 In the diagram above, the Publisher, the SSP, and the DSPs MUST be part of the
 Prebid SSO ecosystem. For being part of it, they must commit to the Model Terms
@@ -315,9 +298,10 @@ different technical objects including the "imp" object (for impression). It can
 be a location for a Transmission request for each placement;
 * a Bid response can also be extended (field "ext") in different objects. It 
 can be a place for Transmission responses.
-* It is acceptable in OpenRTB to send an empty response for a no-bid. It must 
-be considered as a Receiver failure of the Prebid SSO Transmission if the
-Transmission relies on the Bid request/response..
+* It is acceptable in OpenRTB to send an empty response for a no-bid. In this
+case, the Transmissions must end with a no_bid status. This should not impact
+the final Audit Log because if there is no bid, the bidder doesn't provide any
+Addressable Content and won't appear in the Audit Log.
 
 # The Transmission Results
 
@@ -371,9 +355,10 @@ Signature<Contracting_Party> -> Cryptographic signature relying on Prebid SSO Da
 
 # Transmissions
 Transmission_Success            -> (Receiver, Signature<Receiver>)
+Transmission_No_Bid             -> (Receiver, Signature<Receiver>)
 Transmission_Error_Response     -> (Receiver, Signature<Sender>, Detail)
 Transmission_Error_No_Response  -> (Receiver, Signature<Sender>)
-Transmission_Result             -> Transmission_Success | Transmission_Error_No_Response | Transmission_Error_Response
+Transmission_Result             -> Transmission_Success | Transmission_No_Bid | Transmission_Error_No_Response | Transmission_Error_Response
 
 # Seed and Prebid SSO Data
 Transaction_ID              -> Unique Identifier

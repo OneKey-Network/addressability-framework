@@ -7,7 +7,7 @@ flowchart LR
 
     subgraph Publisher
         PF(Publisher web page)
-        PBO(Publisher server: operator client)
+        PBO(Publisher server: backend operator client)
         PBI(Publisher server: inventory)
         
         PBO -. sign operator requests .-> PBO
@@ -15,14 +15,14 @@ flowchart LR
 
     subgraph CMP
         CJS(CMP JS)
-        CB(CMP server: operator client)
+        CB(CMP server: backend operator client)
         
         CB -. sign user preferences<br>sign operator requests .-> CB
     end
     
     subgraph Advertiser
         AF(Advertiser web page)
-        ABO(Advertiser server: operator client)
+        ABO(Advertiser server: backend operator client)
         ABO -. sign operator requests .-> ABO
     end
     
@@ -87,7 +87,7 @@ The publisher has multiple roles
 
 ## SSP (Supply Side Platform)
 
-The SSP receives a seed and transaction from the publisher and initiates (signed) transmissions to DSPs.
+The SSP shares Prebid SSO Data to DSPs via Transmission Requests. Depending of the context, it can generate the Seed and emit the first Transmission of the Transaction or receive the Seed from a previous Transmission Request.
 
 ## DSP (Demand Side Platform)
 

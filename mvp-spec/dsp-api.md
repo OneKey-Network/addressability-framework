@@ -163,11 +163,10 @@ In a case of an ad-hoc communication between two Contracting Parties, the
 
 | Field  | Type                            | Details                           |
 |--------|---------------------------------|-----------------------------------|
-| version| Number                          | The Prebid SSO version of the object.               |
+| version| Number                          | The Prebid SSO version used.               |
 | seed   | Seed object                     | A Seed object contains all the Prebid SSO Data gathered and signed by the Publisher concerning the user. |
-| parents| Array of Transmission Results   | A list of Transmission Results that participate to a chain of Transmissions and make this Transmission possible. |  
+| parents| Array of Transmission Results   | A list of Transmission Results that currently participate to a chain of Transmissions and make this Transmission possible. |  
 | source | Source object                   | The source object contains data for identifying the Sender of the Transmission.<br /><table><tr><th>Field</th><th>Type</th><th>Details</th></tr><tr><td>domain</td><td>String</td><td>The domain of the Sender.</td></tr><tr><td>timestamp</td><td>Integer</td><td>The timestamp of the signature.</td></tr><tr><td>signature</td><td>String</td><td>Encoded signature in UTF-8 of the Tranmission sender.</td></tr></table>|
-
 
 ### The Seed object
 
@@ -200,16 +199,18 @@ Note that the "data" field is a simple dictionnary.
 | value   | String        | The Pseudonymous-Identifier value in UTF-8.                                                                                      |
 | source  | Source object | The Source contains all the data for identifying and trusting the Operator that generated the Pseudonymous-Identifier. <br /> <table><tr><th>Field</th><th>Type</th><th>Details</th></tr><tr><td>domain</td><td>String</td><td>The domain of the Operator.</td></tr><tr><td>timestamp</td><td>Integer</td><td>The timestamp of the signature.</td></tr><tr><td>signature</td><td>String</td><td>Encoded signature in UTF-8 of the Operator.</td></tr></table>|
 
-## The Transaction Result object
+## The Transmission Result object
 
-| Field    | Type             | Details                                        |
-|----------|------------------|------------------------------------------------|
-| version  | Number           | The Prebid SSO version of the object.          |
-| receiver | String           | The domain name of the DSP.                                                                                                                                                                                                                                                                                |
-| status   | String           | Equals "success" if the Receiver signed properly the Transmission.<br /> Equals "error_bad_request" if the receiver doesn't understand or see inconsistency in the Transmission Request but still share it accross the network.<br /> Equals "error_cannot_proceed" if the receiver cannot handle the Transmission Request properly but still share the Prebid SSO Data. |
-| details  | String           | In case of an error status, the DSP can provide details concerning the error.                                                                                                                                                                                                                              |
-| source   | Source object    | The source object contains data for identifying the Sender of a Transmission.<br /><table><tr><th>Field</th><th>Type</th><th>Details</th></tr><tr><td>domain</td><td>String</td><td>The domain of the Sender.</td></tr><tr><td>timestamp</td><td>Integer</td><td>The timestamp of the signature.</td></tr><tr><td>signature</td><td>String</td><td>Encoded signature in UTF-8 of the Tranmission sender.</td></tr></table>|
-
+<!--partial-begin { "files": [ "transmission-result-table.md" ] } -->
+<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
+| Field           | Type                          | Details                           |
+|-----------------|-------------------------------|-----------------------------------|
+| version         | Number                        | The version of the Prebid SSO used.                                                                                                                                                                                                                               |
+| receiver        | String                        | The domain name of the DSP.                                                                                                                                                                                                                                                                                |
+| status          | String                        | Equals "success" if the DSP signed the Transmission and returns it to the sender.<br /> Equals "error_bad_request" if the receiver doesn't understand or see inconsistency in the Transmission Request.<br /> Equals "error_cannot_process" if the receiver failed to use the data of the Transmission Request properly. |
+| details         | String                        | In case of an error status, the DSP can provide details concerning the error.                                                                                                                                                                                                                              |
+| source          | Source object                 | The source contains all the data for identifying the DSP and verifying the Transmission.                                                                                                                                                                                                                   |
+<!--partial-end-->
 
 ### Example of a Transmission Request
 
@@ -258,19 +259,8 @@ Note that the "data" field is a simple dictionnary.
                 "domain": "ssp1.com",
                 "timestamp": 1639583000,
                 "signature": "12345_signature"
-            },
-        },
-        {
-            "version": 0,
-            "receiver": "publisher.com",
-            "status": "SUCCESS",
-            "details": "",
-            "source": {
-                "domain": "publisher.com",
-                "timestamp": 1639583001,
-                "signature": "12345_signature"
-            },
-        },
+            }
+        }
     ],
     "source" : {
         "domain": "ssp1.com",
@@ -470,18 +460,18 @@ Transmission is named "prebid_sso_transmission".
 ## Many Transmission Responses in one OpenRTB Bid Response
 
 Similar to the OpenRTB Bid Request for the Transmission Requests, the OpenRTB
-Bid Response must contain multiple Transmission Responses - one for each
-impression. However, the OpenRTB Bid Response is focused on BidSeat and Bid with
-potential cases where impressions don't appear in the response because there is
-no bid on them. Therefore, each Transmission Request must be expressed in the
-"ext" object of the root Bid Response paired with the impression ids provided in
-the request. The name of this new object in the "ext" object is 
-"prebid_sso_transmissions".
+Bid Response can contain multiple Transmission Responses - one for each
+bid. It is not required to provide a Transmission Response for each impression:
+if there is no bid for a given impression, the bidder won't share any 
+Addressable Content to it and so, it won't be in the Audit Log of this latest.
 
-Each Transmission Request presented in the Bid Request must have a Transmission
-Response in the Bid Response. The OpenRTB specification allows providing an
-empty payload for a "No Bid". However, this is not acceptable in the presence of
-Transmission.
+Each Transmission Request must be expressed in the "ext" object of the root 
+Bid Response paired with the impression ids provided in the request. The name 
+of this new object in the "ext" object is "prebid_sso_transmissions".
+
+The OpenRTB specification allows providing an empty payload for a "No Bid". In
+this case, there is no Transmission Response and the Transmission won't be
+in the Audit Logs.
 
 #### Example of a Transmission Response in an OpenRTB Bid Response
 ```json
