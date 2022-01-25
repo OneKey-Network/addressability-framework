@@ -44,32 +44,29 @@ Two types of data is manipulated by the operator API:
 
 Example:
 
-<!-- To get this JSON example, run:
-cat id.json
--->
-
+<!--partial-begin { "files": [ "generated-examples/id.json" ], "block": "json" } -->
+<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```json
 {
   "version": 0,
   "type": "prebid_id",
   "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
   "source": {
-    "domain": "operator0.com",
-    "timestamp": 1639643112,
-    "signature": "12345_signature"
+    "domain": "operator.prebidsso.com",
+    "timestamp": 1642504380000,
+    "signature": "RYGHYsBUEwMgFgOJ9aUQl7ywl4xnqdmwWIgPbaIowbXbmZAFKLa7mcBJQuWh1wEskpu57SHn2mmCF6V5+cESgw=="
   }
 }
 ```
+<!--partial-end-->
 
 - **Preferences** are user-set preferences regarding online tracking that is captured by a CMP UI or a web site (such as a publisher).
   - There can be multiple preferences objects, but for the MVP **a single boolean** will be stored.
 
 Example:
 
-<!-- To get this JSON example, run:
-cat body-id-and-preferences.json | npx json body.preferences
--->
-
+<!--partial-begin { "files": [ "generated-examples/preferences.json" ], "block": "json" } -->
+<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```json
 {
   "version": 0,
@@ -77,12 +74,13 @@ cat body-id-and-preferences.json | npx json body.preferences
     "opt_in": true
   },
   "source": {
-    "domain": "cmpC.com",
-    "timestamp": 1639643110,
-    "signature": "preferences_signature_xyz12345"
+    "domain": "cmp.com",
+    "timestamp": 1642504560000,
+    "signature": "HmnCaXySi8u1/qx9YlKA6cTU8L6HAydywDOpJjoLd+Bz+X93APaRXJ1yDJsTC95EPC29ESAisxQ2LsNF6ZSERA=="
   }
 }
 ```
+<!--partial-end-->
 
 While the Prebid ID is really created (randomly generated) **by an operator**, we can say that the preferences data is "*created*" **by a CMP or web site**, based on user input.
 
@@ -157,42 +155,42 @@ timestamp
 
 Response HTTP code: `200`
 
-<!-- Update this code block with:
-cat response-operatorO.json body-id-and-preferences.json | npx json --merge
--->
-
+<!--partial-begin { "files": [ "generated-examples/getIdPrefsResponse_known.json" ], "block": "json" } -->
+<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```json
 {
-  "sender": "operatorO.com",
-  "timestamp": 1639059692793,
-  "signature": "message_signature_xyz1234",
   "body": {
-    "preferences": {
-      "version": 0,
-      "data": {
-        "opt_in": true
-      },
-      "source": {
-        "domain": "cmpC.com",
-        "timestamp": 1639643112,
-        "signature": "preferences_signature_xyz12345"
-      }
-    },
     "identifiers": [
       {
         "version": 0,
         "type": "prebid_id",
         "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
         "source": {
-          "domain": "operator0.com",
-          "timestamp": 1639643110,
-          "signature": "prebid_id_signature_xyz12345"
+          "domain": "operator.prebidsso.com",
+          "timestamp": 1642504380000,
+          "signature": "RYGHYsBUEwMgFgOJ9aUQl7ywl4xnqdmwWIgPbaIowbXbmZAFKLa7mcBJQuWh1wEskpu57SHn2mmCF6V5+cESgw=="
         }
       }
-    ]
-  }
+    ],
+    "preferences": {
+      "version": 0,
+      "data": {
+        "opt_in": true
+      },
+      "source": {
+        "domain": "cmp.com",
+        "timestamp": 1642504560000,
+        "signature": "HmnCaXySi8u1/qx9YlKA6cTU8L6HAydywDOpJjoLd+Bz+X93APaRXJ1yDJsTC95EPC29ESAisxQ2LsNF6ZSERA=="
+      }
+    }
+  },
+  "sender": "operator.prebidsso.com",
+  "receiver": "advertiser.com",
+  "timestamp": 1643041150000,
+  "signature": "a9qkK7BNqo5RCC/yQ0spbUn16KI3anl6pDZFIehBlTWYPnrHvOoTYmuryK3VQNFhrOMwigJy6ykdPbLVK/UiQw=="
 }
 ```
+<!--partial-end-->
 
 ##### Response signature
 
@@ -220,32 +218,32 @@ This id is **not** stored as 3d party Prebid SSO cookie yet.
 For this reason, the `persisted` property is set to `false`.
 - Note that this property is optional and the default value is `true`. In all other cases (when the returned data _is_ persisted), this attribute will be omited.
 
-<!-- Update this code block with:
-cat response-operatorO.json body-id-and-preferences.json body-new-id.json | npx json --merge -e 'this.body.preferences = undefined; this.body.identifiers[0].persisted = false'
--->
-
+<!--partial-begin { "files": [ "generated-examples/getIdPrefsResponse_unknown.json" ], "block": "json" } -->
+<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```json
 {
-  "sender": "operatorO.com",
-  "timestamp": 1639059692793,
-  "signature": "message_signature_xyz1234",
   "body": {
     "identifiers": [
       {
-        "version": 1,
+        "persisted": false,
+        "version": 0,
         "type": "prebid_id",
-        "value": "560cead0-eed5-4d3f-a308-b818b4827979",
+        "value": "2e71121a-4feb-4a34-b7d1-839587d36390",
         "source": {
-          "domain": "operator0.com",
-          "timestamp": 1639643110,
-          "signature": "prebid_id_signature_xyz12345"
-        },
-        "persisted": false
+          "domain": "operator.prebidsso.com",
+          "timestamp": 1643041140000,
+          "signature": "/97uDMKRyaW1v2MH4UbU6UNRft/v+1bJV0vpmArVc3l9ErOhCuM2nsewgAI5w9HjFJbzvdLlTOTlTjTlZCdw8w=="
+        }
       }
     ]
-  }
+  },
+  "sender": "operator.prebidsso.com",
+  "receiver": "advertiser.com",
+  "timestamp": 1643041150000,
+  "signature": "GIqz3qO/aYp/tCs1wLD/t4UQJul0RZ2HgxnWGHGMRi42Wl6FUqrrEoiIp1V5YkpVABqzwsZ0SXSRybnbAtYNUg=="
 }
 ```
+<!--partial-end-->
 
 (notice the `persisted` property)
 
@@ -268,52 +266,48 @@ timestamp
 
 #### Request
 
-<!-- The query string below is generated with taking the request-cmpC.json file, removing body, and encoding it as query string:
-npx encode-query-string -nd `cat request-cmpC.json | npx json -e 'this.body = undefined' -o json-0`
--->
-
 ```http
 POST /v1/id-prefs
 ```
 
 ##### Request payload
 
-<!-- Update this code block with just taking the body of body-id-and-preferences.json:
-cat request-cmpC.json body-id-and-preferences.json | npx json --merge
--->
-
+<!--partial-begin { "files": [ "generated-examples/postIdPrefsRequest.json" ], "block": "json" } -->
+<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```json
 {
-  "sender": "cmpC.com",
-  "timestamp": 1639057962145,
-  "signature": "message_signature_xyz1234",
   "body": {
-    "preferences": {
-      "version": 0,
-      "data": {
-        "opt_in": true
-      },
-      "source": {
-        "domain": "cmpC.com",
-        "timestamp": 1639643112,
-        "signature": "preferences_signature_xyz12345"
-      }
-    },
     "identifiers": [
       {
         "version": 0,
         "type": "prebid_id",
         "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
         "source": {
-          "domain": "operator0.com",
-          "timestamp": 1639643110,
-          "signature": "prebid_id_signature_xyz12345"
+          "domain": "operator.prebidsso.com",
+          "timestamp": 1642504380000,
+          "signature": "RYGHYsBUEwMgFgOJ9aUQl7ywl4xnqdmwWIgPbaIowbXbmZAFKLa7mcBJQuWh1wEskpu57SHn2mmCF6V5+cESgw=="
         }
       }
-    ]
-  }
+    ],
+    "preferences": {
+      "version": 0,
+      "data": {
+        "opt_in": true
+      },
+      "source": {
+        "domain": "cmp.com",
+        "timestamp": 1642504560000,
+        "signature": "HmnCaXySi8u1/qx9YlKA6cTU8L6HAydywDOpJjoLd+Bz+X93APaRXJ1yDJsTC95EPC29ESAisxQ2LsNF6ZSERA=="
+      }
+    }
+  },
+  "sender": "cmp.com",
+  "receiver": "operator.prebidsso.com",
+  "timestamp": 1643097660000,
+  "signature": "rh5xZm+eoSwsmxMO0CKD/bhXor8IZEJc7YrhQZHw7HGsdmX4rqW2Ra4Mp4ZQf1ltIe/otu1Ot296CwSL5HUljA=="
 }
 ```
+<!--partial-end-->
 
 ##### Request signature
 
@@ -334,42 +328,42 @@ timestamp
 
 Response HTTP code: `200`
 
-<!-- Update this code block with:
-cat response-operatorO.json body-id-and-preferences.json | npx json --merge
--->
-
+<!--partial-begin { "files": [ "generated-examples/postIdPrefsResponse.json" ], "block": "json" } -->
+<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```json
 {
-  "sender": "operatorO.com",
-  "timestamp": 1639059692793,
-  "signature": "message_signature_xyz1234",
   "body": {
-    "preferences": {
-      "version": 0,
-      "data": {
-        "opt_in": true
-      },
-      "source": {
-        "domain": "cmpC.com",
-        "timestamp": 1639643112,
-        "signature": "preferences_signature_xyz12345"
-      }
-    },
     "identifiers": [
       {
         "version": 0,
         "type": "prebid_id",
         "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
         "source": {
-          "domain": "operator0.com",
-          "timestamp": 1639643110,
-          "signature": "prebid_id_signature_xyz12345"
+          "domain": "operator.prebidsso.com",
+          "timestamp": 1642504380000,
+          "signature": "RYGHYsBUEwMgFgOJ9aUQl7ywl4xnqdmwWIgPbaIowbXbmZAFKLa7mcBJQuWh1wEskpu57SHn2mmCF6V5+cESgw=="
         }
       }
-    ]
-  }
+    ],
+    "preferences": {
+      "version": 0,
+      "data": {
+        "opt_in": true
+      },
+      "source": {
+        "domain": "cmp.com",
+        "timestamp": 1642504560000,
+        "signature": "HmnCaXySi8u1/qx9YlKA6cTU8L6HAydywDOpJjoLd+Bz+X93APaRXJ1yDJsTC95EPC29ESAisxQ2LsNF6ZSERA=="
+      }
+    }
+  },
+  "sender": "operator.prebidsso.com",
+  "receiver": "cmp.com",
+  "timestamp": 1643097663000,
+  "signature": "S/Iz2+aEmD/j46J0Brq36BY3WZw8WVmv9TApCfplbB+c5EnG9jzStnplC1O8evn608nnVFiq3fvHSuQgkiMgrw=="
 }
 ```
+<!--partial-end-->
 
 ##### Response signature
 
@@ -412,32 +406,32 @@ timestamp
 
 Response HTTP code: `200`
 
-<!-- Update this code block with: (same as read with unknown user)
-cat response-operatorO.json body-id-and-preferences.json body-new-id.json | npx json --merge -e 'this.body.preferences = undefined; this.body.identifiers[0].persisted = false'
--->
-
+<!--partial-begin { "files": [ "generated-examples/getNewIdResponse.json" ], "block": "json" } -->
+<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```json
 {
-  "sender": "operatorO.com",
-  "timestamp": 1639059692793,
-  "signature": "message_signature_xyz1234",
   "body": {
     "identifiers": [
       {
-        "version": 1,
+        "persisted": false,
+        "version": 0,
         "type": "prebid_id",
-        "value": "560cead0-eed5-4d3f-a308-b818b4827979",
+        "value": "2e71121a-4feb-4a34-b7d1-839587d36390",
         "source": {
-          "domain": "operator0.com",
-          "timestamp": 1639643110,
-          "signature": "prebid_id_signature_xyz12345"
-        },
-        "persisted": false
+          "domain": "operator.prebidsso.com",
+          "timestamp": 1643041140000,
+          "signature": "/97uDMKRyaW1v2MH4UbU6UNRft/v+1bJV0vpmArVc3l9ErOhCuM2nsewgAI5w9HjFJbzvdLlTOTlTjTlZCdw8w=="
+        }
       }
     ]
-  }
+  },
+  "sender": "operator.prebidsso.com",
+  "receiver": "cmp.com",
+  "timestamp": 1646157887000,
+  "signature": "q1DV1/H+gJmYKebgJXf2pzMu7cwoAgoJ10bz9t6Adx3w/iMYNmqawu/QaXctAnttG/mhS0TwjDIyL2/jHdlKIg=="
 }
 ```
+<!--partial-end-->
 
 (notice the `persisted` property)
 
