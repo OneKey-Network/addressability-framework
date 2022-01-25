@@ -1,7 +1,7 @@
 # Partials Updater
 
-Our documents has shared content. For easing the maintenance, we use partials 
-document to include in other one. This is the purpose of this script, we don't 
+Our documents has shared content. For easing the maintenance, we use partials
+document to include in other one. This is the purpose of this script, we don't
 use tool like Mustache or Handlebar because you cannot read directly in
 the documents the contents of its partials.
 
@@ -46,8 +46,8 @@ My shared content.
 
 ```
 
-It is possible to add many files name in the `files` array. The updater 
-concats them before inserting it in the document.
+It is possible to add many files name in the `files` array. The updater
+concatenates them before inserting it in the document.
 
 ### Partials in block
 
@@ -82,7 +82,7 @@ Run the script. The output will be:
 <!--partial-end-->
 ````
 
-Note that all the partials of the document are proccessed when the script 
+Note that all the partials of the document are processed when the script
 is launched.
 
 # Partials with JQ
@@ -101,18 +101,18 @@ Create the partial `user.json`:
 
 In `my-document.md`, add:
 ```
-<!--partial-begin { "files": [ "user.json" ], "jq": ".age = 42" } -->
+<!--partial-begin { "files": [ "user.json" ], "jq": ".age = 42", "block": "json"  } -->
 
 <!--partial-end-->
 ```
 
 Run the script. The output will be:
 ````
-<!--partial-begin { "files": [ "user.json ], "jq": ".age = 42" } -->
+<!--partial-begin { "files": [ "user.json ], "jq": ".age = 42", "block": "json" } -->
 ```json
 {
     "firstname": "john",
-    "lastname": "smith"
+    "lastname": "smith",
     "age": 42
 }
 ```

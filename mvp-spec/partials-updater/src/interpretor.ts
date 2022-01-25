@@ -66,6 +66,13 @@ export async function interpret(tokens: LexerToken[], lineBreak: string): Promis
     return doc;
 }
 
+const getInBlock = (block: string, partialText: string, lineBreak: string) =>
+    [
+        "```" + block,
+        partialText,
+        "```"
+    ].join(lineBreak);
+
 async function interpretPartialBeginToken(token: LexerToken, lineBreak: string): Promise<string> {
     const text = token.text;
 
@@ -92,8 +99,7 @@ async function interpretPartialBeginToken(token: LexerToken, lineBreak: string):
     if (config.jq !== undefined) {
         const jsonPaths = config.files.map(getPartialPath);
         const options = (config.files.length > 1) ? {slurp: true} : undefined;
-        const json = (await jq.run(config.jq, jsonPaths, options)).toString();
-        partialText = getPartialInCodeBlock(json, lineBreak);
+        partialText = (await jq.run(config.jq, jsonPaths, options)).toString();
     } else if (config.transformation !== undefined) {
         if (config.transformation == "mermaid") {
             partialText = await transformMermaids(config, lineBreak);
@@ -106,7 +112,7 @@ async function interpretPartialBeginToken(token: LexerToken, lineBreak: string):
     }
 
     if (config.block) {
-        return getPartialInCodeBlock(partialText, lineBreak, config.block)
+        return getInBlock(config.block, partialText, lineBreak)
     } else {
         return partialText
     }
@@ -137,6 +143,3 @@ function buildMermaidCommand(partialFile): { cmd: string; assetFile: string; } {
     return {cmd: cmd, assetFile: destFile};
 }
 
-function getPartialInCodeBlock(partial: string, lineBreak: string, type: string = "json"): string {
-    return `\`\`\`${type}${lineBreak}${partial}${lineBreak}\`\`\``;
-}
