@@ -323,20 +323,14 @@ seed.source.signature
 The signatures of the `source`s in the Transmission Results are generated with
 the following string:
 
-<!--partial-begin { "files": [ "transmission-response-signature-string.txt" ], "block": "" } -->
+<!--partial-begin { "files": [ "transmission-result-signature-string.txt" ], "block": "" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```
-transmission_result.source.domain + '\u2063' + 
-transmission_result.source.timestamp + '\u2063' + 
-
-seed.source.signature + '\u2063' + 
-
-source.domain + '\u2063' + 
-source.timestamp + '\u2063' + 
-
-transmission_response.receiver + '\u2063' + 
-transmission_response.status + '\u2063' +
-transmission_response.details
+transmission_result.receiver                + '\u2063' +
+transmission_result.status                  + '\u2063' 
+transmission_result.source.domain           + '\u2063' + 
+transmission_result.source.timestamp        + '\u2063' + 
+seed.source.signature      // -> The Seed associated to the given Transaction Result
 ```
 <!--partial-end-->
 
@@ -464,17 +458,11 @@ To build the UTF-8 string, the DSP must concat the following fields:
 <!--partial-begin { "files": [ "transmission-response-signature-string.txt" ], "block": "" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```
-transmission_result.source.domain + '\u2063' + 
-transmission_result.source.timestamp + '\u2063' + 
-
-seed.source.signature + '\u2063' + 
-
-source.domain + '\u2063' + 
-source.timestamp + '\u2063' + 
-
-transmission_response.receiver + '\u2063' + 
-transmission_response.status + '\u2063' +
-transmission_response.details
+transmission_response.receiver                + '\u2063' +
+transmission_response.status                  + '\u2063' 
+transmission_response.source.domain           + '\u2063' + 
+transmission_response.source.timestamp        + '\u2063' + 
+seed.source.signature      // -> The Seed associated to the given Transaction Result
 ```
 <!--partial-end-->
 

@@ -247,17 +247,11 @@ as follows:
 <!--partial-begin { "files": [ "transmission-response-signature-string.txt" ], "block": "" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```
-transmission_result.source.domain + '\u2063' + 
-transmission_result.source.timestamp + '\u2063' + 
-
-seed.source.signature + '\u2063' + 
-
-source.domain + '\u2063' + 
-source.timestamp + '\u2063' + 
-
-transmission_response.receiver + '\u2063' + 
-transmission_response.status + '\u2063' +
-transmission_response.details
+transmission_response.receiver                + '\u2063' +
+transmission_response.status                  + '\u2063' 
+transmission_response.source.domain           + '\u2063' + 
+transmission_response.source.timestamp        + '\u2063' + 
+seed.source.signature      // -> The Seed associated to the given Transaction Result
 ```
 <!--partial-end-->
 
