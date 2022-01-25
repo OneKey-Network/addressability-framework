@@ -2,15 +2,15 @@
 
 DSPs can implement Prebid SSO and shares Prebid SSO Data with partners 
 accordingly to the Model Terms. This document describes the technical
-requirements for it. 
+requirements for it.
 
 ## General note about formats
 
-The described API use timestamps based on 1970 (unix epoch time).
+The described API use timestamps based on 1970 (UNIX epoch time).
 
 ## General note about signature
 
-Prebid SSO Data format is design to let the user audit how his preference got
+Prebid SSO Data format is designed to let the user audit how his preference got
 to their current state. Therefore, Prebid SSO relies on the signatures 
 of the data and the communication to enforce security. The Elliptic Curve
 Digital Signature Algorithm (ECDSA) is used for this purpose. All the signatures
@@ -45,24 +45,24 @@ GET https://<domain>/prebidsso/API/v1/identity
 It provides the following data as JSON:
 | Field                    | Type                 | Details                    |
 |--------------------------|----------------------|----------------------------|
-| name                     | String               | The name of the Contracting Party since the domain may no reflect the Company name.<br /> e.g "Criteo"                                                                                                                    |
+| name                     | String               | The name of the Contracting Party since the domain may not reflect the Company name.<br /> e.g "Criteo"                                                                                                                    |
 | type                     | String               | The type of Contracting Party in the Prebid SSO ecosystem. For now, the type for a DSP is "vendor"
-| last_version_implemented | Number               | A two digit number separated by a point for expressing the last Prebid SSO version handled.<br /> For now, the value is "0.1"<br /> Note: a new field may appear with the new versions of the Prebid SSO protocol for the last supported version. |
-| keys                     | Array of Key objects | Public keys for verifying the signatures of the DSP. Those public key are strings associated to a timeframe for handling key rotation.|
+| last_version_implemented | Number               | A two-digit number separated by a point for expressing the last Prebid SSO version handled.<br /> For now, the value is "0.1"<br /> Note: a new field may appear with the new versions of the Prebid SSO protocol for the last supported version. |
+| keys                     | Array of Key objects | Public keys for verifying the signatures of the DSP. Those public keys are strings associated with a timeframe for handling key rotation.|
 
 
 All signatures shared across the network must be verifiable. Therefore, each
 signature must have an associable key available in the Identity Endpoint. It is
-possible to have overlaps between the key timeframes for handing propertly the
+possible to have overlaps between the key timeframes for handing properly the
 rotations. 
 
 ### Key object
 
 | Field | Type      | Details                                                             |
 |-------|-----------|---------------------------------------------------------------------|
-| key   | String    | Public key for verifying the signature. Encoded in an UTF-8 String. |
+| key   | String    | Public key for verifying the signature. Encoded in a UTF-8 String. |
 | start | Integer   | Timestamp when the Contracting Party started to use this key for signing.         |
-| end   | Integer   | Timestamp when the Contracting Party stoped to use this key for signing.          |
+| end   | Integer   | Timestamp when the Contracting Party stopped using this key for signing.          |
 
 
 ### Example of an Identity response
@@ -195,8 +195,8 @@ communication protocols like OpenRTB. This document introduces API contracts
 with field names and types for this data. It is followed each time by a
 concrete example in JSON. However, as it is difficult to find a 
 one-size-fits-all solution for an existing fragmented ecosystem, the formats
-is subject to adaptation to the context. For instance, if the
-Transmissions are integrated in an OpenRTB implementation in Protobuf, then it
+are subject to adaptation to the context. For instance, if the
+Transmissions are integrated into an OpenRTB implementation in Protobuf, then it
 is possible to use Protobuf for the format of the Transmissions.
 
 ## Transmission protocol
@@ -204,15 +204,16 @@ is possible to use Protobuf for the format of the Transmissions.
 In a case of an ad-hoc communication between two Contracting Parties, the
 transmission protocol can be used coupled with the Prebid SSO Data. 
 
-It is important to consider that an ad-hoc communication can contains multiple
+It is important to consider that ad-hoc communication can contain multiple
 Transactions (one for each placement of a webpage). Therefore, to avoid the
-duplication of the Prebid SSO Data in the communitation it is aside of the
+duplication of the Prebid SSO Data in the communication it is aside of the
 Transmission Request (and not inside it).
 
 ### Transmission Request with Prebid SSO Data
 
 Since it is mandatory to share Prebid SSO Data with one Transmission Request per
-Transaction, here is an example of an structure for an ad-hoc communication:
+Transaction (between two Contracting Parties), here is an example of a 
+structure for an ad-hoc communication:
 
 <!--partial-begin { "files": [ "transmission-request-wrapper-table.md" ] } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
@@ -419,11 +420,11 @@ a Transaction only when the Receiver of the Transmission expects to supply
 the Addressable Content for a given Transmission.
 
 Concretely, if a DSP bids for a placement with Prebid SSO Data, it must provide
-a Tranmission Response for it. If a DSP bids without it, the bid will be 
+a Transmission Response for it. If a DSP bids without it, the bid will be 
 dismissed.
 
 The Transmission Response contains the signature of the DSP. Considering that, 
-in a nominal case, the DSP doesn't share itself the Prebid SSO Data to other
+in a nominal case, the DSP doesn't share the Prebid SSO Data with other
 suppliers, it shouldn't take care of the "children" Transmission Results.
 
 #### Transmission object
@@ -450,10 +451,10 @@ P-256):
 
 * Build a UTF-8 string from the data of the Transmission Request (see below);
 * Generates a SHA256 hash;
-* Sign it with its private key and signs it.
+* Sign it with its private key.
 
 
-To build the UTF-8 string, the DSP must concat the following fields:
+To build the UTF-8 string, the DSP must generate a string as followed:
 
 <!--partial-begin { "files": [ "transmission-response-signature-string.txt" ], "block": "" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
