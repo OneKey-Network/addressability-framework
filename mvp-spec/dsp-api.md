@@ -218,6 +218,7 @@ Transaction, here is an example of an structure for an ad-hoc communication:
 |------------------------|------------------------------------------|----------|
 | data                   | Prebid SSO Data object                   | The Pseudonymous-Identifiers and the Preferences |
 | transmissions          | Array of Transmission Request objects    | The list of Transmission Request, one per Transaction and Addressable Content.|
+
 <!--partial-end-->
 
 ### The Prebid SSO Object
@@ -230,6 +231,7 @@ The Prebid SSO object contains the Pseudonymous-Identifier and the Preferences:
 |------------------------|------------------------------------------|----------|
 | preferences            | Preferences object                       | The Preferences of the user.|
 | identifiers            | Array of Pseudonymous-Identifier objects | The Pseudonymous-Identifiers of the user. For now, it only contains a Prebid ID.|
+
 <!--partial-end-->
 
 ### The Preferences object
@@ -241,6 +243,7 @@ The Prebid SSO object contains the Pseudonymous-Identifier and the Preferences:
 | version | Number                 | The Prebid SSO version used.     |
 | data    | Dictionary             | The keys are strings and represent the name of the preferences. <br /> The values represent the value of the preference. <br /> For now there is only one preference named "optin" and its value is a boolean.|
 | source  | Source object          | The source contains the data for identifying and trusting the CMP that signed lastly the Preferences.<br /> <table><tr><th>Field</th><th>Type</th><th>Details</th></tr><tr><td>domain</td><td>String</td><td>The domain of the CMP.</td></tr><tr><td>timestamp</td><td>Integer</td><td>The timestamp of the signature.</td></tr><tr><td>signature</td><td>String</td><td>Encoded signature in UTF-8 of the CMP.</td></tr></table>|
+
 <!--partial-end-->
 
 ### The Identifier object
@@ -253,6 +256,7 @@ The Prebid SSO object contains the Pseudonymous-Identifier and the Preferences:
 | type    | String        | The type of Pseudonymous-Identifier. For now, there is only one: "prebid_id".                                                    |
 | value   | String        | The Pseudonymous-Identifier value in UTF-8.                                                                                      |
 | source  | Source object | The Source contains all the data for identifying and trusting the Operator that generated the Pseudonymous-Identifier. <br /> <table><tr><th>Field</th><th>Type</th><th>Details</th></tr><tr><td>domain</td><td>String</td><td>The domain of the Operator.</td></tr><tr><td>timestamp</td><td>Integer</td><td>The timestamp of the signature.</td></tr><tr><td>signature</td><td>String</td><td>Encoded signature in UTF-8 of the Operator.</td></tr></table>|
+
 <!--partial-end-->
 
 ### The Transmission Request object
@@ -267,6 +271,7 @@ The transmission Request object must follow strictly this structure:
 | seed   | Seed object                     | A Seed object contains all the Prebid SSO Data gathered and signed by the Publisher concerning the user. |
 | parents| Array of Transmission Results   | A list of Transmission Results that participate to a chain of Transmissions and make this Transmission possible. |  
 | source | Source object                   | The source object contains data for identifying the Sender of the Transmission.<br /><table><tr><th>Field</th><th>Type</th><th>Details</th></tr><tr><td>domain</td><td>String</td><td>The domain of the Sender.</td></tr><tr><td>timestamp</td><td>Integer</td><td>The timestamp of the signature.</td></tr><tr><td>signature</td><td>String</td><td>Encoded signature in UTF-8 of the Tranmission sender.</td></tr></table>|
+
 <!--partial-end-->
 
 ### The Seed object
@@ -279,6 +284,7 @@ The transmission Request object must follow strictly this structure:
 | transaction_id         | String                                   | A GUID in a String format dedicated to the share of the Prebid SSO data for one Addressable Content.|
 | publisher              | String                                   | The domain name of the Publisher that displays the Addressable Content|
 | source                 | Source object                            | The source contains data for identifying and trusting the Publisher.<br /><table><tr><th>Field</th><th>Type</th><th>Details</th></tr><tr><td>domain</td><td>String</td><td>The domain of the Root Party (Publisher in most of the cases).</td></tr><tr><td>timestamp</td><td>Integer</td><td>The timestamp of the signature.</td></tr><tr><td>signature</td><td>String</td><td>Encoded signature in UTF-8 of the Root Party/Publisher.</td></tr></table>|
+
 <!--partial-end-->
 
 ## The Transmission Result object
@@ -401,6 +407,7 @@ suppliers, it shouldn't take care of the "children" Transmission Results.
 | details         | String                        | In case of an error status, the DSP can provide details concerning the error.                                                                                                                                                                                                                              |
 | children        | Array of Transmission Results | An empty array as we consider that the DSP doesn't share the Prebid SSO Data to its suppliers via new transmissions.                                                                                                                                                                                       |
 | source          | Source object                 | The source contains all the data for identifying the DSP and verifying the Transmission.                                                                                                                                                                                                                   |
+
 <!--partial-end-->
 
 ### Signing the Transmission Object
@@ -521,7 +528,7 @@ Transmission is named "prebid_sso".
                             "signature": "12345_signature"
                         }
                     },
-                    "parents": [],
+                    "parents": []
                 }
             }
         }
@@ -566,22 +573,20 @@ Transmission is named "prebid_sso".
                                 }
                             }
                         }
-                    ]
-                }
-            ],
-            "prebid_sso": {
-                "preferences": {
-                    "version": 0,
-                    "data": { 
-                        "opt_in": true 
-                    },
-                    "source": {
-                        "domain": "cmp1.com",
-                        "timestamp": 1639589531,
-                        "signature": "12345_signature"
+                    ],
+                    "preferences": {
+                        "version": 0,
+                        "data": { 
+                            "opt_in": true 
+                        },
+                        "source": {
+                            "domain": "cmp1.com",
+                            "timestamp": 1639589531,
+                            "signature": "12345_signature"
+                        }
                     }
                 }
-            }
+            ]
         }
     }
 }
@@ -692,6 +697,7 @@ The Audit Log follows this structure:
 | data          | Prebid SSO Object            | List the Pseudonymous-Identifiers and the Preferences of the user. |
 | seed          | Seed Object                  | The Seed object is the association of an Addressable Content to the Prebid SSO Data. |
 | transmissions | List of Transmission Results | A list of Transmission Results |
+
 <!--partial-end-->
 
 ### The Transmission Result object
@@ -739,7 +745,7 @@ document).
         "transaction_id": 1234567,
         "publisher": "publisher.com",
         "source": {
-          "domain": "operator0.com",
+          "domain": "ad-server.com",
           "timestamp": 1639589531,
           "signature": "12345_signature"
         }
@@ -854,7 +860,6 @@ preferences.data.key1 + '\u2063' + preferences.data[key1].value + '\u2063' +
 preferences.data.key2 + '\u2063' + preferences.data[key2].value + '\u2063' +
 ...
 preferences.data.keyN + '\u2063' + preferences.data[keyN].value
-
 
 ```
 <!--partial-end-->

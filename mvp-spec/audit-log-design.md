@@ -46,6 +46,7 @@ The Audit Log follows this structure:
 | data          | Prebid SSO Object            | List the Pseudonymous-Identifiers and the Preferences of the user. |
 | seed          | Seed Object                  | The Seed object is the association of an Addressable Content to the Prebid SSO Data. |
 | transmissions | List of Transmission Results | A list of Transmission Results |
+
 <!--partial-end-->
 
 ### The Transmission Result object
@@ -92,7 +93,7 @@ the Contracting Party handles those objects.
         "transaction_id": 1234567,
         "publisher": "publisher.com",
         "source": {
-          "domain": "operator0.com",
+          "domain": "ad-server.com",
           "timestamp": 1639589531,
           "signature": "12345_signature"
         }
@@ -206,7 +207,6 @@ preferences.data.key1 + '\u2063' + preferences.data[key1].value + '\u2063' +
 preferences.data.key2 + '\u2063' + preferences.data[key2].value + '\u2063' +
 ...
 preferences.data.keyN + '\u2063' + preferences.data[keyN].value
-
 
 ```
 <!--partial-end-->
