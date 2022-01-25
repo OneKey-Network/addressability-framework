@@ -111,7 +111,7 @@ async function interpretPartialBeginToken(token: LexerToken, lineBreak: string):
         partialText = partials.map(d => d.content).join(lineBreak)
     }
 
-    if (config.block) {
+    if (config.block !== undefined) {
         return getInBlock(config.block, partialText, lineBreak)
     } else {
         return partialText
