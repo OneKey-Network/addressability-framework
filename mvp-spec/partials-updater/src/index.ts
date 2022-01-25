@@ -8,7 +8,7 @@ async function update() {
         const document = await loadDocument(doc)
         const tokens = lex(document);
         try {
-            const processedContent = await interpret(tokens, document.eolChar);
+            const processedContent = await interpret(tokens, document.lineBreak);
             if (processedContent != document.content) {
                 await rewriteDocument(doc, processedContent);
                 console.log(`Document updated: ${doc}`);

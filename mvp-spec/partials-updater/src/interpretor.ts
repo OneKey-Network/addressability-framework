@@ -1,15 +1,32 @@
-import {Document, getPartialPath, loadPartial} from "./files";
+import {
+    Document,
+    getAssetPath,
+    getAssetPathRelativeToDocuments,
+    getBinPath,
+    getPartialPath,
+    loadPartial
+} from "./files";
 import {LexerToken, LexerTokenType, PartialBegin} from "./lexer";
 import * as jq from "node-jq";
+import * as child from 'child_process';
 
 interface PartialConfig {
     files: string[];
     block?: string;
     jq?: string;
+    transformation?: string;
 }
 
+export class ConfigException extends Error {
+    constructor(jsonStr: string, message: string) {
+        super(`Partial with bad configuration ${jsonStr}: ${message}`);
+    }
+}
+
+const mmdcPath = getBinPath('mmdc')
+
 /** Interpret the token to generate the content. */
-export async function interpret(tokens: LexerToken[], eolChar: string): Promise<string> {
+export async function interpret(tokens: LexerToken[], lineBreak: string): Promise<string> {
     let doc = '';
     for (let i = 0; i < tokens.length; i++) {
         const token = tokens[i];
@@ -38,8 +55,9 @@ export async function interpret(tokens: LexerToken[], eolChar: string): Promise<
                     throw new Error(`Partial Begin without Partial End: ${token.text}`);
                 }
                 doc += token.text;
-                doc += "<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->" + eolChar;
-                doc += await interpretPartialBeginToken(token, eolChar);
+                doc += "<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->" + lineBreak;
+                doc += await interpretPartialBeginToken(token, lineBreak);
+                doc += lineBreak;
                 doc += nextToken.text;
                 break;
             }
@@ -48,34 +66,77 @@ export async function interpret(tokens: LexerToken[], eolChar: string): Promise<
     return doc;
 }
 
-async function interpretPartialBeginToken(token: LexerToken, eolChar: string) : Promise<string> {
-    const jsonStr = token.text.match(PartialBegin)[1];
+async function interpretPartialBeginToken(token: LexerToken, lineBreak: string): Promise<string> {
+    const text = token.text;
+
+    const match = text.match(PartialBegin);
+    if (match?.length < 2) {
+        throw new ConfigException(text, 'invalid syntax')
+    }
+
+    const jsonStr = match[1];
+    let config: PartialConfig;
+
     try {
-        const config: PartialConfig = JSON.parse(jsonStr);
-        if (!config.hasOwnProperty('files') && config.files.length >= 1) {
-            throw ''
-        }
-
-        if (config.hasOwnProperty('jq')) {
-            const jsonPaths = config.files.map(getPartialPath);
-            const options = (config.files.length > 1) ? { slurp: true } : undefined;
-            const json = (await jq.run(config.jq, jsonPaths, options)).toString();
-            return getPartialInCodeBlock(json, eolChar);
-        }
-
-        const partials: Document[] = await Promise.all(config.files.map(loadPartial));
-        const lineBreak = partials[0].eolChar;
-        let merged = partials.map(d => d.content).join(lineBreak)
-
-        if (config.hasOwnProperty('block')) {
-            merged = getPartialInCodeBlock(merged, eolChar, config.block);
-        }
-        return merged;
+        config = JSON.parse(jsonStr);
     } catch (e) {
-        throw new Error(`Partial with bad configuration: ${token.text} - ${e}`)
+        throw new ConfigException(jsonStr, e)
+    }
+
+    if (config.files?.length < 1) {
+        throw new ConfigException(jsonStr, 'You must configure at least one file')
+    }
+
+    let partialText: string;
+
+    if (config.jq !== undefined) {
+        const jsonPaths = config.files.map(getPartialPath);
+        const options = (config.files.length > 1) ? {slurp: true} : undefined;
+        const json = (await jq.run(config.jq, jsonPaths, options)).toString();
+        partialText = getPartialInCodeBlock(json, lineBreak);
+    } else if (config.transformation !== undefined) {
+        if (config.transformation == "mermaid") {
+            partialText = await transformMermaids(config, lineBreak);
+        } else {
+            throw new ConfigException(jsonStr, `Unknown type of Transformation: ${config.transformation}`);
+        }
+    } else {
+        const partials: Document[] = await Promise.all(config.files.map(loadPartial));
+        partialText = partials.map(d => d.content).join(lineBreak)
+    }
+
+    if (config.block) {
+        return getPartialInCodeBlock(partialText, lineBreak, config.block)
+    } else {
+        return partialText
     }
 }
 
-function getPartialInCodeBlock(partial: string, eolChar:string, type: string = "json"): string {
-    return `\`\`\`${type}${eolChar}${partial}${eolChar}\`\`\`${eolChar}`;
+async function transformMermaids(config: PartialConfig, lineBreak: string): Promise<string> {
+    const cmdAndPaths = config.files.map(buildMermaidCommand);
+    cmdAndPaths.forEach((val) => {
+        child.execSync(val.cmd);
+    });
+    const contents = cmdAndPaths.map((val) => {
+        const assetFile = val.assetFile;
+        // Avoid backslashes used on Windows machines
+        const assetPath = getAssetPathRelativeToDocuments(assetFile).replace(/\\/g, '/');
+        const assetName = assetFile.substring(0, assetFile.lastIndexOf('.'));
+        const imgRef = `![${assetName}](${assetPath})`;
+        return imgRef;
+    });
+    return contents.join(lineBreak);
+}
+
+function buildMermaidCommand(partialFile): { cmd: string; assetFile: string; } {
+    const fileName = partialFile.substring(0, partialFile.lastIndexOf('.'));
+    const destFile = `generated-${fileName}.svg`;
+    const destPath = getAssetPath(destFile);
+    const srcPath = getPartialPath(partialFile);
+    const cmd = `"${mmdcPath}" -i "${srcPath}" -o "${destPath}"`;
+    return {cmd: cmd, assetFile: destFile};
+}
+
+function getPartialInCodeBlock(partial: string, lineBreak: string, type: string = "json"): string {
+    return `\`\`\`${type}${lineBreak}${partial}${lineBreak}\`\`\``;
 }

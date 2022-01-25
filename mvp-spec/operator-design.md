@@ -4,9 +4,9 @@
 
 The proposed solution enforces the usage of TLS (HTTPS) for all communication to and from the operator, to prevent middle men to "spy" on data that is passed.
 
-- data is **transfered in a human readable fashion**, even when transported as part of the query string ("redirect" scenario without 3PC). Note that when using HTTPS, query string parameters are encrypted.
+- data is **transferred in a human-readable fashion**, even when transported as part of the query string ("redirect" scenario without 3PC). Note that when using HTTPS, query string parameters are encrypted.
 
-- data is **stored in a human readable fashion** as cookies
+- data is **stored in a human-readable fashion** as cookies
 
 - **signatures** are used to secure communications, but **not encryption**:
 
@@ -77,7 +77,7 @@ rect rgba(224, 224, 224, .55)
 
         activate B
             B ->> B: JS: no Prebid SSO ID 🍪 found
-            B -->> C: JS call: GET prebidURL?pubPage=publisherP.com/pageP.html
+            B -->> C: JS call: GET prebidURL?returnUrl=publisherP.com/pageP.html
         deactivate B
 
         activate C

@@ -179,27 +179,10 @@ Prebid SSO Data. Those data flow through different Contracting Parties. The
 communication between those Parties can includes OpenRTB responses and 
 OpenRTB requests and the election of a bid winner:
 
-```mermaid
-sequenceDiagram
-
-
-  participant U as User
-  participant P as Publisher
-  participant SSP as SSP
-  participant DSP1 as DSP1
-  participant DSP2 as DSP2
-
-  U ->> P: Go to publisher.com
-  P ->> SSP: Offer ad inventory
-  SSP ->> DSP1: Send an OpenRTB bid request
-  DSP1 ->> SSP: Return an OpenRTB bid response
-  SSP ->> DSP2: Send an OpenRTB bid request
-  DSP2 ->> SSP: Return an OpenRTB bid response
-  SSP ->> SSP: Select a winner to the bid request
-  SSP ->> P: Return data to display the ad
-  P ->> U: Display the webpage with the ad.
-
-```
+<!--partial-begin { "files": [ "transaction-nominal-case.mmd" ], "transformation": "mermaid" } -->
+<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
+![generated-transaction-nominal-case](assets/generated-transaction-nominal-case.svg)
+<!--partial-end-->
 
 In the diagram above, the Publisher, the SSP, and the DSPs MUST be part of the
 Prebid SSO ecosystem. For being part of it, they must commit to the Model Terms
