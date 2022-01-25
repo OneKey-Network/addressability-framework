@@ -100,6 +100,7 @@ Here is the structure of a Pseudonymous-Identifier:
 | type    | String        | The type of Pseudonymous-Identifier. For now, there is only one: "prebid_id".                                                    |
 | value   | String        | The Pseudonymous-Identifier value in UTF-8.                                                                                      |
 | source  | Source object | The Source contains all the data for identifying and trusting the Operator that generated the Pseudonymous-Identifier. <br /> <table><tr><th>Field</th><th>Type</th><th>Details</th></tr><tr><td>domain</td><td>String</td><td>The domain of the Operator.</td></tr><tr><td>timestamp</td><td>Integer</td><td>The timestamp of the signature.</td></tr><tr><td>signature</td><td>String</td><td>Encoded signature in UTF-8 of the Operator.</td></tr></table>|
+
 <!--partial-end-->
 
 Here is the structure of the Preferences:
@@ -111,6 +112,7 @@ Here is the structure of the Preferences:
 | version | Number                 | The Prebid SSO version used.     |
 | data    | Dictionary             | The keys are strings and represent the name of the preferences. <br /> The values represent the value of the preference. <br /> For now there is only one preference named "optin" and its value is a boolean.|
 | source  | Source object          | The source contains the data for identifying and trusting the CMP that signed lastly the Preferences.<br /> <table><tr><th>Field</th><th>Type</th><th>Details</th></tr><tr><td>domain</td><td>String</td><td>The domain of the CMP.</td></tr><tr><td>timestamp</td><td>Integer</td><td>The timestamp of the signature.</td></tr><tr><td>signature</td><td>String</td><td>Encoded signature in UTF-8 of the CMP.</td></tr></table>|
+
 <!--partial-end-->
 
 ### Step 3: Generate the Seeds
@@ -132,6 +134,7 @@ Here is the composition of a Seed:
 | transaction_id         | String                                   | A GUID in a String format dedicated to the share of the Prebid SSO data for one Addressable Content.|
 | publisher              | String                                   | The domain name of the Publisher that displays the Addressable Content|
 | source                 | Source object                            | The source contains data for identifying and trusting the Publisher.<br /><table><tr><th>Field</th><th>Type</th><th>Details</th></tr><tr><td>domain</td><td>String</td><td>The domain of the Root Party (Publisher in most of the cases).</td></tr><tr><td>timestamp</td><td>Integer</td><td>The timestamp of the signature.</td></tr><tr><td>signature</td><td>String</td><td>Encoded signature in UTF-8 of the Root Party/Publisher.</td></tr></table>|
+
 <!--partial-end-->
 
 Here is a JSON example of the Seed:
@@ -203,6 +206,7 @@ A Transmission Request is composed as followed:
 | seed   | Seed object                     | A Seed object contains all the Prebid SSO Data gathered and signed by the Publisher concerning the user. |
 | parents| Array of Transmission Results   | A list of Transmission Results that participate to a chain of Transmissions and make this Transmission possible. |  
 | source | Source object                   | The source object contains data for identifying the Sender of the Transmission.<br /><table><tr><th>Field</th><th>Type</th><th>Details</th></tr><tr><td>domain</td><td>String</td><td>The domain of the Sender.</td></tr><tr><td>timestamp</td><td>Integer</td><td>The timestamp of the signature.</td></tr><tr><td>signature</td><td>String</td><td>Encoded signature in UTF-8 of the Tranmission sender.</td></tr></table>|
+
 <!--partial-end-->
 
 The Transmission Request list is always associated to Prebid SSO Data that has
@@ -216,6 +220,7 @@ we name `data` in the following example:
 |------------------------|------------------------------------------|----------|
 | preferences            | Preferences object                       | The Preferences of the user.|
 | identifiers            | Array of Pseudonymous-Identifier objects | The Pseudonymous-Identifiers of the user. For now, it only contains a Prebid ID.|
+
 <!--partial-end-->
 
 Similar to the Seed, each Transmission Request contains a signature for 
@@ -335,6 +340,7 @@ A Transmission Response is composed as followed:
 | details         | String                        | In case of an error status, the DSP can provide details concerning the error.                                                                                                                                                                                                                              |
 | children        | Array of Transmission Results | An empty array as we consider that the DSP doesn't share the Prebid SSO Data to its suppliers via new transmissions.                                                                                                                                                                                       |
 | source          | Source object                 | The source contains all the data for identifying the DSP and verifying the Transmission.                                                                                                                                                                                                                   |
+
 <!--partial-end-->
 
 Therefore, here is an example of Transmission Responses that
@@ -392,6 +398,7 @@ The Audit Log has the following structure:
 | data          | Prebid SSO Object            | List the Pseudonymous-Identifiers and the Preferences of the user. |
 | seed          | Seed Object                  | The Seed object is the association of an Addressable Content to the Prebid SSO Data. |
 | transmissions | List of Transmission Results | A list of Transmission Results |
+
 <!--partial-end-->
 
 As described, the Audit Log contains a list of Transmission Results. The 
@@ -410,6 +417,7 @@ Here is the structure of a Transmission Result:
 | status          | String                        | Equals "success" if the DSP signed the Transmission and returns it to the sender.<br /> Equals "error_bad_request" if the receiver doesn't understand or see inconsistency in the Transmission Request.<br /> Equals "error_cannot_process" if the receiver failed to use the data of the Transmission Request properly. |
 | details         | String                        | In case of an error status, the DSP can provide details concerning the error.                                                                                                                                                                                                                              |
 | source          | Source object                 | The source contains all the data for identifying the DSP and verifying the Transmission.                                                                                                                                                                                                                   |
+
 <!--partial-end-->
 
 Let's take an example of a transformation to Transmission Results.
