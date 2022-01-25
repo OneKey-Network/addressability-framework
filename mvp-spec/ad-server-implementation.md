@@ -600,18 +600,18 @@ First, The Transmission Request object in an OpenRTB request keeps the same stru
 It is embedded in the `ext` field of each impression. It is 
 reachable at `imp`.`ext`.`prebid_sso`.
 
-Second, the Pseudonymous-Identifiers structure change in the OpenRTB request to take the
-advantage of the [Extended Identifiers](https://github.com/InteractiveAdvertisingBureau/openrtb/blob/master/extensions/2.x_official_extensions/eids.md). 
-One `eid` per Pseudonymous-Identifier. It is reachable at `user`.`ext`.`eids`.
+Second, the Pseudonymous-Identifiers and the Preferences structures change 
+in the OpenRTB request to take the advantage of the 
+[Extended Identifiers](https://github.com/InteractiveAdvertisingBureau/openrtb/blob/master/extensions/2.x_official_extensions/eids.md). 
+One `eid` per Pseudonymous-Identifier (and Preferences). 
+It is reachable at `user`.`ext`.`eids`.
 
 Comparing to the solution without OpenRTB:
 1. The Pseudonymous-Identifier value is stored in the `eids`.`id` field.
 2. The `eids`.`atype` is set to `1` because the ID is tied to a specific browser
 for nom.
 3. The `version`, `type`, and `source` fields are gathered in an extension of the `eid`: `eids`.`ext`.`prebid_sso`.
-
-Finally, The Preferences are in the extension of the user. It keeps the same structure 
-and is reachable at `user`.`ext`.`prebid_sso`.
+4. The Preferences are attached as an extention of the `eid`.
 
 #### Example of a OpenRTB Bid Request
 
@@ -689,22 +689,20 @@ and is reachable at `user`.`ext`.`prebid_sso`.
                                 }
                             }
                         }
-                    ]
-                }
-            ],
-            "prebid_sso": {
-                "preferences": {
-                    "version": 0,
-                    "data": { 
-                        "opt_in": true 
-                    },
-                    "source": {
-                        "domain": "cmp1.com",
-                        "timestamp": 1639589531,
-                        "signature": "12345_signature"
+                    ],
+                    "preferences": {
+                        "version": 0,
+                        "data": { 
+                            "opt_in": true 
+                        },
+                        "source": {
+                            "domain": "cmp1.com",
+                            "timestamp": 1639589531,
+                            "signature": "12345_signature"
+                        }
                     }
                 }
-            }
+            ]
         }
     }
 }
