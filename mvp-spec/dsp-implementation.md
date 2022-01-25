@@ -1,13 +1,14 @@
-# Goal
+# DSP Implementation
 
-Describe the technical requirements for a DSP engaged through the Model Terms
-with a supply partner.
+DSPs can implement Prebid SSO and shares Prebid SSO Data with partners 
+accordingly to the Model Terms. This document describes the technical
+requirements for it. 
 
-# General note about formats
+## General note about formats
 
 The described API use timestamps based on 1970 (unix epoch time).
 
-# General note about signature
+## General note about signature
 
 Prebid SSO Data format is design to let the user audit how his preference got
 to their current state. Therefore, Prebid SSO relies on the signatures 
@@ -18,14 +19,15 @@ the hash algorithm SHA-256 on a specific string.
 
 # Overview
 
-To implement Prebid SSO, the DSP must:
+To implement PAF, the DSP must:
 1. expose a new *Identity endpoint*  
 2. extend its existing API for handing Transmissions of Prebid SSO Data. 
 
 
 # The Identity endpoint
 
-To be part of the Prebid SSO network, a DSP must provide an Identity Endpoint
+
+To be part of the Prebid SSO network, a DSP must expose an Identity Endpoint
 for providing:
 * The name of the DSP;
 * The Prebid SSO version that it handles;
@@ -54,7 +56,7 @@ signature must have an associable key available in the Identity Endpoint. It is
 possible to have overlaps between the key timeframes for handing propertly the
 rotations. 
 
-## Key object
+### Key object
 
 | Field | Type      | Details                                                             |
 |-------|-----------|---------------------------------------------------------------------|
@@ -63,7 +65,7 @@ rotations.
 | end   | Integer   | Timestamp when the Contracting Party stoped to use this key for signing.          |
 
 
-## Example of an Identity response
+### Example of an Identity response
 
 ```json
 {
@@ -85,9 +87,9 @@ rotations.
 }
 ```
 
-# Transmission Overview
+## Transaction and Transmission Overview
 
-## Definitions
+### Definitions
 
 A **Transaction** is the sending of PAF Data from the Root Party 
 through the PAF ecosystem by consecutive Transmissions.
@@ -115,6 +117,7 @@ section.
 
 Here is a workflow that highlights that a Contracting Party can send
 many Transmission Requests and then get many Transmission Responses.
+
 
 ```mermaid
 sequenceDiagram
@@ -184,7 +187,7 @@ error handling would be described in the API details. Other transport protocols
 are fine in the case of an integration to existing solutions, as far as it
 provides the same level of security as HTTPS.
 
-## Formats
+### Formats
 
 Prebid SSO Data is associated with an Addressable Content (an ad) of an
 existing ecosystem. Thus, it is, in most cases, a sub-component of existing
@@ -196,7 +199,7 @@ is subject to adaptation to the context. For instance, if the
 Transmissions are integrated in an OpenRTB implementation in Protobuf, then it
 is possible to use Protobuf for the format of the Transmissions.
 
-# Transmission protocol
+## Transmission protocol
 
 In a case of an ad-hoc communication between two Contracting Parties, the
 transmission protocol can be used coupled with the Prebid SSO Data. 
@@ -206,7 +209,7 @@ Transactions (one for each placement of a webpage). Therefore, to avoid the
 duplication of the Prebid SSO Data in the communitation it is aside of the
 Transmission Request (and not inside it).
 
-## Transmission Request with Prebid SSO Data
+### Transmission Request with Prebid SSO Data
 
 Since it is mandatory to share Prebid SSO Data with one Transmission Request per
 Transaction, here is an example of an structure for an ad-hoc communication:
@@ -221,7 +224,7 @@ Transaction, here is an example of an structure for an ad-hoc communication:
 
 <!--partial-end-->
 
-### The Prebid SSO Object
+#### The Prebid SSO Object
 
 The Prebid SSO object contains the Pseudonymous-Identifier and the Preferences:
 <!--partial-begin { "files": [ "data-id-and-preferences-table.md" ] } -->
@@ -234,7 +237,7 @@ The Prebid SSO object contains the Pseudonymous-Identifier and the Preferences:
 
 <!--partial-end-->
 
-### The Preferences object
+#### The Preferences object
 
 <!--partial-begin { "files": [ "preferences-table.md" ] } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
@@ -246,7 +249,7 @@ The Prebid SSO object contains the Pseudonymous-Identifier and the Preferences:
 
 <!--partial-end-->
 
-### The Identifier object
+#### The Identifier object
 
 <!--partial-begin { "files": [ "identifier-table.md" ] } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
@@ -259,7 +262,7 @@ The Prebid SSO object contains the Pseudonymous-Identifier and the Preferences:
 
 <!--partial-end-->
 
-### The Transmission Request object
+#### The Transmission Request object
 
 The transmission Request object must follow strictly this structure:
 <!--partial-begin { "files": [ "transmission-request-table.md" ] } -->
@@ -274,7 +277,7 @@ The transmission Request object must follow strictly this structure:
 
 <!--partial-end-->
 
-### The Seed object
+#### The Seed object
 
 <!--partial-begin { "files": [ "seed-optimized-table.md" ] } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
@@ -287,7 +290,7 @@ The transmission Request object must follow strictly this structure:
 
 <!--partial-end-->
 
-## The Transmission Result object
+#### The Transmission Result object
 
 <!--partial-begin { "files": [ "transmission-result-table.md" ] } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
@@ -301,10 +304,45 @@ The transmission Request object must follow strictly this structure:
 
 <!--partial-end-->
 
-Note that the signature of the source is generated based on the follwoing:
+#### Signatures
 
+Note that the signature of the `source` in the Transmission Request is 
+generated with the following string:
 
-### Example of a Transmission Request
+<!--partial-begin { "files": [ "transmission-request-signature-string.txt" ], "block": "" } -->
+<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
+```
+transmission_request_receiver_domain        + '\u2063' +
+transmission_request.source.domain          + '\u2063' + 
+transmission_request.source.timestamp       + '\u2063' + 
+seed.source.signature
+
+```
+<!--partial-end-->
+
+The signatures of the `source`s in the Transmission Results are generated with
+the following string:
+
+<!--partial-begin { "files": [ "transmission-response-signature-string.txt" ], "block": "" } -->
+<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
+```
+transmission_result.source.domain + '\u2063' + 
+transmission_result.source.timestamp + '\u2063' + 
+
+seed.source.signature + '\u2063' + 
+
+source.domain + '\u2063' + 
+source.timestamp + '\u2063' + 
+
+transmission_response.receiver + '\u2063' + 
+transmission_response.status + '\u2063' +
+transmission_response.details
+```
+<!--partial-end-->
+
+It is not required to verify those signatures in the scope of the MVP.
+
+#### Example of a Transmission Request
 
 <!--partial-begin { "files": [ "transmission-requests.json" ], "block": "json" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
@@ -379,7 +417,7 @@ Note that the signature of the source is generated based on the follwoing:
 <!--partial-end-->
 
 
-## Transmission Responses
+### Transmission Responses
 
 The response of the ad-hoc communication contains zero to many 
 Transmission Responses. It is required to provide a Transmission Response on
@@ -394,7 +432,7 @@ The Transmission Response contains the signature of the DSP. Considering that,
 in a nominal case, the DSP doesn't share itself the Prebid SSO Data to other
 suppliers, it shouldn't take care of the "children" Transmission Results.
 
-### Transmission object
+#### Transmission object
 
 <!--partial-begin { "files": [ "transmission-response-table.md" ] } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
@@ -410,7 +448,7 @@ suppliers, it shouldn't take care of the "children" Transmission Results.
 
 <!--partial-end-->
 
-### Signing the Transmission Object
+#### Signing the Transmission Object
 
 A Transmission Response must be signed by the DSP. This signature relies on the
 same cryptographic algorithm as the other signatures in Prebid SSO (ECDSA NIST
@@ -440,7 +478,7 @@ transmission_response.details
 ```
 <!--partial-end-->
 
-### Example of a Transmission Response
+#### Example of a Transmission Response
 
 <!--partial-begin { "files": [ "transmission-response-with-children.json" ], "block": "json" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
@@ -482,13 +520,13 @@ transmission_response.details
 ```
 <!--partial-end-->
 
-# Transmissions in OpenRTB
+## Transmissions in OpenRTB
 
 OpenRTB is a standardized format for bidding on inventory. It is widely used in
 the industry and Prebid SSO Transmission can be integrated into it. For this
 purpose, Prebid SSO uses the "extensions" of OpenRTB requests and responses.
 
-## Many Transmission Requests in one OpenRTB Bid Request
+### Many Transmission Requests in one OpenRTB Bid Request
 
 There is one transmission between two Contracting Parties for one ad and one
 OpenRTB bid request can contain multiple ads - named "impression" in OpenRTB
@@ -497,7 +535,7 @@ Requests. Those Transmissions are added in the "ext" object of each "imp" (for
 impression) object of the Bid Request. This new object dedicated to the 
 Transmission is named "prebid_sso".
 
-#### Example of Transmission Requests in an OpenRTB Bid Request
+##### Example of Transmission Requests in an OpenRTB Bid Request
 
 <!--partial-begin { "files": [ "openrtb-request-with-transmissions.json" ], "block": "json" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
@@ -593,7 +631,7 @@ Transmission is named "prebid_sso".
 ```
 <!--partial-end-->
 
-## Many Transmission Responses in one OpenRTB Bid Response
+### Many Transmission Responses in one OpenRTB Bid Response
 
 Similar to the OpenRTB Bid Request for the Transmission Requests, the OpenRTB
 Bid Response can contain multiple Transmission Responses - one for each
@@ -609,7 +647,7 @@ The OpenRTB specification allows providing an empty payload for a "No Bid". In
 this case, there is no Transmission Response and the Transmission won't be
 in the Audit Logs.
 
-#### Example of a Transmission Response in an OpenRTB Bid Response
+##### Example of a Transmission Response in an OpenRTB Bid Response
 
 <!--partial-begin { "files": [ "openrtb-response-with-transmissions.json" ], "block": "json" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
