@@ -66,6 +66,13 @@ export async function interpret(tokens: LexerToken[], lineBreak: string): Promis
     return doc;
 }
 
+const getInBlock = (block: string, partialText: string, lineBreak: string) =>
+    [
+        "```" + block,
+        partialText,
+        "```"
+    ].join(lineBreak);
+
 async function interpretPartialBeginToken(token: LexerToken, lineBreak: string): Promise<string> {
     const text = token.text;
 
@@ -105,7 +112,7 @@ async function interpretPartialBeginToken(token: LexerToken, lineBreak: string):
     }
 
     if (config.block) {
-        return `\`\`\`${(config.block)}${lineBreak}${partialText}${lineBreak}\`\`\``
+        return getInBlock(config.block, partialText, lineBreak)
     } else {
         return partialText
     }
