@@ -52,17 +52,23 @@ Limitations:
 
 🟠 it can also appear in web server logs.
 
+
+## Write Scenario: the user visits a Publisher for the first time
+
+A user visits a Publisher and sets their preferences for the first time.
+
+In this case, the Publisher, the CMP and the Operator interact via 
+redirection mechanisms to collect the Pseudonymous-Identifier and the Preferences
+of the user and *write* it in a secure way. Therefore, this scenario is
+called the **"WRITE" scenario**.
+
 ```mermaid
 sequenceDiagram
-participant U as user
-participant B as browser
-participant P as publisher P http server
-participant C as CMP http server
-participant A as advertiser A http server
-participant O as operator node O
-
-rect rgba(224, 224, 224, .55)
-    note right of U: Time T1<br>"WRITE" scenario: user visits publisher<br>and sets their preferences for the first time
+    participant U as User
+    participant B as Browser
+    participant P as Publisher server
+    participant C as CMP server
+    participant O as Operator server
 
     U ->> B: visit www.publisherP.com/pageP.html
     activate U
@@ -77,7 +83,7 @@ rect rgba(224, 224, 224, .55)
 
         activate B
             B ->> B: JS: no Prebid SSO ID 🍪 found
-            B -->> C: JS call: GET prebidURL?returnUrl=publisherP.com/pageP.html
+            B -->> C: JS call: GET prebidURL?returnURL=publisherP.com/pageP.html
         deactivate B
 
         activate C
@@ -125,7 +131,7 @@ rect rgba(224, 224, 224, .55)
             B ->> B: [optional] VERIFY sign[id]<br/>with operatorO.prebidsso.com public key
             B ->> B: JS: show id in form<br>or store in hidden input
             note over B: Note: don't write 🍪 yet, wait for user consent
-            B -->> U: 
+             B -->> U: 
         deactivate B
 
     deactivate U
@@ -133,6 +139,7 @@ rect rgba(224, 224, 224, .55)
     U ->> B: submit preferences
 
     activate U
+
         activate B
             B ->> C: JS call: GET /submitConsent?id=xxx&preferences=yyy
         deactivate B
@@ -185,64 +192,77 @@ rect rgba(224, 224, 224, .55)
             B ->> B: VERIFY sign[pref & id] with cmp.com public key
             B ->> B: write 1P 🍪:<br/>id & sign[id]<br>preferences & sign[pref & id]
         deactivate B
-
-        B -->> U: 
+    B -->> U: 
 
     deactivate U
-end
 
-rect rgba(255, 255, 255, .55)
-    note right of U: Time T2<br>"READ" scenario: user visits a "new" advertiser
+```
+
+Note that this whole block can be done in the http server OR in the front end of publisher
+
+
+## Read Scenario: The user visits an Advertiser for the first time
+
+After visiting a Publisher and generating her/his Prebid SSO Data, the user
+goes to an Advertiser website. 
+
+In this case, the Advertiser website want to *read* the Prebid SSO Data of the 
+user. Therefore, this scenario is named the **"READ" scenario**.
+
+```mermaid
+sequenceDiagram
+participant U as User
+participant B as Browser
+participant C as CMP server
+participant A as Advertiser server
+participant O as Operator server
 
     U ->> B: visit www.advertiserA.com/pageA.html
-    activate U
 
-        activate B
-            B ->> A: GET /pageA.html
-        deactivate B
+    activate B
+        B ->> A: GET /pageA.html
+    deactivate B
 
-        activate A
-        A ->> A: no 🍪 found
-        A ->> A: clear data = (timestamp<br>+ sender=advertiserA.com<br>+ returnUrl=advertiserA.com/pageA.html)
-        A ->> A: SIGN (clear data + receiver=operatorO.prebidsso.com)<br/> with own private key
-        A -->> B: REDIRECT
-        deactivate A
+    activate A
+    A ->> A: no 🍪 found
+    A ->> A: clear data = (timestamp<br>+ sender=advertiserA.com<br>+ returnUrl=advertiserA.com/pageA.html)
+    A ->> A: SIGN (clear data + receiver=operatorO.prebidsso.com)<br/> with own private key
+    A -->> B: REDIRECT
+    deactivate A
 
-        activate B
-        B ->> O: GET or POST /read?[...clear Data]&signature=xxx
-        deactivate B
+    activate B
+    B ->> O: GET or POST /read?[...clear Data]&signature=xxx
+    deactivate B
 
-        activate O
-        note over O: sender == advertiserA.com<br>key == advertiserA.com public key
-        O ->> O: check advertiserA.com is allowed to read
-        O ->> O: VERIFY full data signature<br/>with advertiserA.com public key
-        note over O: advertiserA is authenticated<br/>and timestamp can be trusted
-        O ->> O: check timestamp is still valid
-        note over O: ok: this is a valid request
-        O ->> O: read 1P 🍪:<br/>id & sign[id]<br>preferences & sign[pref & id]
-        O ->> O: clear data = (id + sign[id]<br>+ preferences + sign[pref & id]<br>+ timestamp + sender=operatorO.prebidsso.com)
-        O ->> O: SIGN (clear data + receiver=advertiserA.com)<br/> with own private key
-        O -->> B: REDIRECT
-        deactivate O 
+    activate O
+    note over O: sender == advertiserA.com<br>key == advertiserA.com public key
+    O ->> O: check advertiserA.com is allowed to read
+    O ->> O: VERIFY full data signature<br/>with advertiserA.com public key
+    note over O: advertiserA is authenticated<br/>and timestamp can be trusted
+    O ->> O: check timestamp is still valid
+    note over O: ok: this is a valid request
+    O ->> O: read 1P 🍪:<br/>id & sign[id]<br>preferences & sign[pref & id]
+    O ->> O: clear data = (id + sign[id]<br>+ preferences + sign[pref & id]<br>+ timestamp + sender=operatorO.prebidsso.com)
+    O ->> O: SIGN (clear data + receiver=advertiserA.com)<br/> with own private key
+    O -->> B: REDIRECT
+    deactivate O 
 
-        activate B
-        B ->> A: GET /pageA.html?[...clear Data]&signature=xxx
-        deactivate B
+    activate B
+    B ->> A: GET /pageA.html?[...clear Data]&signature=xxx
+    deactivate B
 
-        activate A
-        note over A: sender == operatorO.prebidsso.com<br>key == operatorO.prebidsso.com public key
-        A ->> A: VERIFY full data signature<br/>with operatorO.prebidsso.com public key
-        note over A: operatorO.prebidsso.com is authenticated<br/>and timestamp can be trusted
-        A ->> A: check timestamp is in timeframe
-        note over A: ok: this is a valid request
-        A ->> A: VERIFY sign[id] with operatorO.prebidsso.com public key
-        A ->> A: VERIFY sign[pref & id] with cmp.com public key
-        A ->> A: write 1P 🍪:<br/>id & sign[id]<br>preferences & sign[pref & id]
-        A -->> B: display page
-        deactivate A
-        note over A: Note that this whole block can be done in the http server OR in the front end of publisher
-        B -->> U: 
+    activate A
+    note over A: sender == operatorO.prebidsso.com<br>key == operatorO.prebidsso.com public key
+    A ->> A: VERIFY full data signature<br/>with operatorO.prebidsso.com public key
+    note over A: operatorO.prebidsso.com is authenticated<br/>and timestamp can be trusted
+    A ->> A: check timestamp is in timeframe
+    note over A: ok: this is a valid request
+    A ->> A: VERIFY sign[id] with operatorO.prebidsso.com public key
+    A ->> A: VERIFY sign[pref & id] with cmp.com public key
+    A ->> A: write 1P 🍪:<br/>id & sign[id]<br>preferences & sign[pref & id]
+    A -->> B: display page
+    deactivate A
 
-    deactivate U
-end
+    B -->> U: 
+
 ```
