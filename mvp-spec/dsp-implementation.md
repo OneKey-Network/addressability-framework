@@ -335,7 +335,8 @@ seed.source.signature      // -> The Seed associated to the given Transaction Re
 ```
 <!--partial-end-->
 
-It is not required to verify those signatures in the scope of the MVP.
+⚠️ **It is not required to verify those signatures in the scope of the MVP.**
+The details of those signatures are here just for the understanding purpose.
 
 #### Example of a Transmission Request
 
@@ -624,17 +625,19 @@ Transmission is named "prebid_sso".
 
 Similar to the OpenRTB Bid Request for the Transmission Requests, the OpenRTB
 Bid Response can contain multiple Transmission Responses - one for each
-bid. It is not required to provide a Transmission Response for each impression:
-if there is no bid for a given impression, the bidder won't share any 
-Addressable Content to it and so, it won't be in the Audit Log of this latest.
+bid. The Bid Response contains only Transmission Responses for impressions that
+the DSP bids on. The rational is that if the DSP doesn't expect to provide an 
+Addressable Content, it won't appear in the Audit Log and thus its Transmission
+Response isn't useful.
+
+To provide a concrete example, the OpenRTB specifications allow providing 
+an empty payload for a "No Bid". Because there is no bid, there is also no
+Transmission Response and it is an acceptable scenario.
 
 Each Transmission Request must be expressed in the "ext" object of the root 
 Bid Response paired with the impression ids provided in the request. The name 
 of this new object in the "ext" object is "prebid_sso_transmissions".
 
-The OpenRTB specification allows providing an empty payload for a "No Bid". In
-this case, there is no Transmission Response and the Transmission won't be
-in the Audit Logs.
 
 ##### Example of a Transmission Response in an OpenRTB Bid Response
 
