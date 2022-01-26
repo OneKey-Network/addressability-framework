@@ -170,11 +170,11 @@ seed.source.domain + '\u2063' +
 seed.source.timestamp + '\u2063' + 
 seed.transaction_id + '\u2063' + 
 seed.publisher + '\u2063' + 
-seed.identifiers[0].source.signature + '\u2063' +
-seed.identifiers[1].source.signature + '\u2063' +
+data.identifiers[0].source.signature + '\u2063' +
+data.identifiers[1].source.signature + '\u2063' +
 ... + '\u2063' + 
-seed.identifiers[n].source.signature + '\u2063' +
-seed.preferences.source.signature
+data.identifiers[n].source.signature + '\u2063' +
+data.preferences.source.signature
 
 ```
 <!--partial-end-->
@@ -590,9 +590,9 @@ an example:
 
 ### Step 7: Display the Addressable Content and make the Audit Log available
 
-Finally, the Addressable Content can be displayed and depending on the 
-implementation choice, the Audit Log can be added in a hidden tag in the
-DOM or log in to the console.
+Finally, the Addressable Content can be displayed to the user on the Publisher 
+page. An Audit Button (ideally per Addressable Content) is available for 
+displaying the Audit UI.
 
 ### Transmissions with OpenRTB
 
