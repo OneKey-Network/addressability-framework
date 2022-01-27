@@ -11,7 +11,7 @@ The described API use timestamps based on 1970 (UNIX epoch time).
 ## General note about signature
 
 Prebid SSO Data format is designed to let the user audit how his preference got
-to their current state. Therefore, Prebid SSO relies on the signatures 
+to their current state. Therefore, PAF relies on the signatures 
 of the data and the communication to enforce security. The Elliptic Curve
 Digital Signature Algorithm (ECDSA) is used for this purpose. All the signatures
 described in this documentation are generated using NIST P-256 coupled with
@@ -27,10 +27,10 @@ To implement PAF, the DSP must:
 # The Identity endpoint
 
 
-To be part of the Prebid SSO network, a DSP must expose an Identity Endpoint
+To be part of the PAF network, a DSP must expose an Identity Endpoint
 for providing:
 * The name of the DSP;
-* The Prebid SSO version that it handles;
+* The PAF version that it handles;
 * The public key used to verify its signatures of Prebid SSO Data and
   transmissions.
 
@@ -46,8 +46,8 @@ It provides the following data as JSON:
 | Field                    | Type                 | Details                    |
 |--------------------------|----------------------|----------------------------|
 | name                     | String               | The name of the Contracting Party since the domain may not reflect the Company name.<br /> e.g "Criteo"                                                                                                                    |
-| type                     | String               | The type of Contracting Party in the Prebid SSO ecosystem. For now, the type for a DSP is "vendor"
-| last_version_implemented | Number               | A two-digit number separated by a point for expressing the last Prebid SSO version handled.<br /> For now, the value is "0.1"<br /> Note: a new field may appear with the new versions of the Prebid SSO protocol for the last supported version. |
+| type                     | String               | The type of Contracting Party in the PAF ecosystem. For now, the type for a DSP is "vendor"
+| last_version_implemented | Number               | A two-digit number separated by a point for expressing the last PAF version handled.<br /> For now, the value is "0.1"<br /> Note: a new field may appear with the new versions of the PAF for the last supported version. |
 | keys                     | Array of Key objects | Public keys for verifying the signatures of the DSP. Those public keys are strings associated with a timeframe for handling key rotation.|
 
 
@@ -95,7 +95,7 @@ A **Transaction** is the sending of PAF Data from the Root Party
 through the PAF ecosystem by consecutive Transmissions.
 
 A **Transmission** is the act of sharing Prebid SSO Data (Pseudonymous-Identifiers
-and Preferences) between two Contracting Parties of Prebid SSO: the Sender and
+and Preferences) between two Contracting Parties of PAF: the Sender and
 the Receiver. Transactions are chainable.
 
 The **Sender** sends a **Transmission Request** and the **Receiver** sends back 
@@ -181,7 +181,7 @@ The detailed steps of the diagram above:
 
 For doing Transmissions, it is expected to use HTTPS for transport and security
 purposes and POST requests for server-to-server communications for accommodating
-a greater payload than GET. However, since Prebid SSO can be integrated as
+a greater payload than GET. However, since PAF can be integrated as
 a sub-component, its design doesn't rely on the HTTP status. Therefore, the
 error handling would be described in the API details. Other transport protocols
 are fine in the case of an integration to existing solutions, as far as it
@@ -256,7 +256,7 @@ The Prebid SSO object contains the Pseudonymous-Identifier and the Preferences:
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 | Field   | Type          | Details                                            |
 |---------|---------------|----------------------------------------------------|
-| version | Number        | The version of Prebid SSO used.                                                                       |
+| version | Number        | The version of PAF used.                                                                       |
 | type    | String        | The type of Pseudonymous-Identifier. For now, there is only one: "prebid_id".                                                    |
 | value   | String        | The Pseudonymous-Identifier value in UTF-8.                                                                                      |
 | source  | Source object | The Source contains all the data for identifying and trusting the Operator that generated the Pseudonymous-Identifier. <br /> <table><tr><th>Field</th><th>Type</th><th>Details</th></tr><tr><td>domain</td><td>String</td><td>The domain of the Operator.</td></tr><tr><td>timestamp</td><td>Integer</td><td>The timestamp of the signature.</td></tr><tr><td>signature</td><td>String</td><td>Encoded signature in UTF-8 of the Operator.</td></tr></table>|
@@ -271,7 +271,7 @@ The transmission Request object must follow strictly this structure:
 
 | Field  | Type                            | Details                           |
 |--------|---------------------------------|-----------------------------------|
-| version| Number                          | The Prebid SSO version used.               |
+| version| Number                          | The PAF version used.               |
 | seed   | Seed object                     | A Seed object contains all the Prebid SSO Data gathered and signed by the Publisher concerning the user. |
 | parents| Array of Transmission Results   | A list of Transmission Results that participate to a chain of Transmissions and make this Transmission possible. |  
 | source | Source object                   | The source object contains data for identifying the Sender of the Transmission.<br /><table><tr><th>Field</th><th>Type</th><th>Details</th></tr><tr><td>domain</td><td>String</td><td>The domain of the Sender.</td></tr><tr><td>timestamp</td><td>Integer</td><td>The timestamp of the signature.</td></tr><tr><td>signature</td><td>String</td><td>Encoded signature in UTF-8 of the Tranmission sender.</td></tr></table>|
@@ -284,7 +284,7 @@ The transmission Request object must follow strictly this structure:
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 | Field                  | Type                                     | Details  |
 |------------------------|------------------------------------------|----------|
-| version                | Number                                   | The Prebid SSO version used.|
+| version                | Number                                   | The PAF version used.|
 | transaction_id         | String                                   | A GUID in a String format dedicated to the share of the Prebid SSO data for one Addressable Content.|
 | publisher              | String                                   | The domain name of the Publisher that displays the Addressable Content|
 | source                 | Source object                            | The source contains data for identifying and trusting the Publisher.<br /><table><tr><th>Field</th><th>Type</th><th>Details</th></tr><tr><td>domain</td><td>String</td><td>The domain of the Root Party (Publisher in most of the cases).</td></tr><tr><td>timestamp</td><td>Integer</td><td>The timestamp of the signature.</td></tr><tr><td>signature</td><td>String</td><td>Encoded signature in UTF-8 of the Root Party/Publisher.</td></tr></table>|
@@ -297,7 +297,7 @@ The transmission Request object must follow strictly this structure:
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 | Field           | Type                          | Details                           |
 |-----------------|-------------------------------|-----------------------------------|
-| version         | Number                        | The version of the Prebid SSO used.                                                                                                                                                                                                                               |
+| version         | Number                        | The version of the PAF used.                                                                                                                                                                                                                               |
 | receiver        | String                        | The domain name of the DSP.                                                                                                                                                                                                                                                                                |
 | status          | String                        | Equals "success" if the DSP signed the Transmission and returns it to the sender.<br /> Equals "error_bad_request" if the receiver doesn't understand or see inconsistency in the Transmission Request.<br /> Equals "error_cannot_process" if the receiver failed to use the data of the Transmission Request properly. |
 | details         | String                        | In case of an error status, the DSP can provide details concerning the error.                                                                                                                                                                                                                              |
@@ -434,7 +434,7 @@ suppliers, it shouldn't take care of the "children" Transmission Results.
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 | Field           | Type                          | Details                           |
 |-----------------|-------------------------------|-----------------------------------|
-| version         | Number                        | The version of the Prebid SSO used.                                                                                                                                                                                                                               |
+| version         | Number                        | The version of the PAF used.                                                                                                                                                                                                                               |
 | transaction_id  | String                        | A GUID dedicated to the Addressable Content. It allows associating the Transmission Responses to Transmission Request                                                                                                                     |
 | receiver        | String                        | The domain name of the DSP.                                                                                                                                                                                                                                                                                |
 | status          | String                        | Equals "success" if the DSP signed the Transmission and returns it to the sender.<br /> Equals "error_bad_request" if the receiver doesn't understand or see inconsistency in the Transmission Request.<br /> Equals "error_cannot_process" if the receiver cannot handle the Transmission Request properly. |
@@ -447,7 +447,7 @@ suppliers, it shouldn't take care of the "children" Transmission Results.
 #### Signing the Transmission Object
 
 A Transmission Response must be signed by the DSP. This signature relies on the
-same cryptographic algorithm as the other signatures in Prebid SSO (ECDSA NIST
+same cryptographic algorithm as the other signatures in PAF (ECDSA NIST
 P-256):
 
 * Build a UTF-8 string from the data of the Transmission Request (see below);
@@ -513,8 +513,8 @@ seed.source.signature      // -> The Seed associated to the given Transaction Re
 ## Transmissions in OpenRTB
 
 OpenRTB is a standardized format for bidding on inventory. It is widely used in
-the industry and Prebid SSO Transmission can be integrated into it. For this
-purpose, Prebid SSO uses the "extensions" of OpenRTB requests and responses.
+the industry and PAF Transmission can be integrated into it. For this
+purpose, PAF uses the "extensions" of OpenRTB requests and responses.
 
 ### Many Transmission Requests in one OpenRTB Bid Request
 
@@ -544,7 +544,7 @@ Transmission is named "prebid_sso".
                 "pos": 0
             },
             "ext": {
-                "prebid_sso": {
+                "paf": {
                     "version": 0,
                     "seed": {
                         "version": 0,
@@ -584,7 +584,7 @@ Transmission is named "prebid_sso".
             "eids": 
             [
                 {
-                    "source": "prebid_sso",
+                    "source": "paf",
                     "uids": [
                         {
                             "atype": 1,
@@ -663,7 +663,7 @@ of this new object in the "ext" object is "prebid_sso_transmissions".
                     "crid": "creative112",
                     "attr": [ 1, 2, 3, 4, 5, 6, 7, 12 ],
                     "ext": {
-                        "prebid_sso": {
+                        "paf": {
                             "version": 0,
                             "receiver": "dsp1.com",
                             "status": "success",
