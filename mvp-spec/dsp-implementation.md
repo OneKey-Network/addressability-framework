@@ -358,6 +358,7 @@ The details of those signatures are here just for the understanding purpose.
             }
         ],
         "preferences": {
+            "version": 0,
             "data": { 
                 "opt_in": true 
             },
