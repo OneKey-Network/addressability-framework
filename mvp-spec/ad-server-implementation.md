@@ -144,7 +144,7 @@ Here is a JSON example of the Seed:
 ```json
 {
     "version": 0,
-    "transaction_id": 1234567,
+    "transaction_id": "a0651946-0f5b-482b-8cfc-eab3644d2743",
     "publisher": "publisher.com",
     "source": {
         "domain": "adserver-company.com",
@@ -280,7 +280,7 @@ Here is an example that must be adapted to the existing API of the Ad Server:
             "version": 0,
             "seed": {
                 "version": 0,
-                "transaction_id": 1234567,
+                "transaction_id": "a0651946-0f5b-482b-8cfc-eab3644d2743",
                 "publisher": "publisher.com",
                 "source": {
                     "domain": "publisher.com",
@@ -299,7 +299,7 @@ Here is an example that must be adapted to the existing API of the Ad Server:
             "version": 0,
             "seed": {
                 "version": 0,
-                "transaction_id": 1234567,
+                "transaction_id": "a0651946-0f5b-482b-8cfc-eab3644d2743",
                 "publisher": "publisher.com",
                 "source": {
                     "domain": "publisher.com",
@@ -353,7 +353,7 @@ must be adapted to the existing API:
     "transmissions": [
         {
             "version": 0,
-            "transaction_id": 1234567,
+            "transaction_id": "a0651946-0f5b-482b-8cfc-eab3644d2743",
             "receiver": "dsp1.com",
             "status": "success",
             "details": "",
@@ -366,7 +366,7 @@ must be adapted to the existing API:
         },
         {
             "version": 0,
-            "transaction_id": 12345678,
+            "transaction_id": "a0651946-0f5b-482b-8cfc-eab3644d2743"8,
             "receiver": "dsp1.com",
             "status": "success",
             "details": "",
@@ -428,7 +428,7 @@ Here is a received Transmission Response that helps to generate the Addressable 
 ```json
 {
     "version": 0,
-    "transaction_id": 1234567,
+    "transaction_id": "a0651946-0f5b-482b-8cfc-eab3644d2743",
     "receiver": "ssp1.com",
     "status": "success",
     "details": "",
@@ -472,7 +472,7 @@ Here is the associated list of Transmission Results:
     "transmissions": [
         {
             "version": 0,
-            "transaction_id": 1234567,
+            "transaction_id": "a0651946-0f5b-482b-8cfc-eab3644d2743",
             "receiver": "ssp1.com",
             "status": "success",
             "details": "",
@@ -541,7 +541,7 @@ an example:
     },
     "seed": {
         "version": 0,
-        "transaction_id": 1234567,
+        "transaction_id": "a0651946-0f5b-482b-8cfc-eab3644d2743",
         "publisher": "publisher.com",
         "source": {
           "domain": "ad-server.com",
@@ -644,7 +644,7 @@ for nom.
                     "version": 0,
                     "seed": {
                         "version": 0,
-                        "transaction_id": 1234567,
+                        "transaction_id": "a0651946-0f5b-482b-8cfc-eab3644d2743",
                         "publisher": "publisher.com",
                         "source": {
                             "domain": "publisher0.com",

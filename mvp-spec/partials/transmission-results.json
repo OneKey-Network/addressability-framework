@@ -2,7 +2,7 @@
     "transmissions": [
         {
             "version": 0,
-            "transaction_id": 1234567,
+            "transaction_id": "a0651946-0f5b-482b-8cfc-eab3644d2743",
             "receiver": "ssp1.com",
             "status": "success",
             "details": "",

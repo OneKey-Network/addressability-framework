@@ -2,7 +2,7 @@
     "transmissions": [
         {
             "version": 0,
-            "transaction_id": 1234567,
+            "transaction_id": "a0651946-0f5b-482b-8cfc-eab3644d2743",
             "receiver": "dsp1.com",
             "status": "success",
             "details": "",
@@ -15,7 +15,7 @@
         },
         {
             "version": 0,
-            "transaction_id": 12345678,
+            "transaction_id": "a0651946-0f5b-482b-8cfc-eab3644d2743"8,
             "receiver": "dsp1.com",
             "status": "success",
             "details": "",
