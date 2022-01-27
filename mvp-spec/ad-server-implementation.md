@@ -3,7 +3,7 @@
 ## Goal of the document
 
 This document provides the guidance and the requirements for implementing 
-Prebid SSO on an Ad Server.
+Prebid Addressability Framework (PAF) on an Ad Server.
 
 ## Overview
 
@@ -12,13 +12,13 @@ Addressable Content Service directly in the Ad Server. Therefore, the following
 document is focused on this setup.
 
 Compared to a usual setup with an Ad Server, the Publisher or the Provider of
-the Ad Server has to implement additional features to enable Prebid SSO. 
+the Ad Server has to implement additional features to enable PAF. 
 
 Those features are:
 * The generation of the Seeds of the Addressable Contents;
 * The emission of Transmissions to the Ad Network;
 * The support of the Audit Log for the user;
-* The exposition of an endpoint for the Prebid SSO Identity.
+* The exposition of an Identity endpoint.
 
 The following diagram introduces an overview of this setup:
 
@@ -44,9 +44,9 @@ sequenceDiagram
 
 ## Offer inventory with Prebid SSO Data
 
-Prebid SSO doesn't standardize the API of the Ad Server for offering
+PAF doesn't standardize the API of the Ad Server for offering
 inventory because each Ad Server has an existing and specific API. 
-However, to implement Prebid SSO, the Ad Server need to implement new features
+However, to implement PAF, the Ad Server need to implement new features
 in the existing endpoints called by the Publisher website to offer inventory 
 and get back Addressable Contents.
 
@@ -96,7 +96,7 @@ Here is the structure of a Pseudonymous-Identifier:
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 | Field   | Type          | Details                                            |
 |---------|---------------|----------------------------------------------------|
-| version | Number        | The version of Prebid SSO used.                                                                       |
+| version | Number        | The version of PAF used.                                                                       |
 | type    | String        | The type of Pseudonymous-Identifier. For now, there is only one: "prebid_id".                                                    |
 | value   | String        | The Pseudonymous-Identifier value in UTF-8.                                                                                      |
 | source  | Source object | The Source contains all the data for identifying and trusting the Operator that generated the Pseudonymous-Identifier. <br /> <table><tr><th>Field</th><th>Type</th><th>Details</th></tr><tr><td>domain</td><td>String</td><td>The domain of the Operator.</td></tr><tr><td>timestamp</td><td>Integer</td><td>The timestamp of the signature.</td></tr><tr><td>signature</td><td>String</td><td>Encoded signature in UTF-8 of the Operator.</td></tr></table>|
@@ -120,7 +120,7 @@ Here is the structure of the Preferences:
 The Seed is the association of the Pseudonymous-Identifiers and the
 Preferences of the user for a given Addressable Content. The Ad Server must
 generate this association and sign it.
-Once generated, a Prebid SSO party - including the Ad Server- in possession of 
+Once generated, a Contracting Party - including the Ad Server- in possession of 
 a Seed can share it with another party via Transmissions (see the next steps). 
 A Seed is signed by the Ad Server for audit purposes. 
 
@@ -130,7 +130,7 @@ Here is the composition of a Seed:
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 | Field                  | Type                                     | Details  |
 |------------------------|------------------------------------------|----------|
-| version                | Number                                   | The Prebid SSO version used.|
+| version                | Number                                   | The PAF version used.|
 | transaction_id         | String                                   | A GUID in a String format dedicated to the share of the Prebid SSO data for one Addressable Content.|
 | publisher              | String                                   | The domain name of the Publisher that displays the Addressable Content|
 | source                 | Source object                            | The source contains data for identifying and trusting the Publisher.<br /><table><tr><th>Field</th><th>Type</th><th>Details</th></tr><tr><td>domain</td><td>String</td><td>The domain of the Root Party (Publisher in most of the cases).</td></tr><tr><td>timestamp</td><td>Integer</td><td>The timestamp of the signature.</td></tr><tr><td>signature</td><td>String</td><td>Encoded signature in UTF-8 of the Root Party/Publisher.</td></tr></table>|
@@ -170,11 +170,11 @@ seed.source.domain + '\u2063' +
 seed.source.timestamp + '\u2063' + 
 seed.transaction_id + '\u2063' + 
 seed.publisher + '\u2063' + 
-data.identifiers[0].source.signature + '\u2063' +
-data.identifiers[1].source.signature + '\u2063' +
+seed.identifiers[0].source.signature + '\u2063' +
+seed.identifiers[1].source.signature + '\u2063' +
 ... + '\u2063' + 
-data.identifiers[n].source.signature + '\u2063' +
-data.preferences.source.signature
+seed.identifiers[n].source.signature + '\u2063' +
+seed.preferences.source.signature
 
 ```
 <!--partial-end-->
@@ -183,7 +183,7 @@ data.preferences.source.signature
 
 Once the Seeds are generated (one per Addressable Content), the Ad Server
 shares the Prebid SSO Data via Transmissions with placement data to 
-Prebid SSO Parties. In the case of an existing custom communication 
+Contracting Parties. In the case of an existing custom communication 
 (a.k.a not OpenRTB), Transmission Requests must be included in the existing
 communication and bound structurally or by references to the data of the 
 impressions (also named Addressable Content). One Transmission Requests 
@@ -202,7 +202,7 @@ A Transmission Request is composed as followed:
 
 | Field  | Type                            | Details                           |
 |--------|---------------------------------|-----------------------------------|
-| version| Number                          | The Prebid SSO version used.               |
+| version| Number                          | The PAF version used.               |
 | seed   | Seed object                     | A Seed object contains all the Prebid SSO Data gathered and signed by the Publisher concerning the user. |
 | parents| Array of Transmission Results   | A list of Transmission Results that participate to a chain of Transmissions and make this Transmission possible. |  
 | source | Source object                   | The source object contains data for identifying the Sender of the Transmission.<br /><table><tr><th>Field</th><th>Type</th><th>Details</th></tr><tr><td>domain</td><td>String</td><td>The domain of the Sender.</td></tr><tr><td>timestamp</td><td>Integer</td><td>The timestamp of the signature.</td></tr><tr><td>signature</td><td>String</td><td>Encoded signature in UTF-8 of the Tranmission sender.</td></tr></table>|
@@ -333,7 +333,7 @@ A Transmission Response is composed as followed:
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 | Field           | Type                          | Details                           |
 |-----------------|-------------------------------|-----------------------------------|
-| version         | Number                        | The version of the Prebid SSO used.                                                                                                                                                                                                                               |
+| version         | Number                        | The version of the PAF used.                                                                                                                                                                                                                               |
 | transaction_id  | String                        | A GUID dedicated to the Addressable Content. It allows associating the Transmission Responses to Transmission Request                                                                                                                     |
 | receiver        | String                        | The domain name of the DSP.                                                                                                                                                                                                                                                                                |
 | status          | String                        | Equals "success" if the DSP signed the Transmission and returns it to the sender.<br /> Equals "error_bad_request" if the receiver doesn't understand or see inconsistency in the Transmission Request.<br /> Equals "error_cannot_process" if the receiver cannot handle the Transmission Request properly. |
@@ -395,7 +395,7 @@ The Audit Log has the following structure:
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 | Field         | Type                         | Detail                        |
 |---------------|------------------------------|-------------------------------|
-| data          | Prebid SSO Object            | List the Pseudonymous-Identifiers and the Preferences of the user. |
+| data          | Prebid SSO Data Object       | List the Pseudonymous-Identifiers and the Preferences of the user. |
 | seed          | Seed Object                  | The Seed object is the association of an Addressable Content to the Prebid SSO Data. |
 | transmissions | List of Transmission Results | A list of Transmission Results |
 
@@ -412,7 +412,7 @@ Here is the structure of a Transmission Result:
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 | Field           | Type                          | Details                           |
 |-----------------|-------------------------------|-----------------------------------|
-| version         | Number                        | The version of the Prebid SSO used.                                                                                                                                                                                                                               |
+| version         | Number                        | The version of the PAF used.                                                                                                                                                                                                                               |
 | receiver        | String                        | The domain name of the DSP.                                                                                                                                                                                                                                                                                |
 | status          | String                        | Equals "success" if the DSP signed the Transmission and returns it to the sender.<br /> Equals "error_bad_request" if the receiver doesn't understand or see inconsistency in the Transmission Request.<br /> Equals "error_cannot_process" if the receiver failed to use the data of the Transmission Request properly. |
 | details         | String                        | In case of an error status, the DSP can provide details concerning the error.                                                                                                                                                                                                                              |
@@ -597,7 +597,7 @@ displaying the Audit UI.
 ### Transmissions with OpenRTB
 
 If the used protocol for offering the inventory is OpenRTB, the Ad Server needs
-to respect the following for integrating Prebid SSO.
+to respect the following for integrating PAF.
 
 #### The OpenRTB Bid Request
 
@@ -606,7 +606,7 @@ extensions of the Bid Request:
 
 First, The Transmission Request object in an OpenRTB request keeps the same structure.
 It is embedded in the `ext` field of each impression. It is 
-reachable at `imp`.`ext`.`prebid_sso`.
+reachable at `imp`.`ext`.`paf`.
 
 Second, the Pseudonymous-Identifiers and the Preferences structures change 
 in the OpenRTB request to take the advantage of the 
@@ -618,7 +618,7 @@ Comparing to the solution without OpenRTB:
 1. The Pseudonymous-Identifier value is stored in the `eids`.`id` field.
 2. The `eids`.`atype` is set to `1` because the ID is tied to a specific browser
 for nom.
-3. The `version`, `type`, and `source` fields are gathered in an extension of the `eid`: `eids`.`ext`.`prebid_sso`.
+3. The `version`, `type`, and `source` fields are gathered in an extension of the `eid`: `eids`.`ext`.`paf`.
 4. The Preferences are attached as an extention of the `eid`.
 
 #### Example of a OpenRTB Bid Request
@@ -640,7 +640,7 @@ for nom.
                 "pos": 0
             },
             "ext": {
-                "prebid_sso": {
+                "paf": {
                     "version": 0,
                     "seed": {
                         "version": 0,
@@ -680,7 +680,7 @@ for nom.
             "eids": 
             [
                 {
-                    "source": "prebid_sso",
+                    "source": "paf",
                     "uids": [
                         {
                             "atype": 1,
@@ -719,10 +719,10 @@ for nom.
 
 #### The OpenRTB Bid Response
 
-In step 5, the bidder (named Receiver in Prebid SSO Transmission) send back a 
+In step 5, the bidder (named Receiver in PAF Transmission) send back a 
 OpenRTB Bid Response. Each `bid` is associated with a Transaction Response. The 
 Transaction has the same structure explained in **Step 5** and is reachable in
-the `ext` field of a `bid` (full path: `seatbid[].bid.ext.prebid_sso`).
+the `ext` field of a `bid` (full path: `seatbid[].bid.ext.paf`).
 
 Here is an example:
 
@@ -748,7 +748,7 @@ Here is an example:
                     "crid": "creative112",
                     "attr": [ 1, 2, 3, 4, 5, 6, 7, 12 ],
                     "ext": {
-                        "prebid_sso": {
+                        "paf": {
                             "version": 0,
                             "receiver": "dsp1.com",
                             "status": "success",

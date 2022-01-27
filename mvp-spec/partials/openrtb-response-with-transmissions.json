@@ -17,7 +17,7 @@
                     "crid": "creative112",
                     "attr": [ 1, 2, 3, 4, 5, 6, 7, 12 ],
                     "ext": {
-                        "prebid_sso": {
+                        "paf": {
                             "version": 0,
                             "receiver": "dsp1.com",
                             "status": "success",

@@ -12,7 +12,7 @@
                 "pos": 0
             },
             "ext": {
-                "prebid_sso": {
+                "paf": {
                     "version": 0,
                     "seed": {
                         "version": 0,
@@ -52,7 +52,7 @@
             "eids": 
             [
                 {
-                    "source": "prebid_sso",
+                    "source": "paf",
                     "uids": [
                         {
                             "atype": 1,
