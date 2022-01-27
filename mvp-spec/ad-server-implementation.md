@@ -265,6 +265,7 @@ Here is an example that must be adapted to the existing API of the Ad Server:
             }
         ],
         "preferences": {
+            "version": 0,
             "data": { 
                 "opt_in": true 
             },
@@ -472,7 +473,6 @@ Here is the associated list of Transmission Results:
     "transmissions": [
         {
             "version": 0,
-            "transaction_id": "a0651946-0f5b-482b-8cfc-eab3644d2743",
             "receiver": "ssp1.com",
             "status": "success",
             "details": "",
@@ -483,6 +483,7 @@ Here is the associated list of Transmission Results:
             }
         },
         {
+            "version": 0,
             "receiver": "ssp2.com",
             "status": "success",
             "details": "",
@@ -493,6 +494,7 @@ Here is the associated list of Transmission Results:
             }
         },
         {
+            "version": 0,
             "receiver": "dsp.com",
             "status": "success",
             "details": "",
