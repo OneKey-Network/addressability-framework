@@ -373,7 +373,7 @@ The details of those signatures are here just for the understanding purpose.
             "version": 0,
             "seed": {
                 "version": 0,
-                "transaction_id": 1234567,
+                "transaction_id": "a0651946-0f5b-482b-8cfc-eab3644d2743",
                 "publisher": "publisher.com",
                 "source": {
                     "domain": "publisher.com",
@@ -392,7 +392,7 @@ The details of those signatures are here just for the understanding purpose.
             "version": 0,
             "seed": {
                 "version": 0,
-                "transaction_id": 1234567,
+                "transaction_id": "a0651946-0f5b-482b-8cfc-eab3644d2743",
                 "publisher": "publisher.com",
                 "source": {
                     "domain": "publisher.com",
@@ -475,7 +475,7 @@ seed.source.signature      // -> The Seed associated to the given Transaction Re
 ```json
 {
     "version": 0,
-    "transaction_id": 1234567,
+    "transaction_id": "a0651946-0f5b-482b-8cfc-eab3644d2743",
     "receiver": "ssp1.com",
     "status": "success",
     "details": "",
@@ -548,7 +548,7 @@ Transmission is named "prebid_sso".
                     "version": 0,
                     "seed": {
                         "version": 0,
-                        "transaction_id": 1234567,
+                        "transaction_id": "a0651946-0f5b-482b-8cfc-eab3644d2743",
                         "publisher": "publisher.com",
                         "source": {
                             "domain": "publisher0.com",
