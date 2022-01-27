@@ -618,7 +618,7 @@ The DSP must build a valid Audit Log. For this purpose, it must:
 1. Take the Seed and the Transmission Parents from the Transmission Request that
 it received for this Addressable content.
 2. Consider the Transmission Parent to Transmission Result
-3. Append it own Transmission Result ot the existing list.
+3. Append it own Transmission Result to the existing list.
 4. Shuffle the list of Transmission Results
 5. Build the Audit Log by following the specification below.
 
