@@ -41,3 +41,7 @@ Specifications for a MVP, covering only a single id managed by several operators
 We plan to install GitHub actions to automatically generate images from the diagrams, but until then,
 you are invited to install a browser extension such as [markdown-diagrams](https://chrome.google.com/webstore/detail/markdown-diagrams/pmoglnmodacnbbofbgcagndelmgaclel/related) to visualise them.
 You might need to **refresh the page** to get the rendered image.
+
+# Contributing
+
+Please see [Contributing.md](CONTRIBUTING.md)
