@@ -7,7 +7,16 @@ the documents the contents of their partials.
 
 ## Setup
 
-```bash
+- Make sure you have Python and `pip` installed on your machine.
+- install the JSON to markdown generator
+
+```shell
+pip install json-schema-for-humans
+```
+
+- install this project
+
+```shell
 npm install
 ```
 

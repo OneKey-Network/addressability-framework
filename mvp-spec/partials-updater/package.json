@@ -6,7 +6,8 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "start": "ts-node src/index.ts"
+    "generate-doc": "generate-schema-doc --config template_name=md --config show_breadcrumbs=false --config show_toc=false --config with_footer=false node_modules/paf-mvp-core-js/json-schemas ../generated-model/",
+    "start": "npm run generate-doc && ts-node src/index.ts"
   },
   "keywords": [],
   "author": "",
@@ -14,7 +15,6 @@
   "devDependencies": {
     "@types/node": "^17.0.1",
     "nodemon": "^2.0.15",
-    "ts-node": "^10.4.0",
     "typescript": "^4.5.4"
   },
   "dependencies": {
@@ -22,6 +22,8 @@
     "@types/app-root-path": "^1.2.4",
     "app-root-path": "^3.0.0",
     "mermaid.cli": "^0.5.1",
-    "node-jq": "^2.1.0"
+    "ts-node": "^10.4.0",
+    "node-jq": "^2.1.0",
+    "paf-mvp-core-js": "criteo/paf-mvp-core-js#semver:0.0.3"
   }
 }

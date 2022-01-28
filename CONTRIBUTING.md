@@ -17,6 +17,5 @@ git submodule init # This step will soon be removed
   - Partials are stored in [/mvp-spec/partials](mvp-spec/partials) and **can** be modified
 - [Mermaid](https://mermaid-js.github.io/mermaid/#/) diagrams (`*.mmd`) are also stored in this `partials` directory and **can** be modified
 
- 
 For details about the usage of partials, see the [README](mvp-spec/partials-updater/README.md)
 
