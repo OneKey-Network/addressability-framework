@@ -1,14 +1,7 @@
-import {
-    Document,
-    getAssetPath,
-    getAssetPathRelativeToDocuments,
-    getBinPath,
-    getPartialPath,
-    loadPartial
-} from "./files";
+import {Document, getPartialPath, loadPartial} from "./files";
 import {LexerToken, LexerTokenType, PartialBegin} from "./lexer";
 import * as jq from "node-jq";
-import * as child from 'child_process';
+import {transformMermaids} from "./mermaid";
 
 interface PartialConfig {
     files: string[];
@@ -22,8 +15,6 @@ export class ConfigException extends Error {
         super(`Partial with bad configuration ${jsonStr}: ${message}`);
     }
 }
-
-const mmdcPath = getBinPath('mmdc')
 
 /** Interpret the token to generate the content. */
 export async function interpret(tokens: LexerToken[], lineBreak: string): Promise<string> {
@@ -102,7 +93,7 @@ async function interpretPartialBeginToken(token: LexerToken, lineBreak: string):
         partialText = (await jq.run(config.jq, jsonPaths, options)).toString();
     } else if (config.transformation !== undefined) {
         if (config.transformation == "mermaid") {
-            partialText = await transformMermaids(config, lineBreak);
+            partialText = transformMermaids(config.files, lineBreak).join(lineBreak);
         } else {
             throw new ConfigException(jsonStr, `Unknown type of Transformation: ${config.transformation}`);
         }
@@ -116,30 +107,5 @@ async function interpretPartialBeginToken(token: LexerToken, lineBreak: string):
     } else {
         return partialText
     }
-}
-
-async function transformMermaids(config: PartialConfig, lineBreak: string): Promise<string> {
-    const cmdAndPaths = config.files.map(buildMermaidCommand);
-    cmdAndPaths.forEach((val) => {
-        child.execSync(val.cmd);
-    });
-    const contents = cmdAndPaths.map((val) => {
-        const assetFile = val.assetFile;
-        // Avoid backslashes used on Windows machines
-        const assetPath = getAssetPathRelativeToDocuments(assetFile).replace(/\\/g, '/');
-        const assetName = assetFile.substring(0, assetFile.lastIndexOf('.'));
-        const imgRef = `![${assetName}](${assetPath})`;
-        return imgRef;
-    });
-    return contents.join(lineBreak);
-}
-
-function buildMermaidCommand(partialFile): { cmd: string; assetFile: string; } {
-    const fileName = partialFile.substring(0, partialFile.lastIndexOf('.'));
-    const destFile = `generated-${fileName}.svg`;
-    const destPath = getAssetPath(destFile);
-    const srcPath = getPartialPath(partialFile);
-    const cmd = `"${mmdcPath}" -i "${srcPath}" -o "${destPath}"`;
-    return {cmd: cmd, assetFile: destFile};
 }
 
