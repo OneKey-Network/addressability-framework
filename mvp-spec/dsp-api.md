@@ -9,12 +9,7 @@ The described API use timestamps based on 1970 (unix epoch time).
 
 # General note about signature
 
-Prebid SSO Data format is design to let the user audit how his preference got
-to their current state. Therefore, Prebid SSO relies on the signatures 
-of the data and the communication to enforce security. The Elliptic Curve
-Digital Signature Algorithm (ECDSA) is used for this purpose. All the signatures
-described in this documentation are generated using NIST P-256 coupled with
-the hash algorithm SHA-256 on a specific string.
+For details on how to calculate or verify signatures, see [signatures.md](signatures.md).
 
 # Overview
 
@@ -56,11 +51,11 @@ rotations.
 
 ## Key object
 
-| Field | Type      | Details                                                             |
-|-------|-----------|---------------------------------------------------------------------|
-| key   | String    | Public key for verifying the signature. Encoded in an UTF-8 String. |
-| start | Integer   | Timestamp when the Contracting Party started to use this key for signing.         |
-| end   | Integer   | Timestamp when the Contracting Party stoped to use this key for signing.          |
+| Field | Type    | Details                                                                   |
+|-------|---------|---------------------------------------------------------------------------|
+| key   | String  | Public key for verifying the signature. Encoded in an UTF-8 String.       |
+| start | Integer | Timestamp when the Contracting Party started to use this key for signing. |
+| end   | Integer | Timestamp when the Contracting Party stoped to use this key for signing.  |
 
 
 ## Example of an Identity response
@@ -171,6 +166,7 @@ The detailed steps of the diagram above:
 11. The SSP1 receives the Transmission Response 2.
 12. The SSP1 returns a Transmission Response 1 to Transmission Request 3 (Publisher). It contains the Transmission Result 1. The "children" field includes the Transmission Result 2 and the Transmission Result 3.
 13. The Publisher shows the Addressable Content via the DSP and the Audit Log is available.
+
 <!--partial-end-->
 
 ## Transport and security
@@ -213,43 +209,43 @@ In a case of an ad-hoc communication between two Contracting Parties, the
 ### The Transmission Request object
 
 
-| Field  | Type                            | Details                           |
-|--------|---------------------------------|-----------------------------------|
-| version| Number                          | The Prebid SSO version used.               |
-| seed   | Seed object                     | A Seed object contains all the Prebid SSO Data gathered and signed by the Publisher concerning the user. |
-| parents| Array of Transmission Results   | A list of Transmission Results that currently participate to a chain of Transmissions and make this Transmission possible. |  
-| source | Source object                   | The source object contains data for identifying the Sender of the Transmission.<br /><table><tr><th>Field</th><th>Type</th><th>Details</th></tr><tr><td>domain</td><td>String</td><td>The domain of the Sender.</td></tr><tr><td>timestamp</td><td>Integer</td><td>The timestamp of the signature.</td></tr><tr><td>signature</td><td>String</td><td>Encoded signature in UTF-8 of the Tranmission sender.</td></tr></table>|
+| Field   | Type                          | Details                                                                                                                                                                                                                                                                                                                                                                                                                      |
+|---------|-------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| version | Number                        | The Prebid SSO version used.                                                                                                                                                                                                                                                                                                                                                                                                 |
+| seed    | Seed object                   | A Seed object contains all the Prebid SSO Data gathered and signed by the Publisher concerning the user.                                                                                                                                                                                                                                                                                                                     |
+| parents | Array of Transmission Results | A list of Transmission Results that currently participate to a chain of Transmissions and make this Transmission possible.                                                                                                                                                                                                                                                                                                   |  
+| source  | Source object                 | The source object contains data for identifying the Sender of the Transmission.<br /><table><tr><th>Field</th><th>Type</th><th>Details</th></tr><tr><td>domain</td><td>String</td><td>The domain of the Sender.</td></tr><tr><td>timestamp</td><td>Integer</td><td>The timestamp of the signature.</td></tr><tr><td>signature</td><td>String</td><td>Encoded signature in UTF-8 of the Tranmission sender.</td></tr></table> |
 
 ### The Seed object
 
-| Field                  | Type                                     | Details  |
-|------------------------|------------------------------------------|----------|
-| version                | Number                                   | The Prebid SSO version of the object.                                                                                                                                                                                            |
-| transaction_id         | String                                   | A GUID in a String format dedicated to the share of the Prebid SSO data for one Addressable Content.                                                                                                                                    |
-| preferences            | Preferences object                       | The Preferences of the user.                                                                                                                                                                                                            |
-| identifiers            | Array of Pseudonymous-Identifier objects | The Pseudonymous-Identifiers of the user. For now, it only contains a Prebid ID.                                                                                                                                                        |
-| source                 | Source object                            | The source contains data for identifying and trusting the Publisher.<br /><table><tr><th>Field</th><th>Type</th><th>Details</th></tr><tr><td>domain</td><td>String</td><td>The domain of the Root Party (Publisher in most of the cases).</td></tr><tr><td>timestamp</td><td>Integer</td><td>The timestamp of the signature.</td></tr><tr><td>signature</td><td>String</td><td>Encoded signature in UTF-8 of the Root Party/Publisher.</td></tr></table>|
+| Field          | Type                                     | Details                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+|----------------|------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| version        | Number                                   | The Prebid SSO version of the object.                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| transaction_id | String                                   | A GUID in a String format dedicated to the share of the Prebid SSO data for one Addressable Content.                                                                                                                                                                                                                                                                                                                                                     |
+| preferences    | Preferences object                       | The Preferences of the user.                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| identifiers    | Array of Pseudonymous-Identifier objects | The Pseudonymous-Identifiers of the user. For now, it only contains a Prebid ID.                                                                                                                                                                                                                                                                                                                                                                         |
+| source         | Source object                            | The source contains data for identifying and trusting the Publisher.<br /><table><tr><th>Field</th><th>Type</th><th>Details</th></tr><tr><td>domain</td><td>String</td><td>The domain of the Root Party (Publisher in most of the cases).</td></tr><tr><td>timestamp</td><td>Integer</td><td>The timestamp of the signature.</td></tr><tr><td>signature</td><td>String</td><td>Encoded signature in UTF-8 of the Root Party/Publisher.</td></tr></table> |
 
 
 ### The Preferences object
 
-| Field   | Type                   | Details                                   |
-|---------|------------------------|-------------------------------------------|
-| version | Number                 | The Prebid SSO version of the object.                                                                                                                                                                       |
-| data    | Dictionary             | The key is a string and represents the name of the preference. <br /> The values represent the value of the preference. <br /> For now there is only one preference named "optin" and its value is a boolean.|
-| source  | Source object          | The source contains the data for identifying and trusting the CMP that signed lastly the Preferences.<br /> <table><tr><th>Field</th><th>Type</th><th>Details</th></tr><tr><td>domain</td><td>String</td><td>The domain of the CMP.</td></tr><tr><td>timestamp</td><td>Integer</td><td>The timestamp of the signature.</td></tr><tr><td>signature</td><td>String</td><td>Encoded signature in UTF-8 of the CMP.</td></tr></table>|
+| Field   | Type          | Details                                                                                                                                                                                                                                                                                                                                                                                                                           |
+|---------|---------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| version | Number        | The Prebid SSO version of the object.                                                                                                                                                                                                                                                                                                                                                                                             |
+| data    | Dictionary    | The key is a string and represents the name of the preference. <br /> The values represent the value of the preference. <br /> For now there is only one preference named "optin" and its value is a boolean.                                                                                                                                                                                                                     |
+| source  | Source object | The source contains the data for identifying and trusting the CMP that signed lastly the Preferences.<br /> <table><tr><th>Field</th><th>Type</th><th>Details</th></tr><tr><td>domain</td><td>String</td><td>The domain of the CMP.</td></tr><tr><td>timestamp</td><td>Integer</td><td>The timestamp of the signature.</td></tr><tr><td>signature</td><td>String</td><td>Encoded signature in UTF-8 of the CMP.</td></tr></table> |
 
 Note that the "data" field is a simple dictionnary.
 
 
 ### The Identifier object
 
-| Field   | Type          | Details                                            |
-|---------|---------------|----------------------------------------------------|
-| version | Number        | The version of Prebid SSO used for signing the Identifier.                                                                       |
-| type    | String        | The type of Pseudonymous-Identifier. For now, there is only one: "prebid_id".                                                    |
-| value   | String        | The Pseudonymous-Identifier value in UTF-8.                                                                                      |
-| source  | Source object | The Source contains all the data for identifying and trusting the Operator that generated the Pseudonymous-Identifier. <br /> <table><tr><th>Field</th><th>Type</th><th>Details</th></tr><tr><td>domain</td><td>String</td><td>The domain of the Operator.</td></tr><tr><td>timestamp</td><td>Integer</td><td>The timestamp of the signature.</td></tr><tr><td>signature</td><td>String</td><td>Encoded signature in UTF-8 of the Operator.</td></tr></table>|
+| Field   | Type          | Details                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+|---------|---------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| version | Number        | The version of Prebid SSO used for signing the Identifier.                                                                                                                                                                                                                                                                                                                                                                                                    |
+| type    | String        | The type of Pseudonymous-Identifier. For now, there is only one: "prebid_id".                                                                                                                                                                                                                                                                                                                                                                                 |
+| value   | String        | The Pseudonymous-Identifier value in UTF-8.                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| source  | Source object | The Source contains all the data for identifying and trusting the Operator that generated the Pseudonymous-Identifier. <br /> <table><tr><th>Field</th><th>Type</th><th>Details</th></tr><tr><td>domain</td><td>String</td><td>The domain of the Operator.</td></tr><tr><td>timestamp</td><td>Integer</td><td>The timestamp of the signature.</td></tr><tr><td>signature</td><td>String</td><td>Encoded signature in UTF-8 of the Operator.</td></tr></table> |
 
 ## The Transmission Result object
 
@@ -318,7 +314,7 @@ Note that the "data" field is a simple dictionnary.
     "source" : {
         "domain": "ssp1.com",
         "timestamp": 1639581000,
-        "signature": "123_signature",
+        "signature": "123_signature"
     }
 }
 ````
@@ -331,28 +327,21 @@ suppliers, it shouldn't take care of the "children" Transmission Results.
 
 ### Transmission object
 
-| Field    | Type                          | Details                           |
-|----------|-------------------------------|-----------------------------------|
-| version  | Number                        | The version of the Prebid SSO used for generating the Transmission Response.                                                                                                                                                                                                                               |
-| receiver | String                        | The domain name of the DSP.                                                                                                                                                                                                                                                                                |
+| Field    | Type                          | Details                                                                                                                                                                                                                                                                                                      |
+|----------|-------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| version  | Number                        | The version of the Prebid SSO used for generating the Transmission Response.                                                                                                                                                                                                                                 |
+| receiver | String                        | The domain name of the DSP.                                                                                                                                                                                                                                                                                  |
 | status   | String                        | Equals "success" if the DSP signed the Transmission and returns it to the sender.<br /> Equals "error_bad_request" if the receiver doesn't understand or see inconsistency in the Transmission Request.<br /> Equals "error_cannot_process" if the receiver cannot handle the Transmission Request properly. |
-| details  | String                        | In case of an error status, the DSP can provide details concerning the error.                                                                                                                                                                                                                              |
-| children | Array of Transmission Results | An empty array as we consider that the DSP doesn't share the Prebid SSO Data to its suppliers via new transmissions.                                                                                                                                                                                       |
-| source   | Source object                 | The source contains all the data for identifying the DSP and verifying the Transmission.                                                                                                                                                                                                                   |
+| details  | String                        | In case of an error status, the DSP can provide details concerning the error.                                                                                                                                                                                                                                |
+| children | Array of Transmission Results | An empty array as we consider that the DSP doesn't share the Prebid SSO Data to its suppliers via new transmissions.                                                                                                                                                                                         |
+| source   | Source object                 | The source contains all the data for identifying the DSP and verifying the Transmission.                                                                                                                                                                                                                     |
 
 
 ### Signing the Transmission Object
 
-A Transmission Response must be signed by the DSP. This signature relies on the
-same cryptographic algorithm as the other signatures in Prebid SSO (ECDSA NIST
-P-256):
+A Transmission Response must be signed by the DSP.
 
-* Build a UTF-8 string from the data of the Transmission Request (see below);
-* Generates a SHA256 hash;
-* Sign it with its private key and signs it.
-
-
-To build the UTF-8 string, the DSP must concat the following fields:
+The signature input is calculated as follows:
 
 ````
 transmission_result.source.domain + '\u2063' + 
@@ -368,12 +357,12 @@ transmission_response.status + '\u2063' +
 transmission_response.details
 ````
 
-| Name                  | Details                                              |
-|-----------------------|------------------------------------------------------|
-| source.domain         | The Domain of the DSP. It matches the "domain" field in the Source object of the Transmission Response.   |
+| Name                  | Details                                                                                                             |
+|-----------------------|---------------------------------------------------------------------------------------------------------------------|
+| source.domain         | The Domain of the DSP. It matches the "domain" field in the Source object of the Transmission Response.             |
 | source.timestamp      | The timestamp of the signature. It matches the "timestamp" field in the Source object of the Transmission Response. |
-| seed.source.signature | The signature of the Seed available in the Transmission Request.                                          |
-| '\u2063'              | The invisible separator in UTF-8.
+| seed.source.signature | The signature of the Seed available in the Transmission Request.                                                    |
+| '\u2063'              | The invisible separator in UTF-8.                                                                                   |
 
 ### Example of a Transmission Response
 
@@ -469,7 +458,7 @@ Transmission is named "prebid_sso_transmission".
                                 "domain": "ssp1.com",
                                 "timestamp": 1639589531,
                                 "signature": "12345_signature"
-                            },
+                            }
                         },
                         {
                             "version": 0,
@@ -480,9 +469,9 @@ Transmission is named "prebid_sso_transmission".
                                 "domain": "publisher.com",
                                 "timestamp": 1639589531,
                                 "signature": "12345_signature"
-                            },
-                        },
-                    ],
+                            }
+                        }
+                    ]
                 }
             }
         }
@@ -624,10 +613,10 @@ it received for this Addressable content.
 
 ### The root object
 
-| Field         | Type                         | Detail                        |
-|---------------|------------------------------|-------------------------------|
+| Field         | Type                         | Detail                                              |
+|---------------|------------------------------|-----------------------------------------------------|
 | seed          | Seed Object                  | The Seed object already described in this document. |
-| transmissions | List of Transmission Results | A list of Transmission Results |
+| transmissions | List of Transmission Results | A list of Transmission Results                      |
 
 ### The Transmission Result object
 
@@ -712,10 +701,10 @@ Audit UI. The DSP generates the UI based on the validations of the Prebid SSO
 Data and the Transmission Results. The following elements must appear in the
 page:
 
-| Element                          | Details                                   |
-|----------------------------------|-------------------------------------------|
+| Element                          | Details                                                                                                                                                                                                                      |
+|----------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | List of Pseudonymous-Identifiers | Each Pseudonymous-Identifier must be paired with the name of the Operator who generated it and signed it with a Reg/Green indicator expressing the validity of the signature.                                                |
-| List of the Preferences          | Each Preference must be paired with the name of the CMP who generated it and signed it with a Red/Green indicator expressing the validity of the signature.                                                             |
+| List of the Preferences          | Each Preference must be paired with the name of the CMP who generated it and signed it with a Red/Green indicator expressing the validity of the signature.                                                                  |
 | Seed                             | The Seed is represented by the Transaction ID and a Red/Green indicator expressing the validity of the signature                                                                                                             |
 | List of Transmission Results     | The Transmission Results available in the Audit Log. Each Transmission Results is represented by the Name of the Receiver, the status of the Transmission and a Red/Green indicator expressing the validity of the signature |
 
@@ -745,7 +734,9 @@ different sources. For each source available in the Audit Log, the DSP must:
 ### Verify the Pseudo-Identifiers
 
 The Audit Log contains a list of Pseudo-identifiers. Each Pseudo-identifier is
-signed. The UTF-8 string for a specific Pseudo-Identifier must be built as follows:
+signed.
+
+The signature input for a specific Pseudo-Identifier must be built as follows:
 
 ```
 identifier.source.domain + '\u2063' + 
@@ -756,7 +747,8 @@ identifier.value
 
 ### Verify the Preferences
 
-The Audit Log contains a list of Preferences with one signature. The UTF-8 string for a specific Preference must be built as follows:
+The Audit Log contains a list of Preferences with one signature.
+The signature input for a specific Preference must be built as follows:
 
 ```
 preferences.source.domain + '\u2063' +
@@ -775,8 +767,9 @@ alpha-numerical order of the keys existing in the dictionary.
 
 ### Verify the Seed
 
-The Audit Log contains a Seed. The UTF-8 string for the Seed must be built as
-followed:
+The Audit Log contains a Seed.
+
+The signature input for the Seed must be built as follows:
 
 ```
 seed.source.domain + '\u2063' + 
@@ -792,13 +785,14 @@ seed.identifiers[n].source.signature + '\u2063' +
 seed.preferences.source.signature
 ```
 Note that we iterate over the identifiers by taking for each signature and
-appending it to the UTF-8 string. 
+appending it to the UTF-8 string.
 
 ### Verify the Transmission Results
 
 The Audit Log contains a list of Transmission Results. Each Transmission Result
-is signed. The UTF-8 string for a specific Transmission Result must be built
-as follows:
+is signed.
+
+The signature input for a specific Transmission Result must be built as follows:
 
 ```
 transmission_result.source.domain + '\u2063' + 

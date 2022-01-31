@@ -1,5 +1,7 @@
 # Operator API
 
+Note: for details on how to calculate or verify signatures, see [signatures.md](signatures.md).
+
 ## Endpoints
 
 To support the [Operator Design](operator-design.md), a few endpoints are needed on the operator API.
@@ -23,7 +25,7 @@ Notes:
 Example paths are specified in the last column of the table.
 
 | Endpoint                                | Input*                  | Output                                                                     | Description                                                                                                                                                                                                                                                                            | Notes                                                                                                                                                                                                                                                                                   | REST              | Redirect                       |
-| --------------------------------------- | ----------------------- | -------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------- | ------------------------------ |
+|-----------------------------------------|-------------------------|----------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------|--------------------------------|
 | Read data if exists, or return a new Id | -                       | List of IDs.<br>List of preferences (if any)<br>newly generated ID, if any | If ID cookie exist, return it.<br><br>Otherwise: create a new ID, sign it and return it. In this case, the **new ID is not stored in a cookie yet**..<br>If preferences cookie exist, return them<br><br>Note: when called in REST mode, a special short-life "3PC" cookie is also set | Why don't we save the newly generated ID?<br>Because haven't yet received consent. The new ID will be saved as cookie, along with preferences, when it is provided via the "Write data" endpoint ⬇️                                                                                     | GET /v1/id-prefs  | GET /v1/redirect/get-id-prefs  |
 | Write data.<br>and return written data  | main ID.<br>preferences | List of IDs.<br>List of preferences                                        | Read provided ID.<br>Verify provided signatures.<br>Write ID cookie.<br>Write preferences cookie                                                                                                                                                                                       | ID is mandatory input for the "first visit" use case so is considered always mandatory, for consistency.<br>Data is written because it will be used for confirmation.                                                                                                                   | POST /v1/id-prefs | GET /v1/redirect/post-id-prefs |
 | Get new ID                              | -                       | main ID                                                                    | create a new ID and sign it.<br>do not store a cookie.<br>return ID                                                                                                                                                                                                                    | Cookie is not saved at this stage because we show the new value to the user before they validate it (and then it is saved, using the "Write data" endpoint ⬆️ ).<br>Since there is no cookie to read or write, no redirect version is needed, it can be made in JS with our without 3PC | GET /v1/new-id    | GET /v1/redirect/get-new-id    |
@@ -143,7 +145,7 @@ GET /v1/id-prefs/read?sender=advertiserA.com&timestamp=1639057962145&signature=m
 
 ##### Request signature
 
-Signature of the concatenation of:
+Signature input:
 
 ```
 sender + '\u2063' +
@@ -194,7 +196,7 @@ Response HTTP code: `200`
 
 ##### Response signature
 
-Signature of the concatenation of:
+Signature input:
 
 ```
 sender + '\u2063' +
@@ -249,7 +251,7 @@ For this reason, the `persisted` property is set to `false`.
 
 ##### Response signature
 
-Signature is the same, except that in this case there should always be only one identifier:
+Signature input is the same, except that in this case there should always be only one identifier:
 
 ```
 sender + '\u2063' +
@@ -311,7 +313,7 @@ POST /v1/id-prefs
 
 ##### Request signature
 
-Signature of the concatenation of:
+Signature input:
 
 ```
 sender + '\u2063' +
@@ -367,7 +369,7 @@ Response HTTP code: `200`
 
 ##### Response signature
 
-Signature of the concatenation of:
+Signature input:
 
 ```
 sender + '\u2063' +
@@ -394,7 +396,7 @@ GET /v1/new-id?sender=cmpC.com&timestamp=1639057962145&signature=message_signatu
 
 ##### Request signature
 
-Signature of the concatenation of:
+Signature input:
 
 ```
 sender + '\u2063' +
@@ -437,7 +439,7 @@ Response HTTP code: `200`
 
 ##### Response signature
 
-Signature of the concatenation of:
+Signature input:
 
 ```
 sender + '\u2063' +
@@ -509,7 +511,7 @@ GET /v1/redirect/get-id-prefs?sender=advertiserA.com&timestamp=1639057962145&sig
 
 ##### Request signature
 
-Signature of the concatenation of:
+Signature input:
 
 ```
 sender + '\u2063' +
@@ -554,7 +556,7 @@ body.identifiers[0].source.signature=prebid_id_signature_xyz12345
 
 ##### Response signature
 
-Signature of the concatenation of:
+Signature input:
 
 ```
 sender + '\u2063' +
@@ -600,7 +602,7 @@ body.identifiers[0].persisted=false
 Notice `persisted=false`
 ##### Response signature
 
-Signature of the concatenation of:
+Signature input:
 
 ```
 sender + '\u2063' +
@@ -647,7 +649,7 @@ redirectUrl=https://publisherP.com/pageP.html
 
 ##### Request signature
 
-Signature of the concatenation of:
+Signature input:
 
 ```
 sender + '\u2063' +
@@ -696,7 +698,7 @@ body.identifiers[0].source.signature=prebid_id_signature_xyz12345
 
 ##### Response signature
 
-Signature of the concatenation of:
+Signature input:
 
 ```
 sender + '\u2063' +
@@ -723,7 +725,7 @@ GET /v1/redirect/get-new-id?sender=cmpC.com&timestamp=1639057962145&signature=me
 
 ##### Request signature
 
-Signature of the concatenation of:
+Signature input:
 
 ```
 sender + '\u2063' +
@@ -766,7 +768,7 @@ Notice `persisted=false`
 
 ##### Response signature
 
-Signature of the concatenation of:
+Signature input:
 
 ```
 sender + '\u2063' +
