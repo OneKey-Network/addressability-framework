@@ -4,9 +4,9 @@
 
 The proposed solution enforces the usage of TLS (HTTPS) for all communication to and from the operator, to prevent middle men to "spy" on data that is passed.
 
-- data is **transferred in a human-readable fashion**, even when transported as part of the query string ("redirect" scenario without 3PC). Note that when using HTTPS, query string parameters are encrypted.
+- data is transferred in a **text format** which facilitates inspection and troubleshooting by web developers, even when transported as part of the query string ("redirect" scenario without 3PC).
 
-- data is **stored in a human-readable fashion** as cookies
+- it is also **stored** as cookies in a **text format** which end users can inspect
 
 - **signatures** are used to secure communications, but **not encryption**:
 
@@ -32,7 +32,7 @@ The designed solution is a protocol:
 
 ✅ reduces the server to server (S2S) calls to a minimum, making nodes more reliable.
 
-✅ is easier to debug (cookies and requests are human-readable).
+✅ is easier to debug (cookies and requests are in plain text).
 
 ✅ data received from the operator as a full page redirect can be processed by a web server **or in the browser**, in Javascript, because no decryption is needed.
 

@@ -1,9 +1,9 @@
 # Partials Updater
 
-Our documents has shared content. For easing the maintenance, we use partials
-document to include in other one. This is the purpose of this script, we don't
-use tool like Mustache or Handlebar because you cannot read directly in
-the documents the contents of its partials.
+Our documents have shared content. For easing the maintenance, we use partials
+document to include in other ones. This is the purpose of this script, we don't
+use tools like Mustache or Handlebar because you cannot read directly in
+the documents the contents of their partials.
 
 ## Setup
 
@@ -29,7 +29,6 @@ In `my-document.md`:
 <!--partial-begin { "files": [ "shared-content.md" ] } -->
 
 <!--partial-end-->
-
 ```
 
 Launch the script:
@@ -43,7 +42,6 @@ The content of `shared-content.md` is inserted directly in the `my-document.md`.
 <!--partial-begin { "files": [ "shared-content.md" ] } -->
 My shared content.
 <!--partial-end-->
-
 ```
 
 It is possible to add many files name in the `files` array. The updater
