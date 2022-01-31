@@ -33,7 +33,7 @@ export async function updateMermaids(mermaidFiles: string[]): Promise<void> {
 
 }
 
-export function transformMermaids(files: string[], lineBreak: string): string[] {
+export function getMarkdownImageLinksForMermaids(files: string[]): string[] {
     return files
         .map(mermaidFile => {
             const assetFile = getImageName(mermaidFile);

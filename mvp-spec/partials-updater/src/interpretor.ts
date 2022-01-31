@@ -1,7 +1,7 @@
 import {Document, getPartialPath, loadPartial} from "./files";
 import {LexerToken, LexerTokenType, PartialBegin} from "./lexer";
 import * as jq from "node-jq";
-import {transformMermaids} from "./mermaid";
+import {getMarkdownImageLinksForMermaids} from "./mermaid";
 
 interface PartialConfig {
     files: string[];
@@ -93,7 +93,7 @@ async function interpretPartialBeginToken(token: LexerToken, lineBreak: string):
         partialText = (await jq.run(config.jq, jsonPaths, options)).toString();
     } else if (config.transformation !== undefined) {
         if (config.transformation == "mermaid") {
-            partialText = transformMermaids(config.files, lineBreak).join(lineBreak);
+            partialText = getMarkdownImageLinksForMermaids(config.files).join(lineBreak);
         } else {
             throw new ConfigException(jsonStr, `Unknown type of Transformation: ${config.transformation}`);
         }
