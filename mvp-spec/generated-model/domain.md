@@ -1,13 +1,6 @@
 # Domain
 
-**Title:** Domain
-
-| Type                      | `string`                                                                  |
-| ------------------------- | ------------------------------------------------------------------------- |
-| **Additional properties** | [[Any type: allowed]](# "Additional Properties of any type are allowed.") |
-|                           |                                                                           |
-
-**Description:** A domain name
+A domain name
 
 **Examples:** 
 
@@ -19,4 +12,3 @@
 "another.domain.co.uk"
 ```
 
-----------------------------------------------------------------------------------------------------------------------------

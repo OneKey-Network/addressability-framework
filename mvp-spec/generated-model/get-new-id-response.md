@@ -1,30 +1,17 @@
 # GET /v1/new-id response
 
-**Title:** GET /v1/new-id response
+| Property                   | Type    | Title/Description                                                         |
+| -------------------------- | ------- | ------------------------------------------------------------------------- |
+| + [sender](#sender )       | string  | The domain name of the sender of this response (the operator domain name) |
+| + [receiver](#receiver )   | string  | The domain name of the receiver of this request (the website)             |
+| + [timestamp](#timestamp ) | integer | Number of seconds since UNIX Epoch time (1970/01/01 00:00:00)             |
+| + [signature](#signature ) | string  | Signature based on input: ...                                             |
+| + [body](#body )           | object  | -                                                                         |
+|                            |         |                                                                           |
 
-| Type                      | `object`                                                |
-| ------------------------- | ------------------------------------------------------- |
-| **Additional properties** | [[Not allowed]](# "Additional Properties not allowed.") |
-|                           |                                                         |
+## <a name="sender"></a>1. `sender`
 
-| Property                   | Pattern | Type    | Deprecated | Definition                 | Title/Description                                                         |
-| -------------------------- | ------- | ------- | ---------- | -------------------------- | ------------------------------------------------------------------------- |
-| + [sender](#sender )       | No      | string  | No         | In domain.json             | The domain name of the sender of this response (the operator domain name) |
-| + [receiver](#receiver )   | No      | string  | No         | Same as [sender](#sender ) | The domain name of the receiver of this request (the website)             |
-| + [timestamp](#timestamp ) | No      | integer | No         | In timestamp.json          | Number of seconds since UNIX Epoch time (1970/01/01 00:00:00)             |
-| + [signature](#signature ) | No      | string  | No         | In signature.json          | Signature based on input: ...                                             |
-| + [body](#body )           | No      | object  | No         | -                          | -                                                                         |
-|                            |         |         |            |                            |                                                                           |
-
-## <a name="sender"></a>1. [Required] Property `sender`
-
-| Type                      | `string`                                                                  |
-| ------------------------- | ------------------------------------------------------------------------- |
-| **Additional properties** | [[Any type: allowed]](# "Additional Properties of any type are allowed.") |
-| **Defined in**            | domain.json                                                               |
-|                           |                                                                           |
-
-**Description:** The domain name of the sender of this response (the operator domain name)
+The domain name of the sender of this response (the operator domain name)
 
 **Examples:** 
 
@@ -36,25 +23,13 @@
 "another.domain.co.uk"
 ```
 
-## <a name="receiver"></a>2. [Required] Property `receiver`
+## <a name="receiver"></a>2. `receiver`
 
-| Type                      | `string`                                                                  |
-| ------------------------- | ------------------------------------------------------------------------- |
-| **Additional properties** | [[Any type: allowed]](# "Additional Properties of any type are allowed.") |
-| **Same definition as**    | [sender](#sender)                                                         |
-|                           |                                                                           |
+The domain name of the receiver of this request (the website)
 
-**Description:** The domain name of the receiver of this request (the website)
+## <a name="timestamp"></a>3. `timestamp`
 
-## <a name="timestamp"></a>3. [Required] Property `timestamp`
-
-| Type                      | `integer`                                                                 |
-| ------------------------- | ------------------------------------------------------------------------- |
-| **Additional properties** | [[Any type: allowed]](# "Additional Properties of any type are allowed.") |
-| **Defined in**            | timestamp.json                                                            |
-|                           |                                                                           |
-
-**Description:** Number of seconds since UNIX Epoch time (1970/01/01 00:00:00)
+Number of seconds since UNIX Epoch time (1970/01/01 00:00:00)
 
 | Restrictions |        |
 | ------------ | ------ |
@@ -67,15 +42,9 @@
 1643297316
 ```
 
-## <a name="signature"></a>4. [Required] Property `signature`
+## <a name="signature"></a>4. `signature`
 
-| Type                      | `string`                                                                  |
-| ------------------------- | ------------------------------------------------------------------------- |
-| **Additional properties** | [[Any type: allowed]](# "Additional Properties of any type are allowed.") |
-| **Defined in**            | signature.json                                                            |
-|                           |                                                                           |
-
-**Description:** Signature based on input:
+Signature based on input:
 ```
 sender + '\u2063' +
 receiver + '\u2063' +
@@ -90,100 +59,59 @@ identifiers[0].source.signature
 "RYGHYsBUEwMgFgOJ9aUQl7ywl4xnqdmwWIgPbaIowbXbmZAFKLa7mcBJQuWh1wEskpu57SHn2mmCF6V5+cESgw=="
 ```
 
-## <a name="body"></a>5. [Required] Property `body`
+## <a name="body"></a>5. `body`
 
-| Type                      | `object`                                                |
-| ------------------------- | ------------------------------------------------------- |
-| **Additional properties** | [[Not allowed]](# "Additional Properties not allowed.") |
-|                           |                                                         |
+| Property                            | Type  | Title/Description |
+| ----------------------------------- | ----- | ----------------- |
+| + [identifiers](#body_identifiers ) | array | -                 |
+|                                     |       |                   |
 
-| Property                            | Pattern | Type  | Deprecated | Definition | Title/Description |
-| ----------------------------------- | ------- | ----- | ---------- | ---------- | ----------------- |
-| + [identifiers](#body_identifiers ) | No      | array | No         | -          | -                 |
-|                                     |         |       |            |            |                   |
+### <a name="body_identifiers"></a>5.1. `identifiers`
 
-### <a name="body_identifiers"></a>5.1. [Required] Property `identifiers`
+__root__/body/identifiers
 
-| Type                      | `array`                                                                   |
-| ------------------------- | ------------------------------------------------------------------------- |
-| **Additional properties** | [[Any type: allowed]](# "Additional Properties of any type are allowed.") |
-|                           |                                                                           |
-
-|                      | Array restrictions |
-| -------------------- | ------------------ |
-| **Min items**        | N/A                |
-| **Max items**        | N/A                |
-| **Items unicity**    | False              |
-| **Additional items** | False              |
-| **Tuple validation** | See below          |
-|                      |                    |
-
+<!--
 | Each item of this array must be            | Description                                        |
 | ------------------------------------------ | -------------------------------------------------- |
 | [identifier.json](#body_identifiers_items) | A pseudonymous identifier generated for a web user |
 |                                            |                                                    |
 
+-->
+
 #### <a name="autogenerated_heading_18"></a>5.1.1. items
 
-| Type                      | `object`                                                                  |
-| ------------------------- | ------------------------------------------------------------------------- |
-| **Additional properties** | [[Any type: allowed]](# "Additional Properties of any type are allowed.") |
-| **Defined in**            | identifier.json                                                           |
-|                           |                                                                           |
+A pseudonymous identifier generated for a web user
 
-**Description:** A pseudonymous identifier generated for a web user
+| Property                                          | Type              | Title/Description                                                                    |
+| ------------------------------------------------- | ----------------- | ------------------------------------------------------------------------------------ |
+| + [version](#body_identifiers_items_version )     | enum (of integer) | A version number. To be detailed.                                                    |
+| + [type](#body_identifiers_items_type )           | enum (of string)  | The identifier type, identifier of type 'paf_browser_id' is mandatory and is "pi ... |
+| - [persisted](#body_identifiers_items_persisted ) | boolean           | If set to 'false', means the identifier has not yet been persisted as a cookie.< ... |
+| + [value](#body_identifiers_items_value )         | string            | The identifier value                                                                 |
+| + [source](#body_identifiers_items_source )       | object            | Source of data representing what contracting party created and signed the data       |
+|                                                   |                   |                                                                                      |
 
-| Property                                          | Pattern | Type              | Deprecated | Definition      | Title/Description                                                                    |
-| ------------------------------------------------- | ------- | ----------------- | ---------- | --------------- | ------------------------------------------------------------------------------------ |
-| + [version](#body_identifiers_items_version )     | No      | enum (of integer) | No         | In version.json | A version number. To be detailed.                                                    |
-| + [type](#body_identifiers_items_type )           | No      | enum (of string)  | No         | -               | The identifier type, identifier of type 'paf_browser_id' is mandatory and is "pi ... |
-| - [persisted](#body_identifiers_items_persisted ) | No      | boolean           | No         | -               | If set to 'false', means the identifier has not yet been persisted as a cookie.< ... |
-| + [value](#body_identifiers_items_value )         | No      | string            | No         | -               | The identifier value                                                                 |
-| + [source](#body_identifiers_items_source )       | No      | object            | No         | In source.json  | Source of data representing what contracting party created and signed the data       |
-|                                                   |         |                   |            |                 |                                                                                      |
+##### <a name="body_identifiers_items_version"></a>5.1.1.1. `version`
 
-##### <a name="body_identifiers_items_version"></a>5.1.1.1. Property `version`
+A version number. To be detailed.
 
-| Type                      | `enum (of integer)`                                                       |
-| ------------------------- | ------------------------------------------------------------------------- |
-| **Additional properties** | [[Any type: allowed]](# "Additional Properties of any type are allowed.") |
-| **Defined in**            | version.json                                                              |
-|                           |                                                                           |
+Can only take **one of these values**:
+* `0`
 
-**Description:** A version number. To be detailed.
+##### <a name="body_identifiers_items_type"></a>5.1.1.2. `type`
 
-Must be one of:
-* 0
+The identifier type, identifier of type `paf_browser_id` is mandatory and is "pivot"
 
-##### <a name="body_identifiers_items_type"></a>5.1.1.2. Property `type`
+Can only take **one of these values**:
+* `"paf_browser_id"`
 
-| Type                      | `enum (of string)`                                                        |
-| ------------------------- | ------------------------------------------------------------------------- |
-| **Additional properties** | [[Any type: allowed]](# "Additional Properties of any type are allowed.") |
-|                           |                                                                           |
+##### <a name="body_identifiers_items_persisted"></a>5.1.1.3. `persisted`      (optional)
 
-**Description:** The identifier type, identifier of type `paf_browser_id` is mandatory and is "pivot"
+If set to `false`, means the identifier has not yet been persisted as a cookie.<br>Otherwise, means this identifier is persisted as a PAF cookie<br>(default value = `true` meaning if the property is omitted the identifier *is* persisted)
 
-Must be one of:
-* "paf_browser_id"
+##### <a name="body_identifiers_items_value"></a>5.1.1.4. `value`
 
-##### <a name="body_identifiers_items_persisted"></a>5.1.1.3. Property `persisted`
-
-| Type                      | `boolean`                                                                 |
-| ------------------------- | ------------------------------------------------------------------------- |
-| **Additional properties** | [[Any type: allowed]](# "Additional Properties of any type are allowed.") |
-|                           |                                                                           |
-
-**Description:** If set to `false`, means the identifier has not yet been persisted as a cookie.<br>Otherwise, means this identifier is persisted as a PAF cookie<br>(default value = `true` meaning if the property is omitted the identifier *is* persisted)
-
-##### <a name="body_identifiers_items_value"></a>5.1.1.4. Property `value`
-
-| Type                      | `string`                                                                  |
-| ------------------------- | ------------------------------------------------------------------------- |
-| **Additional properties** | [[Any type: allowed]](# "Additional Properties of any type are allowed.") |
-|                           |                                                                           |
-
-**Description:** The identifier value
+The identifier value
 
 **Example:** 
 
@@ -191,51 +119,26 @@ Must be one of:
 "7435313e-caee-4889-8ad7-0acd0114ae3c"
 ```
 
-##### <a name="body_identifiers_items_source"></a>5.1.1.5. Property `source`
+##### <a name="body_identifiers_items_source"></a>5.1.1.5. `source`
 
-| Type                      | `object`                                                                  |
-| ------------------------- | ------------------------------------------------------------------------- |
-| **Additional properties** | [[Any type: allowed]](# "Additional Properties of any type are allowed.") |
-| **Defined in**            | source.json                                                               |
-|                           |                                                                           |
+Source of data representing what contracting party created and signed the data
 
-**Description:** Source of data representing what contracting party created and signed the data
+| Property                                                 | Type    | Title/Description                                   |
+| -------------------------------------------------------- | ------- | --------------------------------------------------- |
+| + [timestamp](#body_identifiers_items_source_timestamp ) | integer | Time when data was signed                           |
+| + [domain](#body_identifiers_items_source_domain )       | string  | The domain name of the entity that signed this data |
+| + [signature](#body_identifiers_items_source_signature ) | string  | The base64 representation of a data signature       |
+|                                                          |         |                                                     |
 
-| Property                                                 | Pattern | Type    | Deprecated | Definition                       | Title/Description                                   |
-| -------------------------------------------------------- | ------- | ------- | ---------- | -------------------------------- | --------------------------------------------------- |
-| + [timestamp](#body_identifiers_items_source_timestamp ) | No      | integer | No         | Same as [timestamp](#timestamp ) | Time when data was signed                           |
-| + [domain](#body_identifiers_items_source_domain )       | No      | string  | No         | Same as [sender](#sender )       | The domain name of the entity that signed this data |
-| + [signature](#body_identifiers_items_source_signature ) | No      | string  | No         | Same as [signature](#signature ) | The base64 representation of a data signature       |
-|                                                          |         |         |            |                                  |                                                     |
+##### <a name="body_identifiers_items_source_timestamp"></a>5.1.1.5.1. `timestamp`
 
-##### <a name="body_identifiers_items_source_timestamp"></a>5.1.1.5.1. Property `timestamp`
+Time when data was signed
 
-| Type                      | `integer`                                                                 |
-| ------------------------- | ------------------------------------------------------------------------- |
-| **Additional properties** | [[Any type: allowed]](# "Additional Properties of any type are allowed.") |
-| **Same definition as**    | [timestamp](#timestamp)                                                   |
-|                           |                                                                           |
+##### <a name="body_identifiers_items_source_domain"></a>5.1.1.5.2. `domain`
 
-**Description:** Time when data was signed
+The domain name of the entity that signed this data
 
-##### <a name="body_identifiers_items_source_domain"></a>5.1.1.5.2. Property `domain`
+##### <a name="body_identifiers_items_source_signature"></a>5.1.1.5.3. `signature`
 
-| Type                      | `string`                                                                  |
-| ------------------------- | ------------------------------------------------------------------------- |
-| **Additional properties** | [[Any type: allowed]](# "Additional Properties of any type are allowed.") |
-| **Same definition as**    | [sender](#sender)                                                         |
-|                           |                                                                           |
+The base64 representation of a data signature
 
-**Description:** The domain name of the entity that signed this data
-
-##### <a name="body_identifiers_items_source_signature"></a>5.1.1.5.3. Property `signature`
-
-| Type                      | `string`                                                                  |
-| ------------------------- | ------------------------------------------------------------------------- |
-| **Additional properties** | [[Any type: allowed]](# "Additional Properties of any type are allowed.") |
-| **Same definition as**    | [signature](#signature)                                                   |
-|                           |                                                                           |
-
-**Description:** The base64 representation of a data signature
-
-----------------------------------------------------------------------------------------------------------------------------

@@ -1,31 +1,18 @@
 # Core message
 
-**Title:** Core message
+The base properties of a request or response to/from an operator
 
-| Type                      | `object`                                                |
-| ------------------------- | ------------------------------------------------------- |
-| **Additional properties** | [[Not allowed]](# "Additional Properties not allowed.") |
-|                           |                                                         |
+| Property                   | Type    | Title/Description                                             |
+| -------------------------- | ------- | ------------------------------------------------------------- |
+| + [sender](#sender )       | string  | The domain name of the sender of this message                 |
+| + [receiver](#receiver )   | string  | The domain name of the receiver of this message               |
+| + [timestamp](#timestamp ) | integer | Number of seconds since UNIX Epoch time (1970/01/01 00:00:00) |
+| + [signature](#signature ) | string  | Signature based on input: ...                                 |
+|                            |         |                                                               |
 
-**Description:** The base properties of a request or response to/from an operator
+## <a name="sender"></a>1. `sender`
 
-| Property                   | Pattern | Type    | Deprecated | Definition                 | Title/Description                                             |
-| -------------------------- | ------- | ------- | ---------- | -------------------------- | ------------------------------------------------------------- |
-| + [sender](#sender )       | No      | string  | No         | In domain.json             | The domain name of the sender of this message                 |
-| + [receiver](#receiver )   | No      | string  | No         | Same as [sender](#sender ) | The domain name of the receiver of this message               |
-| + [timestamp](#timestamp ) | No      | integer | No         | In timestamp.json          | Number of seconds since UNIX Epoch time (1970/01/01 00:00:00) |
-| + [signature](#signature ) | No      | string  | No         | In signature.json          | Signature based on input: ...                                 |
-|                            |         |         |            |                            |                                                               |
-
-## <a name="sender"></a>1. [Required] Property `sender`
-
-| Type                      | `string`                                                                  |
-| ------------------------- | ------------------------------------------------------------------------- |
-| **Additional properties** | [[Any type: allowed]](# "Additional Properties of any type are allowed.") |
-| **Defined in**            | domain.json                                                               |
-|                           |                                                                           |
-
-**Description:** The domain name of the sender of this message
+The domain name of the sender of this message
 
 **Examples:** 
 
@@ -37,25 +24,13 @@
 "another.domain.co.uk"
 ```
 
-## <a name="receiver"></a>2. [Required] Property `receiver`
+## <a name="receiver"></a>2. `receiver`
 
-| Type                      | `string`                                                                  |
-| ------------------------- | ------------------------------------------------------------------------- |
-| **Additional properties** | [[Any type: allowed]](# "Additional Properties of any type are allowed.") |
-| **Same definition as**    | [sender](#sender)                                                         |
-|                           |                                                                           |
+The domain name of the receiver of this message
 
-**Description:** The domain name of the receiver of this message
+## <a name="timestamp"></a>3. `timestamp`
 
-## <a name="timestamp"></a>3. [Required] Property `timestamp`
-
-| Type                      | `integer`                                                                 |
-| ------------------------- | ------------------------------------------------------------------------- |
-| **Additional properties** | [[Any type: allowed]](# "Additional Properties of any type are allowed.") |
-| **Defined in**            | timestamp.json                                                            |
-|                           |                                                                           |
-
-**Description:** Number of seconds since UNIX Epoch time (1970/01/01 00:00:00)
+Number of seconds since UNIX Epoch time (1970/01/01 00:00:00)
 
 | Restrictions |        |
 | ------------ | ------ |
@@ -68,15 +43,9 @@
 1643297316
 ```
 
-## <a name="signature"></a>4. [Required] Property `signature`
+## <a name="signature"></a>4. `signature`
 
-| Type                      | `string`                                                                  |
-| ------------------------- | ------------------------------------------------------------------------- |
-| **Additional properties** | [[Any type: allowed]](# "Additional Properties of any type are allowed.") |
-| **Defined in**            | signature.json                                                            |
-|                           |                                                                           |
-
-**Description:** Signature based on input:
+Signature based on input:
 ```
 sender + '\u2063' +
 receiver + '\u2063' +
@@ -89,4 +58,3 @@ timestamp
 "RYGHYsBUEwMgFgOJ9aUQl7ywl4xnqdmwWIgPbaIowbXbmZAFKLa7mcBJQuWh1wEskpu57SHn2mmCF6V5+cESgw=="
 ```
 
-----------------------------------------------------------------------------------------------------------------------------

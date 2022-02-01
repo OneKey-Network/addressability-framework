@@ -1,13 +1,6 @@
 # Timestamp
 
-**Title:** Timestamp
-
-| Type                      | `integer`                                                                 |
-| ------------------------- | ------------------------------------------------------------------------- |
-| **Additional properties** | [[Any type: allowed]](# "Additional Properties of any type are allowed.") |
-|                           |                                                                           |
-
-**Description:** Number of seconds since UNIX Epoch time (1970/01/01 00:00:00)
+Number of seconds since UNIX Epoch time (1970/01/01 00:00:00)
 
 | Restrictions |        |
 | ------------ | ------ |
@@ -20,4 +13,3 @@
 1643297316
 ```
 
-----------------------------------------------------------------------------------------------------------------------------

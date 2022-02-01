@@ -1,81 +1,46 @@
 # User preferences
 
-**Title:** User preferences
+The current preferences of the user
 
-| Type                      | `object`                                                |
-| ------------------------- | ------------------------------------------------------- |
-| **Additional properties** | [[Not allowed]](# "Additional Properties not allowed.") |
-|                           |                                                         |
+| Property               | Type              | Title/Description                                                              |
+| ---------------------- | ----------------- | ------------------------------------------------------------------------------ |
+| + [version](#version ) | enum (of integer) | A version number. To be detailed.                                              |
+| + [data](#data )       | object            | -                                                                              |
+| + [source](#source )   | object            | Source of data representing what contracting party created and signed the data |
+|                        |                   |                                                                                |
 
-**Description:** The current preferences of the user
+## <a name="version"></a>1. `version`
 
-| Property               | Pattern | Type              | Deprecated | Definition      | Title/Description                                                              |
-| ---------------------- | ------- | ----------------- | ---------- | --------------- | ------------------------------------------------------------------------------ |
-| + [version](#version ) | No      | enum (of integer) | No         | In version.json | A version number. To be detailed.                                              |
-| + [data](#data )       | No      | object            | No         | -               | -                                                                              |
-| + [source](#source )   | No      | object            | No         | In source.json  | Source of data representing what contracting party created and signed the data |
-|                        |         |                   |            |                 |                                                                                |
+A version number. To be detailed.
 
-## <a name="version"></a>1. [Required] Property `version`
+Can only take **one of these values**:
+* `0`
 
-| Type                      | `enum (of integer)`                                                       |
-| ------------------------- | ------------------------------------------------------------------------- |
-| **Additional properties** | [[Any type: allowed]](# "Additional Properties of any type are allowed.") |
-| **Defined in**            | version.json                                                              |
-|                           |                                                                           |
+## <a name="data"></a>2. `data`
 
-**Description:** A version number. To be detailed.
+| Property                                                                      | Type    | Title/Description                                                                    |
+| ----------------------------------------------------------------------------- | ------- | ------------------------------------------------------------------------------------ |
+| + [use_browsing_for_personalization](#data_use_browsing_for_personalization ) | boolean | 'true' if the user accepted the usage of browsing history for ad personalization ... |
+|                                                                               |         |                                                                                      |
 
-Must be one of:
-* 0
+### <a name="data_use_browsing_for_personalization"></a>2.1. `use_browsing_for_personalization`
 
-## <a name="data"></a>2. [Required] Property `data`
+`true` if the user accepted the usage of browsing history for ad personalization, `false` otherwise
 
-| Type                      | `object`                                                |
-| ------------------------- | ------------------------------------------------------- |
-| **Additional properties** | [[Not allowed]](# "Additional Properties not allowed.") |
-|                           |                                                         |
+## <a name="source"></a>3. `source`
 
-| Property                                                                      | Pattern | Type    | Deprecated | Definition | Title/Description                                                                    |
-| ----------------------------------------------------------------------------- | ------- | ------- | ---------- | ---------- | ------------------------------------------------------------------------------------ |
-| + [use_browsing_for_personalization](#data_use_browsing_for_personalization ) | No      | boolean | No         | -          | 'true' if the user accepted the usage of browsing history for ad personalization ... |
-|                                                                               |         |         |            |            |                                                                                      |
+Source of data representing what contracting party created and signed the data
 
-### <a name="data_use_browsing_for_personalization"></a>2.1. [Required] Property `use_browsing_for_personalization`
+| Property                          | Type    | Title/Description                                   |
+| --------------------------------- | ------- | --------------------------------------------------- |
+| + [timestamp](#source_timestamp ) | integer | Time when data was signed                           |
+| + [domain](#source_domain )       | string  | The domain name of the entity that signed this data |
+| + [signature](#source_signature ) | string  | The base64 representation of a data signature       |
+|                                   |         |                                                     |
 
-| Type                      | `boolean`                                                                 |
-| ------------------------- | ------------------------------------------------------------------------- |
-| **Additional properties** | [[Any type: allowed]](# "Additional Properties of any type are allowed.") |
-|                           |                                                                           |
+### <a name="source_timestamp"></a>3.1. `timestamp`
 
-**Description:** `true` if the user accepted the usage of browsing history for ad personalization, `false` otherwise
-
-## <a name="source"></a>3. [Required] Property `source`
-
-| Type                      | `object`                                                                  |
-| ------------------------- | ------------------------------------------------------------------------- |
-| **Additional properties** | [[Any type: allowed]](# "Additional Properties of any type are allowed.") |
-| **Defined in**            | source.json                                                               |
-|                           |                                                                           |
-
-**Description:** Source of data representing what contracting party created and signed the data
-
-| Property                          | Pattern | Type    | Deprecated | Definition        | Title/Description                                   |
-| --------------------------------- | ------- | ------- | ---------- | ----------------- | --------------------------------------------------- |
-| + [timestamp](#source_timestamp ) | No      | integer | No         | In timestamp.json | Time when data was signed                           |
-| + [domain](#source_domain )       | No      | string  | No         | In domain.json    | The domain name of the entity that signed this data |
-| + [signature](#source_signature ) | No      | string  | No         | In signature.json | The base64 representation of a data signature       |
-|                                   |         |         |            |                   |                                                     |
-
-### <a name="source_timestamp"></a>3.1. [Required] Property `timestamp`
-
-| Type                      | `integer`                                                                 |
-| ------------------------- | ------------------------------------------------------------------------- |
-| **Additional properties** | [[Any type: allowed]](# "Additional Properties of any type are allowed.") |
-| **Defined in**            | timestamp.json                                                            |
-|                           |                                                                           |
-
-**Description:** Time when data was signed
+Time when data was signed
 
 | Restrictions |        |
 | ------------ | ------ |
@@ -88,15 +53,9 @@ Must be one of:
 1643297316
 ```
 
-### <a name="source_domain"></a>3.2. [Required] Property `domain`
+### <a name="source_domain"></a>3.2. `domain`
 
-| Type                      | `string`                                                                  |
-| ------------------------- | ------------------------------------------------------------------------- |
-| **Additional properties** | [[Any type: allowed]](# "Additional Properties of any type are allowed.") |
-| **Defined in**            | domain.json                                                               |
-|                           |                                                                           |
-
-**Description:** The domain name of the entity that signed this data
+The domain name of the entity that signed this data
 
 **Examples:** 
 
@@ -108,15 +67,9 @@ Must be one of:
 "another.domain.co.uk"
 ```
 
-### <a name="source_signature"></a>3.3. [Required] Property `signature`
+### <a name="source_signature"></a>3.3. `signature`
 
-| Type                      | `string`                                                                  |
-| ------------------------- | ------------------------------------------------------------------------- |
-| **Additional properties** | [[Any type: allowed]](# "Additional Properties of any type are allowed.") |
-| **Defined in**            | signature.json                                                            |
-|                           |                                                                           |
-
-**Description:** The base64 representation of a data signature
+The base64 representation of a data signature
 
 **Example:** 
 
@@ -124,4 +77,3 @@ Must be one of:
 "RYGHYsBUEwMgFgOJ9aUQl7ywl4xnqdmwWIgPbaIowbXbmZAFKLa7mcBJQuWh1wEskpu57SHn2mmCF6V5+cESgw=="
 ```
 
-----------------------------------------------------------------------------------------------------------------------------
