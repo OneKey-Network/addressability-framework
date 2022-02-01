@@ -2,7 +2,7 @@
 
 The Audit Log is the data attached to an Addressable Content so that the user
 can see how has used her/his Prebid SSO Data for generating this content. This
-document describe technical aspects in addition of 
+document describes technical aspects in addition of 
 [the Audit Log Requirements](audit-log-requirements.md).
 
 ## The interface
@@ -148,10 +148,10 @@ appear in the page:
 
 | Element                          | Details                                   |
 |----------------------------------|-------------------------------------------|
-| List of Pseudonymous-Identifiers | Each Pseudonymous-Identifier must be paired with the name of the Operator who generated it and signed it with a Reg/Green indicator expressing the validity of the signature.                                                |
-| List of the Preferences          | Each Preference must be paired with the name of the CMP who generated it and signed it with a Red/Green indicator expressing the validity of the signature.                                                             |
+| List of Pseudonymous-Identifiers | Each Pseudonymous-Identifier must be paired with the Operator who generated it and signed it with a Reg/Green indicator expressing the validity of the signature.                                                |
+| Preferences          | The Preferences must be associated with the CMP who generated it and signed it with a Red/Green indicator expressing the validity of the signature.                                                             |
 | Seed                             | The Seed is represented by the Transaction ID and a Red/Green indicator expressing the validity of the signature                                                                                                             |
-| List of Transmission Results     | The Transmission Results available in the Audit Log. Each Transmission Results is represented by the Name of the Receiver, the status of the Transmission and a Red/Green indicator expressing the validity of the signature |
+| List of Transmission Results     | The Transmission Results available in the Audit Log. Each Transmission Result is represented by the Name of the Receiver, the status of the Transmission and a Red/Green indicator expressing the validity of the signature |
 
 The design of the page is up to the Contracting Party but it must consider 
 to have a neutral UI to be used for many different Publishers in case of a DSP.
@@ -195,14 +195,14 @@ identifier.value
 
 ### Verify the Preferences
 
-The Audit Log contains a list of Preferences with one signature. The UTF-8 string for a specific Preference must be built as follows:
+The Audit Log contains Preferences with one signature. The UTF-8 string for a specific Preference must be built as follows:
 
 <!--partial-begin { "files": [ "preferences-signature-string.txt" ], "block": "" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```
 preferences.source.domain + '\u2063' +
 preferences.source.timestamp + '\u2063' +
-prebid_id.source.signature + '\u2063' +
+identifiers[type="prebid_id"].source.signature + '\u2063' +
 preferences.data.key1 + '\u2063' + preferences.data[key1].value + '\u2063' +
 preferences.data.key2 + '\u2063' + preferences.data[key2].value + '\u2063' +
 ...
