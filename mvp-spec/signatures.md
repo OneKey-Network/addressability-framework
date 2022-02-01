@@ -1,11 +1,13 @@
 # Signatures
 
-A quick introduction on how data (id, preferences) and messages (operator API, RTB) are signed and how these signatures can be verified.
+A quick introduction on how data (identifiers & preferences cookies) and messages (operator requests and responses, tranmissions) are signed and how these signatures can be verified.
 
 PAF Data format is designed to let the users audit how their preferences got
 to their current state. It relies on the signatures of data and communication, to enforce security.
 
-All "signers" have an Elliptic Curve (EC) **private** and **public** key using the `secp256r1` curve.
+All "signers" have a pair of **private** and a **public** Elliptic Curve (EC) keys, based on the `secp256r1` curve.
+- the private one must remain secret
+- the public one needs to be accessible to anyone
 
 ## Signing an object
 
