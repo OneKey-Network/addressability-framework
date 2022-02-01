@@ -171,6 +171,7 @@ The detailed steps of the diagram above:
 11. The SSP1 receives the Transmission Response 2.
 12. The SSP1 returns a Transmission Response 1 to Transmission Request 3 (Publisher). It contains the Transmission Result 1. The "children" field includes the Transmission Result 2 and the Transmission Result 3.
 13. The Publisher shows the Addressable Content via the DSP and the Audit Log is available.
+
 <!--partial-end-->
 
 ## Transport and security
