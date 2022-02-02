@@ -207,7 +207,6 @@ preferences.data.key1 + '\u2063' + preferences.data[key1].value + '\u2063' +
 preferences.data.key2 + '\u2063' + preferences.data[key2].value + '\u2063' +
 ...
 preferences.data.keyN + '\u2063' + preferences.data[keyN].value
-
 ```
 <!--partial-end-->
 
