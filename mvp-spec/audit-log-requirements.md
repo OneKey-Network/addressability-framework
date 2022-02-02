@@ -395,7 +395,7 @@ Specifications):
 {
     "seed": {
         "version": 1,
-        "transaction_id": 1234567,
+        "transaction_id": "a0651946-0f5b-482b-8cfc-eab3644d2743",
         "display_responsibility": "publisher",
         "identifiers": [
             {
