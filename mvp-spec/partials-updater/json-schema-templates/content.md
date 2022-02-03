@@ -21,7 +21,6 @@ Type of array items:
 {% if depth == 0 %}
 <tr>
     <th> Property </th>
-    <th> Type </th>
     <th> Description </th>
 </tr>
 {% endif %}
@@ -32,9 +31,7 @@ Type of array items:
 <pre><b>{{ sub_property.property_name }}</b></pre>
 </td>
 <td>
-{{ sub_property.type_name }}
-</td>
-<td>
+<b>{{ sub_property.type_name }}</b>
 {% with schema=sub_property, depth=depth+1 %}
 {% include "content.md" %}
 {% endwith %}

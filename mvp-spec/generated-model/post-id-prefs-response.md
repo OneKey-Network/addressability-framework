@@ -4,7 +4,6 @@
 
 <tr>
     <th> Property </th>
-    <th> Type </th>
     <th> Description </th>
 </tr>
 
@@ -13,9 +12,7 @@
 <pre><b>body</b></pre>
 </td>
 <td>
-object
-</td>
-<td>
+<b>object</b>
 
 A list of identifiers and some preferences
 
@@ -26,9 +23,7 @@ A list of identifiers and some preferences
 <pre><b>preferences</b></pre>
 </td>
 <td>
-object
-</td>
-<td>
+<b>object</b>
 
 The current preferences of the user
 
@@ -39,9 +34,7 @@ The current preferences of the user
 <pre><b>version</b></pre>
 </td>
 <td>
-enum (of integer)
-</td>
-<td>
+<b>enum (of integer)</b>
 
 A version number. To be detailed.
 
@@ -55,9 +48,7 @@ Can only take **one of these values**:
 <pre><b>data</b></pre>
 </td>
 <td>
-object
-</td>
-<td>
+<b>object</b>
 
 <table>
 
@@ -66,9 +57,7 @@ object
 <pre><b>use_browsing_for_personalization</b></pre>
 </td>
 <td>
-boolean
-</td>
-<td>
+<b>boolean</b>
 
 `true` if the user accepted the usage of browsing history for ad personalization, `false` otherwise
 
@@ -85,9 +74,7 @@ boolean
 <pre><b>source</b></pre>
 </td>
 <td>
-object
-</td>
-<td>
+<b>object</b>
 
 Source of data representing what contracting party created and signed the data
 
@@ -98,9 +85,7 @@ Source of data representing what contracting party created and signed the data
 <pre><b>timestamp</b></pre>
 </td>
 <td>
-integer
-</td>
-<td>
+<b>integer</b>
 
 Time when data was signed
 
@@ -118,9 +103,7 @@ Time when data was signed
 <pre><b>domain</b></pre>
 </td>
 <td>
-string
-</td>
-<td>
+<b>string</b>
 
 The domain name of the entity that signed this data
 
@@ -142,9 +125,7 @@ The domain name of the entity that signed this data
 <pre><b>signature</b></pre>
 </td>
 <td>
-string
-</td>
-<td>
+<b>string</b>
 
 The base64 representation of a data signature
 
@@ -172,9 +153,7 @@ The base64 representation of a data signature
 <pre><b>identifiers</b></pre>
 </td>
 <td>
-array
-</td>
-<td>
+<b>array</b>
 
 Type of array items:
 
@@ -187,9 +166,7 @@ A pseudonymous identifier generated for a web user
 <pre><b>version</b></pre>
 </td>
 <td>
-enum (of integer)
-</td>
-<td>
+<b>enum (of integer)</b>
 
 A version number. To be detailed.
 
@@ -203,9 +180,7 @@ Can only take **one of these values**:
 <pre><b>type</b></pre>
 </td>
 <td>
-enum (of string)
-</td>
-<td>
+<b>enum (of string)</b>
 
 The identifier type, identifier of type `paf_browser_id` is mandatory and is "pivot"
 
@@ -219,9 +194,7 @@ Can only take **one of these values**:
 <pre><b>persisted</b></pre>
 </td>
 <td>
-boolean
-</td>
-<td>
+<b>boolean</b>
 
 If set to `false`, means the identifier has not yet been persisted as a cookie.<br>Otherwise, means this identifier is persisted as a PAF cookie<br>(default value = `true` meaning if the property is omitted the identifier *is* persisted)
 
@@ -233,9 +206,7 @@ If set to `false`, means the identifier has not yet been persisted as a cookie.<
 <pre><b>value</b></pre>
 </td>
 <td>
-string
-</td>
-<td>
+<b>string</b>
 
 The identifier value
 
@@ -253,9 +224,7 @@ The identifier value
 <pre><b>source</b></pre>
 </td>
 <td>
-object
-</td>
-<td>
+<b>object</b>
 
 Source of data representing what contracting party created and signed the data
 
@@ -266,9 +235,7 @@ Source of data representing what contracting party created and signed the data
 <pre><b>timestamp</b></pre>
 </td>
 <td>
-integer
-</td>
-<td>
+<b>integer</b>
 
 Time when data was signed
 
@@ -286,9 +253,7 @@ Time when data was signed
 <pre><b>domain</b></pre>
 </td>
 <td>
-string
-</td>
-<td>
+<b>string</b>
 
 The domain name of the entity that signed this data
 
@@ -310,9 +275,7 @@ The domain name of the entity that signed this data
 <pre><b>signature</b></pre>
 </td>
 <td>
-string
-</td>
-<td>
+<b>string</b>
 
 The base64 representation of a data signature
 

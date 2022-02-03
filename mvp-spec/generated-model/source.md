@@ -6,7 +6,6 @@ Source of data representing what contracting party created and signed the data
 
 <tr>
     <th> Property </th>
-    <th> Type </th>
     <th> Description </th>
 </tr>
 
@@ -15,9 +14,7 @@ Source of data representing what contracting party created and signed the data
 <pre><b>timestamp</b></pre>
 </td>
 <td>
-integer
-</td>
-<td>
+<b>integer</b>
 
 Time when data was signed
 
@@ -35,9 +32,7 @@ Time when data was signed
 <pre><b>domain</b></pre>
 </td>
 <td>
-string
-</td>
-<td>
+<b>string</b>
 
 The domain name of the entity that signed this data
 
@@ -59,9 +54,7 @@ The domain name of the entity that signed this data
 <pre><b>signature</b></pre>
 </td>
 <td>
-string
-</td>
-<td>
+<b>string</b>
 
 The base64 representation of a data signature
 
