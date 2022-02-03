@@ -11,13 +11,13 @@ The base properties of a request or response to/from an operator
 
 <tr>
 <td>
-<pre><b>sender</b></pre>
+<b>sender</b>
 </td>
 <td>
 
 The domain name of the sender of this message
 
-Type: string
+Type: **string**
 
 **Examples:** 
 
@@ -34,13 +34,13 @@ Type: string
 
 <tr>
 <td>
-<pre><b>receiver</b></pre>
+<b>receiver</b>
 </td>
 <td>
 
 The domain name of the receiver of this message
 
-Type: string
+Type: **string**
 
 **Examples:** 
 
@@ -57,13 +57,13 @@ Type: string
 
 <tr>
 <td>
-<pre><b>timestamp</b></pre>
+<b>timestamp</b>
 </td>
 <td>
 
 Number of seconds since UNIX Epoch time (1970/01/01 00:00:00)
 
-Type: integer
+Type: **integer**
 
 **Example:** 
 
@@ -76,7 +76,7 @@ Type: integer
 
 <tr>
 <td>
-<pre><b>signature</b></pre>
+<b>signature</b>
 </td>
 <td>
 
@@ -87,7 +87,7 @@ receiver + '\u2063' +
 timestamp
 ```
 
-Type: string
+Type: **string**
 
 **Example:** 
 

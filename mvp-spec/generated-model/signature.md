@@ -2,7 +2,7 @@
 
 The base64 representation of a data signature
 
-Type: string
+Type: **string**
 
 **Example:** 
 

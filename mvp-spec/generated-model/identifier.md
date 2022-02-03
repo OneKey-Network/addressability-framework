@@ -11,13 +11,13 @@ A pseudonymous identifier generated for a web user
 
 <tr>
 <td>
-<pre><b>version</b></pre>
+<b>version</b>
 </td>
 <td>
 
 A version number. To be detailed.
 
-Type: enum (of integer)
+Type: **enum (of integer)**
 
 Can only take **one of these values**:
 * `0`
@@ -26,13 +26,13 @@ Can only take **one of these values**:
 
 <tr>
 <td>
-<pre><b>type</b></pre>
+<b>type</b>
 </td>
 <td>
 
 The identifier type, identifier of type `paf_browser_id` is mandatory and is "pivot"
 
-Type: enum (of string)
+Type: **enum (of string)**
 
 Can only take **one of these values**:
 * `"paf_browser_id"`
@@ -41,26 +41,26 @@ Can only take **one of these values**:
 
 <tr>
 <td>
-<pre><b>persisted</b></pre>
+<b>persisted</b>
 </td>
 <td>
 
 If set to `false`, means the identifier has not yet been persisted as a cookie.<br>Otherwise, means this identifier is persisted as a PAF cookie<br>(default value = `true` meaning if the property is omitted the identifier *is* persisted)
 
-Type: boolean
+Type: **boolean**
 
 </td>
 </tr>
 
 <tr>
 <td>
-<pre><b>value</b></pre>
+<b>value</b>
 </td>
 <td>
 
 The identifier value
 
-Type: string
+Type: **string**
 
 **Example:** 
 
@@ -73,15 +73,14 @@ Type: string
 
 <tr>
 <td>
-<pre><b>source</b></pre>
+<b>source</b>
 </td>
 <td>
 
 Source of data representing what contracting party created and signed the data
 
-Type:
 <details>
-  <summary>object</summary>
+<summary>Type: <b>object</b></summary>
 
 <table>
 
@@ -92,13 +91,13 @@ Type:
 
 <tr>
 <td>
-<pre><b>timestamp</b></pre>
+<b>timestamp</b>
 </td>
 <td>
 
 Time when data was signed
 
-Type: integer
+Type: **integer**
 
 **Example:** 
 
@@ -111,13 +110,13 @@ Type: integer
 
 <tr>
 <td>
-<pre><b>domain</b></pre>
+<b>domain</b>
 </td>
 <td>
 
 The domain name of the entity that signed this data
 
-Type: string
+Type: **string**
 
 **Examples:** 
 
@@ -134,13 +133,13 @@ Type: string
 
 <tr>
 <td>
-<pre><b>signature</b></pre>
+<b>signature</b>
 </td>
 <td>
 
 The base64 representation of a data signature
 
-Type: string
+Type: **string**
 
 **Example:** 
 

@@ -2,7 +2,7 @@
 
 A domain name
 
-Type: string
+Type: **string**
 
 **Examples:** 
 

@@ -1,10 +1,3 @@
-{% if schema.type_name.startswith("array") -%}
-{% set schema=schema.array_items_def %}
-
-Type of array items:
-
-{% endif %}
-
 {% if schema.refers_to -%}
 {% set schema=schema.refers_to_merged %}
 {% endif %}
@@ -14,12 +7,19 @@ Type of array items:
 {% set description = (schema | get_description) %}
 {% include "section_description.md" %}
 
-{% if (schema.type_name == "object") %}
+{% if schema.type_name.startswith("array") -%}
+
+Type: **array** of items with following type:
+
+{% with schema=schema.array_items_def %}
+{% include "content.md" %}
+{% endwith %}
+
+{% elif (schema.type_name == "object") %}
 
 {% if depth != 0 %}
-Type:
 <details>
-  <summary>{{ schema.type_name }}</summary>
+<summary>Type: <b>{{ schema.type_name }}</b></summary>
 
 {% endif %}
 
@@ -33,7 +33,7 @@ Type:
 {% for sub_property in schema.iterate_properties %}
 <tr>
 <td>
-<pre><b>{{ sub_property.property_name }}</b></pre>
+<b>{{ sub_property.property_name }}</b>
 </td>
 <td>
 {% with schema=sub_property, depth=depth+1 %}
@@ -54,7 +54,7 @@ Type:
 
 {% else %}
 
-Type: {{ schema.type_name }}
+Type: **{{ schema.type_name }}**
 
 {% endif %}
 
