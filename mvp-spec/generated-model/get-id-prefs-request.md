@@ -12,9 +12,10 @@
 <pre><b>sender</b></pre>
 </td>
 <td>
-<b>string</b>
 
 The domain name of the sender of this request (the website domain)
+
+Type: string
 
 **Examples:** 
 
@@ -34,9 +35,10 @@ The domain name of the sender of this request (the website domain)
 <pre><b>receiver</b></pre>
 </td>
 <td>
-<b>string</b>
 
 The domain name of the receiver of this request (the operator domain name)
+
+Type: string
 
 **Examples:** 
 
@@ -56,9 +58,10 @@ The domain name of the receiver of this request (the operator domain name)
 <pre><b>timestamp</b></pre>
 </td>
 <td>
-<b>integer</b>
 
 Number of seconds since UNIX Epoch time (1970/01/01 00:00:00)
+
+Type: integer
 
 **Example:** 
 
@@ -74,7 +77,6 @@ Number of seconds since UNIX Epoch time (1970/01/01 00:00:00)
 <pre><b>signature</b></pre>
 </td>
 <td>
-<b>string</b>
 
 Signature based on input:
 ```
@@ -82,6 +84,8 @@ sender + '\u2063' +
 receiver + '\u2063' +
 timestamp
 ```
+
+Type: string
 
 **Example:** 
 

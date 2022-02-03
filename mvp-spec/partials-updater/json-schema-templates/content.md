@@ -14,16 +14,21 @@ Type of array items:
 {% set description = (schema | get_description) %}
 {% include "section_description.md" %}
 
-{% if schema.type_name == "object" %}
+{% if (schema.type_name == "object") %}
+
+{% if depth != 0 %}
+Type:
+<details>
+  <summary>{{ schema.type_name }}</summary>
+
+{% endif %}
 
 <table>
 
-{% if depth == 0 %}
 <tr>
     <th> Property </th>
     <th> Description </th>
 </tr>
-{% endif %}
 
 {% for sub_property in schema.iterate_properties %}
 <tr>
@@ -31,7 +36,6 @@ Type of array items:
 <pre><b>{{ sub_property.property_name }}</b></pre>
 </td>
 <td>
-<b>{{ sub_property.type_name }}</b>
 {% with schema=sub_property, depth=depth+1 %}
 {% include "content.md" %}
 {% endwith %}
@@ -41,6 +45,16 @@ Type of array items:
 {% endfor %}
 
 </table>
+
+{% if depth != 0 %}
+
+</details>
+
+{% endif %}
+
+{% else %}
+
+Type: {{ schema.type_name }}
 
 {% endif %}
 

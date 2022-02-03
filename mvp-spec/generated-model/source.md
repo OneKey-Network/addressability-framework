@@ -14,9 +14,10 @@ Source of data representing what contracting party created and signed the data
 <pre><b>timestamp</b></pre>
 </td>
 <td>
-<b>integer</b>
 
 Time when data was signed
+
+Type: integer
 
 **Example:** 
 
@@ -32,9 +33,10 @@ Time when data was signed
 <pre><b>domain</b></pre>
 </td>
 <td>
-<b>string</b>
 
 The domain name of the entity that signed this data
+
+Type: string
 
 **Examples:** 
 
@@ -54,9 +56,10 @@ The domain name of the entity that signed this data
 <pre><b>signature</b></pre>
 </td>
 <td>
-<b>string</b>
 
 The base64 representation of a data signature
+
+Type: string
 
 **Example:** 
 

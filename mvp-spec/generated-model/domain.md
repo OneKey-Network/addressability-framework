@@ -2,6 +2,8 @@
 
 A domain name
 
+Type: string
+
 **Examples:** 
 
 ```json

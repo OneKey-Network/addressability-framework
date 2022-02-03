@@ -2,6 +2,8 @@
 
 The base64 representation of a data signature
 
+Type: string
+
 **Example:** 
 
 ```json

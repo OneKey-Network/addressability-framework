@@ -14,20 +14,29 @@ A list of identifiers and optionally, some preferences
 <pre><b>preferences</b></pre>
 </td>
 <td>
-<b>object</b>
 
 The current preferences of the user
 
+Type:
+<details>
+  <summary>object</summary>
+
 <table>
+
+<tr>
+    <th> Property </th>
+    <th> Description </th>
+</tr>
 
 <tr>
 <td>
 <pre><b>version</b></pre>
 </td>
 <td>
-<b>enum (of integer)</b>
 
 A version number. To be detailed.
+
+Type: enum (of integer)
 
 Can only take **one of these values**:
 * `0`
@@ -39,23 +48,34 @@ Can only take **one of these values**:
 <pre><b>data</b></pre>
 </td>
 <td>
-<b>object</b>
+
+Type:
+<details>
+  <summary>object</summary>
 
 <table>
+
+<tr>
+    <th> Property </th>
+    <th> Description </th>
+</tr>
 
 <tr>
 <td>
 <pre><b>use_browsing_for_personalization</b></pre>
 </td>
 <td>
-<b>boolean</b>
 
 `true` if the user accepted the usage of browsing history for ad personalization, `false` otherwise
+
+Type: boolean
 
 </td>
 </tr>
 
 </table>
+
+</details>
 
 </td>
 </tr>
@@ -65,20 +85,29 @@ Can only take **one of these values**:
 <pre><b>source</b></pre>
 </td>
 <td>
-<b>object</b>
 
 Source of data representing what contracting party created and signed the data
 
+Type:
+<details>
+  <summary>object</summary>
+
 <table>
+
+<tr>
+    <th> Property </th>
+    <th> Description </th>
+</tr>
 
 <tr>
 <td>
 <pre><b>timestamp</b></pre>
 </td>
 <td>
-<b>integer</b>
 
 Time when data was signed
+
+Type: integer
 
 **Example:** 
 
@@ -94,9 +123,10 @@ Time when data was signed
 <pre><b>domain</b></pre>
 </td>
 <td>
-<b>string</b>
 
 The domain name of the entity that signed this data
+
+Type: string
 
 **Examples:** 
 
@@ -116,9 +146,10 @@ The domain name of the entity that signed this data
 <pre><b>signature</b></pre>
 </td>
 <td>
-<b>string</b>
 
 The base64 representation of a data signature
+
+Type: string
 
 **Example:** 
 
@@ -131,10 +162,14 @@ The base64 representation of a data signature
 
 </table>
 
+</details>
+
 </td>
 </tr>
 
 </table>
+
+</details>
 
 </td>
 </tr>
@@ -144,22 +179,31 @@ The base64 representation of a data signature
 <pre><b>identifiers</b></pre>
 </td>
 <td>
-<b>array</b>
 
 Type of array items:
 
 A pseudonymous identifier generated for a web user
 
+Type:
+<details>
+  <summary>object</summary>
+
 <table>
+
+<tr>
+    <th> Property </th>
+    <th> Description </th>
+</tr>
 
 <tr>
 <td>
 <pre><b>version</b></pre>
 </td>
 <td>
-<b>enum (of integer)</b>
 
 A version number. To be detailed.
+
+Type: enum (of integer)
 
 Can only take **one of these values**:
 * `0`
@@ -171,9 +215,10 @@ Can only take **one of these values**:
 <pre><b>type</b></pre>
 </td>
 <td>
-<b>enum (of string)</b>
 
 The identifier type, identifier of type `paf_browser_id` is mandatory and is "pivot"
+
+Type: enum (of string)
 
 Can only take **one of these values**:
 * `"paf_browser_id"`
@@ -185,9 +230,10 @@ Can only take **one of these values**:
 <pre><b>persisted</b></pre>
 </td>
 <td>
-<b>boolean</b>
 
 If set to `false`, means the identifier has not yet been persisted as a cookie.<br>Otherwise, means this identifier is persisted as a PAF cookie<br>(default value = `true` meaning if the property is omitted the identifier *is* persisted)
+
+Type: boolean
 
 </td>
 </tr>
@@ -197,9 +243,10 @@ If set to `false`, means the identifier has not yet been persisted as a cookie.<
 <pre><b>value</b></pre>
 </td>
 <td>
-<b>string</b>
 
 The identifier value
+
+Type: string
 
 **Example:** 
 
@@ -215,20 +262,29 @@ The identifier value
 <pre><b>source</b></pre>
 </td>
 <td>
-<b>object</b>
 
 Source of data representing what contracting party created and signed the data
 
+Type:
+<details>
+  <summary>object</summary>
+
 <table>
+
+<tr>
+    <th> Property </th>
+    <th> Description </th>
+</tr>
 
 <tr>
 <td>
 <pre><b>timestamp</b></pre>
 </td>
 <td>
-<b>integer</b>
 
 Time when data was signed
+
+Type: integer
 
 **Example:** 
 
@@ -244,9 +300,10 @@ Time when data was signed
 <pre><b>domain</b></pre>
 </td>
 <td>
-<b>string</b>
 
 The domain name of the entity that signed this data
+
+Type: string
 
 **Examples:** 
 
@@ -266,9 +323,10 @@ The domain name of the entity that signed this data
 <pre><b>signature</b></pre>
 </td>
 <td>
-<b>string</b>
 
 The base64 representation of a data signature
+
+Type: string
 
 **Example:** 
 
@@ -281,10 +339,14 @@ The base64 representation of a data signature
 
 </table>
 
+</details>
+
 </td>
 </tr>
 
 </table>
+
+</details>
 
 </td>
 </tr>
