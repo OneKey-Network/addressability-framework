@@ -1,0 +1,5 @@
+transmission_response.receiver                + '\u2063' +
+transmission_response.status                  + '\u2063' 
+transmission_response.source.domain           + '\u2063' + 
+transmission_response.source.timestamp        + '\u2063' + 
+seed.source.signature      // -> The Seed associated to the given Transaction Result
