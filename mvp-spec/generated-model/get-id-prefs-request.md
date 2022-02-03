@@ -1,14 +1,21 @@
 # GET /v1/id-prefs request
 
-| Property                   | Type    | Title/Description                                                          |
-| -------------------------- | ------- | -------------------------------------------------------------------------- |
-| + [sender](#sender )       | string  | The domain name of the sender of this request (the website domain)         |
-| + [receiver](#receiver )   | string  | The domain name of the receiver of this request (the operator domain name) |
-| + [timestamp](#timestamp ) | integer | Number of seconds since UNIX Epoch time (1970/01/01 00:00:00)              |
-| + [signature](#signature ) | string  | Signature based on input: ...                                              |
-|                            |         |                                                                            |
+<table>
 
-## <a name="sender"></a>1. `sender`
+<tr>
+    <th> Property </th>
+    <th> Type </th>
+    <th> Description </th>
+</tr>
+
+<tr>
+<td>
+<pre><b>sender</b></pre>
+</td>
+<td>
+string
+</td>
+<td>
 
 The domain name of the sender of this request (the website domain)
 
@@ -22,18 +29,43 @@ The domain name of the sender of this request (the website domain)
 "another.domain.co.uk"
 ```
 
-## <a name="receiver"></a>2. `receiver`
+</td>
+</tr>
+
+<tr>
+<td>
+<pre><b>receiver</b></pre>
+</td>
+<td>
+string
+</td>
+<td>
 
 The domain name of the receiver of this request (the operator domain name)
 
-## <a name="timestamp"></a>3. `timestamp`
+**Examples:** 
+
+```json
+"a-domain-name.com"
+```
+
+```json
+"another.domain.co.uk"
+```
+
+</td>
+</tr>
+
+<tr>
+<td>
+<pre><b>timestamp</b></pre>
+</td>
+<td>
+integer
+</td>
+<td>
 
 Number of seconds since UNIX Epoch time (1970/01/01 00:00:00)
-
-| Restrictions |        |
-| ------------ | ------ |
-| **Minimum**  | &ge; 1 |
-|              |        |
 
 **Example:** 
 
@@ -41,7 +73,17 @@ Number of seconds since UNIX Epoch time (1970/01/01 00:00:00)
 1643297316
 ```
 
-## <a name="signature"></a>4. `signature`
+</td>
+</tr>
+
+<tr>
+<td>
+<pre><b>signature</b></pre>
+</td>
+<td>
+string
+</td>
+<td>
 
 Signature based on input:
 ```
@@ -55,4 +97,9 @@ timestamp
 ```json
 "RYGHYsBUEwMgFgOJ9aUQl7ywl4xnqdmwWIgPbaIowbXbmZAFKLa7mcBJQuWh1wEskpu57SHn2mmCF6V5+cESgw=="
 ```
+
+</td>
+</tr>
+
+</table>
 

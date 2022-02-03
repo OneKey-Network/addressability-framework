@@ -2,21 +2,24 @@
 
 Source of data representing what contracting party created and signed the data
 
-| Property                   | Type    | Title/Description                                   |
-| -------------------------- | ------- | --------------------------------------------------- |
-| + [timestamp](#timestamp ) | integer | Time when data was signed                           |
-| + [domain](#domain )       | string  | The domain name of the entity that signed this data |
-| + [signature](#signature ) | string  | The base64 representation of a data signature       |
-|                            |         |                                                     |
+<table>
 
-## <a name="timestamp"></a>1. `timestamp`
+<tr>
+    <th> Property </th>
+    <th> Type </th>
+    <th> Description </th>
+</tr>
+
+<tr>
+<td>
+<pre><b>timestamp</b></pre>
+</td>
+<td>
+integer
+</td>
+<td>
 
 Time when data was signed
-
-| Restrictions |        |
-| ------------ | ------ |
-| **Minimum**  | &ge; 1 |
-|              |        |
 
 **Example:** 
 
@@ -24,7 +27,17 @@ Time when data was signed
 1643297316
 ```
 
-## <a name="domain"></a>2. `domain`
+</td>
+</tr>
+
+<tr>
+<td>
+<pre><b>domain</b></pre>
+</td>
+<td>
+string
+</td>
+<td>
 
 The domain name of the entity that signed this data
 
@@ -38,7 +51,17 @@ The domain name of the entity that signed this data
 "another.domain.co.uk"
 ```
 
-## <a name="signature"></a>3. `signature`
+</td>
+</tr>
+
+<tr>
+<td>
+<pre><b>signature</b></pre>
+</td>
+<td>
+string
+</td>
+<td>
 
 The base64 representation of a data signature
 
@@ -47,4 +70,9 @@ The base64 representation of a data signature
 ```json
 "RYGHYsBUEwMgFgOJ9aUQl7ywl4xnqdmwWIgPbaIowbXbmZAFKLa7mcBJQuWh1wEskpu57SHn2mmCF6V5+cESgw=="
 ```
+
+</td>
+</tr>
+
+</table>
 

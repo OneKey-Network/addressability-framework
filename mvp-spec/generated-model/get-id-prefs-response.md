@@ -1,15 +1,21 @@
 # GET /v1/id-prefs response
 
-| Property                   | Type    | Title/Description                                                         |
-| -------------------------- | ------- | ------------------------------------------------------------------------- |
-| + [sender](#sender )       | string  | The domain name of the sender of this response (the operator domain name) |
-| + [receiver](#receiver )   | string  | The domain name of the receiver of this request (the website)             |
-| + [timestamp](#timestamp ) | integer | Number of seconds since UNIX Epoch time (1970/01/01 00:00:00)             |
-| + [signature](#signature ) | string  | Signature based on input: ...                                             |
-| + [body](#body )           | object  | A list of identifiers and optionally, some preferences                    |
-|                            |         |                                                                           |
+<table>
 
-## <a name="sender"></a>1. `sender`
+<tr>
+    <th> Property </th>
+    <th> Type </th>
+    <th> Description </th>
+</tr>
+
+<tr>
+<td>
+<pre><b>sender</b></pre>
+</td>
+<td>
+string
+</td>
+<td>
 
 The domain name of the sender of this response (the operator domain name)
 
@@ -23,18 +29,43 @@ The domain name of the sender of this response (the operator domain name)
 "another.domain.co.uk"
 ```
 
-## <a name="receiver"></a>2. `receiver`
+</td>
+</tr>
+
+<tr>
+<td>
+<pre><b>receiver</b></pre>
+</td>
+<td>
+string
+</td>
+<td>
 
 The domain name of the receiver of this request (the website)
 
-## <a name="timestamp"></a>3. `timestamp`
+**Examples:** 
+
+```json
+"a-domain-name.com"
+```
+
+```json
+"another.domain.co.uk"
+```
+
+</td>
+</tr>
+
+<tr>
+<td>
+<pre><b>timestamp</b></pre>
+</td>
+<td>
+integer
+</td>
+<td>
 
 Number of seconds since UNIX Epoch time (1970/01/01 00:00:00)
-
-| Restrictions |        |
-| ------------ | ------ |
-| **Minimum**  | &ge; 1 |
-|              |        |
 
 **Example:** 
 
@@ -42,7 +73,17 @@ Number of seconds since UNIX Epoch time (1970/01/01 00:00:00)
 1643297316
 ```
 
-## <a name="signature"></a>4. `signature`
+</td>
+</tr>
+
+<tr>
+<td>
+<pre><b>signature</b></pre>
+</td>
+<td>
+string
+</td>
+<td>
 
 Signature based on input:
 ```
@@ -62,109 +103,237 @@ identifiers[n].source.signature
 "RYGHYsBUEwMgFgOJ9aUQl7ywl4xnqdmwWIgPbaIowbXbmZAFKLa7mcBJQuWh1wEskpu57SHn2mmCF6V5+cESgw=="
 ```
 
-## <a name="body"></a>5. `body`
+</td>
+</tr>
+
+<tr>
+<td>
+<pre><b>body</b></pre>
+</td>
+<td>
+object
+</td>
+<td>
 
 A list of identifiers and optionally, some preferences
 
-| Property                            | Type   | Title/Description                   |
-| ----------------------------------- | ------ | ----------------------------------- |
-| - [preferences](#body_preferences ) | object | The current preferences of the user |
-| + [identifiers](#body_identifiers ) | array  | -                                   |
-|                                     |        |                                     |
+<table>
 
-### <a name="body_preferences"></a>5.1. `preferences`      (optional)
+<tr>
+<td>
+<pre><b>preferences</b></pre>
+</td>
+<td>
+object
+</td>
+<td>
 
 The current preferences of the user
 
-| Property                                | Type              | Title/Description                                                              |
-| --------------------------------------- | ----------------- | ------------------------------------------------------------------------------ |
-| + [version](#body_preferences_version ) | enum (of integer) | A version number. To be detailed.                                              |
-| + [data](#body_preferences_data )       | object            | -                                                                              |
-| + [source](#body_preferences_source )   | object            | Source of data representing what contracting party created and signed the data |
-|                                         |                   |                                                                                |
+<table>
 
-#### <a name="body_preferences_version"></a>5.1.1. `version`
+<tr>
+<td>
+<pre><b>version</b></pre>
+</td>
+<td>
+enum (of integer)
+</td>
+<td>
 
 A version number. To be detailed.
 
 Can only take **one of these values**:
 * `0`
+</td>
+</tr>
 
-#### <a name="body_preferences_data"></a>5.1.2. `data`
+<tr>
+<td>
+<pre><b>data</b></pre>
+</td>
+<td>
+object
+</td>
+<td>
 
-| Property                                                                                       | Type    | Title/Description                                                                    |
-| ---------------------------------------------------------------------------------------------- | ------- | ------------------------------------------------------------------------------------ |
-| + [use_browsing_for_personalization](#body_preferences_data_use_browsing_for_personalization ) | boolean | 'true' if the user accepted the usage of browsing history for ad personalization ... |
-|                                                                                                |         |                                                                                      |
+<table>
 
-##### <a name="body_preferences_data_use_browsing_for_personalization"></a>5.1.2.1. `use_browsing_for_personalization`
+<tr>
+<td>
+<pre><b>use_browsing_for_personalization</b></pre>
+</td>
+<td>
+boolean
+</td>
+<td>
 
 `true` if the user accepted the usage of browsing history for ad personalization, `false` otherwise
 
-#### <a name="body_preferences_source"></a>5.1.3. `source`
+</td>
+</tr>
+
+</table>
+
+</td>
+</tr>
+
+<tr>
+<td>
+<pre><b>source</b></pre>
+</td>
+<td>
+object
+</td>
+<td>
 
 Source of data representing what contracting party created and signed the data
 
-| Property                                           | Type    | Title/Description                                   |
-| -------------------------------------------------- | ------- | --------------------------------------------------- |
-| + [timestamp](#body_preferences_source_timestamp ) | integer | Time when data was signed                           |
-| + [domain](#body_preferences_source_domain )       | string  | The domain name of the entity that signed this data |
-| + [signature](#body_preferences_source_signature ) | string  | The base64 representation of a data signature       |
-|                                                    |         |                                                     |
+<table>
 
-##### <a name="body_preferences_source_timestamp"></a>5.1.3.1. `timestamp`
+<tr>
+<td>
+<pre><b>timestamp</b></pre>
+</td>
+<td>
+integer
+</td>
+<td>
 
 Time when data was signed
 
-##### <a name="body_preferences_source_domain"></a>5.1.3.2. `domain`
+**Example:** 
+
+```json
+1643297316
+```
+
+</td>
+</tr>
+
+<tr>
+<td>
+<pre><b>domain</b></pre>
+</td>
+<td>
+string
+</td>
+<td>
 
 The domain name of the entity that signed this data
 
-##### <a name="body_preferences_source_signature"></a>5.1.3.3. `signature`
+**Examples:** 
+
+```json
+"a-domain-name.com"
+```
+
+```json
+"another.domain.co.uk"
+```
+
+</td>
+</tr>
+
+<tr>
+<td>
+<pre><b>signature</b></pre>
+</td>
+<td>
+string
+</td>
+<td>
 
 The base64 representation of a data signature
 
-### <a name="body_identifiers"></a>5.2. `identifiers`
+**Example:** 
 
-__root__/identifiers
+```json
+"RYGHYsBUEwMgFgOJ9aUQl7ywl4xnqdmwWIgPbaIowbXbmZAFKLa7mcBJQuWh1wEskpu57SHn2mmCF6V5+cESgw=="
+```
 
-<!--
-| Each item of this array must be            | Description                                        |
-| ------------------------------------------ | -------------------------------------------------- |
-| [identifier.json](#body_identifiers_items) | A pseudonymous identifier generated for a web user |
-|                                            |                                                    |
+</td>
+</tr>
 
--->
+</table>
 
-#### <a name="autogenerated_heading_8"></a>5.2.1. items
+</td>
+</tr>
+
+</table>
+
+</td>
+</tr>
+
+<tr>
+<td>
+<pre><b>identifiers</b></pre>
+</td>
+<td>
+array
+</td>
+<td>
+
+Type of array items:
 
 A pseudonymous identifier generated for a web user
 
-| Property                                          | Type              | Title/Description                                                                    |
-| ------------------------------------------------- | ----------------- | ------------------------------------------------------------------------------------ |
-| + [version](#body_identifiers_items_version )     | enum (of integer) | A version number. To be detailed.                                                    |
-| + [type](#body_identifiers_items_type )           | enum (of string)  | The identifier type, identifier of type 'paf_browser_id' is mandatory and is "pi ... |
-| - [persisted](#body_identifiers_items_persisted ) | boolean           | If set to 'false', means the identifier has not yet been persisted as a cookie.< ... |
-| + [value](#body_identifiers_items_value )         | string            | The identifier value                                                                 |
-| + [source](#body_identifiers_items_source )       | object            | Source of data representing what contracting party created and signed the data       |
-|                                                   |                   |                                                                                      |
+<table>
 
-##### <a name="body_identifiers_items_version"></a>5.2.1.1. `version`
+<tr>
+<td>
+<pre><b>version</b></pre>
+</td>
+<td>
+enum (of integer)
+</td>
+<td>
 
 A version number. To be detailed.
 
-##### <a name="body_identifiers_items_type"></a>5.2.1.2. `type`
+Can only take **one of these values**:
+* `0`
+</td>
+</tr>
+
+<tr>
+<td>
+<pre><b>type</b></pre>
+</td>
+<td>
+enum (of string)
+</td>
+<td>
 
 The identifier type, identifier of type `paf_browser_id` is mandatory and is "pivot"
 
 Can only take **one of these values**:
 * `"paf_browser_id"`
+</td>
+</tr>
 
-##### <a name="body_identifiers_items_persisted"></a>5.2.1.3. `persisted`      (optional)
+<tr>
+<td>
+<pre><b>persisted</b></pre>
+</td>
+<td>
+boolean
+</td>
+<td>
 
 If set to `false`, means the identifier has not yet been persisted as a cookie.<br>Otherwise, means this identifier is persisted as a PAF cookie<br>(default value = `true` meaning if the property is omitted the identifier *is* persisted)
 
-##### <a name="body_identifiers_items_value"></a>5.2.1.4. `value`
+</td>
+</tr>
+
+<tr>
+<td>
+<pre><b>value</b></pre>
+</td>
+<td>
+string
+</td>
+<td>
 
 The identifier value
 
@@ -174,7 +343,100 @@ The identifier value
 "7435313e-caee-4889-8ad7-0acd0114ae3c"
 ```
 
-##### <a name="body_identifiers_items_source"></a>5.2.1.5. `source`
+</td>
+</tr>
+
+<tr>
+<td>
+<pre><b>source</b></pre>
+</td>
+<td>
+object
+</td>
+<td>
 
 Source of data representing what contracting party created and signed the data
+
+<table>
+
+<tr>
+<td>
+<pre><b>timestamp</b></pre>
+</td>
+<td>
+integer
+</td>
+<td>
+
+Time when data was signed
+
+**Example:** 
+
+```json
+1643297316
+```
+
+</td>
+</tr>
+
+<tr>
+<td>
+<pre><b>domain</b></pre>
+</td>
+<td>
+string
+</td>
+<td>
+
+The domain name of the entity that signed this data
+
+**Examples:** 
+
+```json
+"a-domain-name.com"
+```
+
+```json
+"another.domain.co.uk"
+```
+
+</td>
+</tr>
+
+<tr>
+<td>
+<pre><b>signature</b></pre>
+</td>
+<td>
+string
+</td>
+<td>
+
+The base64 representation of a data signature
+
+**Example:** 
+
+```json
+"RYGHYsBUEwMgFgOJ9aUQl7ywl4xnqdmwWIgPbaIowbXbmZAFKLa7mcBJQuWh1wEskpu57SHn2mmCF6V5+cESgw=="
+```
+
+</td>
+</tr>
+
+</table>
+
+</td>
+</tr>
+
+</table>
+
+</td>
+</tr>
+
+</table>
+
+</td>
+</tr>
+
+</table>
 
