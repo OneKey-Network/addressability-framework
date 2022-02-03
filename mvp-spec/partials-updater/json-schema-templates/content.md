@@ -9,7 +9,7 @@
 
 {% if schema.type_name.startswith("array") -%}
 
-Type: **array** of items with following type:
+**Array items**' type:
 
 {% with schema=schema.array_items_def %}
 {% include "content.md" %}
@@ -19,7 +19,7 @@ Type: **array** of items with following type:
 
 {% if depth != 0 %}
 <details>
-<summary>Type: <b>{{ schema.type_name }}</b></summary>
+<summary>Object details</summary>
 
 {% endif %}
 
@@ -27,6 +27,7 @@ Type: **array** of items with following type:
 
 <tr>
     <th> Property </th>
+    <th> Type </th>
     <th> Description </th>
 </tr>
 
@@ -34,6 +35,9 @@ Type: **array** of items with following type:
 <tr>
 <td>
 <b>{{ sub_property.property_name }}</b>
+</td>
+<td>
+{{ sub_property.type_name }}
 </td>
 <td>
 {% with schema=sub_property, depth=depth+1 %}
@@ -51,10 +55,6 @@ Type: **array** of items with following type:
 </details>
 
 {% endif %}
-
-{% else %}
-
-Type: **{{ schema.type_name }}**
 
 {% endif %}
 

@@ -6,6 +6,7 @@ The base properties of a request or response to/from an operator
 
 <tr>
     <th> Property </th>
+    <th> Type </th>
     <th> Description </th>
 </tr>
 
@@ -14,10 +15,11 @@ The base properties of a request or response to/from an operator
 <b>sender</b>
 </td>
 <td>
+string
+</td>
+<td>
 
 The domain name of the sender of this message
-
-Type: **string**
 
 **Examples:** 
 
@@ -37,10 +39,11 @@ Type: **string**
 <b>receiver</b>
 </td>
 <td>
+string
+</td>
+<td>
 
 The domain name of the receiver of this message
-
-Type: **string**
 
 **Examples:** 
 
@@ -60,10 +63,11 @@ Type: **string**
 <b>timestamp</b>
 </td>
 <td>
+integer
+</td>
+<td>
 
 Number of seconds since UNIX Epoch time (1970/01/01 00:00:00)
-
-Type: **integer**
 
 **Example:** 
 
@@ -79,6 +83,9 @@ Type: **integer**
 <b>signature</b>
 </td>
 <td>
+string
+</td>
+<td>
 
 Signature based on input:
 ```
@@ -86,8 +93,6 @@ sender + '\u2063' +
 receiver + '\u2063' +
 timestamp
 ```
-
-Type: **string**
 
 **Example:** 
 

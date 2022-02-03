@@ -6,6 +6,7 @@ The current preferences of the user
 
 <tr>
     <th> Property </th>
+    <th> Type </th>
     <th> Description </th>
 </tr>
 
@@ -14,10 +15,11 @@ The current preferences of the user
 <b>version</b>
 </td>
 <td>
+enum (of integer)
+</td>
+<td>
 
 A version number. To be detailed.
-
-Type: **enum (of integer)**
 
 Can only take **one of these values**:
 * `0`
@@ -29,14 +31,18 @@ Can only take **one of these values**:
 <b>data</b>
 </td>
 <td>
+object
+</td>
+<td>
 
 <details>
-<summary>Type: <b>object</b></summary>
+<summary>Object details</summary>
 
 <table>
 
 <tr>
     <th> Property </th>
+    <th> Type </th>
     <th> Description </th>
 </tr>
 
@@ -45,10 +51,11 @@ Can only take **one of these values**:
 <b>use_browsing_for_personalization</b>
 </td>
 <td>
+boolean
+</td>
+<td>
 
 `true` if the user accepted the usage of browsing history for ad personalization, `false` otherwise
-
-Type: **boolean**
 
 </td>
 </tr>
@@ -65,16 +72,20 @@ Type: **boolean**
 <b>source</b>
 </td>
 <td>
+object
+</td>
+<td>
 
 Source of data representing what contracting party created and signed the data
 
 <details>
-<summary>Type: <b>object</b></summary>
+<summary>Object details</summary>
 
 <table>
 
 <tr>
     <th> Property </th>
+    <th> Type </th>
     <th> Description </th>
 </tr>
 
@@ -83,10 +94,11 @@ Source of data representing what contracting party created and signed the data
 <b>timestamp</b>
 </td>
 <td>
+integer
+</td>
+<td>
 
 Time when data was signed
-
-Type: **integer**
 
 **Example:** 
 
@@ -102,10 +114,11 @@ Type: **integer**
 <b>domain</b>
 </td>
 <td>
+string
+</td>
+<td>
 
 The domain name of the entity that signed this data
-
-Type: **string**
 
 **Examples:** 
 
@@ -125,10 +138,11 @@ Type: **string**
 <b>signature</b>
 </td>
 <td>
+string
+</td>
+<td>
 
 The base64 representation of a data signature
-
-Type: **string**
 
 **Example:** 
 

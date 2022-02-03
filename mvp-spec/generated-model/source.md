@@ -6,6 +6,7 @@ Source of data representing what contracting party created and signed the data
 
 <tr>
     <th> Property </th>
+    <th> Type </th>
     <th> Description </th>
 </tr>
 
@@ -14,10 +15,11 @@ Source of data representing what contracting party created and signed the data
 <b>timestamp</b>
 </td>
 <td>
+integer
+</td>
+<td>
 
 Time when data was signed
-
-Type: **integer**
 
 **Example:** 
 
@@ -33,10 +35,11 @@ Type: **integer**
 <b>domain</b>
 </td>
 <td>
+string
+</td>
+<td>
 
 The domain name of the entity that signed this data
-
-Type: **string**
 
 **Examples:** 
 
@@ -56,10 +59,11 @@ Type: **string**
 <b>signature</b>
 </td>
 <td>
+string
+</td>
+<td>
 
 The base64 representation of a data signature
-
-Type: **string**
 
 **Example:** 
 

@@ -4,6 +4,7 @@
 
 <tr>
     <th> Property </th>
+    <th> Type </th>
     <th> Description </th>
 </tr>
 
@@ -12,16 +13,20 @@
 <b>body</b>
 </td>
 <td>
+object
+</td>
+<td>
 
 A list of identifiers and some preferences
 
 <details>
-<summary>Type: <b>object</b></summary>
+<summary>Object details</summary>
 
 <table>
 
 <tr>
     <th> Property </th>
+    <th> Type </th>
     <th> Description </th>
 </tr>
 
@@ -30,16 +35,20 @@ A list of identifiers and some preferences
 <b>preferences</b>
 </td>
 <td>
+object
+</td>
+<td>
 
 The current preferences of the user
 
 <details>
-<summary>Type: <b>object</b></summary>
+<summary>Object details</summary>
 
 <table>
 
 <tr>
     <th> Property </th>
+    <th> Type </th>
     <th> Description </th>
 </tr>
 
@@ -48,10 +57,11 @@ The current preferences of the user
 <b>version</b>
 </td>
 <td>
+enum (of integer)
+</td>
+<td>
 
 A version number. To be detailed.
-
-Type: **enum (of integer)**
 
 Can only take **one of these values**:
 * `0`
@@ -63,14 +73,18 @@ Can only take **one of these values**:
 <b>data</b>
 </td>
 <td>
+object
+</td>
+<td>
 
 <details>
-<summary>Type: <b>object</b></summary>
+<summary>Object details</summary>
 
 <table>
 
 <tr>
     <th> Property </th>
+    <th> Type </th>
     <th> Description </th>
 </tr>
 
@@ -79,10 +93,11 @@ Can only take **one of these values**:
 <b>use_browsing_for_personalization</b>
 </td>
 <td>
+boolean
+</td>
+<td>
 
 `true` if the user accepted the usage of browsing history for ad personalization, `false` otherwise
-
-Type: **boolean**
 
 </td>
 </tr>
@@ -99,16 +114,20 @@ Type: **boolean**
 <b>source</b>
 </td>
 <td>
+object
+</td>
+<td>
 
 Source of data representing what contracting party created and signed the data
 
 <details>
-<summary>Type: <b>object</b></summary>
+<summary>Object details</summary>
 
 <table>
 
 <tr>
     <th> Property </th>
+    <th> Type </th>
     <th> Description </th>
 </tr>
 
@@ -117,10 +136,11 @@ Source of data representing what contracting party created and signed the data
 <b>timestamp</b>
 </td>
 <td>
+integer
+</td>
+<td>
 
 Time when data was signed
-
-Type: **integer**
 
 **Example:** 
 
@@ -136,10 +156,11 @@ Type: **integer**
 <b>domain</b>
 </td>
 <td>
+string
+</td>
+<td>
 
 The domain name of the entity that signed this data
-
-Type: **string**
 
 **Examples:** 
 
@@ -159,10 +180,11 @@ Type: **string**
 <b>signature</b>
 </td>
 <td>
+string
+</td>
+<td>
 
 The base64 representation of a data signature
-
-Type: **string**
 
 **Example:** 
 
@@ -192,18 +214,22 @@ Type: **string**
 <b>identifiers</b>
 </td>
 <td>
+array
+</td>
+<td>
 
-Type: **array** of items with following type:
+**Array items**' type:
 
 A pseudonymous identifier generated for a web user
 
 <details>
-<summary>Type: <b>object</b></summary>
+<summary>Object details</summary>
 
 <table>
 
 <tr>
     <th> Property </th>
+    <th> Type </th>
     <th> Description </th>
 </tr>
 
@@ -212,10 +238,11 @@ A pseudonymous identifier generated for a web user
 <b>version</b>
 </td>
 <td>
+enum (of integer)
+</td>
+<td>
 
 A version number. To be detailed.
-
-Type: **enum (of integer)**
 
 Can only take **one of these values**:
 * `0`
@@ -227,10 +254,11 @@ Can only take **one of these values**:
 <b>type</b>
 </td>
 <td>
+enum (of string)
+</td>
+<td>
 
 The identifier type, identifier of type `paf_browser_id` is mandatory and is "pivot"
-
-Type: **enum (of string)**
 
 Can only take **one of these values**:
 * `"paf_browser_id"`
@@ -242,10 +270,11 @@ Can only take **one of these values**:
 <b>persisted</b>
 </td>
 <td>
+boolean
+</td>
+<td>
 
 If set to `false`, means the identifier has not yet been persisted as a cookie.<br>Otherwise, means this identifier is persisted as a PAF cookie<br>(default value = `true` meaning if the property is omitted the identifier *is* persisted)
-
-Type: **boolean**
 
 </td>
 </tr>
@@ -255,10 +284,11 @@ Type: **boolean**
 <b>value</b>
 </td>
 <td>
+string
+</td>
+<td>
 
 The identifier value
-
-Type: **string**
 
 **Example:** 
 
@@ -274,16 +304,20 @@ Type: **string**
 <b>source</b>
 </td>
 <td>
+object
+</td>
+<td>
 
 Source of data representing what contracting party created and signed the data
 
 <details>
-<summary>Type: <b>object</b></summary>
+<summary>Object details</summary>
 
 <table>
 
 <tr>
     <th> Property </th>
+    <th> Type </th>
     <th> Description </th>
 </tr>
 
@@ -292,10 +326,11 @@ Source of data representing what contracting party created and signed the data
 <b>timestamp</b>
 </td>
 <td>
+integer
+</td>
+<td>
 
 Time when data was signed
-
-Type: **integer**
 
 **Example:** 
 
@@ -311,10 +346,11 @@ Type: **integer**
 <b>domain</b>
 </td>
 <td>
+string
+</td>
+<td>
 
 The domain name of the entity that signed this data
-
-Type: **string**
 
 **Examples:** 
 
@@ -334,10 +370,11 @@ Type: **string**
 <b>signature</b>
 </td>
 <td>
+string
+</td>
+<td>
 
 The base64 representation of a data signature
-
-Type: **string**
 
 **Example:** 
 
