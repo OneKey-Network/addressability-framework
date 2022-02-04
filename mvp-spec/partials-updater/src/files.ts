@@ -1,6 +1,7 @@
 import RootPath from "app-root-path";
 import fs from "fs";
 import path from "path";
+import gitChangedFiles from "git-changed-files";
 
 const binDir = path.join(RootPath.path, "node_modules", ".bin");
 const assetsDir = path.join(RootPath.path, "..", "assets");
@@ -8,6 +9,7 @@ const assetPathForDocuments = path.join(".", "assets");
 const partialsDir = path.join(RootPath.path, "..", "partials");
 const documentsDir = path.join(RootPath.path, "..");
 const documentExts = [".md"]
+const mermaidExts = [".mmd"]
 
 export const getBinPath = (bin: string): string => path.join(binDir, bin);
 
@@ -25,6 +27,11 @@ export const loadDocument = (file: string): Promise<Document> => loadFile(path.j
 
 /** List the documents by names. */
 export const listDocuments = (): Promise<string[]> => listFiles(documentsDir, isDocument);
+
+export const listMermaidAssets = (): Promise<string[]> => listFiles(partialsDir, isMermaid);
+
+const isDocument = (file: string): boolean => documentExts.some(e => file.endsWith(e));
+const isMermaid = (file: string): boolean => mermaidExts.some(e => file.endsWith(e));
 
 /** Rewrite a file */
 export function rewriteFile(fullPath: string, content: string): Promise<void> {
@@ -58,10 +65,16 @@ export async function loadFile(fullPath: string): Promise<Document> {
     return {content, lineBreak: getDocumentSeparator(content)};
 }
 
-const isDocument = (file: string): boolean => documentExts.some(e => file.endsWith(e));
-
 async function listFiles(dir: string, filter: (n: string) => boolean): Promise<string[]> {
     const files = await fs.promises.readdir(dir);
     const filtered = files.filter(filter);
     return filtered;
+}
+
+/**
+ * Return the list of files seen as modified by GIT
+ */
+export async function getChangedFiles(): Promise<string[]> {
+    const {committedFiles, unCommittedFiles} = await gitChangedFiles({baseBranch: 'main'});
+    return [...committedFiles, ...unCommittedFiles]
 }

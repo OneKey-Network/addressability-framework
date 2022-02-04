@@ -46,7 +46,7 @@ Two types of data is manipulated by the operator API:
 
 Example:
 
-<!--partial-begin { "files": [ "paf-mvp-demo-express/src/examples/generated-examples/id.json" ], "block": "json" } -->
+<!--partial-begin { "files": [ "id.json" ], "block": "json" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```json
 {
@@ -67,7 +67,7 @@ Example:
 
 Example:
 
-<!--partial-begin { "files": [ "paf-mvp-demo-express/src/examples/generated-examples/preferences.json" ], "block": "json" } -->
+<!--partial-begin { "files": [ "preferences.json" ], "block": "json" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```json
 {
@@ -157,7 +157,7 @@ timestamp
 
 Response HTTP code: `200`
 
-<!--partial-begin { "files": [ "paf-mvp-demo-express/src/examples/generated-examples/getIdPrefsResponse_known.json" ], "block": "json" } -->
+<!--partial-begin { "files": [ "getIdPrefsResponse_known.json" ], "block": "json" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```json
 {
@@ -220,7 +220,7 @@ This id is **not** stored as 3d party Prebid SSO cookie yet.
 For this reason, the `persisted` property is set to `false`.
 - Note that this property is optional and the default value is `true`. In all other cases (when the returned data _is_ persisted), this attribute will be omited.
 
-<!--partial-begin { "files": [ "paf-mvp-demo-express/src/examples/generated-examples/getIdPrefsResponse_unknown.json" ], "block": "json" } -->
+<!--partial-begin { "files": [ "getIdPrefsResponse_unknown.json" ], "block": "json" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```json
 {
@@ -274,7 +274,7 @@ POST /v1/id-prefs
 
 ##### Request payload
 
-<!--partial-begin { "files": [ "paf-mvp-demo-express/src/examples/generated-examples/postIdPrefsRequest.json" ], "block": "json" } -->
+<!--partial-begin { "files": [ "postIdPrefsRequest.json" ], "block": "json" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```json
 {
@@ -330,7 +330,7 @@ timestamp
 
 Response HTTP code: `200`
 
-<!--partial-begin { "files": [ "paf-mvp-demo-express/src/examples/generated-examples/postIdPrefsResponse.json" ], "block": "json" } -->
+<!--partial-begin { "files": [ "postIdPrefsResponse.json" ], "block": "json" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```json
 {
@@ -408,7 +408,7 @@ timestamp
 
 Response HTTP code: `200`
 
-<!--partial-begin { "files": [ "paf-mvp-demo-express/src/examples/generated-examples/getNewIdResponse.json" ], "block": "json" } -->
+<!--partial-begin { "files": [ "getNewIdResponse.json" ], "block": "json" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```json
 {
