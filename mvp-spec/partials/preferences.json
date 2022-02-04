@@ -1,0 +1,11 @@
+{
+  "version": 0,
+  "data": {
+    "opt_in": true
+  },
+  "source": {
+    "domain": "cmp.com",
+    "timestamp": 1642504560000,
+    "signature": "HmnCaXySi8u1/qx9YlKA6cTU8L6HAydywDOpJjoLd+Bz+X93APaRXJ1yDJsTC95EPC29ESAisxQ2LsNF6ZSERA=="
+  }
+}

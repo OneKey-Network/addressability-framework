@@ -21,7 +21,7 @@ An extra cookie, with a very short lifetime, can be created to test the support 
 
 ### Example: identifier
 
-<!--partial-begin { "files": [ "paf-mvp-demo-express/src/examples/generated-examples/id.json" ], "block": "json" } -->
+<!--partial-begin { "files": [ "id.json" ], "block": "json" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```json
 {
@@ -39,7 +39,7 @@ An extra cookie, with a very short lifetime, can be created to test the support 
 
 ### Example: preferences
 
-<!--partial-begin { "files": [ "paf-mvp-demo-express/src/examples/generated-examples/preferences.json" ], "block": "json" } -->
+<!--partial-begin { "files": [ "preferences.json" ], "block": "json" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```json
 {
@@ -193,7 +193,7 @@ GET /v1/id-prefs/read?sender=advertiserA.com&timestamp=1639057962145&signature=m
 
 - response in case of known user
 
-<!--partial-begin { "files": [ "paf-mvp-demo-express/src/examples/generated-examples/getIdPrefsResponse_known.json" ], "block": "json" } -->
+<!--partial-begin { "files": [ "getIdPrefsResponse_known.json" ], "block": "json" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```json
 {
@@ -232,7 +232,7 @@ GET /v1/id-prefs/read?sender=advertiserA.com&timestamp=1639057962145&signature=m
 
 - response in case of unknown user
 
-<!--partial-begin { "files": [ "paf-mvp-demo-express/src/examples/generated-examples/getIdPrefsResponse_unknown.json" ], "block": "json" } -->
+<!--partial-begin { "files": [ "getIdPrefsResponse_unknown.json" ], "block": "json" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```json
 {
@@ -302,7 +302,7 @@ POST /v1/id-prefs
 
 - request payload
 
-<!--partial-begin { "files": [ "paf-mvp-demo-express/src/examples/generated-examples/postIdPrefsRequest.json" ], "block": "json" } -->
+<!--partial-begin { "files": [ "postIdPrefsRequest.json" ], "block": "json" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```json
 {
@@ -341,7 +341,7 @@ POST /v1/id-prefs
 
 - response
 
-<!--partial-begin { "files": [ "paf-mvp-demo-express/src/examples/generated-examples/postIdPrefsResponse.json" ], "block": "json" } -->
+<!--partial-begin { "files": [ "postIdPrefsResponse.json" ], "block": "json" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```json
 {
@@ -422,7 +422,7 @@ GET /v1/new-id?sender=cmpC.com&timestamp=1639057962145&signature=message_signatu
 
 Example:
 
-<!--partial-begin { "files": [ "paf-mvp-demo-express/src/examples/generated-examples/getNewIdResponse.json" ], "block": "json" } -->
+<!--partial-begin { "files": [ "getNewIdResponse.json" ], "block": "json" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```json
 {
