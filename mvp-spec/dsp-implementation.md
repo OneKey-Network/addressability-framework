@@ -603,15 +603,17 @@ Transmission is named "prebid_sso".
                             }
                         }
                     ],
-                    "preferences": {
-                        "version": 0,
-                        "data": { 
-                            "opt_in": true 
-                        },
-                        "source": {
-                            "domain": "cmp1.com",
-                            "timestamp": 1639589531,
-                            "signature": "12345_signature"
+                    "ext": {
+                        "preferences": {
+                            "version": 0,
+                            "data": { 
+                                "opt_in": true 
+                            },
+                            "source": {
+                                "domain": "cmp1.com",
+                                "timestamp": 1639589531,
+                                "signature": "12345_signature"
+                            }
                         }
                     }
                 }
