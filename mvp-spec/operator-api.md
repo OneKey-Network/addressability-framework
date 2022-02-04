@@ -1,50 +1,25 @@
 # Operator API
 
-Note: for details on how to calculate or verify signatures, see [signatures.md](signatures.md).
+## Cookies
 
-## Endpoints
+The operator maintains two cookies in PAF top level domain + 1:
 
-To support the [Operator Design](operator-design.md), a few endpoints are needed on the operator API.
+- the list of pseudonymous identifiers associated to the user
+- their preferences
 
-These endpoints need to support both the "3PC" and "no 3PC" contexts.
+Both these cookies have a `source` attribute that contains the **signature** and some common metadata.
 
-- where 3PC are available, a simple JS call is optimum
-  - in this case, we favour POST calls when data is mutated (data mutation == when  **a cookie is created or updated
-    on Prebid SSO TLD+1 domain**)
-  - return code is HTTP 200 and return type is JSON
-- where 3PC are not available, a full page redirect is required to read or write cookies on Prebid SSO TLD+1 domain
-  - in this context, POST is not possible
-  - return code is 303 with no content: data is part of the redirect URL
+For details on how to calculate or verify signatures, see [signatures.md](signatures.md).
 
-In practice, this will translate into endpoints available under different root paths. 
+An extra cookie, with a very short lifetime, can be created to test the support of 3d party cookies (see below for details)
 
-Notes:
-- the endpoints called by the browser Javascript are called "REST" endpoints in this document even though they are not 100% RESTfull, but this naming seems the most appropriate to distinguish them from "redirect" endpoints.
-- values returned by the endpoints are based cookies stored on the web user's browser. Of course, it means the same calls on different web browsers will return different responses.
+| Cookie name       | Format                                 | Created by                     |
+|-------------------|----------------------------------------|--------------------------------|
+| `paf_identifier`  | [identifier.md](model/identifier.md)   | operator                       |
+| `paf_preferences` | [preferences.md](model/preferences.md) | contracting party, usually CMP |
+| `paf_test_3pc`    | <mark>TODO</mark>                      | operator                       |
 
-Example paths are specified in the last column of the table.
-
-| Endpoint                                | Input*                  | Output                                                                     | Description                                                                                                                                                                                                                                                                            | Notes                                                                                                                                                                                                                                                                                   | REST              | Redirect                       |
-|-----------------------------------------|-------------------------|----------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------|--------------------------------|
-| Read data if exists, or return a new Id | -                       | List of IDs.<br>List of preferences (if any)<br>newly generated ID, if any | If ID cookie exist, return it.<br><br>Otherwise: create a new ID, sign it and return it. In this case, the **new ID is not stored in a cookie yet**..<br>If preferences cookie exist, return them<br><br>Note: when called in REST mode, a special short-life "3PC" cookie is also set | Why don't we save the newly generated ID?<br>Because haven't yet received consent. The new ID will be saved as cookie, along with preferences, when it is provided via the "Write data" endpoint ⬇️                                                                                     | GET /v1/id-prefs  | GET /v1/redirect/get-id-prefs  |
-| Write data.<br>and return written data  | main ID.<br>preferences | List of IDs.<br>List of preferences                                        | Read provided ID.<br>Verify provided signatures.<br>Write ID cookie.<br>Write preferences cookie                                                                                                                                                                                       | ID is mandatory input for the "first visit" use case so is considered always mandatory, for consistency.<br>Data is written because it will be used for confirmation.                                                                                                                   | POST /v1/id-prefs | GET /v1/redirect/post-id-prefs |
-| Get new ID                              | -                       | main ID                                                                    | create a new ID and sign it.<br>do not store a cookie.<br>return ID                                                                                                                                                                                                                    | Cookie is not saved at this stage because we show the new value to the user before they validate it (and then it is saved, using the "Write data" endpoint ⬆️ ).<br>Since there is no cookie to read or write, no redirect version is needed, it can be made in JS with our without 3PC | GET /v1/new-id    | GET /v1/redirect/get-new-id    |
-| Verify 3PC                              | -                       | boolean                                                                    | Attempts to read the short-life cookie that was set by the "Read" endpoint.<br>Return true if found, false if not.                                                                                                                                                                     | The goal is to confirm that 3PC are supported. If the cookie set at previous step can be read, it means 3PC are supported.<br>See [website-design](./website-design.md) for details.<br><br>Note this endpoint doesn't require any signature.                                           | GET /v1/3pc       | Not available                  |
-| Get identity                            | -                       | list of:<br>public key + start and end dates if any                        | Get the operator's "key" to use it for verifying an ID signed by this operator                                                                                                                                                                                                         | This is used by websites to get the operator identity to verify signatures of preferences and id.<br>Also used by audits.                                                                                                                                                               | GET /v1/identity  | Not available                  |
-
-ℹ️ See below for details and examples
-
-## Design
-
-### Data
-
-Two types of data is manipulated by the operator API:
-
-- **Identifiers** (ID) are pseudonymous identifiers that are stored by Prebid SSO. 
-  - In a near future, Prebid SSO will allow storing multiple IDs of different types, but there will always be at least one, which is the "**primary id**": the Prebid ID, **generated by an operator**.
-  - For the MVP, only one id exists, the Prebid (unlogged) ID
-
-Example:
+### Example: identifier
 
 <!--partial-begin { "files": [ "id.json" ], "block": "json" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
@@ -62,10 +37,7 @@ Example:
 ```
 <!--partial-end-->
 
-- **Preferences** are user-set preferences regarding online tracking that is captured by a CMP UI or a web site (such as a publisher).
-  - There can be multiple preferences objects, but for the MVP **a single boolean** will be stored.
-
-Example:
+### Example: preferences
 
 <!--partial-begin { "files": [ "preferences.json" ], "block": "json" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
@@ -84,57 +56,96 @@ Example:
 ```
 <!--partial-end-->
 
-While the Prebid ID is really created (randomly generated) **by an operator**, we can say that the preferences data is "*created*" **by a CMP or web site**, based on user input.
+### Example: test 3PC
 
-### Source (data signature)
+<mark>TODO</mark>
 
-For traceability, in particular in the context of an audit, we need to be able to verify that:
+## Endpoints: quick look
 
-- the "creator" of the data is indeed who it said it was
-- the data has not been modified since it was saved
-- the preferences are for a particular user and not another one
+To support the [Operator Design](operator-design.md), a few endpoints are needed on the operator API.
 
-To achieve this, identifiers and preferences are always stored and transported along with their respective "**source**":
+These endpoints need to handle cases when 3d party cookies (3PC) are supported by the web browser, or not.
 
-- creator domain name
-- creation timestamp
-- signature
+- where 3PC are available, a simple JS call is optimum
+  - in this case, we favour POST calls when data is mutated ("data mutated" means when  **a cookie is created or updated
+    on PAF TLD+1 domain**)
+  - return code is HTTP 200 and return type is JSON
+- where 3PC are not available, a full page redirect is required to read or write cookies on PAF TLD+1 domain
+  - in this context, POST is not possible
+  - return code is 303 with no content: data is passed as the **query string** of the redirect URL
 
-The signature is calculated as follow:
+In practice, this will translate into endpoints available under different root paths.
 
-- for **each** identifier, signature of (creator domain name, creation date, version and ID value) with the creator's private key (in this case it will be **an operator**)
-- for preferences, there is **one source for all preferences**:  signature of (creator domain name, creation date, version and preferences value **+ Prebid ID value**) with the creator's private key (in this case it will be **a CMP** or a website, the last to update preferences)
-  - because the Prebid ID is part of the signature, the preferences message cannot be used for another user
+Notes:
 
-To **verify that a signature is valid**, *anyone* can:
+- the endpoints called by the browser Javascript are called "REST" endpoints in this document even though they are not
+  100% RESTfull, but this naming seems the most appropriate to distinguish them from "redirect" endpoints.
+- values returned by the endpoints are based cookies stored on the web user's browser. Of course, it means the same
+  calls on different web browsers will return different responses.
 
-- read the "creator" domain name
-- access the corresponding "identity" endpoint to get the creator's key
-- use this key and the data to verify the signature with a standard algorithm
+| Endpoint         | Description                                                  | Input                 | Output                                                                          | REST                | Redirect                         |
+|------------------|--------------------------------------------------------------|-----------------------|---------------------------------------------------------------------------------|---------------------|----------------------------------|
+| Read id & prefs  | Read existing cookies.<br>Return new ID if none              | -                     | List of persisted IDs.<br>List of preferences<br>newly generated PAF ID, if any | `GET /v1/id-prefs`  | `GET /v1/redirect/get-id-prefs`  |
+| Write id & prefs | Update cookies                                               | PAF ID<br>preferences | List of persisted IDs.<br>List of preferences                                   | `POST /v1/id-prefs` | `GET /v1/redirect/post-id-prefs` |
+| Get new id       | Generate new ID                                              | -                     | newly generated PAF ID                                                          | `GET /v1/new-id`    | N/A                              |
+| Verify 3PC       | Confirm if 3PC are supported                                 | -                     | boolean                                                                         | `GET /v1/3pc`       | N/A                              |
+| Get identity     | Get operator public key to verify ID or responses signatures | -                     | list of:<br>public key + start and end dates if any                             | `GET /v1/identity`  | N/A                              |
 
-For more details and examples on signature, see [DSP API design](https://github.com/criteo/addressable-network-proposals/mvp-spec/dsp-api.md).
+## Commons
 
-### Message signature
+### Sender, receiver, timestamp
 
-All messages (requests or responses, except for `/identity` endpoint) **are signed** before to be sent.
+All messages (appart from "Verify 3PC" and "Get identity") include:
+- the domain name of the entity **sending** the message (`sender`)
+- the domain name of the entity the message is **sent to** (`receiver`)
+- the timestamp (in seconds) when the message is created
 
-The signature takes all "key" data (see below), concatenate it and signs it.
+### Signatures
 
-- Note that the receiver of each message is not part of the message, while **it is part of the signature**.
-- Also, when preferences and ids are provided for write or returned for read, only the signature of this is data
-  is considered for the whole message signature, not the data value itself. It means to fully verify the integrity of the received data,
-  the receiver needs to do a verification in two steps:
-  - verify **the message signature** to consider its included signatures can be trusted
-  - verify each data **source signature** to consider its data has not been tempered.
+All requests and responses (appart from "Verify 3PC" and "Get identity") **are signed**.
 
-## Endpoint details
+See each "format" section below for the rules to calculate the signature input.
 
-Here are some examples of the operator endpoints, assuming that query strings and payloads are **not** encrypted
+#### Verifications
 
-### GET /v1/id-prefs
+The following signature verifications are mandatory:
+- the signature of **all requests received by the operator** are verified
+- any **cookie written by the operator** is verified before writing
+  - this is the way requests are authenticated
+- any **response received by a website** after a "boomerang" redirection **must be verified**
+  - this is the way to prevent
 
-#### Request
+The following signature verifications are optional:
+- any response received by a website as part of a REST call _can_ be verified
+  - this is not mandatory as the website controls who it calls (the operator) it can be trusted thanks to its SSL certificate
+- it is _recommended_ that any cookie written by a website is verified before writing
 
+For details on how to calculate or verify signatures, see [signatures.md](signatures.md).
+
+## Endpoints: details
+
+### Read ids & preferences
+
+- verify request signature
+- if `paf_identifier` cookie exists and is not an empty list, return the value
+- otherwise
+  - **generate a new identifier** (do **not** write any new cookie), and sign it
+  - return the newly generated identifier
+  - this returned identifier has `persisted` property set to `false`
+  - this is to avoid an extra call (and potentially, an extra "boomerang redirect")
+- if `paf_preferences` cookie exists, return its values
+- [_on REST version only_] attempt to create a temporary, short-life, "test 3PC" cookie
+
+#### REST read: `GET /v1/id-prefs`
+
+| Message  | Format                                                  |
+|----------|---------------------------------------------------------|
+| Request  | [get-id-prefs-request](model/get-id-prefs-request.md)   |
+| Response | [get-id-prefs-response](model/get-id-prefs-response.md) |
+
+##### Example
+
+- request
 <!-- The query string below is generated with taking the request-advertiserA.json file, removing body, and encoding it as query string:
 npx encode-query-string -nd `cat request-advertiserA.json | npx json -e 'this.body = undefined' -o json-0`
 -->
@@ -143,19 +154,7 @@ npx encode-query-string -nd `cat request-advertiserA.json | npx json -e 'this.bo
 GET /v1/id-prefs/read?sender=advertiserA.com&timestamp=1639057962145&signature=message_signature_xyz1234
 ```
 
-##### Request signature
-
-Signature input:
-
-```
-sender + '\u2063' +
-receiver + '\u2063' +
-timestamp
-```
-
-#### Response in case of known user
-
-Response HTTP code: `200`
+- response in case of known user
 
 <!--partial-begin { "files": [ "getIdPrefsResponse_known.json" ], "block": "json" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
@@ -194,31 +193,7 @@ Response HTTP code: `200`
 ```
 <!--partial-end-->
 
-##### Response signature
-
-Signature input:
-
-```
-sender + '\u2063' +
-receiver + '\u2063' +
-preferences.source.signature + '\u2063' +
-identifiers[0].source.signature + '\u2063' +
-identifiers[1].source.signature + '\u2063' +
-...
-identifiers[n].source.signature + '\u2063' +
-timestamp
-```
-
-#### Response in case of unknown user
-
-Response HTTP code: `200`
-
-In this case and to avoid an extra call to the API, a **newly generated ID** is returned.
-
-This id is **not** stored as 3d party Prebid SSO cookie yet.
-
-For this reason, the `persisted` property is set to `false`.
-- Note that this property is optional and the default value is `true`. In all other cases (when the returned data _is_ persisted), this attribute will be omited.
+- response in case of unknown user
 
 <!--partial-begin { "files": [ "getIdPrefsResponse_unknown.json" ], "block": "json" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
@@ -247,32 +222,120 @@ For this reason, the `persisted` property is set to `false`.
 ```
 <!--partial-end-->
 
-(notice the `persisted` property)
+Notice `persisted` = `false`.
 
-##### Response signature
+See [identifier.md](model/identifier.md) for details.
 
-Signature input is the same, except that in this case there should always be only one identifier:
+#### Redirect read: `GET /v1/redirect/get-id-prefs`
+
+| Message  | Format            |
+|----------|-------------------|
+| Request  | <mark>TODO</mark> |
+| Response | <mark>TODO</mark> |
+
+##### Example
+
+- request
+
+<!-- The query string below is generated with taking the request-advertiserA.json file, removing body, adding the redirect URL, and encoding it as query string:
+npx encode-query-string -nd `cat request-advertiserA.json | npx json -e 'this.body = undefined; redirectUrl="https://advertiserA.com/pageA.html"' -o json-0`
+-->
+
+```http
+GET /v1/redirect/get-id-prefs?sender=advertiserA.com&timestamp=1639057962145&signature=message_signature_xyz1234&redirectUrl=https://advertiserA.com/pageA.html
+```
+
+- response in case of known user
+
+<!-- The query string below is generated with taking the response-operatorO.json file, adding body, and encoding it as query string:
+npx encode-query-string -nd `cat response-200.json response-operatorO.json body-id-and-preferences.json | npx json --merge -o json-0`
+-->
+
+```shell
+303 https://advertiserA.com/pageA.html?code=200&sender=operatorO.com&timestamp=1639059692793&signature=message_signature_xyz1234&body.preferences.version=1&body.preferences.data.opt_in=true&body.preferences.source.domain=cmpC.com&body.preferences.source.timestamp=1639643112&body.preferences.source.signature=preferences_signature_xyz12345&body.identifiers[0].version=1&body.identifiers[0].type=prebid_id&body.identifiers[0].value=7435313e-caee-4889-8ad7-0acd0114ae3c&body.identifiers[0].source.domain=operator0.com&body.identifiers[0].source.timestamp=1639643110&body.identifiers[0].source.signature=prebid_id_signature_xyz12345
+```
+
+...which corresponds to the following query string values:
+
+<!-- To update this block, use the previous command with at the end:
+| tr '&' '\n'
+-->
 
 ```
-sender + '\u2063' +
-receiver + '\u2063' +
-preferences.source.signature + '\u2063' +
-identifiers[0].source.signature + '\u2063' +
-identifiers[1].source.signature + '\u2063' +
-...
-identifiers[n].source.signature + '\u2063' +
-timestamp
+code=200
+sender=operatorO.com
+timestamp=1639059692793
+signature=message_signature_xyz1234
+body.preferences.version=1
+body.preferences.data.opt_in=true
+body.preferences.source.domain=cmpC.com
+body.preferences.source.timestamp=1639643112
+body.preferences.source.signature=preferences_signature_xyz12345
+body.identifiers[0].version=1
+body.identifiers[0].type=prebid_id
+body.identifiers[0].value=7435313e-caee-4889-8ad7-0acd0114ae3c
+body.identifiers[0].source.domain=operator0.com
+body.identifiers[0].source.timestamp=1639643110
+body.identifiers[0].source.signature=prebid_id_signature_xyz12345
 ```
 
-### POST /v1/id-prefs
+- response in case of unknown user
 
-#### Request
+<!-- The query string below is generated with taking the response-operatorO.json file, adding body, and encoding it as query string:
+npx encode-query-string -nd `cat response-200.json response-operatorO.json body-new-id.json | npx json --merge -o json-0`
+-->
+
+```shell
+303 https://publisherP.com/pageP.html?code=200&sender=operatorO.com&timestamp=1639059692793&signature=message_signature_xyz1234&body.identifiers[0].version=1&body.identifiers[0].type=prebid_id&body.identifiers[0].value=560cead0-eed5-4d3f-a308-b818b4827979&body.identifiers[0].source.domain=operator0.com&body.identifiers[0].source.timestamp=1639643110&body.identifiers[0].source.signature=prebid_id_signature_xyz12345&body.identifiers[0].persisted=false
+```
+
+...which corresponds to the following query string values:
+
+<!-- To update this block, use the previous command with at the end:
+| tr '&' '\n'
+-->
+
+```
+code=200
+sender=operatorO.com
+timestamp=1639059692793
+signature=message_signature_xyz1234
+body.identifiers[0].version=1
+body.identifiers[0].type=prebid_id
+body.identifiers[0].value=560cead0-eed5-4d3f-a308-b818b4827979
+body.identifiers[0].source.domain=operator0.com
+body.identifiers[0].source.timestamp=1639643110
+body.identifiers[0].source.signature=prebid_id_signature_xyz12345
+body.identifiers[0].persisted=false
+```
+
+Notice `persisted=false`
+
+### Write id & preferences
+
+- verify request signature
+- verify identifier signature
+- verify preferences signature
+- update `paf_identifier` cookie with new value
+- update `paf_preferences` cookie with new value
+- return both values
+
+#### REST write: `POST /v1/id-prefs`
+
+| Message  | Format                                                                |
+|----------|-----------------------------------------------------------------------|
+| Request  | [post-id-prefs-request](model/post-id-prefs-request.md)   |
+| Response | [post-id-prefs-response](model/post-id-prefs-response.md) |
+
+##### Example
+
+- request
 
 ```http
 POST /v1/id-prefs
 ```
 
-##### Request payload
+- request payload
 
 <!--partial-begin { "files": [ "postIdPrefsRequest.json" ], "block": "json" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
@@ -311,24 +374,7 @@ POST /v1/id-prefs
 ```
 <!--partial-end-->
 
-##### Request signature
-
-Signature input:
-
-```
-sender + '\u2063' +
-receiver + '\u2063' +
-preferences.source.signature + '\u2063' +
-identifiers[0].source.signature + '\u2063' +
-identifiers[1].source.signature + '\u2063' +
-...
-identifiers[n].source.signature + '\u2063' +
-timestamp
-```
-
-#### Response
-
-Response HTTP code: `200`
+- response
 
 <!--partial-begin { "files": [ "postIdPrefsResponse.json" ], "block": "json" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
@@ -367,253 +413,16 @@ Response HTTP code: `200`
 ```
 <!--partial-end-->
 
-##### Response signature
+#### Redirect write: `GET /v1/redirect/post-id-prefs`
 
-Signature input:
+| Message  | Format            |
+|----------|-------------------|
+| Request  | <mark>TODO</mark> |
+| Response | <mark>TODO</mark> |
 
-```
-sender + '\u2063' +
-receiver + '\u2063' +
-preferences.source.signature + '\u2063' +
-identifiers[0].source.signature + '\u2063' +
-identifiers[1].source.signature + '\u2063' +
-...
-identifiers[n].source.signature + '\u2063' +
-timestamp
-```
+##### Example
 
-### GET /v1/new-id
-
-#### Request
-
-<!-- The query string below is generated with taking the request-cmpC.json file, removing body, and encoding it as query string:
-npx encode-query-string -nd `cat request-cmpC.json | npx json -e 'this.body = undefined' -o json-0`
--->
-
-```http
-GET /v1/new-id?sender=cmpC.com&timestamp=1639057962145&signature=message_signature_xyz1234
-```
-
-##### Request signature
-
-Signature input:
-
-```
-sender + '\u2063' +
-receiver + '\u2063' +
-timestamp 
-```
-
-#### Response
-
-Response HTTP code: `200`
-
-<!--partial-begin { "files": [ "getNewIdResponse.json" ], "block": "json" } -->
-<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
-```json
-{
-  "body": {
-    "identifiers": [
-      {
-        "persisted": false,
-        "version": 0,
-        "type": "prebid_id",
-        "value": "2e71121a-4feb-4a34-b7d1-839587d36390",
-        "source": {
-          "domain": "operator.prebidsso.com",
-          "timestamp": 1643041140000,
-          "signature": "/97uDMKRyaW1v2MH4UbU6UNRft/v+1bJV0vpmArVc3l9ErOhCuM2nsewgAI5w9HjFJbzvdLlTOTlTjTlZCdw8w=="
-        }
-      }
-    ]
-  },
-  "sender": "operator.prebidsso.com",
-  "receiver": "cmp.com",
-  "timestamp": 1646157887000,
-  "signature": "q1DV1/H+gJmYKebgJXf2pzMu7cwoAgoJ10bz9t6Adx3w/iMYNmqawu/QaXctAnttG/mhS0TwjDIyL2/jHdlKIg=="
-}
-```
-<!--partial-end-->
-
-(notice the `persisted` property)
-
-##### Response signature
-
-Signature input:
-
-```
-sender + '\u2063' +
-receiver + '\u2063' +
-preferences.source.signature + '\u2063' +
-identifiers[0].source.signature + '\u2063' +
-identifiers[1].source.signature + '\u2063' +
-...
-identifiers[n].source.signature + '\u2063' +
-timestamp
-```
-
-(there should always be only one identifier)
-
-### GET /v1/3pc
-
-This endpoint is only used when a first attempt to read Prebid cookies via REST failed.
-
-In this case, it can mean two things:
-
-1. there were no cookies yet (the user was unknown)
-2. 3PC are not supported
-
-This endpoint will distinguish between the two.
-
-#### Request
-
-```http
-GET /v1/3pc
-```
-
-**No signature** is required.
-
-#### Response in case of 3PC supported (test cookie was found)
-
-HTTP response code: `200`
-
-```json
-{
-  "3pc": true
-}
-```
-
-#### Response in case of 3PC **not** supported (test cookie could not be found)
-
-HTTP response code: `404`
-
-```json
-{
-  "3pc": false
-}
-```
-
-#### Response signature
-
-**No signature** is sent back.
-
-### GET /v1/redirect/get-id-prefs
-
-#### Request
-
-<!-- The query string below is generated with taking the request-advertiserA.json file, removing body, adding the redirect URL, and encoding it as query string:
-npx encode-query-string -nd `cat request-advertiserA.json | npx json -e 'this.body = undefined; redirectUrl="https://advertiserA.com/pageA.html"' -o json-0`
--->
-
-```http
-GET /v1/redirect/get-id-prefs?sender=advertiserA.com&timestamp=1639057962145&signature=message_signature_xyz1234&redirectUrl=https://advertiserA.com/pageA.html
-```
-
-##### Request signature
-
-Signature input:
-
-```
-sender + '\u2063' +
-receiver + '\u2063' +
-timestamp + '\u2063' +
-redirectUrl
-```
-
-#### Response in case of known user
-
-<!-- The query string below is generated with taking the response-operatorO.json file, adding body, and encoding it as query string:
-npx encode-query-string -nd `cat response-200.json response-operatorO.json body-id-and-preferences.json | npx json --merge -o json-0`
--->
-
-```shell
-303 https://advertiserA.com/pageA.html?code=200&sender=operatorO.com&timestamp=1639059692793&signature=message_signature_xyz1234&body.preferences.version=1&body.preferences.data.opt_in=true&body.preferences.source.domain=cmpC.com&body.preferences.source.timestamp=1639643112&body.preferences.source.signature=preferences_signature_xyz12345&body.identifiers[0].version=1&body.identifiers[0].type=prebid_id&body.identifiers[0].value=7435313e-caee-4889-8ad7-0acd0114ae3c&body.identifiers[0].source.domain=operator0.com&body.identifiers[0].source.timestamp=1639643110&body.identifiers[0].source.signature=prebid_id_signature_xyz12345
-```
-
-...which corresponds to the following query string values:
-
-<!-- To update this block, use the previous command with at the end:
-| tr '&' '\n'
--->
-
-```
-code=200
-sender=operatorO.com
-timestamp=1639059692793
-signature=message_signature_xyz1234
-body.preferences.version=1
-body.preferences.data.opt_in=true
-body.preferences.source.domain=cmpC.com
-body.preferences.source.timestamp=1639643112
-body.preferences.source.signature=preferences_signature_xyz12345
-body.identifiers[0].version=1
-body.identifiers[0].type=prebid_id
-body.identifiers[0].value=7435313e-caee-4889-8ad7-0acd0114ae3c
-body.identifiers[0].source.domain=operator0.com
-body.identifiers[0].source.timestamp=1639643110
-body.identifiers[0].source.signature=prebid_id_signature_xyz12345
-```
-
-##### Response signature
-
-Signature input:
-
-```
-sender + '\u2063' +
-receiver + '\u2063' +
-preferences.source.signature + '\u2063' +
-identifiers[0].source.signature + '\u2063' +
-identifiers[1].source.signature + '\u2063' +
-...
-identifiers[n].source.signature + '\u2063' +
-timestamp
-```
-
-#### Response in case of unknown user
-
-<!-- The query string below is generated with taking the response-operatorO.json file, adding body, and encoding it as query string:
-npx encode-query-string -nd `cat response-200.json response-operatorO.json body-new-id.json | npx json --merge -o json-0`
--->
-
-```shell
-303 https://publisherP.com/pageP.html?code=200&sender=operatorO.com&timestamp=1639059692793&signature=message_signature_xyz1234&body.identifiers[0].version=1&body.identifiers[0].type=prebid_id&body.identifiers[0].value=560cead0-eed5-4d3f-a308-b818b4827979&body.identifiers[0].source.domain=operator0.com&body.identifiers[0].source.timestamp=1639643110&body.identifiers[0].source.signature=prebid_id_signature_xyz12345&body.identifiers[0].persisted=false
-```
-
-...which corresponds to the following query string values:
-
-<!-- To update this block, use the previous command with at the end:
-| tr '&' '\n'
--->
-
-```
-code=200
-sender=operatorO.com
-timestamp=1639059692793
-signature=message_signature_xyz1234
-body.identifiers[0].version=1
-body.identifiers[0].type=prebid_id
-body.identifiers[0].value=560cead0-eed5-4d3f-a308-b818b4827979
-body.identifiers[0].source.domain=operator0.com
-body.identifiers[0].source.timestamp=1639643110
-body.identifiers[0].source.signature=prebid_id_signature_xyz12345
-body.identifiers[0].persisted=false
-```
-
-Notice `persisted=false`
-##### Response signature
-
-Signature input:
-
-```
-sender + '\u2063' +
-receiver + '\u2063' +
-body.identifiers[0].source.signature + '\u2063' +
-timestamp
-```
-
-### GET /v1/redirect/post-id-prefs
-
-#### Request
+- request
 
 <!-- The query string below is generated with taking the request-cmpC.json file, adding body, and encoding it as query string:
 npx encode-query-string -nd `cat request-cmpC.json body-id-and-preferences.json | npx json --merge -e 'this.redirectUrl="https://publisherP.com/pageP.html"' -o json-0`
@@ -647,22 +456,7 @@ body.identifiers[0].source.signature=prebid_id_signature_xyz12345
 redirectUrl=https://publisherP.com/pageP.html
 ```
 
-##### Request signature
-
-Signature input:
-
-```
-sender + '\u2063' +
-receiver + '\u2063' +
-preferences.source.signature + '\u2063' +
-identifiers[0].source.signature + '\u2063' +
-identifiers[1].source.signature + '\u2063' +
-...
-identifiers[n].source.signature + '\u2063' +
-timestamp
-```
-
-#### Response
+- response
 
 <!-- The query string below is generated with taking the response-operatorO.json file, adding body, and encoding it as query string:
 npx encode-query-string -nd `cat response-200.json response-operatorO.json body-id-and-preferences.json | npx json --merge -o json-0`
@@ -696,115 +490,163 @@ body.identifiers[0].source.timestamp=1639643110
 body.identifiers[0].source.signature=prebid_id_signature_xyz12345
 ```
 
-##### Response signature
+### Get a new id
 
-Signature input:
+- verify request signature
+- **generate a new identifier** (do **not** write any new cookie), and sign it
+  - return the newly generated identifier
+  - this returned identifier has `persisted` property set to `false`
+  - this is to avoid an extra call (and potentially, an extra "boomerang redirect")
 
-```
-sender + '\u2063' +
-receiver + '\u2063' +
-preferences.source.signature + '\u2063' +
-identifiers[0].source.signature + '\u2063' +
-identifiers[1].source.signature + '\u2063' +
-...
-identifiers[n].source.signature + '\u2063' +
-timestamp
-```
+#### REST get new id: `GET /v1/new-id`
 
-### GET /v1/redirect/get-new-id
+| Message  | Format                                              |
+|----------|-----------------------------------------------------|
+| Request  | [get-new-id-request](model/get-new-id-request.md)   |
+| Response | [get-new-id-response](model/get-new-id-response.md) |
 
-#### Request
+#### Example
 
-<!-- The query string below is generated with taking the request-cmpC.json file, removing body, adding redirect URL and encoding it as query string:
-npx encode-query-string -nd `cat request-cmpC.json | npx json -e 'this.body = undefined; this.redirectUrl="https://publisherP.com/pageP.html"' -o json-0`
+- request
+
+<!-- The query string below is generated with taking the request-cmpC.json file, removing body, and encoding it as query string:
+npx encode-query-string -nd `cat request-cmpC.json | npx json -e 'this.body = undefined' -o json-0`
 -->
 
 ```http
-GET /v1/redirect/get-new-id?sender=cmpC.com&timestamp=1639057962145&signature=message_signature_xyz1234&redirectUrl=https://publisherP.com/pageP.html
+GET /v1/new-id?sender=cmpC.com&timestamp=1639057962145&signature=message_signature_xyz1234
 ```
 
-##### Request signature
+- response
 
-Signature input:
+Example:
 
+<!--partial-begin { "files": [ "paf-mvp-demo-express/src/examples/generated-examples/getNewIdResponse.json" ], "block": "json" } -->
+<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
+```json
+{
+  "body": {
+    "identifiers": [
+      {
+        "persisted": false,
+        "version": 0,
+        "type": "prebid_id",
+        "value": "2e71121a-4feb-4a34-b7d1-839587d36390",
+        "source": {
+          "domain": "operator.prebidsso.com",
+          "timestamp": 1643041140000,
+          "signature": "/97uDMKRyaW1v2MH4UbU6UNRft/v+1bJV0vpmArVc3l9ErOhCuM2nsewgAI5w9HjFJbzvdLlTOTlTjTlZCdw8w=="
+        }
+      }
+    ]
+  },
+  "sender": "operator.prebidsso.com",
+  "receiver": "cmp.com",
+  "timestamp": 1646157887000,
+  "signature": "q1DV1/H+gJmYKebgJXf2pzMu7cwoAgoJ10bz9t6Adx3w/iMYNmqawu/QaXctAnttG/mhS0TwjDIyL2/jHdlKIg=="
+}
 ```
-sender + '\u2063' +
-receiver + '\u2063' +
-timestamp + '\u2063' +
-redirectUrl
+<!--partial-end-->
+
+(notice the `persisted` property)
+
+#### Redirect get new id: N/A
+
+This endpoint doesn't rely on support of 3PC or not: the REST version will work regardless so no "redirect" version is needed.
+
+### Verify 3PC support
+
+- **no** signature verification
+- if `paf_test_3pc` exists, return `true`. Otherwise, return `false`
+
+On a call to `GET /v1/id-prefs`, when no cookie is found on PAF TLD+1 domain,
+the operator attempts to write a short-life `paf_test_3pc` cookie.
+
+This endpoint is **only** called immediately after a call to `GET /v1/id-prefs` has failed, to
+check if the `paf_test_3pc` cookie was indeed written by the web browser.
+
+See [website-design](./website-design.md) for the full picture.
+
+#### REST verify 3PC: `GET /v1/3pc`
+
+| Message  | Format            |
+|----------|-------------------|
+| Request  | <mark>TODO</mark> |
+| Response | <mark>TODO</mark> |
+
+#### Example
+
+- request
+
+```http
+GET /v1/3pc
 ```
 
-#### Response
+- response in case of 3PC supported (test cookie was found)
 
-<!-- The query string below is generated with taking the response-operatorO.json file, adding body, and encoding it as query string:
-npx encode-query-string -nd `cat response-200.json response-operatorO.json body-new-id.json | npx json --merge -o json-0`
--->
+HTTP response code: `200`
 
-```shell
-303 https://publisherP.com/pageP.html?code=200&sender=operatorO.com&timestamp=1639059692793&signature=message_signature_xyz1234&body.identifiers[0].version=1&body.identifiers[0].type=prebid_id&body.identifiers[0].value=560cead0-eed5-4d3f-a308-b818b4827979&body.identifiers[0].source.domain=operator0.com&body.identifiers[0].source.timestamp=1639643110&body.identifiers[0].source.signature=prebid_id_signature_xyz12345&body.identifiers[0].persisted=false
+```json
+{
+  "3pc": true
+}
 ```
 
-...which corresponds to the following query string values:
+- response in case of 3PC **not** supported (test cookie could not be found)
 
-<!-- To update this block, use the previous command with at the end:
-| tr '&' '\n'
--->
+HTTP response code: `404`
 
-```
-code=200
-sender=operatorO.com
-timestamp=1639059692793
-signature=message_signature_xyz1234
-body.identifiers[0].version=1
-body.identifiers[0].type=prebid_id
-body.identifiers[0].value=560cead0-eed5-4d3f-a308-b818b4827979
-body.identifiers[0].source.domain=operator0.com
-body.identifiers[0].source.timestamp=1639643110
-body.identifiers[0].source.signature=prebid_id_signature_xyz12345
-body.identifiers[0].persisted=false
+```json
+{
+  "3pc": false
+}
 ```
 
-Notice `persisted=false`
+#### Redirect verify 3PC: N/A
 
-##### Response signature
+This endpoint doesn't rely on support of 3PC or not: the REST version will work regardless so no "redirect" version is needed.
 
-Signature input:
+### Get operator identity
 
-```
-sender + '\u2063' +
-receiver + '\u2063' +
-newIdentifier.source.signature + '\u2063' +
-timestamp
-```
+- simply serve the list of public keys for the operator
 
-### GET /v1/identity
+#### REST get identity: `GET /v1/identity`
 
-#### Request
+| Message  | Format            |
+|----------|-------------------|
+| Request  | <mark>TODO</mark> |
+| Response | <mark>TODO</mark> |
+
+
+##### Example
+
+- request
 
 ```http
 GET /v1/identity
 ```
 
-#### Response
-
-<!-- Update this code block with the content of identity.json
--->
+- response
 
 ```json
 {
   "name": "Operator O",
   "type": "vendor",
   "keys": [
-    { 
+    {
       "key": "04f3b7ec9095779b119cc6d30a21a6a3920c5e710d13ea8438727b7fd5cca47d048f020539d24e74b049a418ac68c03ea75c66982eef7fdc60d8fb2c7707df3dcd",
       "start": 1639500000,
       "end": 1639510000
     },
-    { 
+    {
       "key": "044782dd8b7a6b8affa0f6cd94ede3682e85307224064f39db20e8f49b5f415d83fef66f3818ee549b04e443efa63c2d7f1fe9a631dc05c9f51ad98139b202f9f3",
       "start": 1639510000,
-      "end":  1639520000
+      "end": 1639520000
     }
   ]
 }
 ```
+
+#### Redirect get identity: N/A
+
+This endpoint doesn't rely on support of 3PC or not: the REST version will work regardless so no "redirect" version is needed.

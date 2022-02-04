@@ -27,7 +27,7 @@ Specifications for a MVP, covering only a single id managed by several operators
 
 | Document                                                                              | Description                                                               |
 |---------------------------------------------------------------------------------------|---------------------------------------------------------------------------|
-| [signatures.md](./mvp-spec/signatures.md)                                             | General introduction on signatures and signature verification             |
+| [signatures.md](./mvp-spec/signatures.md)                                             | General introduction on signatures and signature verification                                       |
 | [audit-log-requirements.md](./mvp-spec/audit-log-requirements.md)                     | Functional requirements related to the Audit Log and the Transmissions.   |
 | [audit-log-design.md](./mvp-spec/audit-log-design.md)                                 | Design the technical solution for the Audit Log.                          |
 | [landscape.md](./mvp-spec/landscape.md)                                               | An overview of the different actors and their roles.                      |
@@ -38,6 +38,8 @@ Specifications for a MVP, covering only a single id managed by several operators
 | [operator-design-alternative-swan.md](./mvp-spec/operator-design-alternative-swan.md) | Summary of the SWAN solution for generating Prebid SSO Data.              |
 | [operator-requirements.md](./mvp-spec/operator-requirements.md)                       | Requirements for the generation of the Prebid SSO Data.                   |
 | [website-design.md](./mvp-spec/website-design.md)                                     | Design of the website integration.                                        |
+| [model](./mvp-spec/model)                                                             | Data and messages model                                                                             |
+| [json-schemas](./mvp-spec/json-schemas)                                               | Data and messages model in [JSON schema](https://json-schema.org/understanding-json-schema/) format |
 
 ⚠️ **Diagrams** in these documents use the [Mermaid](https://mermaidjs.github.io/) language. We plan to install GitHub
 actions to automatically generate images from the diagrams, but until then, you are invited to install a browser

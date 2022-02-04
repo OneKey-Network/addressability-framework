@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Identifier",
+  "description": "A pseudonymous identifier generated for a web user",
+  "$id": "identifier",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "$ref": "version.json"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "paf_browser_id"
+      ],
+      "description": "The identifier type, identifier of type `paf_browser_id` is mandatory and is \"pivot\""
+    },
+    "persisted": {
+      "type": "boolean",
+      "defaultValue": true,
+      "description": "If set to `false`, means the identifier has not yet been persisted as a cookie.<br>Otherwise, means this identifier is persisted as a PAF cookie<br>(default value = `true` meaning if the property is omitted the identifier *is* persisted)"
+    },
+    "value": {
+      "type": "string",
+      "description": "The identifier value",
+      "examples": ["7435313e-caee-4889-8ad7-0acd0114ae3c"]
+    },
+    "source": {
+      "$ref": "source.json"
+    }
+  },
+  "required": [
+    "version",
+    "type",
+    "value",
+    "source"
+  ]
+}
