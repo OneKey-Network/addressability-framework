@@ -5,6 +5,7 @@
   "type": "array",
   "additionalProperties": false,
   "items": {
-    "$ref": "identifier.json"
+    "$ref": "identifier.json",
+    "description": "Signature based on input **that depends on the identifiers**:\n\n```identifier.source.domain + '\\u2063' + \nidentifier.source.timestamp + '\\u2063' + \nidentifier.type + '\\u2063'+\nidentifier.value\n```"
   }
 }

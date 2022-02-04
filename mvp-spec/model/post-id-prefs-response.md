@@ -120,7 +120,18 @@ object
 </td>
 <td>
 
-Source of data representing what contracting party created and signed the data
+Signature based on input:
+
+**⚠️ Note that it uses data from identifiers**:
+
+```preferences.source.domain + '\u2063' +
+preferences.source.timestamp + '\u2063' +
+identifiers[type="prebid_id"].source.signature + '\u2063' +
+preferences.data.key1 + '\u2063' + preferences.data[key1].value + '\u2063' +
+preferences.data.key2 + '\u2063' + preferences.data[key2].value + '\u2063' +
+...
+preferences.data.keyN + '\u2063' + preferences.data[keyN].value
+```
 
 <details>
 <summary>Object details</summary>
