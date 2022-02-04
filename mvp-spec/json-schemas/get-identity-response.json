@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "get-identity-response",
+  "title": "GET /v1/identity response",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "The name of the contracting party, since the domain may not reflect the company name.\n",
+      "examples": ["Criteo"]
+    },
+    "type": {
+      "type": "string",
+      "enum": ["vendor", "operator"],
+      "description": "The type of contracting party in the PAF ecosystem"
+    },
+    "version": {
+      "$ref": "version.json",
+      "description": "The type of contracting party in the PAF ecosystem"
+    },
+    "keys": {
+      "type": "array",
+      "description": "List of public keys the contracting party used or is using for signing data and messages",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "key": {
+            "type": "string",
+            "description": "Public key string value",
+            "examples": [
+              "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEUnarwp0gUZgjb9fsYNLcNrddNKV5\nh4/WfMRMVh3HIqojt3LIsvUQig1rm9ZkcNx+IHZVhDM+hso2sXlGjF9xOQ==\n-----END PUBLIC KEY-----"
+            ]
+          },
+          "start": {
+            "$ref": "timestamp.json",
+            "description": "Timestamp when the contracting party started using this key for signing"
+          },
+          "end": {
+            "$ref": "timestamp.json",
+            "description": "Timestamp when the contracting party stopped using this key for signing"
+          }
+        },
+        "required": [
+          "key",
+          "start"
+        ]
+      }
+    }
+  },
+  "required": [
+    "name",
+    "type",
+    "version",
+    "keys"
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Return URL",
+  "description": "The URL that the user should be be redirected to, to provide response data",
+  "$id": "return-url",
+  "type": "string",
+  "format": "uri-template",
+  "examples": ["https://the-web-site.com/somePage.html", "https://another.co.uk/news/2022/02/01/?param=value#anchorA"]
+}

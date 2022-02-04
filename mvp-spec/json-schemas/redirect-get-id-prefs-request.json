@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "redirect-get-id-prefs-request",
+  "title": "GET /v1/redirect/get-id-prefs request",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "returnUrl": {
+      "$ref": "return-url.json"
+    },
+    "request": {
+      "$ref": "get-id-prefs-request.json"
+    }
+  },
+  "required": [
+    "returnUrl",
+    "request"
+  ]
+}

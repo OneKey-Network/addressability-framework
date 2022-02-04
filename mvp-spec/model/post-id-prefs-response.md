@@ -269,7 +269,7 @@ Can only take **one of these values**:
 
 <tr>
 <td>
-<b>persisted</b>
+persisted<br>(<i>optional</i>)
 </td>
 <td>
 boolean

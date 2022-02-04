@@ -1,0 +1,10 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "List of identifiers",
+  "$id": "identifiers",
+  "type": "array",
+  "additionalProperties": false,
+  "items": {
+    "$ref": "identifier.json"
+  }
+}

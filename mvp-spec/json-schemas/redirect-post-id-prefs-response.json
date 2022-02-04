@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "post-id-prefs-response",
+  "title": "post-id-prefs-response.json response",
+  "additionalProperties": false,
+  "description": "",
+  "properties": {
+    "code": {
+      "$ref": "response-code.json"
+    },
+    "response": {
+      "$ref": "post-id-prefs-response.json",
+      "description": "Sent if code is `200`"
+    },
+    "error": {
+      "$ref": "error.json",
+      "description": "Sent if code is different from `200`"
+    }
+  },
+  "required": [
+    "code"
+  ]
+}

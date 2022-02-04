@@ -1,0 +1,8 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "get-3pc-request",
+  "title": "GET /v1/3pc request",
+  "type": "null",
+  "additionalProperties": false,
+  "description": "No parameter expected to call this endpoint"
+}

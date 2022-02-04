@@ -15,7 +15,7 @@ An extra cookie, with a very short lifetime, can be created to test the support 
 
 | Cookie name       | Format                                 | Created by                     |
 |-------------------|----------------------------------------|--------------------------------|
-| `paf_identifier`  | [identifier.md](model/identifier.md)   | operator                       |
+| `paf_identifiers` | [identifiers.md](model/identifiers.md) | operator                       |
 | `paf_preferences` | [preferences.md](model/preferences.md) | contracting party, usually CMP |
 | `paf_test_3pc`    | <mark>TODO</mark>                      | operator                       |
 
@@ -122,12 +122,49 @@ The following signature verifications are optional:
 
 For details on how to calculate or verify signatures, see [signatures.md](signatures.md).
 
+### Error handling
+
+Error messages are returned inside an `error` object:
+
+| Message  | Format                                                  |
+|----------|---------------------------------------------------------|
+| Error    | [error](model/error.md)                                 |
+
+In case of error:
+- for REST endpoints,
+  - the HTTP return code contains specific code (`40x`, `50x`)
+  - the full message body is made of an [error](model/error.md) object
+- for redirect endpoints,
+  - the HTTP return code is always `303`. The specific error code is in `code` property of the response
+  - the response body contains an `error` body of type [error](model/error.md)
+
+### REST versus redirect
+
+For endpoints that exist as "redirect", the following pattern is used:
+- basically, the redirect endpoints use _the same request and response models_ as the REST equivalent
+- on the redirect endpoints:
+  - the **request** object is encapsulated in a `request` property
+    - it has the same type as the full REST request message
+  - a mandatory `returnUrl` property is also added
+  - the **response** object is encapsulated in a `response` property
+    - it has the same type as the full REST response message
+  - an additional `code` property contains a "return code" that takes 3 digits values
+    - it is mapped to HTTP return codes and will contain the "equivalent" to the REST HTTP return code
+    - for redirect endpoints the "real" HTTP return code is always `303`
+  - in case of an error,
+    - `code` contains the appropriate HTTP code
+    - `response` property is undefined
+    - `error` property contains error details
+  - for both requests and responses:
+    - the request or response object is **"JSON stringified" & encoded in base64**
+    - it is passed as **a single `paf` parameter** of the query string
+
 ## Endpoints: details
 
 ### Read ids & preferences
 
 - verify request signature
-- if `paf_identifier` cookie exists and is not an empty list, return the value
+- if `paf_identifiers` cookie exists and is not an empty list, return the value
 - otherwise
   - **generate a new identifier** (do **not** write any new cookie), and sign it
   - return the newly generated identifier
@@ -228,104 +265,32 @@ See [identifier.md](model/identifier.md) for details.
 
 #### Redirect read: `GET /v1/redirect/get-id-prefs`
 
-| Message  | Format            |
-|----------|-------------------|
-| Request  | <mark>TODO</mark> |
-| Response | <mark>TODO</mark> |
+| Message  | Format                                                                      |
+|----------|-----------------------------------------------------------------------------|
+| Request  | [redirect-get-id-prefs-request](./model/redirect-get-id-prefs-request.md)   |
+| Response | [redirect-get-id-prefs-response](./model/redirect-get-id-prefs-response.md) |
 
 ##### Example
 
-- request
+<mark>TODO</mark>
 
-<!-- The query string below is generated with taking the request-advertiserA.json file, removing body, adding the redirect URL, and encoding it as query string:
-npx encode-query-string -nd `cat request-advertiserA.json | npx json -e 'this.body = undefined; redirectUrl="https://advertiserA.com/pageA.html"' -o json-0`
--->
-
-```http
-GET /v1/redirect/get-id-prefs?sender=advertiserA.com&timestamp=1639057962145&signature=message_signature_xyz1234&redirectUrl=https://advertiserA.com/pageA.html
-```
-
-- response in case of known user
-
-<!-- The query string below is generated with taking the response-operatorO.json file, adding body, and encoding it as query string:
-npx encode-query-string -nd `cat response-200.json response-operatorO.json body-id-and-preferences.json | npx json --merge -o json-0`
--->
-
-```shell
-303 https://advertiserA.com/pageA.html?code=200&sender=operatorO.com&timestamp=1639059692793&signature=message_signature_xyz1234&body.preferences.version=1&body.preferences.data.opt_in=true&body.preferences.source.domain=cmpC.com&body.preferences.source.timestamp=1639643112&body.preferences.source.signature=preferences_signature_xyz12345&body.identifiers[0].version=1&body.identifiers[0].type=prebid_id&body.identifiers[0].value=7435313e-caee-4889-8ad7-0acd0114ae3c&body.identifiers[0].source.domain=operator0.com&body.identifiers[0].source.timestamp=1639643110&body.identifiers[0].source.signature=prebid_id_signature_xyz12345
-```
-
-...which corresponds to the following query string values:
-
-<!-- To update this block, use the previous command with at the end:
-| tr '&' '\n'
--->
-
-```
-code=200
-sender=operatorO.com
-timestamp=1639059692793
-signature=message_signature_xyz1234
-body.preferences.version=1
-body.preferences.data.opt_in=true
-body.preferences.source.domain=cmpC.com
-body.preferences.source.timestamp=1639643112
-body.preferences.source.signature=preferences_signature_xyz12345
-body.identifiers[0].version=1
-body.identifiers[0].type=prebid_id
-body.identifiers[0].value=7435313e-caee-4889-8ad7-0acd0114ae3c
-body.identifiers[0].source.domain=operator0.com
-body.identifiers[0].source.timestamp=1639643110
-body.identifiers[0].source.signature=prebid_id_signature_xyz12345
-```
-
-- response in case of unknown user
-
-<!-- The query string below is generated with taking the response-operatorO.json file, adding body, and encoding it as query string:
-npx encode-query-string -nd `cat response-200.json response-operatorO.json body-new-id.json | npx json --merge -o json-0`
--->
-
-```shell
-303 https://publisherP.com/pageP.html?code=200&sender=operatorO.com&timestamp=1639059692793&signature=message_signature_xyz1234&body.identifiers[0].version=1&body.identifiers[0].type=prebid_id&body.identifiers[0].value=560cead0-eed5-4d3f-a308-b818b4827979&body.identifiers[0].source.domain=operator0.com&body.identifiers[0].source.timestamp=1639643110&body.identifiers[0].source.signature=prebid_id_signature_xyz12345&body.identifiers[0].persisted=false
-```
-
-...which corresponds to the following query string values:
-
-<!-- To update this block, use the previous command with at the end:
-| tr '&' '\n'
--->
-
-```
-code=200
-sender=operatorO.com
-timestamp=1639059692793
-signature=message_signature_xyz1234
-body.identifiers[0].version=1
-body.identifiers[0].type=prebid_id
-body.identifiers[0].value=560cead0-eed5-4d3f-a308-b818b4827979
-body.identifiers[0].source.domain=operator0.com
-body.identifiers[0].source.timestamp=1639643110
-body.identifiers[0].source.signature=prebid_id_signature_xyz12345
-body.identifiers[0].persisted=false
-```
-
-Notice `persisted=false`
+Examples to be added
 
 ### Write id & preferences
 
 - verify request signature
 - verify identifier signature
 - verify preferences signature
-- update `paf_identifier` cookie with new value
+- add or replace identifier of type `paf_browser_id` in `paf_identifiers` cookie
 - update `paf_preferences` cookie with new value
 - return both values
 
 #### REST write: `POST /v1/id-prefs`
 
-| Message  | Format                                                                |
-|----------|-----------------------------------------------------------------------|
-| Request  | [post-id-prefs-request](model/post-id-prefs-request.md)   |
-| Response | [post-id-prefs-response](model/post-id-prefs-response.md) |
+| Message  | Format                                                      |
+|----------|-------------------------------------------------------------|
+| Request  | [post-id-prefs-request](./model/post-id-prefs-request.md)   |
+| Response | [post-id-prefs-response](./model/post-id-prefs-response.md) |
 
 ##### Example
 
@@ -415,80 +380,16 @@ POST /v1/id-prefs
 
 #### Redirect write: `GET /v1/redirect/post-id-prefs`
 
-| Message  | Format            |
-|----------|-------------------|
-| Request  | <mark>TODO</mark> |
-| Response | <mark>TODO</mark> |
+| Message  | Format                                                                        |
+|----------|-------------------------------------------------------------------------------|
+| Request  | [redirect-post-id-prefs-request](./model/redirect-post-id-prefs-request.md)   |
+| Response | [redirect-post-id-prefs-response](./model/redirect-post-id-prefs-response.md) |
 
 ##### Example
 
-- request
+<mark>TODO</mark>
 
-<!-- The query string below is generated with taking the request-cmpC.json file, adding body, and encoding it as query string:
-npx encode-query-string -nd `cat request-cmpC.json body-id-and-preferences.json | npx json --merge -e 'this.redirectUrl="https://publisherP.com/pageP.html"' -o json-0`
--->
-
-```http
-GET /v1/redirect/write?sender=cmpC.com&timestamp=1639057962145&signature=message_signature_xyz1234&body.preferences.version=1&body.preferences.data.opt_in=true&body.preferences.source.domain=cmpC.com&body.preferences.source.timestamp=1639643112&body.preferences.source.signature=preferences_signature_xyz12345&body.identifiers[0].version=1&body.identifiers[0].type=prebid_id&body.identifiers[0].value=7435313e-caee-4889-8ad7-0acd0114ae3c&body.identifiers[0].source.domain=operator0.com&body.identifiers[0].source.timestamp=1639643110&body.identifiers[0].source.signature=prebid_id_signature_xyz12345&redirectUrl=https://publisherP.com/pageP.html
-```
-
-...which corresponds to the following query string values:
-
-<!-- To update this block, use the previous command with at the end:
-| tr '&' '\n'
--->
-
-```
-sender=cmpC.com
-timestamp=1639057962145
-signature=message_signature_xyz1234
-body.preferences.version=1
-body.preferences.data.opt_in=true
-body.preferences.source.domain=cmpC.com
-body.preferences.source.timestamp=1639643112
-body.preferences.source.signature=preferences_signature_xyz12345
-body.identifiers[0].version=1
-body.identifiers[0].type=prebid_id
-body.identifiers[0].value=7435313e-caee-4889-8ad7-0acd0114ae3c
-body.identifiers[0].source.domain=operator0.com
-body.identifiers[0].source.timestamp=1639643110
-body.identifiers[0].source.signature=prebid_id_signature_xyz12345
-redirectUrl=https://publisherP.com/pageP.html
-```
-
-- response
-
-<!-- The query string below is generated with taking the response-operatorO.json file, adding body, and encoding it as query string:
-npx encode-query-string -nd `cat response-200.json response-operatorO.json body-id-and-preferences.json | npx json --merge -o json-0`
--->
-
-```shell
-303 https://publisherP.com/pageP.html?code=200&sender=operatorO.com&timestamp=1639059692793&signature=message_signature_xyz1234&body.preferences.version=1&body.preferences.data.opt_in=true&body.preferences.source.domain=cmpC.com&body.preferences.source.timestamp=1639643112&body.preferences.source.signature=preferences_signature_xyz12345&body.identifiers[0].version=1&body.identifiers[0].type=prebid_id&body.identifiers[0].value=7435313e-caee-4889-8ad7-0acd0114ae3c&body.identifiers[0].source.domain=operator0.com&body.identifiers[0].source.timestamp=1639643110&body.identifiers[0].source.signature=prebid_id_signature_xyz12345
-```
-
-...which corresponds to the following query string values:
-
-<!-- To update this block, use the previous command with at the end:
-| tr '&' '\n'
--->
-
-```
-code=200
-sender=operatorO.com
-timestamp=1639059692793
-signature=message_signature_xyz1234
-body.preferences.version=1
-body.preferences.data.opt_in=true
-body.preferences.source.domain=cmpC.com
-body.preferences.source.timestamp=1639643112
-body.preferences.source.signature=preferences_signature_xyz12345
-body.identifiers[0].version=1
-body.identifiers[0].type=prebid_id
-body.identifiers[0].value=7435313e-caee-4889-8ad7-0acd0114ae3c
-body.identifiers[0].source.domain=operator0.com
-body.identifiers[0].source.timestamp=1639643110
-body.identifiers[0].source.signature=prebid_id_signature_xyz12345
-```
+Examples to be added
 
 ### Get a new id
 
@@ -500,10 +401,10 @@ body.identifiers[0].source.signature=prebid_id_signature_xyz12345
 
 #### REST get new id: `GET /v1/new-id`
 
-| Message  | Format                                              |
-|----------|-----------------------------------------------------|
-| Request  | [get-new-id-request](model/get-new-id-request.md)   |
-| Response | [get-new-id-response](model/get-new-id-response.md) |
+| Message  | Format                                                |
+|----------|-------------------------------------------------------|
+| Request  | [get-new-id-request](./model/get-new-id-request.md)   |
+| Response | [get-new-id-response](./model/get-new-id-response.md) |
 
 #### Example
 
@@ -569,10 +470,10 @@ See [website-design](./website-design.md) for the full picture.
 
 #### REST verify 3PC: `GET /v1/3pc`
 
-| Message  | Format            |
-|----------|-------------------|
-| Request  | <mark>TODO</mark> |
-| Response | <mark>TODO</mark> |
+| Message  | Format                                                             |
+|----------|--------------------------------------------------------------------|
+| Request  | [get-3pc-request](./model/get-3pc-request.md) (empty query string) |
+| Response | [get-3pc-response](./model/get-3pc-response.md)                    |
 
 #### Example
 
@@ -598,7 +499,7 @@ HTTP response code: `404`
 
 ```json
 {
-  "3pc": false
+  "error": "3PC not supported"
 }
 ```
 
@@ -612,10 +513,10 @@ This endpoint doesn't rely on support of 3PC or not: the REST version will work 
 
 #### REST get identity: `GET /v1/identity`
 
-| Message  | Format            |
-|----------|-------------------|
-| Request  | <mark>TODO</mark> |
-| Response | <mark>TODO</mark> |
+| Message  | Format                                                       |
+|----------|--------------------------------------------------------------|
+| Request  | [get-identity-request.md](./model/get-identity-request.md)   |
+| Response | [get-identity-response.md](./model/get-identity-response.md) |
 
 
 ##### Example
@@ -628,24 +529,9 @@ GET /v1/identity
 
 - response
 
-```json
-{
-  "name": "Operator O",
-  "type": "vendor",
-  "keys": [
-    {
-      "key": "04f3b7ec9095779b119cc6d30a21a6a3920c5e710d13ea8438727b7fd5cca47d048f020539d24e74b049a418ac68c03ea75c66982eef7fdc60d8fb2c7707df3dcd",
-      "start": 1639500000,
-      "end": 1639510000
-    },
-    {
-      "key": "044782dd8b7a6b8affa0f6cd94ede3682e85307224064f39db20e8f49b5f415d83fef66f3818ee549b04e443efa63c2d7f1fe9a631dc05c9f51ad98139b202f9f3",
-      "start": 1639510000,
-      "end": 1639520000
-    }
-  ]
-}
-```
+<mark>TODO</mark>
+
+Examples to be added
 
 #### Redirect get identity: N/A
 

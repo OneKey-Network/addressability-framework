@@ -14,7 +14,7 @@ A list of identifiers and optionally, some preferences
 
 <tr>
 <td>
-<b>preferences</b>
+preferences<br>(<i>optional</i>)
 </td>
 <td>
 object
@@ -249,7 +249,7 @@ Can only take **one of these values**:
 
 <tr>
 <td>
-<b>persisted</b>
+persisted<br>(<i>optional</i>)
 </td>
 <td>
 boolean

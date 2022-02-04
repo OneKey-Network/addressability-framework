@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "get-3pc-response",
+  "title": "GET /v1/3pc response",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "3pc": {
+      "type": "boolean",
+      "enum": [
+        true
+      ],
+      "description": "Always return `true` to signify 3rd party cookies have been verified (are supported)\nIf 3rd party cookies are not supported, the endpoint returns `404` and an error message"
+    }
+  },
+  "required": [
+    "3pc"
+  ]
+}

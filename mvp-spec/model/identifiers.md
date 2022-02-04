@@ -1,6 +1,8 @@
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 
-# Identifier
+# List of identifiers
+
+Type of **each element in the array**:
 
 A pseudonymous identifier generated for a web user
 

@@ -34,7 +34,11 @@ Type of **each element in the array**:
 {% for sub_property in schema.iterate_properties %}
 <tr>
 <td>
+{% if sub_property.is_required_property %}
 <b>{{ sub_property.property_name }}</b>
+{% else %}
+{{ sub_property.property_name }}<br>(<i>optional</i>)
+{% endif %}
 </td>
 <td>
 {{ sub_property.type_name }}

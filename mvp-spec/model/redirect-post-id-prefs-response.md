@@ -1,8 +1,78 @@
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 
-# Identifiers and preferences
+# post-id-prefs-response.json response
+
+<table>
+
+<tr>
+    <th> Property </th>
+    <th> Type </th>
+    <th> Description </th>
+</tr>
+
+<tr>
+<td>
+<b>code</b>
+</td>
+<td>
+string
+</td>
+<td>
+
+The response code used on a redirect endpoint<br>While REST endpoints can use HTTP codes to communicate the state of the response, redirect endpoints are limited to `30x` HTTP codes.<br>To address this problem, this property is used to contain the same HTTP code as the one that would be returned by a REST endpoint.
+
+**Examples:** 
+
+```json
+"200"
+```
+
+```json
+"400"
+```
+
+```json
+"503"
+```
+
+</td>
+</tr>
+
+<tr>
+<td>
+response<br>(<i>optional</i>)
+</td>
+<td>
+object
+</td>
+<td>
+
+Sent if code is `200`
+
+<details>
+<summary>Object details</summary>
+
+<table>
+
+<tr>
+    <th> Property </th>
+    <th> Type </th>
+    <th> Description </th>
+</tr>
+
+<tr>
+<td>
+<b>body</b>
+</td>
+<td>
+object
+</td>
+<td>
 
 A list of identifiers and some preferences
+
+<details>
+<summary>Object details</summary>
 
 <table>
 
@@ -370,6 +440,63 @@ The base64 representation of a data signature
 </table>
 
 </details>
+
+</td>
+</tr>
+
+</table>
+
+</details>
+
+</td>
+</tr>
+
+</table>
+
+</details>
+
+</td>
+</tr>
+
+</table>
+
+</details>
+
+</td>
+</tr>
+
+<tr>
+<td>
+error<br>(<i>optional</i>)
+</td>
+<td>
+object
+</td>
+<td>
+
+Sent if code is different from `200`
+
+<details>
+<summary>Object details</summary>
+
+<table>
+
+<tr>
+    <th> Property </th>
+    <th> Type </th>
+    <th> Description </th>
+</tr>
+
+<tr>
+<td>
+<b>message</b>
+</td>
+<td>
+string
+</td>
+<td>
+
+The error message
 
 </td>
 </tr>
