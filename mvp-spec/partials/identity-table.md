@@ -1,0 +1,6 @@
+| Field                    | Type                 | Details                    |
+|--------------------------|----------------------|----------------------------|
+| name                     | String               | The name of the Contracting Party since the domain may not reflect the Company name.<br /> e.g "Criteo"                                                                                                                    |
+| type                     | String               | The type of Contracting Party in the PAF ecosystem. For now, the type for a DSP is "vendor"
+| version                  | Number               | A two-digit number separated by a point for expressing the last PAF version handled.<br /> For now, the value is "0.1"<br /> Note: a new field may appear with the new versions of the PAF for the last supported version. |
+| keys                     | Array of Key objects | Public keys for verifying the signatures of the DSP. Those public keys are strings associated with a timeframe for handling key rotation.|
