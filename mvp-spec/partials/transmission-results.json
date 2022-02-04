@@ -1,0 +1,37 @@
+{
+    "transmissions": [
+        {
+            "version": 0,
+            "receiver": "ssp1.com",
+            "status": "success",
+            "details": "",
+            "source": {
+                "domain": "ssp1.com",
+                "timestamp": 1639589531,
+                "signature": "12345_signature"
+            }
+        },
+        {
+            "version": 0,
+            "receiver": "ssp2.com",
+            "status": "success",
+            "details": "",
+            "source": {
+                "domain": "ssp2.com",
+                "timestamp": 1639589531,
+                "signature": "12345_signature"
+            }
+        },
+        {
+            "version": 0,
+            "receiver": "dsp.com",
+            "status": "success",
+            "details": "",
+            "source": {
+                "domain": "dsp.com",
+                "timestamp": 1639589531,
+                "signature": "12345_signature"
+            }
+        }
+    ]
+}

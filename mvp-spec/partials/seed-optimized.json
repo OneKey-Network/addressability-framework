@@ -1,0 +1,10 @@
+{
+    "version": 0,
+    "transaction_id": "a0651946-0f5b-482b-8cfc-eab3644d2743",
+    "publisher": "publisher.com",
+    "source": {
+        "domain": "adserver-company.com",
+        "timestamp": 1639582000,
+        "signature": "12345_signature"
+    }
+}
