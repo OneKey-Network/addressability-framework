@@ -7,7 +7,9 @@ the documents the contents of their partials.
 
 ## Setup
 
-```bash
+- install this project
+
+```shell
 npm install
 ```
 

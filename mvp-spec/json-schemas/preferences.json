@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "preferences",
+  "title": "User preferences",
+  "description": "The current preferences of the user",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "$ref": "version.json"
+    },
+    "data": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "use_browsing_for_personalization": {
+          "type": "boolean",
+          "description": "`true` if the user accepted the usage of browsing history for ad personalization, `false` otherwise"
+        }
+      },
+      "required": ["use_browsing_for_personalization"]
+    },
+    "source": {
+      "$ref": "source.json"
+    }
+  },
+  "required": [
+    "version",
+    "data",
+    "source"
+  ]
+}
