@@ -1,3 +1,5 @@
+<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
+
 # Identifiers and optional preferences
 
 A list of identifiers and optionally, some preferences
@@ -198,7 +200,7 @@ array
 </td>
 <td>
 
-**Array items**' type:
+Type of **each element in the array**:
 
 A pseudonymous identifier generated for a web user
 

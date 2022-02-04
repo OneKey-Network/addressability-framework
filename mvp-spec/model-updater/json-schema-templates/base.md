@@ -1,3 +1,5 @@
+<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
+
 {% set depth = 0 %}
 {{ schema.keywords.get("title").literal | default("Schema Docs") | md_heading(depth) }}
 {% set contentBase %}

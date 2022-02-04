@@ -1,4 +1,6 @@
-# GET /v1/new-id request
+<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
+
+# GET /v1/id-prefs request
 
 <table>
 

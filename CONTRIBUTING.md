@@ -15,7 +15,8 @@ git submodule init # This step will soon be removed
 - These special sections in Markdown documents are used to automatically "inject" content that needs to be repeated in different documents.
   We call these "partials".
   - Partials are stored in [/mvp-spec/partials](mvp-spec/partials) and **can** be modified
-- [Mermaid](https://mermaid-js.github.io/mermaid/#/) diagrams (`*.mmd`) are also stored in this `partials` directory and **can** be modified
-
-For details about the usage of partials, see the [README](mvp-spec/partials-updater/README.md)
-
+  - [Mermaid](https://mermaid-js.github.io/mermaid/#/) diagrams (`*.mmd`) are also stored in this `partials` directory and **can** be modified
+  - For details about the usage of partials, see the [README](mvp-spec/partials-updater/README.md)
+- The model of data and messages is defined in [/mvp-spec/json-schemas](mvp-spec/json-schemas)
+- The associated documentation is generated in [/mvp-spec/model](./mvp-spec/model)
+  - For details about the generation of model documentation, see the [README](mvp-spec/model-updater/README.md)

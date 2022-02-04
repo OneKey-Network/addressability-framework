@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Domain",
+  "description": "A domain name",
+  "$id": "domain",
+  "type": "string",
+  "format": "hostname",
+  "examples": ["a-domain-name.com", "another.domain.co.uk"]
+}

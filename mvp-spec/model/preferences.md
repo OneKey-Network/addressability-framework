@@ -1,6 +1,8 @@
-# Identifier
+<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 
-A pseudonymous identifier generated for a web user
+# User preferences
+
+The current preferences of the user
 
 <table>
 
@@ -28,50 +30,41 @@ Can only take **one of these values**:
 
 <tr>
 <td>
-<b>type</b>
+<b>data</b>
 </td>
 <td>
-enum (of string)
+object
 </td>
 <td>
 
-The identifier type, identifier of type `paf_browser_id` is mandatory and is "pivot"
+<details>
+<summary>Object details</summary>
 
-Can only take **one of these values**:
-* `"paf_browser_id"`
-</td>
+<table>
+
+<tr>
+    <th> Property </th>
+    <th> Type </th>
+    <th> Description </th>
 </tr>
 
 <tr>
 <td>
-<b>persisted</b>
+<b>use_browsing_for_personalization</b>
 </td>
 <td>
 boolean
 </td>
 <td>
 
-If set to `false`, means the identifier has not yet been persisted as a cookie.<br>Otherwise, means this identifier is persisted as a PAF cookie<br>(default value = `true` meaning if the property is omitted the identifier *is* persisted)
+`true` if the user accepted the usage of browsing history for ad personalization, `false` otherwise
 
 </td>
 </tr>
 
-<tr>
-<td>
-<b>value</b>
-</td>
-<td>
-string
-</td>
-<td>
+</table>
 
-The identifier value
-
-**Example:** 
-
-```json
-"7435313e-caee-4889-8ad7-0acd0114ae3c"
-```
+</details>
 
 </td>
 </tr>

@@ -13,11 +13,11 @@ For details on how to calculate or verify signatures, see [signatures.md](signat
 
 An extra cookie, with a very short lifetime, can be created to test the support of 3d party cookies (see below for details)
 
-| Cookie name       | Format                                             | Created by                     |
-|-------------------|----------------------------------------------------|--------------------------------|
-| `paf_identifier`  | [identifier.md](./generated-model/identifier.md)   | operator                       |
-| `paf_preferences` | [preferences.md](./generated-model/preferences.md) | contracting party, usually CMP |
-| `paf_test_3pc`    | <mark>TODO</mark>                                  | operator                       |
+| Cookie name       | Format                                 | Created by                     |
+|-------------------|----------------------------------------|--------------------------------|
+| `paf_identifier`  | [identifier.md](model/identifier.md)   | operator                       |
+| `paf_preferences` | [preferences.md](model/preferences.md) | contracting party, usually CMP |
+| `paf_test_3pc`    | <mark>TODO</mark>                      | operator                       |
 
 ### Example: identifier
 
@@ -138,10 +138,10 @@ For details on how to calculate or verify signatures, see [signatures.md](signat
 
 #### REST read: `GET /v1/id-prefs`
 
-| Message  | Format                                                              |
-|----------|---------------------------------------------------------------------|
-| Request  | [get-id-prefs-request](./generated-model/get-id-prefs-request.md)   |
-| Response | [get-id-prefs-response](./generated-model/get-id-prefs-response.md) |
+| Message  | Format                                                  |
+|----------|---------------------------------------------------------|
+| Request  | [get-id-prefs-request](model/get-id-prefs-request.md)   |
+| Response | [get-id-prefs-response](model/get-id-prefs-response.md) |
 
 ##### Example
 
@@ -224,7 +224,7 @@ GET /v1/id-prefs/read?sender=advertiserA.com&timestamp=1639057962145&signature=m
 
 Notice `persisted` = `false`.
 
-See [identifier.md](./generated-model/identifier.md) for details.
+See [identifier.md](model/identifier.md) for details.
 
 #### Redirect read: `GET /v1/redirect/get-id-prefs`
 
@@ -324,8 +324,8 @@ Notice `persisted=false`
 
 | Message  | Format                                                                |
 |----------|-----------------------------------------------------------------------|
-| Request  | [post-id-prefs-request](./generated-model/post-id-prefs-request.md)   |
-| Response | [post-id-prefs-response](./generated-model/post-id-prefs-response.md) |
+| Request  | [post-id-prefs-request](model/post-id-prefs-request.md)   |
+| Response | [post-id-prefs-response](model/post-id-prefs-response.md) |
 
 ##### Example
 
@@ -500,10 +500,10 @@ body.identifiers[0].source.signature=prebid_id_signature_xyz12345
 
 #### REST get new id: `GET /v1/new-id`
 
-| Message  | Format                                                          |
-|----------|-----------------------------------------------------------------|
-| Request  | [get-new-id-request](./generated-model/get-new-id-request.md)   |
-| Response | [get-new-id-response](./generated-model/get-new-id-response.md) |
+| Message  | Format                                              |
+|----------|-----------------------------------------------------|
+| Request  | [get-new-id-request](model/get-new-id-request.md)   |
+| Response | [get-new-id-response](model/get-new-id-response.md) |
 
 #### Example
 

@@ -1,4 +1,6 @@
-# POST /v1/id-prefs request
+<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
+
+# GET /v1/id-prefs response
 
 <table>
 
@@ -17,7 +19,7 @@ string
 </td>
 <td>
 
-The domain name of the sender of this request (the website domain)
+The domain name of the sender of this response (the operator domain name)
 
 **Examples:** 
 
@@ -41,7 +43,7 @@ string
 </td>
 <td>
 
-The domain name of the receiver of this request (the operator domain name)
+The domain name of the receiver of this request (the website)
 
 **Examples:** 
 
@@ -86,7 +88,6 @@ string
 <td>
 
 Signature based on input:
-
 ```
 sender + '\u2063' +
 receiver + '\u2063' +
@@ -116,7 +117,7 @@ object
 </td>
 <td>
 
-A list of identifiers and some preferences
+A list of identifiers and optionally, some preferences
 
 <details>
 <summary>Object details</summary>
@@ -317,7 +318,7 @@ array
 </td>
 <td>
 
-**Array items**' type:
+Type of **each element in the array**:
 
 A pseudonymous identifier generated for a web user
 

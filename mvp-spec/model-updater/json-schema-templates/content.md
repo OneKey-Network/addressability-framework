@@ -9,7 +9,7 @@
 
 {% if schema.type_name.startswith("array") -%}
 
-**Array items**' type:
+Type of **each element in the array**:
 
 {% with schema=schema.array_items_def %}
 {% include "content.md" %}

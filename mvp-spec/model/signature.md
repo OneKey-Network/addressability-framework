@@ -1,3 +1,5 @@
+<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
+
 # Signature
 
 The base64 representation of a data signature

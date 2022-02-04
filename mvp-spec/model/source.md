@@ -1,3 +1,5 @@
+<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
+
 # Source
 
 Source of data representing what contracting party created and signed the data

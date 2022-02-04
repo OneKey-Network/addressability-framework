@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "get-new-id-response",
+  "title": "GET /v1/new-id response",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "sender": {
+      "$ref": "domain.json",
+      "description": "The domain name of the sender of this response (the operator domain name)"
+    },
+    "receiver": {
+      "$ref": "domain.json",
+      "description": "The domain name of the receiver of this request (the website)"
+    },
+    "timestamp": {
+      "$ref": "timestamp.json"
+    },
+    "signature": {
+      "$ref": "signature.json",
+      "description": "Signature based on input:\n```\nsender + '\\u2063' +\nreceiver + '\\u2063' +\ntimestamp + '\\u2063' +\nidentifiers[0].source.signature\n```\n (there must be only one identifier)"
+    },
+    "body": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "identifiers": {
+          "type": "array",
+          "minCount": 1,
+          "maxCount": 1,
+          "items": {
+            "$ref": "identifier.json"
+          }
+        }
+      },
+      "required": [
+        "identifiers"
+      ]
+    }
+  },
+  "required": [
+    "sender",
+    "receiver",
+    "timestamp",
+    "signature",
+    "body"
+  ]
+}

@@ -1,3 +1,5 @@
+<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
+
 # Core message
 
 The base properties of a request or response to/from an operator
