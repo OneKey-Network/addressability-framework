@@ -1,3 +1,0 @@
-[submodule "mvp-spec/partials/paf-mvp-demo-express"]
-	path = mvp-spec/partials/paf-mvp-demo-express
-	url = https://github.com/criteo/paf-mvp-demo-express
