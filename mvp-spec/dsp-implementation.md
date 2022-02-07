@@ -43,12 +43,16 @@ GET https://<domain>/prebidsso/API/v1/identity
 ## Identity object
 
 It provides the following data as JSON:
+
+<!--partial-begin { "files": [ "identity-table.md" ] } -->
+<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 | Field                    | Type                 | Details                    |
 |--------------------------|----------------------|----------------------------|
 | name                     | String               | The name of the Contracting Party since the domain may not reflect the Company name.<br /> e.g "Criteo"                                                                                                                    |
 | type                     | String               | The type of Contracting Party in the PAF ecosystem. For now, the type for a DSP is "vendor"
-| last_version_implemented | Number               | A two-digit number separated by a point for expressing the last PAF version handled.<br /> For now, the value is "0.1"<br /> Note: a new field may appear with the new versions of the PAF for the last supported version. |
+| version                  | Number               | A two-digit number separated by a point for expressing the last PAF version handled.<br /> For now, the value is "0.1"<br /> Note: a new field may appear with the new versions of the PAF for the last supported version. |
 | keys                     | Array of Key objects | Public keys for verifying the signatures of the DSP. Those public keys are strings associated with a timeframe for handling key rotation.|
+<!--partial-end-->
 
 
 All signatures shared across the network must be verifiable. Therefore, each
@@ -603,15 +607,17 @@ Transmission is named "prebid_sso".
                             }
                         }
                     ],
-                    "preferences": {
-                        "version": 0,
-                        "data": { 
-                            "opt_in": true 
-                        },
-                        "source": {
-                            "domain": "cmp1.com",
-                            "timestamp": 1639589531,
-                            "signature": "12345_signature"
+                    "ext": {
+                        "preferences": {
+                            "version": 0,
+                            "data": { 
+                                "opt_in": true 
+                            },
+                            "source": {
+                                "domain": "cmp1.com",
+                                "timestamp": 1639589531,
+                                "signature": "12345_signature"
+                            }
                         }
                     }
                 }
