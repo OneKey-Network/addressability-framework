@@ -1,10 +1,10 @@
 {
   "version": 0,
-  "type": "prebid_id",
+  "type": "paf_browser_id",
   "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
   "source": {
     "domain": "operator.prebidsso.com",
     "timestamp": 1642504380000,
-    "signature": "RYGHYsBUEwMgFgOJ9aUQl7ywl4xnqdmwWIgPbaIowbXbmZAFKLa7mcBJQuWh1wEskpu57SHn2mmCF6V5+cESgw=="
+    "signature": "Oiwt1PFNSJvhQQqpnmqS2jG1jc5pD1vDN/ZU+Diy2ohzGTd4AL2VF6REUOSseitMhVYk4LkYD2IsRXT1hkw5nQ=="
   }
 }

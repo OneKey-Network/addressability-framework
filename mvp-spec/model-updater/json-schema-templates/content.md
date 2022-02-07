@@ -4,6 +4,21 @@
 
 {% set depth = depth or 0 %}
 
+{# Need to investigate how to handle "allOf" (inheritance)
+{% if schema.kw_all_of %}
+{% with current_node=schema.kw_all_of %}
+
+{% for node in current_node.array_items %}
+{% with schema=node, skip_headers=False, depth=depth+1 %}
+{% include "content.md" %}
+{% endwith %}
+{% endfor %}
+
+{% endwith %}
+
+{% endif %}
+#}
+
 {% set description = (schema | get_description) %}
 {% include "section_description.md" %}
 

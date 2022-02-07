@@ -19,44 +19,64 @@ An extra cookie, with a very short lifetime, can be created to test the support 
 | `paf_preferences` | [preferences.md](model/preferences.md) | contracting party, usually CMP |
 | `paf_test_3pc`    | <mark>TODO</mark>                      | operator                       |
 
-### Example: identifier
+### Example of a `paf_identifiers` cookie
 
-<!--partial-begin { "files": [ "id.json" ], "block": "json" } -->
+<!--partial-begin { "files": [ "ids_cookie.txt" ], "block": "" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
-```json
-{
-  "version": 0,
-  "type": "prebid_id",
-  "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
-  "source": {
-    "domain": "operator.prebidsso.com",
-    "timestamp": 1642504380000,
-    "signature": "RYGHYsBUEwMgFgOJ9aUQl7ywl4xnqdmwWIgPbaIowbXbmZAFKLa7mcBJQuWh1wEskpu57SHn2mmCF6V5+cESgw=="
-  }
-}
+```
+[{"version":0,"type":"paf_browser_id","value":"7435313e-caee-4889-8ad7-0acd0114ae3c","source":{"domain":"operator.prebidsso.com","timestamp":1642504380000,"signature":"Oiwt1PFNSJvhQQqpnmqS2jG1jc5pD1vDN/ZU+Diy2ohzGTd4AL2VF6REUOSseitMhVYk4LkYD2IsRXT1hkw5nQ=="}}]
 ```
 <!--partial-end-->
 
-### Example: preferences
+Which is the "stringified" version of:
 
-<!--partial-begin { "files": [ "preferences.json" ], "block": "json" } -->
+<!--partial-begin { "files": [ "ids_cookie-pretty.json" ], "block": "json" } -->
+<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
+```json
+[
+  {
+    "version": 0,
+    "type": "paf_browser_id",
+    "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
+    "source": {
+      "domain": "operator.prebidsso.com",
+      "timestamp": 1642504380000,
+      "signature": "Oiwt1PFNSJvhQQqpnmqS2jG1jc5pD1vDN/ZU+Diy2ohzGTd4AL2VF6REUOSseitMhVYk4LkYD2IsRXT1hkw5nQ=="
+    }
+  }
+]
+```
+<!--partial-end-->
+
+### Example of a `paf_preferences` cookie
+
+<!--partial-begin { "files": [ "preferences_cookie.txt" ], "block": "" } -->
+<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
+```
+{"version":0,"data":{"use_browsing_for_personalization":true},"source":{"domain":"cmp.com","timestamp":1642504560000,"signature":"OFgRb5njIf+HCmYHVM9IbEUoA90ZZL4wTlFDpPc+APSWAD4eCSclOzRV5i4LOlyyuu2Rkl+jAt2DC0UD1bVGiA=="}}
+```
+<!--partial-end-->
+
+Which is the "stringified" version of:
+
+<!--partial-begin { "files": [ "preferences_cookie-pretty.json" ], "block": "json" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```json
 {
   "version": 0,
   "data": {
-    "opt_in": true
+    "use_browsing_for_personalization": true
   },
   "source": {
     "domain": "cmp.com",
     "timestamp": 1642504560000,
-    "signature": "HmnCaXySi8u1/qx9YlKA6cTU8L6HAydywDOpJjoLd+Bz+X93APaRXJ1yDJsTC95EPC29ESAisxQ2LsNF6ZSERA=="
+    "signature": "OFgRb5njIf+HCmYHVM9IbEUoA90ZZL4wTlFDpPc+APSWAD4eCSclOzRV5i4LOlyyuu2Rkl+jAt2DC0UD1bVGiA=="
   }
 }
 ```
 <!--partial-end-->
 
-### Example: test 3PC
+### Example of a `paf_test_3pc` cookie
 
 <mark>TODO</mark>
 
@@ -193,7 +213,7 @@ GET /v1/ids-prefs/read?sender=advertiserA.com&timestamp=1639057962145&signature=
 
 - response in case of known user
 
-<!--partial-begin { "files": [ "getIdPrefsResponse_known.json" ], "block": "json" } -->
+<!--partial-begin { "files": [ "getIdsPrefsResponse_known.json" ], "block": "json" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```json
 {
@@ -201,38 +221,38 @@ GET /v1/ids-prefs/read?sender=advertiserA.com&timestamp=1639057962145&signature=
     "identifiers": [
       {
         "version": 0,
-        "type": "prebid_id",
+        "type": "paf_browser_id",
         "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
         "source": {
           "domain": "operator.prebidsso.com",
           "timestamp": 1642504380000,
-          "signature": "RYGHYsBUEwMgFgOJ9aUQl7ywl4xnqdmwWIgPbaIowbXbmZAFKLa7mcBJQuWh1wEskpu57SHn2mmCF6V5+cESgw=="
+          "signature": "Oiwt1PFNSJvhQQqpnmqS2jG1jc5pD1vDN/ZU+Diy2ohzGTd4AL2VF6REUOSseitMhVYk4LkYD2IsRXT1hkw5nQ=="
         }
       }
     ],
     "preferences": {
       "version": 0,
       "data": {
-        "opt_in": true
+        "use_browsing_for_personalization": true
       },
       "source": {
         "domain": "cmp.com",
         "timestamp": 1642504560000,
-        "signature": "HmnCaXySi8u1/qx9YlKA6cTU8L6HAydywDOpJjoLd+Bz+X93APaRXJ1yDJsTC95EPC29ESAisxQ2LsNF6ZSERA=="
+        "signature": "OFgRb5njIf+HCmYHVM9IbEUoA90ZZL4wTlFDpPc+APSWAD4eCSclOzRV5i4LOlyyuu2Rkl+jAt2DC0UD1bVGiA=="
       }
     }
   },
   "sender": "operator.prebidsso.com",
   "receiver": "advertiser.com",
   "timestamp": 1643041150000,
-  "signature": "a9qkK7BNqo5RCC/yQ0spbUn16KI3anl6pDZFIehBlTWYPnrHvOoTYmuryK3VQNFhrOMwigJy6ykdPbLVK/UiQw=="
+  "signature": "Hg6hYbEi5lAILVSDt0sQ7AgrQnHMfcw19CBoqwPswOVyUFlRlL47oMD2ab+RpcNMW22JZNMLdS79FoUd2YBKdg=="
 }
 ```
 <!--partial-end-->
 
 - response in case of unknown user
 
-<!--partial-begin { "files": [ "getIdPrefsResponse_unknown.json" ], "block": "json" } -->
+<!--partial-begin { "files": [ "getIdsPrefsResponse_unknown.json" ], "block": "json" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```json
 {
@@ -241,12 +261,12 @@ GET /v1/ids-prefs/read?sender=advertiserA.com&timestamp=1639057962145&signature=
       {
         "persisted": false,
         "version": 0,
-        "type": "prebid_id",
+        "type": "paf_browser_id",
         "value": "2e71121a-4feb-4a34-b7d1-839587d36390",
         "source": {
           "domain": "operator.prebidsso.com",
           "timestamp": 1643041140000,
-          "signature": "/97uDMKRyaW1v2MH4UbU6UNRft/v+1bJV0vpmArVc3l9ErOhCuM2nsewgAI5w9HjFJbzvdLlTOTlTjTlZCdw8w=="
+          "signature": "PPhtH9vaPP1SXeGXOFzOcMmbOiJ/3or0+o5YUli0NQfgLQ087kuAAUvivPkcyyRza1Eorq7C1EXmmJRxEBRp8A=="
         }
       }
     ]
@@ -254,7 +274,7 @@ GET /v1/ids-prefs/read?sender=advertiserA.com&timestamp=1639057962145&signature=
   "sender": "operator.prebidsso.com",
   "receiver": "advertiser.com",
   "timestamp": 1643041150000,
-  "signature": "GIqz3qO/aYp/tCs1wLD/t4UQJul0RZ2HgxnWGHGMRi42Wl6FUqrrEoiIp1V5YkpVABqzwsZ0SXSRybnbAtYNUg=="
+  "signature": "yjglI9Fq8jfHTOk2PjE+coq8oLwsSbULoBh96tv8o4njN6v0bFUl0S1vD3Dq9Jz++7ibbUEzYA5ujaCR1QASfw=="
 }
 ```
 <!--partial-end-->
@@ -302,7 +322,7 @@ POST /v1/ids-prefs
 
 - request payload
 
-<!--partial-begin { "files": [ "postIdPrefsRequest.json" ], "block": "json" } -->
+<!--partial-begin { "files": [ "postIdsPrefsRequest.json" ], "block": "json" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```json
 {
@@ -310,38 +330,38 @@ POST /v1/ids-prefs
     "identifiers": [
       {
         "version": 0,
-        "type": "prebid_id",
+        "type": "paf_browser_id",
         "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
         "source": {
           "domain": "operator.prebidsso.com",
           "timestamp": 1642504380000,
-          "signature": "RYGHYsBUEwMgFgOJ9aUQl7ywl4xnqdmwWIgPbaIowbXbmZAFKLa7mcBJQuWh1wEskpu57SHn2mmCF6V5+cESgw=="
+          "signature": "Oiwt1PFNSJvhQQqpnmqS2jG1jc5pD1vDN/ZU+Diy2ohzGTd4AL2VF6REUOSseitMhVYk4LkYD2IsRXT1hkw5nQ=="
         }
       }
     ],
     "preferences": {
       "version": 0,
       "data": {
-        "opt_in": true
+        "use_browsing_for_personalization": true
       },
       "source": {
         "domain": "cmp.com",
         "timestamp": 1642504560000,
-        "signature": "HmnCaXySi8u1/qx9YlKA6cTU8L6HAydywDOpJjoLd+Bz+X93APaRXJ1yDJsTC95EPC29ESAisxQ2LsNF6ZSERA=="
+        "signature": "OFgRb5njIf+HCmYHVM9IbEUoA90ZZL4wTlFDpPc+APSWAD4eCSclOzRV5i4LOlyyuu2Rkl+jAt2DC0UD1bVGiA=="
       }
     }
   },
   "sender": "cmp.com",
   "receiver": "operator.prebidsso.com",
   "timestamp": 1643097660000,
-  "signature": "rh5xZm+eoSwsmxMO0CKD/bhXor8IZEJc7YrhQZHw7HGsdmX4rqW2Ra4Mp4ZQf1ltIe/otu1Ot296CwSL5HUljA=="
+  "signature": "gKN9yh5fzM0mrVglfoOuOOeic6QzAyrGcRdqIHpLLFluxfqKZGaLVa/BRz+4I2HaxXq2siX8ge7UD5C6LljPOg=="
 }
 ```
 <!--partial-end-->
 
 - response
 
-<!--partial-begin { "files": [ "postIdPrefsResponse.json" ], "block": "json" } -->
+<!--partial-begin { "files": [ "postIdsPrefsResponse.json" ], "block": "json" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```json
 {
@@ -349,31 +369,31 @@ POST /v1/ids-prefs
     "identifiers": [
       {
         "version": 0,
-        "type": "prebid_id",
+        "type": "paf_browser_id",
         "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
         "source": {
           "domain": "operator.prebidsso.com",
           "timestamp": 1642504380000,
-          "signature": "RYGHYsBUEwMgFgOJ9aUQl7ywl4xnqdmwWIgPbaIowbXbmZAFKLa7mcBJQuWh1wEskpu57SHn2mmCF6V5+cESgw=="
+          "signature": "Oiwt1PFNSJvhQQqpnmqS2jG1jc5pD1vDN/ZU+Diy2ohzGTd4AL2VF6REUOSseitMhVYk4LkYD2IsRXT1hkw5nQ=="
         }
       }
     ],
     "preferences": {
       "version": 0,
       "data": {
-        "opt_in": true
+        "use_browsing_for_personalization": true
       },
       "source": {
         "domain": "cmp.com",
         "timestamp": 1642504560000,
-        "signature": "HmnCaXySi8u1/qx9YlKA6cTU8L6HAydywDOpJjoLd+Bz+X93APaRXJ1yDJsTC95EPC29ESAisxQ2LsNF6ZSERA=="
+        "signature": "OFgRb5njIf+HCmYHVM9IbEUoA90ZZL4wTlFDpPc+APSWAD4eCSclOzRV5i4LOlyyuu2Rkl+jAt2DC0UD1bVGiA=="
       }
     }
   },
   "sender": "operator.prebidsso.com",
   "receiver": "cmp.com",
   "timestamp": 1643097663000,
-  "signature": "S/Iz2+aEmD/j46J0Brq36BY3WZw8WVmv9TApCfplbB+c5EnG9jzStnplC1O8evn608nnVFiq3fvHSuQgkiMgrw=="
+  "signature": "V32x2oL3QdvH2XlGG9NwscGpOyxAN7qII0hYhQZyTf1fLN3TCpNmrnegHqoDTdclTsOLY5eEdZ5m2kQG5cKTAw=="
 }
 ```
 <!--partial-end-->
@@ -431,12 +451,12 @@ Example:
       {
         "persisted": false,
         "version": 0,
-        "type": "prebid_id",
+        "type": "paf_browser_id",
         "value": "2e71121a-4feb-4a34-b7d1-839587d36390",
         "source": {
           "domain": "operator.prebidsso.com",
           "timestamp": 1643041140000,
-          "signature": "/97uDMKRyaW1v2MH4UbU6UNRft/v+1bJV0vpmArVc3l9ErOhCuM2nsewgAI5w9HjFJbzvdLlTOTlTjTlZCdw8w=="
+          "signature": "PPhtH9vaPP1SXeGXOFzOcMmbOiJ/3or0+o5YUli0NQfgLQ087kuAAUvivPkcyyRza1Eorq7C1EXmmJRxEBRp8A=="
         }
       }
     ]
@@ -444,7 +464,7 @@ Example:
   "sender": "operator.prebidsso.com",
   "receiver": "cmp.com",
   "timestamp": 1646157887000,
-  "signature": "q1DV1/H+gJmYKebgJXf2pzMu7cwoAgoJ10bz9t6Adx3w/iMYNmqawu/QaXctAnttG/mhS0TwjDIyL2/jHdlKIg=="
+  "signature": "Qn3azbIQSiXi0/h4mI5j9vIV7qQmflAe/Emf0++884tIRxz73DwXYNQ5Dttkv2aIO68sOKL7G4VG/MOBB7qhmg=="
 }
 ```
 <!--partial-end-->
