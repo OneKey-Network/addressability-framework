@@ -1,6 +1,6 @@
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 
-# GET /v1/id-prefs request
+# GET /v1/ids-prefs request
 
 <table>
 

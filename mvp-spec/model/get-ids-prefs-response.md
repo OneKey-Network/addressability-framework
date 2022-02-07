@@ -1,50 +1,6 @@
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 
-# GET /v1/redirect/post-id-prefs request
-
-<table>
-
-<tr>
-    <th> Property </th>
-    <th> Type </th>
-    <th> Description </th>
-</tr>
-
-<tr>
-<td>
-<b>returnUrl</b>
-</td>
-<td>
-string
-</td>
-<td>
-
-The URL that the user should be be redirected to, to provide response data
-
-**Examples:** 
-
-```json
-"https://the-web-site.com/somePage.html"
-```
-
-```json
-"https://another.co.uk/news/2022/02/01/?param=value#anchorA"
-```
-
-</td>
-</tr>
-
-<tr>
-<td>
-<b>request</b>
-</td>
-<td>
-object
-</td>
-<td>
-
-<details>
-<summary>Object details</summary>
+# GET /v1/ids-prefs response
 
 <table>
 
@@ -63,7 +19,7 @@ string
 </td>
 <td>
 
-The domain name of the sender of this request (the website domain)
+The domain name of the sender of this response (the operator domain name)
 
 **Examples:** 
 
@@ -87,7 +43,7 @@ string
 </td>
 <td>
 
-The domain name of the receiver of this request (the operator domain name)
+The domain name of the receiver of this request (the website)
 
 **Examples:** 
 
@@ -132,7 +88,6 @@ string
 <td>
 
 Signature based on input:
-
 ```
 sender + '\u2063' +
 receiver + '\u2063' +
@@ -162,7 +117,7 @@ object
 </td>
 <td>
 
-A list of identifiers and some preferences
+A list of identifiers and optionally, some preferences
 
 <details>
 <summary>Object details</summary>
@@ -177,7 +132,7 @@ A list of identifiers and some preferences
 
 <tr>
 <td>
-<b>preferences</b>
+preferences<br>(<i>optional</i>)
 </td>
 <td>
 object
@@ -537,13 +492,6 @@ The base64 representation of a data signature
 ```json
 "RYGHYsBUEwMgFgOJ9aUQl7ywl4xnqdmwWIgPbaIowbXbmZAFKLa7mcBJQuWh1wEskpu57SHn2mmCF6V5+cESgw=="
 ```
-
-</td>
-</tr>
-
-</table>
-
-</details>
 
 </td>
 </tr>

@@ -83,13 +83,13 @@ Notes:
 - values returned by the endpoints are based cookies stored on the web user's browser. Of course, it means the same
   calls on different web browsers will return different responses.
 
-| Endpoint         | Description                                                  | Input                 | Output                                                                          | REST                | Redirect                         |
-|------------------|--------------------------------------------------------------|-----------------------|---------------------------------------------------------------------------------|---------------------|----------------------------------|
-| Read id & prefs  | Read existing cookies.<br>Return new ID if none              | -                     | List of persisted IDs.<br>List of preferences<br>newly generated PAF ID, if any | `GET /v1/id-prefs`  | `GET /v1/redirect/get-id-prefs`  |
-| Write id & prefs | Update cookies                                               | PAF ID<br>preferences | List of persisted IDs.<br>List of preferences                                   | `POST /v1/id-prefs` | `GET /v1/redirect/post-id-prefs` |
-| Get new id       | Generate new ID                                              | -                     | newly generated PAF ID                                                          | `GET /v1/new-id`    | N/A                              |
-| Verify 3PC       | Confirm if 3PC are supported                                 | -                     | boolean                                                                         | `GET /v1/3pc`       | N/A                              |
-| Get identity     | Get operator public key to verify ID or responses signatures | -                     | list of:<br>public key + start and end dates if any                             | `GET /v1/identity`  | N/A                              |
+| Endpoint         | Description                                                  | Input                 | Output                                                                          | REST                 | Redirect                          |
+|------------------|--------------------------------------------------------------|-----------------------|---------------------------------------------------------------------------------|----------------------|-----------------------------------|
+| Read id & prefs  | Read existing cookies.<br>Return new ID if none              | -                     | List of persisted IDs.<br>List of preferences<br>newly generated PAF ID, if any | `GET /v1/ids-prefs`  | `GET /v1/redirect/get-ids-prefs`  |
+| Write id & prefs | Update cookies                                               | PAF ID<br>preferences | List of persisted IDs.<br>List of preferences                                   | `POST /v1/ids-prefs` | `GET /v1/redirect/post-ids-prefs` |
+| Get new id       | Generate new ID                                              | -                     | newly generated PAF ID                                                          | `GET /v1/new-id`     | N/A                               |
+| Verify 3PC       | Confirm if 3PC are supported                                 | -                     | boolean                                                                         | `GET /v1/3pc`        | N/A                               |
+| Get identity     | Get operator public key to verify ID or responses signatures | -                     | list of:<br>public key + start and end dates if any                             | `GET /v1/identity`   | N/A                               |
 
 ## Commons
 
@@ -173,12 +173,12 @@ For endpoints that exist as "redirect", the following pattern is used:
 - if `paf_preferences` cookie exists, return its values
 - [_on REST version only_] attempt to create a temporary, short-life, "test 3PC" cookie
 
-#### REST read: `GET /v1/id-prefs`
+#### REST read: `GET /v1/ids-prefs`
 
 | Message  | Format                                                  |
 |----------|---------------------------------------------------------|
-| Request  | [get-id-prefs-request](model/get-id-prefs-request.md)   |
-| Response | [get-id-prefs-response](model/get-id-prefs-response.md) |
+| Request  | [get-ids-prefs-request](model/get-ids-prefs-request.md)   |
+| Response | [get-ids-prefs-response](model/get-ids-prefs-response.md) |
 
 ##### Example
 
@@ -188,7 +188,7 @@ npx encode-query-string -nd `cat request-advertiserA.json | npx json -e 'this.bo
 -->
 
 ```http
-GET /v1/id-prefs/read?sender=advertiserA.com&timestamp=1639057962145&signature=message_signature_xyz1234
+GET /v1/ids-prefs/read?sender=advertiserA.com&timestamp=1639057962145&signature=message_signature_xyz1234
 ```
 
 - response in case of known user
@@ -263,12 +263,12 @@ Notice `persisted` = `false`.
 
 See [identifier.md](model/identifier.md) for details.
 
-#### Redirect read: `GET /v1/redirect/get-id-prefs`
+#### Redirect read: `GET /v1/redirect/get-ids-prefs`
 
 | Message  | Format                                                                      |
 |----------|-----------------------------------------------------------------------------|
-| Request  | [redirect-get-id-prefs-request](./model/redirect-get-id-prefs-request.md)   |
-| Response | [redirect-get-id-prefs-response](./model/redirect-get-id-prefs-response.md) |
+| Request  | [redirect-get-ids-prefs-request](./model/redirect-get-ids-prefs-request.md)   |
+| Response | [redirect-get-ids-prefs-response](./model/redirect-get-ids-prefs-response.md) |
 
 ##### Example
 
@@ -285,19 +285,19 @@ Examples to be added
 - update `paf_preferences` cookie with new value
 - return both values
 
-#### REST write: `POST /v1/id-prefs`
+#### REST write: `POST /v1/ids-prefs`
 
 | Message  | Format                                                      |
 |----------|-------------------------------------------------------------|
-| Request  | [post-id-prefs-request](./model/post-id-prefs-request.md)   |
-| Response | [post-id-prefs-response](./model/post-id-prefs-response.md) |
+| Request  | [post-ids-prefs-request](./model/post-ids-prefs-request.md)   |
+| Response | [post-ids-prefs-response](./model/post-ids-prefs-response.md) |
 
 ##### Example
 
 - request
 
 ```http
-POST /v1/id-prefs
+POST /v1/ids-prefs
 ```
 
 - request payload
@@ -378,12 +378,12 @@ POST /v1/id-prefs
 ```
 <!--partial-end-->
 
-#### Redirect write: `GET /v1/redirect/post-id-prefs`
+#### Redirect write: `GET /v1/redirect/post-ids-prefs`
 
 | Message  | Format                                                                        |
 |----------|-------------------------------------------------------------------------------|
-| Request  | [redirect-post-id-prefs-request](./model/redirect-post-id-prefs-request.md)   |
-| Response | [redirect-post-id-prefs-response](./model/redirect-post-id-prefs-response.md) |
+| Request  | [redirect-post-ids-prefs-request](./model/redirect-post-ids-prefs-request.md)   |
+| Response | [redirect-post-ids-prefs-response](./model/redirect-post-ids-prefs-response.md) |
 
 ##### Example
 
@@ -460,10 +460,10 @@ This endpoint doesn't rely on support of 3PC or not: the REST version will work 
 - **no** signature verification
 - if `paf_test_3pc` exists, return `true`. Otherwise, return `false`
 
-On a call to `GET /v1/id-prefs`, when no cookie is found on PAF TLD+1 domain,
+On a call to `GET /v1/ids-prefs`, when no cookie is found on PAF TLD+1 domain,
 the operator attempts to write a short-life `paf_test_3pc` cookie.
 
-This endpoint is **only** called immediately after a call to `GET /v1/id-prefs` has failed, to
+This endpoint is **only** called immediately after a call to `GET /v1/ids-prefs` has failed, to
 check if the `paf_test_3pc` cookie was indeed written by the web browser.
 
 See [website-design](./website-design.md) for the full picture.

@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "Identifiers and preferences",
   "description": "A list of identifiers and some preferences",
-  "$id": "id-and-preferences",
+  "$id": "ids-and-preferences",
   "type": "object",
   "additionalProperties": false,
   "properties": {

@@ -1,14 +1,14 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "redirect-get-id-prefs-response",
-  "title": "GET /v1/redirect/get-id-prefs response",
+  "$id": "redirect-get-ids-prefs-response",
+  "title": "GET /v1/redirect/get-ids-prefs response",
   "additionalProperties": false,
   "properties": {
     "code": {
       "$ref": "response-code.json"
     },
     "response": {
-      "$ref": "get-id-prefs-response.json",
+      "$ref": "get-ids-prefs-response.json",
       "description": "Sent if code is `200`"
     },
     "error": {

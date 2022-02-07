@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "id-and-optional-preferences",
+  "$id": "ids-and-optional-preferences",
   "title": "Identifiers and optional preferences",
   "description": "A list of identifiers and optionally, some preferences",
   "type": "object",

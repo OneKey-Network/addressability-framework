@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "get-id-prefs-request",
-  "title": "GET /v1/id-prefs request",
+  "$id": "post-ids-prefs-request",
+  "title": "POST /v1/ids-prefs request",
   "type": "object",
   "additionalProperties": false,
   "properties": {
@@ -18,13 +18,17 @@
     },
     "signature": {
       "$ref": "signature.json",
-      "description": "Signature based on input:\n```\nsender + '\\u2063' +\nreceiver + '\\u2063' +\ntimestamp\n```"
+      "description": "Signature based on input:\n\n```\nsender + '\\u2063' +\nreceiver + '\\u2063' +\ntimestamp + '\\u2063' +\npreferences.source.signature + '\\u2063' +\nidentifiers[0].source.signature + '\\u2063' +\nidentifiers[1].source.signature + '\\u2063' +\n...\nidentifiers[n].source.signature\n```"
+    },
+    "body": {
+      "$ref": "ids-and-preferences.json"
     }
   },
   "required": [
     "sender",
     "receiver",
     "timestamp",
-    "signature"
+    "signature",
+    "body"
   ]
 }

@@ -1,6 +1,6 @@
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 
-# post-id-prefs-response.json response
+# POST /v1/ids-prefs request
 
 <table>
 
@@ -12,27 +12,23 @@
 
 <tr>
 <td>
-<b>code</b>
+<b>sender</b>
 </td>
 <td>
 string
 </td>
 <td>
 
-The response code used on a redirect endpoint<br>While REST endpoints can use HTTP codes to communicate the state of the response, redirect endpoints are limited to `30x` HTTP codes.<br>To address this problem, this property is used to contain the same HTTP code as the one that would be returned by a REST endpoint.
+The domain name of the sender of this request (the website domain)
 
 **Examples:** 
 
 ```json
-"200"
+"a-domain-name.com"
 ```
 
 ```json
-"400"
-```
-
-```json
-"503"
+"another.domain.co.uk"
 ```
 
 </td>
@@ -40,24 +36,77 @@ The response code used on a redirect endpoint<br>While REST endpoints can use HT
 
 <tr>
 <td>
-response<br>(<i>optional</i>)
+<b>receiver</b>
 </td>
 <td>
-object
+string
 </td>
 <td>
 
-Sent if code is `200`
+The domain name of the receiver of this request (the operator domain name)
 
-<details>
-<summary>Object details</summary>
+**Examples:** 
 
-<table>
+```json
+"a-domain-name.com"
+```
+
+```json
+"another.domain.co.uk"
+```
+
+</td>
+</tr>
 
 <tr>
-    <th> Property </th>
-    <th> Type </th>
-    <th> Description </th>
+<td>
+<b>timestamp</b>
+</td>
+<td>
+integer
+</td>
+<td>
+
+Number of seconds since UNIX Epoch time (1970/01/01 00:00:00)
+
+**Example:** 
+
+```json
+1643297316
+```
+
+</td>
+</tr>
+
+<tr>
+<td>
+<b>signature</b>
+</td>
+<td>
+string
+</td>
+<td>
+
+Signature based on input:
+
+```
+sender + '\u2063' +
+receiver + '\u2063' +
+timestamp + '\u2063' +
+preferences.source.signature + '\u2063' +
+identifiers[0].source.signature + '\u2063' +
+identifiers[1].source.signature + '\u2063' +
+...
+identifiers[n].source.signature
+```
+
+**Example:** 
+
+```json
+"RYGHYsBUEwMgFgOJ9aUQl7ywl4xnqdmwWIgPbaIowbXbmZAFKLa7mcBJQuWh1wEskpu57SHn2mmCF6V5+cESgw=="
+```
+
+</td>
 </tr>
 
 <tr>
@@ -458,56 +507,6 @@ The base64 representation of a data signature
 </table>
 
 </details>
-
-</td>
-</tr>
-
-</table>
-
-</details>
-
-</td>
-</tr>
-
-</table>
-
-</details>
-
-</td>
-</tr>
-
-<tr>
-<td>
-error<br>(<i>optional</i>)
-</td>
-<td>
-object
-</td>
-<td>
-
-Sent if code is different from `200`
-
-<details>
-<summary>Object details</summary>
-
-<table>
-
-<tr>
-    <th> Property </th>
-    <th> Type </th>
-    <th> Description </th>
-</tr>
-
-<tr>
-<td>
-<b>message</b>
-</td>
-<td>
-string
-</td>
-<td>
-
-The error message
 
 </td>
 </tr>
