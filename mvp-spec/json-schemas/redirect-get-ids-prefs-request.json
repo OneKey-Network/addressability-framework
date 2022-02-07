@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "redirect-post-ids-prefs-request",
-  "title": "GET /v1/redirect/post-ids-prefs request",
+  "$id": "redirect-get-ids-prefs-request",
+  "title": "GET /v1/redirect/get-ids-prefs request",
   "type": "object",
   "additionalProperties": false,
   "properties": {
@@ -9,7 +9,7 @@
       "$ref": "return-url.json"
     },
     "request": {
-      "$ref": "post-ids-prefs-request.json"
+      "$ref": "get-ids-prefs-request.json"
     }
   },
   "required": [
