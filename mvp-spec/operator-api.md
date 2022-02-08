@@ -819,10 +819,10 @@ This endpoint doesn't rely on support of 3PC or not: the REST version will work 
 
 #### REST get identity: `GET /v1/identity`
 
-| Message  | Format                                                       |
-|----------|--------------------------------------------------------------|
-| Request  | [get-identity-request.md](./model/get-identity-request.md)   |
-| Response | [get-identity-response.md](./model/get-identity-response.md) |
+| Message  | Format                                                                          |
+|----------|---------------------------------------------------------------------------------|
+| Request  | [get-identity-request.md](./model/get-identity-request.md) (empty query string) |
+| Response | [get-identity-response.md](./model/get-identity-response.md)                    |
 
 <details>
 <summary>Full example</summary>
