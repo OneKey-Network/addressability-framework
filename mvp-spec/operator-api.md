@@ -24,7 +24,7 @@ An extra cookie, with a very short lifetime, can be created to test the support 
 <!--partial-begin { "files": [ "ids_cookie.txt" ], "block": "" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```
-[{"version":0,"type":"paf_browser_id","value":"7435313e-caee-4889-8ad7-0acd0114ae3c","source":{"domain":"operator.prebidsso.com","timestamp":1642504380000,"signature":"Oiwt1PFNSJvhQQqpnmqS2jG1jc5pD1vDN/ZU+Diy2ohzGTd4AL2VF6REUOSseitMhVYk4LkYD2IsRXT1hkw5nQ=="}}]
+[{"version":0,"type":"paf_browser_id","value":"7435313e-caee-4889-8ad7-0acd0114ae3c","source":{"domain":"operator.pafdemo.com","timestamp":1642504380,"signature":"WMl4bYDm4WzKPlzVNp7RK8JT3VbbbEO9BHIqA2/GJx+FAV9YihsPMQx5000iXsw+dIXMtk2Y13JE9sBnM/NaDg=="}}]
 ```
 <!--partial-end-->
 
@@ -39,9 +39,9 @@ Which is the "stringified" version of:
     "type": "paf_browser_id",
     "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
     "source": {
-      "domain": "operator.prebidsso.com",
-      "timestamp": 1642504380000,
-      "signature": "Oiwt1PFNSJvhQQqpnmqS2jG1jc5pD1vDN/ZU+Diy2ohzGTd4AL2VF6REUOSseitMhVYk4LkYD2IsRXT1hkw5nQ=="
+      "domain": "operator.pafdemo.com",
+      "timestamp": 1642504380,
+      "signature": "WMl4bYDm4WzKPlzVNp7RK8JT3VbbbEO9BHIqA2/GJx+FAV9YihsPMQx5000iXsw+dIXMtk2Y13JE9sBnM/NaDg=="
     }
   }
 ]
@@ -53,7 +53,7 @@ Which is the "stringified" version of:
 <!--partial-begin { "files": [ "preferences_cookie.txt" ], "block": "" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```
-{"version":0,"data":{"use_browsing_for_personalization":true},"source":{"domain":"cmp.com","timestamp":1642504560000,"signature":"OFgRb5njIf+HCmYHVM9IbEUoA90ZZL4wTlFDpPc+APSWAD4eCSclOzRV5i4LOlyyuu2Rkl+jAt2DC0UD1bVGiA=="}}
+{"version":0,"data":{"use_browsing_for_personalization":true},"source":{"domain":"cmp.com","timestamp":1642504560,"signature":"Nm2hF62NTXzwUJDV/ADbXjeZSCCNWPZLuqzHIDGpu68l5DPWK4y72dmX1JHxlDe2CgGJyUsi0M7zWPULDcAo9w=="}}
 ```
 <!--partial-end-->
 
@@ -69,8 +69,8 @@ Which is the "stringified" version of:
   },
   "source": {
     "domain": "cmp.com",
-    "timestamp": 1642504560000,
-    "signature": "OFgRb5njIf+HCmYHVM9IbEUoA90ZZL4wTlFDpPc+APSWAD4eCSclOzRV5i4LOlyyuu2Rkl+jAt2DC0UD1bVGiA=="
+    "timestamp": 1642504560,
+    "signature": "Nm2hF62NTXzwUJDV/ADbXjeZSCCNWPZLuqzHIDGpu68l5DPWK4y72dmX1JHxlDe2CgGJyUsi0M7zWPULDcAo9w=="
   }
 }
 ```
@@ -200,16 +200,31 @@ For endpoints that exist as "redirect", the following pattern is used:
 | Request  | [get-ids-prefs-request](model/get-ids-prefs-request.md)   |
 | Response | [get-ids-prefs-response](model/get-ids-prefs-response.md) |
 
-##### Example
+<details>
+<summary>Full example</summary>
 
-- request
-<!-- The query string below is generated with taking the request-advertiserA.json file, removing body, and encoding it as query string:
-npx encode-query-string -nd `cat request-advertiserA.json | npx json -e 'this.body = undefined' -o json-0`
--->
+- the following request is built:
 
-```http
-GET /v1/ids-prefs/read?sender=advertiserA.com&timestamp=1639057962145&signature=message_signature_xyz1234
+<!--partial-begin { "files": [ "getIdsPrefsRequest.json" ], "block": "json" } -->
+<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
+```json
+{
+  "sender": "cmp.com",
+  "receiver": "operator.pafdemo.com",
+  "timestamp": 1643041140,
+  "signature": "IkJXHmwiaehWofflriQ/OR9acQKF3isYj434JT0BKLNUlXxvZHoLOISPaT+zlbaq8AuhIIDFHJpPezeIczE5DQ=="
+}
 ```
+<!--partial-end-->
+
+  - and transformed into a parameter of the query string to form the URL to call:
+
+<!--partial-begin { "files": [ "getIdsPrefsRequest.http" ], "block": "http" } -->
+<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
+```http
+GET https://operator.pafdemo.com/v1/ids-prefs?paf=%7B%22sender%22%3A%22cmp.com%22%2C%22receiver%22%3A%22operator.pafdemo.com%22%2C%22timestamp%22%3A1643041140%2C%22signature%22%3A%22IkJXHmwiaehWofflriQ%2FOR9acQKF3isYj434JT0BKLNUlXxvZHoLOISPaT%2Bzlbaq8AuhIIDFHJpPezeIczE5DQ%3D%3D%22%7D
+```
+<!--partial-end-->
 
 - response in case of known user
 
@@ -224,9 +239,9 @@ GET /v1/ids-prefs/read?sender=advertiserA.com&timestamp=1639057962145&signature=
         "type": "paf_browser_id",
         "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
         "source": {
-          "domain": "operator.prebidsso.com",
-          "timestamp": 1642504380000,
-          "signature": "Oiwt1PFNSJvhQQqpnmqS2jG1jc5pD1vDN/ZU+Diy2ohzGTd4AL2VF6REUOSseitMhVYk4LkYD2IsRXT1hkw5nQ=="
+          "domain": "operator.pafdemo.com",
+          "timestamp": 1642504380,
+          "signature": "WMl4bYDm4WzKPlzVNp7RK8JT3VbbbEO9BHIqA2/GJx+FAV9YihsPMQx5000iXsw+dIXMtk2Y13JE9sBnM/NaDg=="
         }
       }
     ],
@@ -237,15 +252,15 @@ GET /v1/ids-prefs/read?sender=advertiserA.com&timestamp=1639057962145&signature=
       },
       "source": {
         "domain": "cmp.com",
-        "timestamp": 1642504560000,
-        "signature": "OFgRb5njIf+HCmYHVM9IbEUoA90ZZL4wTlFDpPc+APSWAD4eCSclOzRV5i4LOlyyuu2Rkl+jAt2DC0UD1bVGiA=="
+        "timestamp": 1642504560,
+        "signature": "Nm2hF62NTXzwUJDV/ADbXjeZSCCNWPZLuqzHIDGpu68l5DPWK4y72dmX1JHxlDe2CgGJyUsi0M7zWPULDcAo9w=="
       }
     }
   },
-  "sender": "operator.prebidsso.com",
+  "sender": "operator.pafdemo.com",
   "receiver": "advertiser.com",
-  "timestamp": 1643041150000,
-  "signature": "Hg6hYbEi5lAILVSDt0sQ7AgrQnHMfcw19CBoqwPswOVyUFlRlL47oMD2ab+RpcNMW22JZNMLdS79FoUd2YBKdg=="
+  "timestamp": 1643041150,
+  "signature": "lAd3PQX0TeS8PbQkKWHB4ISn9D9HPkdGhz3ub7at+H3hSAtj0icI4C4pMD8y8yQXWcwq+oWSTtUCyNZDpu7hWA=="
 }
 ```
 <!--partial-end-->
@@ -264,24 +279,24 @@ GET /v1/ids-prefs/read?sender=advertiserA.com&timestamp=1639057962145&signature=
         "type": "paf_browser_id",
         "value": "2e71121a-4feb-4a34-b7d1-839587d36390",
         "source": {
-          "domain": "operator.prebidsso.com",
-          "timestamp": 1643041140000,
-          "signature": "PPhtH9vaPP1SXeGXOFzOcMmbOiJ/3or0+o5YUli0NQfgLQ087kuAAUvivPkcyyRza1Eorq7C1EXmmJRxEBRp8A=="
+          "domain": "operator.pafdemo.com",
+          "timestamp": 1643041140,
+          "signature": "TcoSmz8xSfQIqlIa3RT9XItd7wkvnKWO6UeUjCy52Cn+O4rBXjwkm934ufZRyfM9ylrepQDPJlCSy/eEZxeAMw=="
         }
       }
     ]
   },
-  "sender": "operator.prebidsso.com",
+  "sender": "operator.pafdemo.com",
   "receiver": "advertiser.com",
-  "timestamp": 1643041150000,
-  "signature": "yjglI9Fq8jfHTOk2PjE+coq8oLwsSbULoBh96tv8o4njN6v0bFUl0S1vD3Dq9Jz++7ibbUEzYA5ujaCR1QASfw=="
+  "timestamp": 1643041150,
+  "signature": "b6tqROVeIxtdJF0sKULUtF5p2Ply2oUSqZz9M2dI7l038W66aNwXzeF/F1Tuip6VXnLxDPnjF6bmIs0gq79z7w=="
 }
 ```
 <!--partial-end-->
 
-Notice `persisted` = `false`.
+Notice `persisted` = `false`, see [identifier.md](model/identifier.md) for details.
 
-See [identifier.md](model/identifier.md) for details.
+</details>
 
 #### Redirect read: `GET /v1/redirect/get-ids-prefs`
 
@@ -290,11 +305,130 @@ See [identifier.md](model/identifier.md) for details.
 | Request  | [redirect-get-ids-prefs-request](./model/redirect-get-ids-prefs-request.md)   |
 | Response | [redirect-get-ids-prefs-response](./model/redirect-get-ids-prefs-response.md) |
 
-##### Example
+<details>
+<summary>Full example</summary>
 
-<mark>TODO</mark>
+- the following request is built:
 
-Examples to be added
+<!--partial-begin { "files": [ "redirectGetIdsPrefsRequest.json" ], "block": "json" } -->
+<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
+```json
+{
+  "request": {
+    "sender": "cmp.com",
+    "receiver": "operator.pafdemo.com",
+    "timestamp": 1643041140,
+    "signature": "IkJXHmwiaehWofflriQ/OR9acQKF3isYj434JT0BKLNUlXxvZHoLOISPaT+zlbaq8AuhIIDFHJpPezeIczE5DQ=="
+  },
+  "returnUrl": "https://advertiser.com/news/2022/02/07/something-crazy-happened?utm_content=campaign%20content"
+}
+```
+<!--partial-end-->
+
+- and transformed into a parameter of the query string to form the URL to call:
+
+<!--partial-begin { "files": [ "redirectGetIdsPrefsRequest.http" ], "block": "http" } -->
+<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
+```http
+GET https://operator.pafdemo.com/v1/redirect/get-ids-prefs?paf=%7B%22request%22%3A%7B%22sender%22%3A%22cmp.com%22%2C%22receiver%22%3A%22operator.pafdemo.com%22%2C%22timestamp%22%3A1643041140%2C%22signature%22%3A%22IkJXHmwiaehWofflriQ%2FOR9acQKF3isYj434JT0BKLNUlXxvZHoLOISPaT%2Bzlbaq8AuhIIDFHJpPezeIczE5DQ%3D%3D%22%7D%2C%22returnUrl%22%3A%22https%3A%2F%2Fadvertiser.com%2Fnews%2F2022%2F02%2F07%2Fsomething-crazy-happened%3Futm_content%3Dcampaign%2520content%22%7D
+```
+<!--partial-end-->
+
+- in case of known user, the following response is built:
+
+<!--partial-begin { "files": [ "redirectGetIdsPrefsResponse_known.json" ], "block": "json" } -->
+<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
+```json
+{
+  "code": 200,
+  "response": {
+    "body": {
+      "identifiers": [
+        {
+          "version": 0,
+          "type": "paf_browser_id",
+          "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
+          "source": {
+            "domain": "operator.pafdemo.com",
+            "timestamp": 1642504380,
+            "signature": "WMl4bYDm4WzKPlzVNp7RK8JT3VbbbEO9BHIqA2/GJx+FAV9YihsPMQx5000iXsw+dIXMtk2Y13JE9sBnM/NaDg=="
+          }
+        }
+      ],
+      "preferences": {
+        "version": 0,
+        "data": {
+          "use_browsing_for_personalization": true
+        },
+        "source": {
+          "domain": "cmp.com",
+          "timestamp": 1642504560,
+          "signature": "Nm2hF62NTXzwUJDV/ADbXjeZSCCNWPZLuqzHIDGpu68l5DPWK4y72dmX1JHxlDe2CgGJyUsi0M7zWPULDcAo9w=="
+        }
+      }
+    },
+    "sender": "operator.pafdemo.com",
+    "receiver": "advertiser.com",
+    "timestamp": 1643041150,
+    "signature": "lAd3PQX0TeS8PbQkKWHB4ISn9D9HPkdGhz3ub7at+H3hSAtj0icI4C4pMD8y8yQXWcwq+oWSTtUCyNZDpu7hWA=="
+  }
+}
+```
+<!--partial-end-->
+
+- and added as a parameter of the query string, to the redirect URL:
+
+<!--partial-begin { "files": [ "redirectGetIdsPrefsResponse_known.txt" ], "block": "" } -->
+<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
+```
+303 https://advertiser.com/news/2022/02/07/something-crazy-happened?utm_content=campaign+content&paf=%7B%22code%22%3A200%2C%22response%22%3A%7B%22body%22%3A%7B%22identifiers%22%3A%5B%7B%22version%22%3A0%2C%22type%22%3A%22paf_browser_id%22%2C%22value%22%3A%227435313e-caee-4889-8ad7-0acd0114ae3c%22%2C%22source%22%3A%7B%22domain%22%3A%22operator.pafdemo.com%22%2C%22timestamp%22%3A1642504380%2C%22signature%22%3A%22WMl4bYDm4WzKPlzVNp7RK8JT3VbbbEO9BHIqA2%2FGJx%2BFAV9YihsPMQx5000iXsw%2BdIXMtk2Y13JE9sBnM%2FNaDg%3D%3D%22%7D%7D%5D%2C%22preferences%22%3A%7B%22version%22%3A0%2C%22data%22%3A%7B%22use_browsing_for_personalization%22%3Atrue%7D%2C%22source%22%3A%7B%22domain%22%3A%22cmp.com%22%2C%22timestamp%22%3A1642504560%2C%22signature%22%3A%22Nm2hF62NTXzwUJDV%2FADbXjeZSCCNWPZLuqzHIDGpu68l5DPWK4y72dmX1JHxlDe2CgGJyUsi0M7zWPULDcAo9w%3D%3D%22%7D%7D%7D%2C%22sender%22%3A%22operator.pafdemo.com%22%2C%22receiver%22%3A%22advertiser.com%22%2C%22timestamp%22%3A1643041150%2C%22signature%22%3A%22lAd3PQX0TeS8PbQkKWHB4ISn9D9HPkdGhz3ub7at%2BH3hSAtj0icI4C4pMD8y8yQXWcwq%2BoWSTtUCyNZDpu7hWA%3D%3D%22%7D%7D
+```
+<!--partial-end-->
+
+- in case of known user, the following response is built:
+
+<!--partial-begin { "files": [ "redirectGetIdsPrefsResponse_unknown.json" ], "block": "json" } -->
+<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
+```json
+{
+  "code": 200,
+  "response": {
+    "body": {
+      "identifiers": [
+        {
+          "persisted": false,
+          "version": 0,
+          "type": "paf_browser_id",
+          "value": "2e71121a-4feb-4a34-b7d1-839587d36390",
+          "source": {
+            "domain": "operator.pafdemo.com",
+            "timestamp": 1643041140,
+            "signature": "TcoSmz8xSfQIqlIa3RT9XItd7wkvnKWO6UeUjCy52Cn+O4rBXjwkm934ufZRyfM9ylrepQDPJlCSy/eEZxeAMw=="
+          }
+        }
+      ]
+    },
+    "sender": "operator.pafdemo.com",
+    "receiver": "advertiser.com",
+    "timestamp": 1643041150,
+    "signature": "b6tqROVeIxtdJF0sKULUtF5p2Ply2oUSqZz9M2dI7l038W66aNwXzeF/F1Tuip6VXnLxDPnjF6bmIs0gq79z7w=="
+  }
+}
+```
+<!--partial-end-->
+
+Notice `persisted` = `false`, see [identifier.md](model/identifier.md) for details.
+
+- and added as a parameter of the query string, to the redirect URL:
+
+<!--partial-begin { "files": [ "redirectGetIdsPrefsResponse_unknown.txt" ], "block": "" } -->
+<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
+```
+303 https://advertiser.com/news/2022/02/07/something-crazy-happened?utm_content=campaign+content&paf=%7B%22code%22%3A200%2C%22response%22%3A%7B%22body%22%3A%7B%22identifiers%22%3A%5B%7B%22persisted%22%3Afalse%2C%22version%22%3A0%2C%22type%22%3A%22paf_browser_id%22%2C%22value%22%3A%222e71121a-4feb-4a34-b7d1-839587d36390%22%2C%22source%22%3A%7B%22domain%22%3A%22operator.pafdemo.com%22%2C%22timestamp%22%3A1643041140%2C%22signature%22%3A%22TcoSmz8xSfQIqlIa3RT9XItd7wkvnKWO6UeUjCy52Cn%2BO4rBXjwkm934ufZRyfM9ylrepQDPJlCSy%2FeEZxeAMw%3D%3D%22%7D%7D%5D%7D%2C%22sender%22%3A%22operator.pafdemo.com%22%2C%22receiver%22%3A%22advertiser.com%22%2C%22timestamp%22%3A1643041150%2C%22signature%22%3A%22b6tqROVeIxtdJF0sKULUtF5p2Ply2oUSqZz9M2dI7l038W66aNwXzeF%2FF1Tuip6VXnLxDPnjF6bmIs0gq79z7w%3D%3D%22%7D%7D
+```
+<!--partial-end-->
+
+</details>
 
 ### Write id & preferences
 
@@ -312,15 +446,10 @@ Examples to be added
 | Request  | [post-ids-prefs-request](./model/post-ids-prefs-request.md)   |
 | Response | [post-ids-prefs-response](./model/post-ids-prefs-response.md) |
 
-##### Example
+<details>
+<summary>Full example</summary>
 
-- request
-
-```http
-POST /v1/ids-prefs
-```
-
-- request payload
+- the following request is built:
 
 <!--partial-begin { "files": [ "postIdsPrefsRequest.json" ], "block": "json" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
@@ -333,9 +462,9 @@ POST /v1/ids-prefs
         "type": "paf_browser_id",
         "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
         "source": {
-          "domain": "operator.prebidsso.com",
-          "timestamp": 1642504380000,
-          "signature": "Oiwt1PFNSJvhQQqpnmqS2jG1jc5pD1vDN/ZU+Diy2ohzGTd4AL2VF6REUOSseitMhVYk4LkYD2IsRXT1hkw5nQ=="
+          "domain": "operator.pafdemo.com",
+          "timestamp": 1642504380,
+          "signature": "WMl4bYDm4WzKPlzVNp7RK8JT3VbbbEO9BHIqA2/GJx+FAV9YihsPMQx5000iXsw+dIXMtk2Y13JE9sBnM/NaDg=="
         }
       }
     ],
@@ -346,16 +475,25 @@ POST /v1/ids-prefs
       },
       "source": {
         "domain": "cmp.com",
-        "timestamp": 1642504560000,
-        "signature": "OFgRb5njIf+HCmYHVM9IbEUoA90ZZL4wTlFDpPc+APSWAD4eCSclOzRV5i4LOlyyuu2Rkl+jAt2DC0UD1bVGiA=="
+        "timestamp": 1642504560,
+        "signature": "Nm2hF62NTXzwUJDV/ADbXjeZSCCNWPZLuqzHIDGpu68l5DPWK4y72dmX1JHxlDe2CgGJyUsi0M7zWPULDcAo9w=="
       }
     }
   },
   "sender": "cmp.com",
-  "receiver": "operator.prebidsso.com",
-  "timestamp": 1643097660000,
-  "signature": "gKN9yh5fzM0mrVglfoOuOOeic6QzAyrGcRdqIHpLLFluxfqKZGaLVa/BRz+4I2HaxXq2siX8ge7UD5C6LljPOg=="
+  "receiver": "operator.pafdemo.com",
+  "timestamp": 1643097660,
+  "signature": "0wLS3XfbCpXUFhF78Xria93Jq7d/raNn6Ouz5gKf0MMBjPCGGKNKVdM/Mg2g2Lvo7UUAZsUPp9lqPojDmE88gQ=="
 }
+```
+<!--partial-end-->
+
+- and is used as the **POST payload** to the following call:
+
+<!--partial-begin { "files": [ "postIdsPrefsRequest.http" ], "block": "http" } -->
+<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
+```http
+POST https://operator.pafdemo.com/v1/ids-prefs
 ```
 <!--partial-end-->
 
@@ -372,9 +510,9 @@ POST /v1/ids-prefs
         "type": "paf_browser_id",
         "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
         "source": {
-          "domain": "operator.prebidsso.com",
-          "timestamp": 1642504380000,
-          "signature": "Oiwt1PFNSJvhQQqpnmqS2jG1jc5pD1vDN/ZU+Diy2ohzGTd4AL2VF6REUOSseitMhVYk4LkYD2IsRXT1hkw5nQ=="
+          "domain": "operator.pafdemo.com",
+          "timestamp": 1642504380,
+          "signature": "WMl4bYDm4WzKPlzVNp7RK8JT3VbbbEO9BHIqA2/GJx+FAV9YihsPMQx5000iXsw+dIXMtk2Y13JE9sBnM/NaDg=="
         }
       }
     ],
@@ -385,18 +523,20 @@ POST /v1/ids-prefs
       },
       "source": {
         "domain": "cmp.com",
-        "timestamp": 1642504560000,
-        "signature": "OFgRb5njIf+HCmYHVM9IbEUoA90ZZL4wTlFDpPc+APSWAD4eCSclOzRV5i4LOlyyuu2Rkl+jAt2DC0UD1bVGiA=="
+        "timestamp": 1642504560,
+        "signature": "Nm2hF62NTXzwUJDV/ADbXjeZSCCNWPZLuqzHIDGpu68l5DPWK4y72dmX1JHxlDe2CgGJyUsi0M7zWPULDcAo9w=="
       }
     }
   },
-  "sender": "operator.prebidsso.com",
+  "sender": "operator.pafdemo.com",
   "receiver": "cmp.com",
-  "timestamp": 1643097663000,
-  "signature": "V32x2oL3QdvH2XlGG9NwscGpOyxAN7qII0hYhQZyTf1fLN3TCpNmrnegHqoDTdclTsOLY5eEdZ5m2kQG5cKTAw=="
+  "timestamp": 1643097663,
+  "signature": "Cnz5K43sfXGUiQSRDl6hi92mnHOfI6dHKd7vy5OX2qOvnWIEjAzST2FBdn0wC7uphpC4PMIUCT7WQqU7Tl+qGg=="
 }
 ```
 <!--partial-end-->
+
+</details>
 
 #### Redirect write: `GET /v1/redirect/post-ids-prefs`
 
@@ -405,11 +545,112 @@ POST /v1/ids-prefs
 | Request  | [redirect-post-ids-prefs-request](./model/redirect-post-ids-prefs-request.md)   |
 | Response | [redirect-post-ids-prefs-response](./model/redirect-post-ids-prefs-response.md) |
 
-##### Example
+<details>
+<summary>Full example</summary>
 
-<mark>TODO</mark>
+- the following request is built:
 
-Examples to be added
+<!--partial-begin { "files": [ "redirectPostIdsPrefsRequest.json" ], "block": "json" } -->
+<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
+```json
+{
+  "request": {
+    "body": {
+      "identifiers": [
+        {
+          "version": 0,
+          "type": "paf_browser_id",
+          "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
+          "source": {
+            "domain": "operator.pafdemo.com",
+            "timestamp": 1642504380,
+            "signature": "WMl4bYDm4WzKPlzVNp7RK8JT3VbbbEO9BHIqA2/GJx+FAV9YihsPMQx5000iXsw+dIXMtk2Y13JE9sBnM/NaDg=="
+          }
+        }
+      ],
+      "preferences": {
+        "version": 0,
+        "data": {
+          "use_browsing_for_personalization": true
+        },
+        "source": {
+          "domain": "cmp.com",
+          "timestamp": 1642504560,
+          "signature": "Nm2hF62NTXzwUJDV/ADbXjeZSCCNWPZLuqzHIDGpu68l5DPWK4y72dmX1JHxlDe2CgGJyUsi0M7zWPULDcAo9w=="
+        }
+      }
+    },
+    "sender": "cmp.com",
+    "receiver": "operator.pafdemo.com",
+    "timestamp": 1643097660,
+    "signature": "0wLS3XfbCpXUFhF78Xria93Jq7d/raNn6Ouz5gKf0MMBjPCGGKNKVdM/Mg2g2Lvo7UUAZsUPp9lqPojDmE88gQ=="
+  },
+  "returnUrl": "https://advertiser.com/news/2022/02/07/something-crazy-happened?utm_content=campaign%20content"
+}
+```
+<!--partial-end-->
+
+- and transformed into a parameter of the query string to form the URL to call:
+
+<!--partial-begin { "files": [ "redirectPostIdsPrefsRequest.http" ], "block": "http" } -->
+<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
+```http
+GET https://operator.pafdemo.com/v1/redirect/post-ids-prefs?paf=%7B%22request%22%3A%7B%22body%22%3A%7B%22identifiers%22%3A%5B%7B%22version%22%3A0%2C%22type%22%3A%22paf_browser_id%22%2C%22value%22%3A%227435313e-caee-4889-8ad7-0acd0114ae3c%22%2C%22source%22%3A%7B%22domain%22%3A%22operator.pafdemo.com%22%2C%22timestamp%22%3A1642504380%2C%22signature%22%3A%22WMl4bYDm4WzKPlzVNp7RK8JT3VbbbEO9BHIqA2%2FGJx%2BFAV9YihsPMQx5000iXsw%2BdIXMtk2Y13JE9sBnM%2FNaDg%3D%3D%22%7D%7D%5D%2C%22preferences%22%3A%7B%22version%22%3A0%2C%22data%22%3A%7B%22use_browsing_for_personalization%22%3Atrue%7D%2C%22source%22%3A%7B%22domain%22%3A%22cmp.com%22%2C%22timestamp%22%3A1642504560%2C%22signature%22%3A%22Nm2hF62NTXzwUJDV%2FADbXjeZSCCNWPZLuqzHIDGpu68l5DPWK4y72dmX1JHxlDe2CgGJyUsi0M7zWPULDcAo9w%3D%3D%22%7D%7D%7D%2C%22sender%22%3A%22cmp.com%22%2C%22receiver%22%3A%22operator.pafdemo.com%22%2C%22timestamp%22%3A1643097660%2C%22signature%22%3A%220wLS3XfbCpXUFhF78Xria93Jq7d%2FraNn6Ouz5gKf0MMBjPCGGKNKVdM%2FMg2g2Lvo7UUAZsUPp9lqPojDmE88gQ%3D%3D%22%7D%2C%22returnUrl%22%3A%22https%3A%2F%2Fadvertiser.com%2Fnews%2F2022%2F02%2F07%2Fsomething-crazy-happened%3Futm_content%3Dcampaign%2520content%22%7D
+```
+<!--partial-end-->
+
+- the following response is built:
+
+<!--partial-begin { "files": [ "redirectPostIdsPrefsResponse.json" ], "block": "json" } -->
+<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
+```json
+{
+  "code": 200,
+  "response": {
+    "body": {
+      "identifiers": [
+        {
+          "version": 0,
+          "type": "paf_browser_id",
+          "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
+          "source": {
+            "domain": "operator.pafdemo.com",
+            "timestamp": 1642504380,
+            "signature": "WMl4bYDm4WzKPlzVNp7RK8JT3VbbbEO9BHIqA2/GJx+FAV9YihsPMQx5000iXsw+dIXMtk2Y13JE9sBnM/NaDg=="
+          }
+        }
+      ],
+      "preferences": {
+        "version": 0,
+        "data": {
+          "use_browsing_for_personalization": true
+        },
+        "source": {
+          "domain": "cmp.com",
+          "timestamp": 1642504560,
+          "signature": "Nm2hF62NTXzwUJDV/ADbXjeZSCCNWPZLuqzHIDGpu68l5DPWK4y72dmX1JHxlDe2CgGJyUsi0M7zWPULDcAo9w=="
+        }
+      }
+    },
+    "sender": "operator.pafdemo.com",
+    "receiver": "cmp.com",
+    "timestamp": 1643097663,
+    "signature": "Cnz5K43sfXGUiQSRDl6hi92mnHOfI6dHKd7vy5OX2qOvnWIEjAzST2FBdn0wC7uphpC4PMIUCT7WQqU7Tl+qGg=="
+  }
+}
+```
+<!--partial-end-->
+
+- and added as a parameter of the query string, to the redirect URL:
+
+<!--partial-begin { "files": [ "redirectPostIdsPrefsResponse.txt" ], "block": "" } -->
+<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
+```
+303 https://advertiser.com/news/2022/02/07/something-crazy-happened?utm_content=campaign+content&paf=%7B%22code%22%3A200%2C%22response%22%3A%7B%22body%22%3A%7B%22identifiers%22%3A%5B%7B%22version%22%3A0%2C%22type%22%3A%22paf_browser_id%22%2C%22value%22%3A%227435313e-caee-4889-8ad7-0acd0114ae3c%22%2C%22source%22%3A%7B%22domain%22%3A%22operator.pafdemo.com%22%2C%22timestamp%22%3A1642504380%2C%22signature%22%3A%22WMl4bYDm4WzKPlzVNp7RK8JT3VbbbEO9BHIqA2%2FGJx%2BFAV9YihsPMQx5000iXsw%2BdIXMtk2Y13JE9sBnM%2FNaDg%3D%3D%22%7D%7D%5D%2C%22preferences%22%3A%7B%22version%22%3A0%2C%22data%22%3A%7B%22use_browsing_for_personalization%22%3Atrue%7D%2C%22source%22%3A%7B%22domain%22%3A%22cmp.com%22%2C%22timestamp%22%3A1642504560%2C%22signature%22%3A%22Nm2hF62NTXzwUJDV%2FADbXjeZSCCNWPZLuqzHIDGpu68l5DPWK4y72dmX1JHxlDe2CgGJyUsi0M7zWPULDcAo9w%3D%3D%22%7D%7D%7D%2C%22sender%22%3A%22operator.pafdemo.com%22%2C%22receiver%22%3A%22cmp.com%22%2C%22timestamp%22%3A1643097663%2C%22signature%22%3A%22Cnz5K43sfXGUiQSRDl6hi92mnHOfI6dHKd7vy5OX2qOvnWIEjAzST2FBdn0wC7uphpC4PMIUCT7WQqU7Tl%2BqGg%3D%3D%22%7D%7D
+```
+<!--partial-end-->
+
+</details>
 
 ### Get a new id
 
@@ -426,21 +667,33 @@ Examples to be added
 | Request  | [get-new-id-request](./model/get-new-id-request.md)   |
 | Response | [get-new-id-response](./model/get-new-id-response.md) |
 
-#### Example
+<details>
+<summary>Full example</summary>
 
-- request
+- the following request is built:
 
-<!-- The query string below is generated with taking the request-cmpC.json file, removing body, and encoding it as query string:
-npx encode-query-string -nd `cat request-cmpC.json | npx json -e 'this.body = undefined' -o json-0`
--->
-
-```http
-GET /v1/new-id?sender=cmpC.com&timestamp=1639057962145&signature=message_signature_xyz1234
+<!--partial-begin { "files": [ "getNewIdRequest.json" ], "block": "json" } -->
+<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
+```json
+{
+  "sender": "cmp.com",
+  "receiver": "operator.pafdemo.com",
+  "timestamp": 1646157840,
+  "signature": "YI5vEmdA8yc8DGLQ/6ZRVogmTE2T12AMuPGq++Vv6OxRBQ+z+wM+9UavLufm2pjsCKfq82MGIatryRSv9Wpxzw=="
+}
 ```
+<!--partial-end-->
+
+- and transformed into a parameter of the query string to form the URL to call:
+
+<!--partial-begin { "files": [ "getIdsPrefsRequest.http" ], "block": "http" } -->
+<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
+```http
+GET https://operator.pafdemo.com/v1/ids-prefs?paf=%7B%22sender%22%3A%22cmp.com%22%2C%22receiver%22%3A%22operator.pafdemo.com%22%2C%22timestamp%22%3A1643041140%2C%22signature%22%3A%22IkJXHmwiaehWofflriQ%2FOR9acQKF3isYj434JT0BKLNUlXxvZHoLOISPaT%2Bzlbaq8AuhIIDFHJpPezeIczE5DQ%3D%3D%22%7D
+```
+<!--partial-end-->
 
 - response
-
-Example:
 
 <!--partial-begin { "files": [ "getNewIdResponse.json" ], "block": "json" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
@@ -454,20 +707,22 @@ Example:
         "type": "paf_browser_id",
         "value": "2e71121a-4feb-4a34-b7d1-839587d36390",
         "source": {
-          "domain": "operator.prebidsso.com",
-          "timestamp": 1643041140000,
-          "signature": "PPhtH9vaPP1SXeGXOFzOcMmbOiJ/3or0+o5YUli0NQfgLQ087kuAAUvivPkcyyRza1Eorq7C1EXmmJRxEBRp8A=="
+          "domain": "operator.pafdemo.com",
+          "timestamp": 1643041140,
+          "signature": "TcoSmz8xSfQIqlIa3RT9XItd7wkvnKWO6UeUjCy52Cn+O4rBXjwkm934ufZRyfM9ylrepQDPJlCSy/eEZxeAMw=="
         }
       }
     ]
   },
-  "sender": "operator.prebidsso.com",
+  "sender": "operator.pafdemo.com",
   "receiver": "cmp.com",
-  "timestamp": 1646157887000,
-  "signature": "Qn3azbIQSiXi0/h4mI5j9vIV7qQmflAe/Emf0++884tIRxz73DwXYNQ5Dttkv2aIO68sOKL7G4VG/MOBB7qhmg=="
+  "timestamp": 1646157887,
+  "signature": "P+qBGqTLdX4GiTkkkozpxpCxzAnEJ9hWSrZWZmP5j82gtlM5JYG7dt8GAUTm9Ens763kWVg7bDm/UzG1To7egg=="
 }
 ```
 <!--partial-end-->
+
+</details>
 
 (notice the `persisted` property)
 
@@ -495,33 +750,45 @@ See [website-design](./website-design.md) for the full picture.
 | Request  | [get-3pc-request](./model/get-3pc-request.md) (empty query string) |
 | Response | [get-3pc-response](./model/get-3pc-response.md)                    |
 
-#### Example
+<details>
+<summary>Full example</summary>
 
-- request
+- The following URL is called:
 
+<!--partial-begin { "files": [ "get3pcRequest.http" ], "block": "http" } -->
+<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```http
-GET /v1/3pc
+GET https://operator.pafdemo.com/v1/3pc
 ```
+<!--partial-end-->
 
 - response in case of 3PC supported (test cookie was found)
 
-HTTP response code: `200`
+HTTP code `200`
 
+<!--partial-begin { "files": [ "get3pcResponse_supported.json" ], "block": "json" } -->
+<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```json
 {
   "3pc": true
 }
 ```
+<!--partial-end-->
 
 - response in case of 3PC **not** supported (test cookie could not be found)
 
-HTTP response code: `404`
+HTTP code `404`
 
+<!--partial-begin { "files": [ "get3pcResponse_unsupported.json" ], "block": "json" } -->
+<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```json
 {
-  "error": "3PC not supported"
+  "message": "3PC not supported"
 }
 ```
+<!--partial-end-->
+
+</details>
 
 #### Redirect verify 3PC: N/A
 
@@ -538,20 +805,39 @@ This endpoint doesn't rely on support of 3PC or not: the REST version will work 
 | Request  | [get-identity-request.md](./model/get-identity-request.md)   |
 | Response | [get-identity-response.md](./model/get-identity-response.md) |
 
+<details>
+<summary>Full example</summary>
 
-##### Example
+- The following URL is called:
 
-- request
-
+<!--partial-begin { "files": [ "getIdentityRequest_operator.http" ], "block": "http" } -->
+<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```http
-GET /v1/identity
+GET https://operator.pafdemo.com/v1/identity
 ```
+<!--partial-end-->
 
-- response
+- response:
 
-<mark>TODO</mark>
+<!--partial-begin { "files": [ "getIdentityResponse_operator.json" ], "block": "json" } -->
+<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
+```json
+{
+  "name": "Some PAF operator",
+  "keys": [
+    {
+      "key": "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEEiZIRhGxNdfG4l6LuY2Qfjyf60R0\njmcW7W3x9wvlX4YXqJUQKR2c0lveqVDj4hwO0kTZDuNRUhgxk4irwV3fzw==\n-----END PUBLIC KEY-----",
+      "start": 1641034200,
+      "end": 1646132400
+    }
+  ],
+  "type": "operator",
+  "version": 0
+}
+```
+<!--partial-end-->
 
-Examples to be added
+</details>
 
 #### Redirect get identity: N/A
 
