@@ -7,15 +7,15 @@
         "type": "paf_browser_id",
         "value": "2e71121a-4feb-4a34-b7d1-839587d36390",
         "source": {
-          "domain": "operator.prebidsso.com",
-          "timestamp": 1643041140000,
-          "signature": "PPhtH9vaPP1SXeGXOFzOcMmbOiJ/3or0+o5YUli0NQfgLQ087kuAAUvivPkcyyRza1Eorq7C1EXmmJRxEBRp8A=="
+          "domain": "operator.pafdemo.com",
+          "timestamp": 1643041140,
+          "signature": "TcoSmz8xSfQIqlIa3RT9XItd7wkvnKWO6UeUjCy52Cn+O4rBXjwkm934ufZRyfM9ylrepQDPJlCSy/eEZxeAMw=="
         }
       }
     ]
   },
-  "sender": "operator.prebidsso.com",
+  "sender": "operator.pafdemo.com",
   "receiver": "cmp.com",
-  "timestamp": 1646157887000,
-  "signature": "Qn3azbIQSiXi0/h4mI5j9vIV7qQmflAe/Emf0++884tIRxz73DwXYNQ5Dttkv2aIO68sOKL7G4VG/MOBB7qhmg=="
+  "timestamp": 1646157887,
+  "signature": "P+qBGqTLdX4GiTkkkozpxpCxzAnEJ9hWSrZWZmP5j82gtlM5JYG7dt8GAUTm9Ens763kWVg7bDm/UzG1To7egg=="
 }

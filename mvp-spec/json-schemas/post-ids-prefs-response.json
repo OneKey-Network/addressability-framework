@@ -2,18 +2,32 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "post-ids-prefs-response",
   "title": "POST /v1/ids-prefs response",
-  "allOf": [
-    {
-      "$ref": "get-ids-prefs-response.json"
-    }
-  ],
   "additionalProperties": false,
   "properties": {
+    "sender": {
+      "$ref": "domain.json",
+      "description": "The domain name of the sender of this response (the operator domain name)"
+    },
+    "receiver": {
+      "$ref": "domain.json",
+      "description": "The domain name of the receiver of this request (the website)"
+    },
+    "timestamp": {
+      "$ref": "timestamp.json"
+    },
+    "signature": {
+      "$ref": "signature.json",
+      "description": "Signature based on input:\n```\nsender + '\\u2063' +\nreceiver + '\\u2063' +\ntimestamp + '\\u2063' +\npreferences.source.signature + '\\u2063' +\nidentifiers[0].source.signature + '\\u2063' +\nidentifiers[1].source.signature + '\\u2063' +\n...\nidentifiers[n].source.signature\n```"
+    },
     "body": {
       "$ref": "ids-and-preferences.json"
     }
   },
   "required": [
+    "sender",
+    "receiver",
+    "timestamp",
+    "signature",
     "body"
   ]
 }

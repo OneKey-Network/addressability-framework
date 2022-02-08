@@ -15,7 +15,7 @@
 <b>code</b>
 </td>
 <td>
-string
+integer
 </td>
 <td>
 
@@ -24,15 +24,15 @@ The response code used on a redirect endpoint<br>While REST endpoints can use HT
 **Examples:** 
 
 ```json
-"200"
+200
 ```
 
 ```json
-"400"
+400
 ```
 
 ```json
-"503"
+503
 ```
 
 </td>
@@ -58,6 +58,104 @@ Sent if code is `200`
     <th> Property </th>
     <th> Type </th>
     <th> Description </th>
+</tr>
+
+<tr>
+<td>
+<b>sender</b>
+</td>
+<td>
+string
+</td>
+<td>
+
+The domain name of the sender of this response (the operator domain name)
+
+**Examples:** 
+
+```json
+"a-domain-name.com"
+```
+
+```json
+"another.domain.co.uk"
+```
+
+</td>
+</tr>
+
+<tr>
+<td>
+<b>receiver</b>
+</td>
+<td>
+string
+</td>
+<td>
+
+The domain name of the receiver of this request (the website)
+
+**Examples:** 
+
+```json
+"a-domain-name.com"
+```
+
+```json
+"another.domain.co.uk"
+```
+
+</td>
+</tr>
+
+<tr>
+<td>
+<b>timestamp</b>
+</td>
+<td>
+integer
+</td>
+<td>
+
+Number of seconds since UNIX Epoch time (1970/01/01 00:00:00)
+
+**Example:** 
+
+```json
+1643297316
+```
+
+</td>
+</tr>
+
+<tr>
+<td>
+<b>signature</b>
+</td>
+<td>
+string
+</td>
+<td>
+
+Signature based on input:
+```
+sender + '\u2063' +
+receiver + '\u2063' +
+timestamp + '\u2063' +
+preferences.source.signature + '\u2063' +
+identifiers[0].source.signature + '\u2063' +
+identifiers[1].source.signature + '\u2063' +
+...
+identifiers[n].source.signature
+```
+
+**Example:** 
+
+```json
+"RYGHYsBUEwMgFgOJ9aUQl7ywl4xnqdmwWIgPbaIowbXbmZAFKLa7mcBJQuWh1wEskpu57SHn2mmCF6V5+cESgw=="
+```
+
+</td>
 </tr>
 
 <tr>

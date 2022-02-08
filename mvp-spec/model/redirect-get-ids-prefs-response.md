@@ -15,7 +15,7 @@
 <b>code</b>
 </td>
 <td>
-string
+integer
 </td>
 <td>
 
@@ -24,15 +24,15 @@ The response code used on a redirect endpoint<br>While REST endpoints can use HT
 **Examples:** 
 
 ```json
-"200"
+200
 ```
 
 ```json
-"400"
+400
 ```
 
 ```json
-"503"
+503
 ```
 
 </td>

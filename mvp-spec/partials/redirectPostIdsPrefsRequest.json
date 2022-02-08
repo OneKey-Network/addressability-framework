@@ -1,0 +1,34 @@
+{
+  "request": {
+    "body": {
+      "identifiers": [
+        {
+          "version": 0,
+          "type": "paf_browser_id",
+          "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
+          "source": {
+            "domain": "operator.pafdemo.com",
+            "timestamp": 1642504380,
+            "signature": "WMl4bYDm4WzKPlzVNp7RK8JT3VbbbEO9BHIqA2/GJx+FAV9YihsPMQx5000iXsw+dIXMtk2Y13JE9sBnM/NaDg=="
+          }
+        }
+      ],
+      "preferences": {
+        "version": 0,
+        "data": {
+          "use_browsing_for_personalization": true
+        },
+        "source": {
+          "domain": "cmp.com",
+          "timestamp": 1642504560,
+          "signature": "Nm2hF62NTXzwUJDV/ADbXjeZSCCNWPZLuqzHIDGpu68l5DPWK4y72dmX1JHxlDe2CgGJyUsi0M7zWPULDcAo9w=="
+        }
+      }
+    },
+    "sender": "cmp.com",
+    "receiver": "operator.pafdemo.com",
+    "timestamp": 1643097660,
+    "signature": "0wLS3XfbCpXUFhF78Xria93Jq7d/raNn6Ouz5gKf0MMBjPCGGKNKVdM/Mg2g2Lvo7UUAZsUPp9lqPojDmE88gQ=="
+  },
+  "returnUrl": "https://advertiser.com/news/2022/02/07/something-crazy-happened?utm_content=campaign%20content"
+}

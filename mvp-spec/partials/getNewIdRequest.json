@@ -1,6 +1,6 @@
 {
   "sender": "cmp.com",
-  "receiver": "operator.prebidsso.com",
-  "timestamp": 1646157840000,
-  "signature": "56fNefxEaoKEncN6N/feMiRgAjD2G1/jQJeBYRo2imBuGMZS0vYfcyT6Z2c/oGjtHBQms+1k9aTHduCGTtJghA=="
+  "receiver": "operator.pafdemo.com",
+  "timestamp": 1646157840,
+  "signature": "YI5vEmdA8yc8DGLQ/6ZRVogmTE2T12AMuPGq++Vv6OxRBQ+z+wM+9UavLufm2pjsCKfq82MGIatryRSv9Wpxzw=="
 }

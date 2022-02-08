@@ -6,9 +6,9 @@
         "type": "paf_browser_id",
         "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
         "source": {
-          "domain": "operator.prebidsso.com",
-          "timestamp": 1642504380000,
-          "signature": "Oiwt1PFNSJvhQQqpnmqS2jG1jc5pD1vDN/ZU+Diy2ohzGTd4AL2VF6REUOSseitMhVYk4LkYD2IsRXT1hkw5nQ=="
+          "domain": "operator.pafdemo.com",
+          "timestamp": 1642504380,
+          "signature": "WMl4bYDm4WzKPlzVNp7RK8JT3VbbbEO9BHIqA2/GJx+FAV9YihsPMQx5000iXsw+dIXMtk2Y13JE9sBnM/NaDg=="
         }
       }
     ],
@@ -19,13 +19,13 @@
       },
       "source": {
         "domain": "cmp.com",
-        "timestamp": 1642504560000,
-        "signature": "OFgRb5njIf+HCmYHVM9IbEUoA90ZZL4wTlFDpPc+APSWAD4eCSclOzRV5i4LOlyyuu2Rkl+jAt2DC0UD1bVGiA=="
+        "timestamp": 1642504560,
+        "signature": "Nm2hF62NTXzwUJDV/ADbXjeZSCCNWPZLuqzHIDGpu68l5DPWK4y72dmX1JHxlDe2CgGJyUsi0M7zWPULDcAo9w=="
       }
     }
   },
-  "sender": "operator.prebidsso.com",
+  "sender": "operator.pafdemo.com",
   "receiver": "advertiser.com",
-  "timestamp": 1643041150000,
-  "signature": "Hg6hYbEi5lAILVSDt0sQ7AgrQnHMfcw19CBoqwPswOVyUFlRlL47oMD2ab+RpcNMW22JZNMLdS79FoUd2YBKdg=="
+  "timestamp": 1643041150,
+  "signature": "lAd3PQX0TeS8PbQkKWHB4ISn9D9HPkdGhz3ub7at+H3hSAtj0icI4C4pMD8y8yQXWcwq+oWSTtUCyNZDpu7hWA=="
 }
