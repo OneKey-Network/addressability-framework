@@ -1,1 +1,1 @@
-GET https://operator.pafdemo.com/v1/ids-prefs?paf=%7B%22sender%22%3A%22cmp.com%22%2C%22receiver%22%3A%22operator.pafdemo.com%22%2C%22timestamp%22%3A1643041140%2C%22signature%22%3A%22IkJXHmwiaehWofflriQ%2FOR9acQKF3isYj434JT0BKLNUlXxvZHoLOISPaT%2Bzlbaq8AuhIIDFHJpPezeIczE5DQ%3D%3D%22%7D
+GET https://operator.pafdemo.com/v1/ids-prefs?paf=%7B%22sender%22%3A%22cmp.com%22%2C%22receiver%22%3A%22operator.pafdemo.com%22%2C%22timestamp%22%3A1643041140%2C%22signature%22%3A%22lytE4Nel9kwdqqG%2BNv6esS5qJqyWIjXiWBbp8DdihM8LK53%2BdO8djpcNulUT9GLrqCyUCU8mlIrHVggkDGRqIA%3D%3D%22%7D

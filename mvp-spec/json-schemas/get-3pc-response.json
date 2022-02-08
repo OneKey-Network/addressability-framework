@@ -6,11 +6,8 @@
   "additionalProperties": false,
   "properties": {
     "3pc": {
-      "type": "boolean",
-      "enum": [
-        true
-      ],
-      "description": "Always return `true` to signify 3rd party cookies have been verified (are supported)\nIf 3rd party cookies are not supported, the endpoint returns `404` and an error message"
+      "$ref": "test-3pc.json",
+      "description": "Value of `paf_test_3pc` if it was found (3rd party cookies are supported)\n\nIf 3rd party cookies are not supported, the endpoint returns `404` and an error message"
     }
   },
   "required": [

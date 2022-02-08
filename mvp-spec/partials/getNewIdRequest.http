@@ -1,1 +1,1 @@
-GET https://operator.pafdemo.com/v1/new-id?paf=%7B%22sender%22%3A%22cmp.com%22%2C%22receiver%22%3A%22operator.pafdemo.com%22%2C%22timestamp%22%3A1646157840%2C%22signature%22%3A%22YI5vEmdA8yc8DGLQ%2F6ZRVogmTE2T12AMuPGq%2B%2BVv6OxRBQ%2Bz%2BwM%2B9UavLufm2pjsCKfq82MGIatryRSv9Wpxzw%3D%3D%22%7D
+GET https://operator.pafdemo.com/v1/new-id?paf=%7B%22sender%22%3A%22cmp.com%22%2C%22receiver%22%3A%22operator.pafdemo.com%22%2C%22timestamp%22%3A1646157840%2C%22signature%22%3A%221aT2mTte9szxRFyYCXHQqOq3NuCxk4AlpHFyZGdwLx8Sz4JBdDr%2FRZANXYHqC%2Fo%2FckR2gALeDUIS%2B%2FpBcSwXEg%3D%3D%22%7D
