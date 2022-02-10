@@ -99,7 +99,8 @@ async function interpretPartialBeginToken(token: LexerToken, lineBreak: string):
         }
     } else {
         const partials: Document[] = await Promise.all(config.files.map(loadPartial));
-        partialText = partials.map(d => d.content).join(lineBreak)
+        // trim content to remove last empty line
+        partialText = partials.map(d => d.content.trim()).join(lineBreak)
     }
 
     if (config.block !== undefined) {

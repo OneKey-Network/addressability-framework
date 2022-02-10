@@ -143,7 +143,6 @@ status error. The Transmission Results are described in detail in a further
 section.
 <!--partial-begin { "files": [ "transmissions-diagrams-and-details.md" ] } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
-
 Here is a workflow with detailed steps that explains how 
 Transmissions Request contain **parents** and Transmission Responses contains
 **children** (here, we loan the terminology of the Tree data structure). 
@@ -178,7 +177,6 @@ The detailed steps of the diagram above:
 11. The SSP1 receives the Transmission Response 2.
 12. The SSP1 returns a Transmission Response 1 to Transmission Request 3 (Publisher). It contains the Transmission Result 1. The "children" field includes the Transmission Result 2 and the Transmission Result 3.
 13. The Publisher shows the Addressable Content via the DSP and the Audit Log is available.
-
 <!--partial-end-->
 
 ## Transport and security
@@ -221,12 +219,10 @@ structure for an ad-hoc communication:
 
 <!--partial-begin { "files": [ "transmission-request-wrapper-table.md" ] } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
-
 | Field                  | Type                                     | Details  |
 |------------------------|------------------------------------------|----------|
 | data                   | Prebid SSO Data object                   | The Pseudonymous-Identifiers and the Preferences |
 | transmissions          | Array of Transmission Request objects    | The list of Transmission Request, one per Transaction and Addressable Content.|
-
 <!--partial-end-->
 
 #### The Prebid SSO Object
@@ -234,12 +230,10 @@ structure for an ad-hoc communication:
 The Prebid SSO object contains the Pseudonymous-Identifier and the Preferences:
 <!--partial-begin { "files": [ "data-id-and-preferences-table.md" ] } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
-
 | Field                  | Type                                     | Details  |
 |------------------------|------------------------------------------|----------|
 | preferences            | Preferences object                       | The Preferences of the user.|
 | identifiers            | Array of Pseudonymous-Identifier objects | The Pseudonymous-Identifiers of the user. For now, it only contains a Prebid ID.|
-
 <!--partial-end-->
 
 #### The Preferences object
@@ -251,7 +245,6 @@ The Prebid SSO object contains the Pseudonymous-Identifier and the Preferences:
 | version | Number                 | The Prebid SSO version used.     |
 | data    | Dictionary             | The keys are strings and represent the name of the preferences. <br /> The values represent the value of the preference. <br /> For now there is only one preference named "optin" and its value is a boolean.|
 | source  | Source object          | The source contains the data for identifying and trusting the CMP that signed lastly the Preferences.<br /> <table><tr><th>Field</th><th>Type</th><th>Details</th></tr><tr><td>domain</td><td>String</td><td>The domain of the CMP.</td></tr><tr><td>timestamp</td><td>Integer</td><td>The timestamp of the signature.</td></tr><tr><td>signature</td><td>String</td><td>Encoded signature in UTF-8 of the CMP.</td></tr></table>|
-
 <!--partial-end-->
 
 #### The Identifier object
@@ -264,7 +257,6 @@ The Prebid SSO object contains the Pseudonymous-Identifier and the Preferences:
 | type    | String        | The type of Pseudonymous-Identifier. For now, there is only one: "prebid_id".                                                    |
 | value   | String        | The Pseudonymous-Identifier value in UTF-8.                                                                                      |
 | source  | Source object | The Source contains all the data for identifying and trusting the Operator that generated the Pseudonymous-Identifier. <br /> <table><tr><th>Field</th><th>Type</th><th>Details</th></tr><tr><td>domain</td><td>String</td><td>The domain of the Operator.</td></tr><tr><td>timestamp</td><td>Integer</td><td>The timestamp of the signature.</td></tr><tr><td>signature</td><td>String</td><td>Encoded signature in UTF-8 of the Operator.</td></tr></table>|
-
 <!--partial-end-->
 
 #### The Transmission Request object
@@ -272,14 +264,12 @@ The Prebid SSO object contains the Pseudonymous-Identifier and the Preferences:
 The transmission Request object must follow strictly this structure:
 <!--partial-begin { "files": [ "transmission-request-table.md" ] } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
-
 | Field  | Type                            | Details                           |
 |--------|---------------------------------|-----------------------------------|
 | version| Number                          | The PAF version used.               |
 | seed   | Seed object                     | A Seed object contains all the Prebid SSO Data gathered and signed by the Publisher concerning the user. |
 | parents| Array of Transmission Results   | A list of Transmission Results that participate to a chain of Transmissions and make this Transmission possible. |  
 | source | Source object                   | The source object contains data for identifying the Sender of the Transmission.<br /><table><tr><th>Field</th><th>Type</th><th>Details</th></tr><tr><td>domain</td><td>String</td><td>The domain of the Sender.</td></tr><tr><td>timestamp</td><td>Integer</td><td>The timestamp of the signature.</td></tr><tr><td>signature</td><td>String</td><td>Encoded signature in UTF-8 of the Tranmission sender.</td></tr></table>|
-
 <!--partial-end-->
 
 #### The Seed object
@@ -292,7 +282,6 @@ The transmission Request object must follow strictly this structure:
 | transaction_id         | String                                   | A GUID in a String format dedicated to the share of the Prebid SSO data for one Addressable Content.|
 | publisher              | String                                   | The domain name of the Publisher that displays the Addressable Content|
 | source                 | Source object                            | The source contains data for identifying and trusting the Publisher.<br /><table><tr><th>Field</th><th>Type</th><th>Details</th></tr><tr><td>domain</td><td>String</td><td>The domain of the Root Party (Publisher in most of the cases).</td></tr><tr><td>timestamp</td><td>Integer</td><td>The timestamp of the signature.</td></tr><tr><td>signature</td><td>String</td><td>Encoded signature in UTF-8 of the Root Party/Publisher.</td></tr></table>|
-
 <!--partial-end-->
 
 #### The Transmission Result object
@@ -306,7 +295,6 @@ The transmission Request object must follow strictly this structure:
 | status          | String                        | Equals "success" if the DSP signed the Transmission and returns it to the sender.<br /> Equals "error_bad_request" if the receiver doesn't understand or see inconsistency in the Transmission Request.<br /> Equals "error_cannot_process" if the receiver failed to use the data of the Transmission Request properly. |
 | details         | String                        | In case of an error status, the DSP can provide details concerning the error.                                                                                                                                                                                                                              |
 | source          | Source object                 | The source contains all the data for identifying the DSP and verifying the Transmission.                                                                                                                                                                                                                   |
-
 <!--partial-end-->
 
 #### Signatures
@@ -321,7 +309,6 @@ transmission_request_receiver_domain        + '\u2063' +
 transmission_request.source.domain          + '\u2063' + 
 transmission_request.source.timestamp       + '\u2063' + 
 seed.source.signature
-
 ```
 <!--partial-end-->
 
@@ -446,7 +433,6 @@ suppliers, it shouldn't take care of the "children" Transmission Results.
 | details         | String                        | In case of an error status, the DSP can provide details concerning the error.                                                                                                                                                                                                                              |
 | children        | Array of Transmission Results | An empty array as we consider that the DSP doesn't share the Prebid SSO Data to its suppliers via new transmissions.                                                                                                                                                                                       |
 | source          | Source object                 | The source contains all the data for identifying the DSP and verifying the Transmission.                                                                                                                                                                                                                   |
-
 <!--partial-end-->
 
 #### Signing the Transmission Object
