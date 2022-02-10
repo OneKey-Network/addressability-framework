@@ -521,8 +521,6 @@ GET /v1/new-id?sender=cmpC.com&timestamp=1639057962145&signature=message_signatu
 
 Example:
 
-<!--partial-begin { "files": [ "paf-mvp-demo-express/src/examples/generated-examples/getNewIdResponse.json" ], "block": "json" } -->
-<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```json
 {
   "body": {
@@ -546,7 +544,6 @@ Example:
   "signature": "q1DV1/H+gJmYKebgJXf2pzMu7cwoAgoJ10bz9t6Adx3w/iMYNmqawu/QaXctAnttG/mhS0TwjDIyL2/jHdlKIg=="
 }
 ```
-<!--partial-end-->
 
 (notice the `persisted` property)
 
