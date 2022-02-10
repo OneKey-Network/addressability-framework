@@ -46,7 +46,7 @@ Can only take **one of these values**:
 
 <tr>
 <td>
-<b>persisted</b>
+persisted<br>(<i>optional</i>)
 </td>
 <td>
 boolean
@@ -87,7 +87,13 @@ object
 </td>
 <td>
 
-Source of data representing what contracting party created and signed the data
+Signature based on input:
+
+```identifier.source.domain + '\u2063' + 
+identifier.source.timestamp + '\u2063' + 
+identifier.type + '\u2063'+
+identifier.value
+```
 
 <details>
 <summary>Object details</summary>

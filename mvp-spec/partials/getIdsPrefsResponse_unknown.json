@@ -15,7 +15,7 @@
     ]
   },
   "sender": "operator.paf-operation-domain.io",
-  "receiver": "cmp.com",
-  "timestamp": 1646157887,
-  "signature": "V7E4WN9NZSWJaoZ0D/urVd5HbcmRYBUCmmqThhpf9H2imVzotWD5EidLkH2YknP2nlq1ZinFh4rt33UjxJJfBA=="
+  "receiver": "advertiser.com",
+  "timestamp": 1643041150,
+  "signature": "EVdRUXg3Ji40knIXZjrzsf7FT4eJ3HHxyw8ajElZZbsHQcN4mOD/kV/TWyUbbQDmmCL4k7JE/G5tyzV3L31/Ig=="
 }

@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "redirect-post-ids-prefs-response",
+  "title": "GET /v1/redirect/post-ids-prefs response",
+  "additionalProperties": false,
+  "description": "",
+  "properties": {
+    "code": {
+      "$ref": "response-code.json"
+    },
+    "response": {
+      "$ref": "post-ids-prefs-response.json",
+      "description": "Sent if code is `200`"
+    },
+    "error": {
+      "$ref": "error.json",
+      "description": "Sent if code is different from `200`"
+    }
+  },
+  "required": [
+    "code"
+  ]
+}

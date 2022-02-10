@@ -1,0 +1,8 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Response code",
+  "description": "The response code used on a redirect endpoint<br>While REST endpoints can use HTTP codes to communicate the state of the response, redirect endpoints are limited to `30x` HTTP codes.<br>To address this problem, this property is used to contain the same HTTP code as the one that would be returned by a REST endpoint.",
+  "$id": "response-code",
+  "type": "integer",
+  "examples": [200, 400, 503]
+}

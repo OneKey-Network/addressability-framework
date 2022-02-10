@@ -1,0 +1,24 @@
+{
+  "code": 200,
+  "response": {
+    "body": {
+      "identifiers": [
+        {
+          "persisted": false,
+          "version": 0,
+          "type": "paf_browser_id",
+          "value": "2e71121a-4feb-4a34-b7d1-839587d36390",
+          "source": {
+            "domain": "operator.paf-operation-domain.io",
+            "timestamp": 1643041140,
+            "signature": "0bZyM+yJ62GPPczvI+o6GMpfXDsi8dI6O9LfTswBz92eiXDFVX953lRbyBdmSPjVUBebqOR6HzFJCL9ySu76Iw=="
+          }
+        }
+      ]
+    },
+    "sender": "operator.paf-operation-domain.io",
+    "receiver": "advertiser.com",
+    "timestamp": 1643041150,
+    "signature": "EVdRUXg3Ji40knIXZjrzsf7FT4eJ3HHxyw8ajElZZbsHQcN4mOD/kV/TWyUbbQDmmCL4k7JE/G5tyzV3L31/Ig=="
+  }
+}
