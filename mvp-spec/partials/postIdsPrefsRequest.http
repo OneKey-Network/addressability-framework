@@ -1,1 +1,2 @@
-POST https://operator.pafdemo.com/v1/ids-prefs
+POST /v1/ids-prefs
+Host: operator.paf-operation-domain.io

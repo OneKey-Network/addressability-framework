@@ -9,16 +9,16 @@
           "type": "paf_browser_id",
           "value": "2e71121a-4feb-4a34-b7d1-839587d36390",
           "source": {
-            "domain": "operator.pafdemo.com",
+            "domain": "operator.paf-operation-domain.io",
             "timestamp": 1643041140,
-            "signature": "ZV8q0ml7XmG/RY7hBWp864t0Lcjy/NO6t9u5szLuoLf7JVaYqXiDCHHxSCLafck7VFIIiM9UVoqSVLPVigBdKQ=="
+            "signature": "0bZyM+yJ62GPPczvI+o6GMpfXDsi8dI6O9LfTswBz92eiXDFVX953lRbyBdmSPjVUBebqOR6HzFJCL9ySu76Iw=="
           }
         }
       ]
     },
-    "sender": "operator.pafdemo.com",
+    "sender": "operator.paf-operation-domain.io",
     "receiver": "advertiser.com",
     "timestamp": 1643041150,
-    "signature": "c87p6REPGRcgpmII7O28lWU7jGmtU2/RnArvgbYkOneD+p8NrJrxu93gd6MKsUBBwBGh41DXb6rgWslF/E7UWA=="
+    "signature": "EVdRUXg3Ji40knIXZjrzsf7FT4eJ3HHxyw8ajElZZbsHQcN4mOD/kV/TWyUbbQDmmCL4k7JE/G5tyzV3L31/Ig=="
   }
 }

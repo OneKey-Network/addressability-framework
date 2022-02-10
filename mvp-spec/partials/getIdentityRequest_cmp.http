@@ -1,1 +1,2 @@
-GET https://cmp.com/v1/identity
+GET /v1/identity
+Host: cmp.com

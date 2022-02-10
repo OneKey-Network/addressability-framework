@@ -1,6 +1,6 @@
 {
   "sender": "cmp.com",
-  "receiver": "operator.pafdemo.com",
+  "receiver": "operator.paf-operation-domain.io",
   "timestamp": 1646157840,
-  "signature": "1aT2mTte9szxRFyYCXHQqOq3NuCxk4AlpHFyZGdwLx8Sz4JBdDr/RZANXYHqC/o/ckR2gALeDUIS+/pBcSwXEg=="
+  "signature": "m9egRPO67ri30qBspCykZbKM0EUYZHHYzZ4JTtDNfTIWFfvseLnC7kU+VfS+3Tj8RujXtiy/U0WJBcvwYiKFpg=="
 }

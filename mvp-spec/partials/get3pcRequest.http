@@ -1,1 +1,2 @@
-GET https://operator.pafdemo.com/v1/3pc
+GET /v1/3pc
+Host: operator.paf-operation-domain.io

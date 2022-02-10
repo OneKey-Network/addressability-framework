@@ -1,1 +1,2 @@
-GET https://operator.pafdemo.com/v1/identity
+GET /v1/identity
+Host: operator.paf-operation-domain.io
