@@ -65,11 +65,11 @@ The type of contracting party in the PAF ecosystem
 ```
 
 ```json
-"0.4"
+"0.407"
 ```
 
 ```json
-"1.0"
+"10.0"
 ```
 
 </td>
