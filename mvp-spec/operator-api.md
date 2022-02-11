@@ -24,7 +24,7 @@ An extra cookie, with a very short lifetime, can be created to test the support 
 <!--partial-begin { "files": [ "ids_cookie.txt" ], "block": "" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```
-[{"version":0,"type":"paf_browser_id","value":"7435313e-caee-4889-8ad7-0acd0114ae3c","source":{"domain":"operator.paf-operation-domain.io","timestamp":1642504380,"signature":"0goU7vswAK2AMCSvn97tcVYW5agLl6YgEULZ5ZnSGSviiYoSKgbWnaUv59viizdLlqRyATDAtYk1QCz2YUobVQ=="}}]
+[{"version":"0.1","type":"paf_browser_id","value":"7435313e-caee-4889-8ad7-0acd0114ae3c","source":{"domain":"operator.paf-operation-domain.io","timestamp":1642504380,"signature":"bszEOIHdTfmdRZZzTFrFrXiB87piBkysVXBjtx9visoiCgqmR0AvKqiycAQ049VIeZa8ApQY0njJUwHby/Y10g=="}}]
 ```
 <!--partial-end-->
 
@@ -35,13 +35,13 @@ Which is the "stringified" version of:
 ```json
 [
   {
-    "version": 0,
+    "version": "0.1",
     "type": "paf_browser_id",
     "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
     "source": {
       "domain": "operator.paf-operation-domain.io",
       "timestamp": 1642504380,
-      "signature": "0goU7vswAK2AMCSvn97tcVYW5agLl6YgEULZ5ZnSGSviiYoSKgbWnaUv59viizdLlqRyATDAtYk1QCz2YUobVQ=="
+      "signature": "bszEOIHdTfmdRZZzTFrFrXiB87piBkysVXBjtx9visoiCgqmR0AvKqiycAQ049VIeZa8ApQY0njJUwHby/Y10g=="
     }
   }
 ]
@@ -53,7 +53,7 @@ Which is the "stringified" version of:
 <!--partial-begin { "files": [ "preferences_cookie.txt" ], "block": "" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```
-{"version":0,"data":{"use_browsing_for_personalization":true},"source":{"domain":"cmp.com","timestamp":1642504560,"signature":"aZa/K9ZmPAMx7jvcqcP2h+UphLzF+M7KRSmSZ7ZZnv/o6M8uDAVODAB5CES2wJuVKIgJ2ndd5Tevw1xbC3tBHQ=="}}
+{"version":"0.1","data":{"use_browsing_for_personalization":true},"source":{"domain":"cmp.com","timestamp":1642504560,"signature":"Or41DOD8Oau3HHygAiFZzjXNvPmMx6fOazc/72LpmPKMnTFfZrkwPpCPIGPZKwF/WucP1NO+/aX4LfZ65jl2ZA=="}}
 ```
 <!--partial-end-->
 
@@ -63,14 +63,14 @@ Which is the "stringified" version of:
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```json
 {
-  "version": 0,
+  "version": "0.1",
   "data": {
     "use_browsing_for_personalization": true
   },
   "source": {
     "domain": "cmp.com",
     "timestamp": 1642504560,
-    "signature": "aZa/K9ZmPAMx7jvcqcP2h+UphLzF+M7KRSmSZ7ZZnv/o6M8uDAVODAB5CES2wJuVKIgJ2ndd5Tevw1xbC3tBHQ=="
+    "signature": "Or41DOD8Oau3HHygAiFZzjXNvPmMx6fOazc/72LpmPKMnTFfZrkwPpCPIGPZKwF/WucP1NO+/aX4LfZ65jl2ZA=="
   }
 }
 ```
@@ -229,7 +229,7 @@ For endpoints that exist as "redirect", the following pattern is used:
   "sender": "cmp.com",
   "receiver": "operator.paf-operation-domain.io",
   "timestamp": 1643041140,
-  "signature": "UifOPFge9ZzttacVAnDqJtSYcFYNkMqReRoNrxWU1C25if1HmbepUSsXIa8XdKNpcnT5q2hd5K69xO9j1P0giQ=="
+  "signature": "tvEjp7Fox6jxkgxgY9tjTuy3wH5imuFj63Yuub4UweelYbs8XxnP3nK5w41u13P+fOpEfEqmH/fAgC8WPZYhUQ=="
 }
 ```
 <!--partial-end-->
@@ -239,9 +239,8 @@ For endpoints that exist as "redirect", the following pattern is used:
 <!--partial-begin { "files": [ "getIdsPrefsRequest.http" ], "block": "http" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```http
-GET /v1/ids-prefs?paf=%7B%22sender%22%3A%22cmp.com%22%2C%22receiver%22%3A%22operator.paf-operation-domain.io%22%2C%22timestamp%22%3A1643041140%2C%22signature%22%3A%22UifOPFge9ZzttacVAnDqJtSYcFYNkMqReRoNrxWU1C25if1HmbepUSsXIa8XdKNpcnT5q2hd5K69xO9j1P0giQ%3D%3D%22%7D
+GET /v1/ids-prefs?paf=eyJzZW5kZXIiOiJjbXAuY29tIiwicmVjZWl2ZXIiOiJvcGVyYXRvci5wYWYtb3BlcmF0aW9uLWRvbWFpbi5pbyIsInRpbWVzdGFtcCI6MTY0MzA0MTE0MCwic2lnbmF0dXJlIjoidHZFanA3Rm94Nmp4a2d4Z1k5dGpUdXkzd0g1aW11Rmo2M1l1dWI0VXdlZWxZYnM4WHhuUDNuSzV3NDF1MTNQK2ZPcEVmRXFtSC9mQWdDOFdQWlloVVE9PSJ9
 Host: operator.paf-operation-domain.io
-
 ```
 <!--partial-end-->
 
@@ -254,32 +253,32 @@ Host: operator.paf-operation-domain.io
   "body": {
     "identifiers": [
       {
-        "version": 0,
+        "version": "0.1",
         "type": "paf_browser_id",
         "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
         "source": {
           "domain": "operator.paf-operation-domain.io",
           "timestamp": 1642504380,
-          "signature": "0goU7vswAK2AMCSvn97tcVYW5agLl6YgEULZ5ZnSGSviiYoSKgbWnaUv59viizdLlqRyATDAtYk1QCz2YUobVQ=="
+          "signature": "bszEOIHdTfmdRZZzTFrFrXiB87piBkysVXBjtx9visoiCgqmR0AvKqiycAQ049VIeZa8ApQY0njJUwHby/Y10g=="
         }
       }
     ],
     "preferences": {
-      "version": 0,
+      "version": "0.1",
       "data": {
         "use_browsing_for_personalization": true
       },
       "source": {
         "domain": "cmp.com",
         "timestamp": 1642504560,
-        "signature": "aZa/K9ZmPAMx7jvcqcP2h+UphLzF+M7KRSmSZ7ZZnv/o6M8uDAVODAB5CES2wJuVKIgJ2ndd5Tevw1xbC3tBHQ=="
+        "signature": "Or41DOD8Oau3HHygAiFZzjXNvPmMx6fOazc/72LpmPKMnTFfZrkwPpCPIGPZKwF/WucP1NO+/aX4LfZ65jl2ZA=="
       }
     }
   },
   "sender": "operator.paf-operation-domain.io",
   "receiver": "advertiser.com",
   "timestamp": 1643041150,
-  "signature": "z67WHOnNSP3PxcebqDB59+p2lk3B6KQ/wdhPDJ3Mr//kjW4R1JdgEDj1w04ql0JopINxO225A6r0mZDrJNc/sQ=="
+  "signature": "1WGG+DtR5Q7JO/4w1mGoqwdB0VtdrKMNlh5jmFJRKLSOnki2WI6Pf4RnHd3bN68iCqpM/BHogM0590KVdv3+sg=="
 }
 ```
 <!--partial-end-->
@@ -294,13 +293,13 @@ Host: operator.paf-operation-domain.io
     "identifiers": [
       {
         "persisted": false,
-        "version": 0,
+        "version": "0.1",
         "type": "paf_browser_id",
         "value": "2e71121a-4feb-4a34-b7d1-839587d36390",
         "source": {
           "domain": "operator.paf-operation-domain.io",
           "timestamp": 1643041140,
-          "signature": "0bZyM+yJ62GPPczvI+o6GMpfXDsi8dI6O9LfTswBz92eiXDFVX953lRbyBdmSPjVUBebqOR6HzFJCL9ySu76Iw=="
+          "signature": "lfvEkcQ/lw+aDAycLKwljD01BKdjfCAa/W6Uz85z/LuXRGg4L7tMJa/pEzYC5WxZSmY2jVsqCN/IF6mws8c2cA=="
         }
       }
     ]
@@ -308,7 +307,7 @@ Host: operator.paf-operation-domain.io
   "sender": "operator.paf-operation-domain.io",
   "receiver": "advertiser.com",
   "timestamp": 1643041150,
-  "signature": "EVdRUXg3Ji40knIXZjrzsf7FT4eJ3HHxyw8ajElZZbsHQcN4mOD/kV/TWyUbbQDmmCL4k7JE/G5tyzV3L31/Ig=="
+  "signature": "eecaGYcYFkXmgFdaCwzK/93zaVnaLC0dZIDsC4IkP3WubKdSfP/u5UsrPYBhDgt0STCyBnwF6eE79vtyi2UnWA=="
 }
 ```
 <!--partial-end-->
@@ -337,7 +336,7 @@ Notice `persisted` = `false`, see [identifier.md](model/identifier.md) for detai
     "sender": "cmp.com",
     "receiver": "operator.paf-operation-domain.io",
     "timestamp": 1643041140,
-    "signature": "UifOPFge9ZzttacVAnDqJtSYcFYNkMqReRoNrxWU1C25if1HmbepUSsXIa8XdKNpcnT5q2hd5K69xO9j1P0giQ=="
+    "signature": "tvEjp7Fox6jxkgxgY9tjTuy3wH5imuFj63Yuub4UweelYbs8XxnP3nK5w41u13P+fOpEfEqmH/fAgC8WPZYhUQ=="
   },
   "returnUrl": "https://advertiser.com/news/2022/02/07/something-crazy-happened?utm_content=campaign%20content"
 }
@@ -349,9 +348,8 @@ Notice `persisted` = `false`, see [identifier.md](model/identifier.md) for detai
 <!--partial-begin { "files": [ "redirectGetIdsPrefsRequest.http" ], "block": "http" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```http
-GET /v1/redirect/get-ids-prefs?paf=%7B%22request%22%3A%7B%22sender%22%3A%22cmp.com%22%2C%22receiver%22%3A%22operator.paf-operation-domain.io%22%2C%22timestamp%22%3A1643041140%2C%22signature%22%3A%22UifOPFge9ZzttacVAnDqJtSYcFYNkMqReRoNrxWU1C25if1HmbepUSsXIa8XdKNpcnT5q2hd5K69xO9j1P0giQ%3D%3D%22%7D%2C%22returnUrl%22%3A%22https%3A%2F%2Fadvertiser.com%2Fnews%2F2022%2F02%2F07%2Fsomething-crazy-happened%3Futm_content%3Dcampaign%2520content%22%7D
+GET /v1/redirect/get-ids-prefs?paf=eyJyZXF1ZXN0Ijp7InNlbmRlciI6ImNtcC5jb20iLCJyZWNlaXZlciI6Im9wZXJhdG9yLnBhZi1vcGVyYXRpb24tZG9tYWluLmlvIiwidGltZXN0YW1wIjoxNjQzMDQxMTQwLCJzaWduYXR1cmUiOiJ0dkVqcDdGb3g2anhrZ3hnWTl0alR1eTN3SDVpbXVGajYzWXV1YjRVd2VlbFliczhYeG5QM25LNXc0MXUxM1ArZk9wRWZFcW1IL2ZBZ0M4V1BaWWhVUT09In0sInJldHVyblVybCI6Imh0dHBzOi8vYWR2ZXJ0aXNlci5jb20vbmV3cy8yMDIyLzAyLzA3L3NvbWV0aGluZy1jcmF6eS1oYXBwZW5lZD91dG1fY29udGVudD1jYW1wYWlnbiUyMGNvbnRlbnQifQ%3D%3D
 Host: operator.paf-operation-domain.io
-
 ```
 <!--partial-end-->
 
@@ -366,32 +364,32 @@ Host: operator.paf-operation-domain.io
     "body": {
       "identifiers": [
         {
-          "version": 0,
+          "version": "0.1",
           "type": "paf_browser_id",
           "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
           "source": {
             "domain": "operator.paf-operation-domain.io",
             "timestamp": 1642504380,
-            "signature": "0goU7vswAK2AMCSvn97tcVYW5agLl6YgEULZ5ZnSGSviiYoSKgbWnaUv59viizdLlqRyATDAtYk1QCz2YUobVQ=="
+            "signature": "bszEOIHdTfmdRZZzTFrFrXiB87piBkysVXBjtx9visoiCgqmR0AvKqiycAQ049VIeZa8ApQY0njJUwHby/Y10g=="
           }
         }
       ],
       "preferences": {
-        "version": 0,
+        "version": "0.1",
         "data": {
           "use_browsing_for_personalization": true
         },
         "source": {
           "domain": "cmp.com",
           "timestamp": 1642504560,
-          "signature": "aZa/K9ZmPAMx7jvcqcP2h+UphLzF+M7KRSmSZ7ZZnv/o6M8uDAVODAB5CES2wJuVKIgJ2ndd5Tevw1xbC3tBHQ=="
+          "signature": "Or41DOD8Oau3HHygAiFZzjXNvPmMx6fOazc/72LpmPKMnTFfZrkwPpCPIGPZKwF/WucP1NO+/aX4LfZ65jl2ZA=="
         }
       }
     },
     "sender": "operator.paf-operation-domain.io",
     "receiver": "advertiser.com",
     "timestamp": 1643041150,
-    "signature": "z67WHOnNSP3PxcebqDB59+p2lk3B6KQ/wdhPDJ3Mr//kjW4R1JdgEDj1w04ql0JopINxO225A6r0mZDrJNc/sQ=="
+    "signature": "1WGG+DtR5Q7JO/4w1mGoqwdB0VtdrKMNlh5jmFJRKLSOnki2WI6Pf4RnHd3bN68iCqpM/BHogM0590KVdv3+sg=="
   }
 }
 ```
@@ -402,8 +400,7 @@ Host: operator.paf-operation-domain.io
 <!--partial-begin { "files": [ "redirectGetIdsPrefsResponse_known.txt" ], "block": "" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```
-303 https://advertiser.com/news/2022/02/07/something-crazy-happened?utm_content=campaign+content&paf=%7B%22code%22%3A200%2C%22response%22%3A%7B%22body%22%3A%7B%22identifiers%22%3A%5B%7B%22version%22%3A0%2C%22type%22%3A%22paf_browser_id%22%2C%22value%22%3A%227435313e-caee-4889-8ad7-0acd0114ae3c%22%2C%22source%22%3A%7B%22domain%22%3A%22operator.paf-operation-domain.io%22%2C%22timestamp%22%3A1642504380%2C%22signature%22%3A%220goU7vswAK2AMCSvn97tcVYW5agLl6YgEULZ5ZnSGSviiYoSKgbWnaUv59viizdLlqRyATDAtYk1QCz2YUobVQ%3D%3D%22%7D%7D%5D%2C%22preferences%22%3A%7B%22version%22%3A0%2C%22data%22%3A%7B%22use_browsing_for_personalization%22%3Atrue%7D%2C%22source%22%3A%7B%22domain%22%3A%22cmp.com%22%2C%22timestamp%22%3A1642504560%2C%22signature%22%3A%22aZa%2FK9ZmPAMx7jvcqcP2h%2BUphLzF%2BM7KRSmSZ7ZZnv%2Fo6M8uDAVODAB5CES2wJuVKIgJ2ndd5Tevw1xbC3tBHQ%3D%3D%22%7D%7D%7D%2C%22sender%22%3A%22operator.paf-operation-domain.io%22%2C%22receiver%22%3A%22advertiser.com%22%2C%22timestamp%22%3A1643041150%2C%22signature%22%3A%22z67WHOnNSP3PxcebqDB59%2Bp2lk3B6KQ%2FwdhPDJ3Mr%2F%2FkjW4R1JdgEDj1w04ql0JopINxO225A6r0mZDrJNc%2FsQ%3D%3D%22%7D%7D
-
+303 https://advertiser.com/news/2022/02/07/something-crazy-happened?utm_content=campaign+content&paf=eyJjb2RlIjoyMDAsInJlc3BvbnNlIjp7ImJvZHkiOnsiaWRlbnRpZmllcnMiOlt7InZlcnNpb24iOiIwLjEiLCJ0eXBlIjoicGFmX2Jyb3dzZXJfaWQiLCJ2YWx1ZSI6Ijc0MzUzMTNlLWNhZWUtNDg4OS04YWQ3LTBhY2QwMTE0YWUzYyIsInNvdXJjZSI6eyJkb21haW4iOiJvcGVyYXRvci5wYWYtb3BlcmF0aW9uLWRvbWFpbi5pbyIsInRpbWVzdGFtcCI6MTY0MjUwNDM4MCwic2lnbmF0dXJlIjoiYnN6RU9JSGRUZm1kUlpaelRGckZyWGlCODdwaUJreXNWWEJqdHg5dmlzb2lDZ3FtUjBBdktxaXljQVEwNDlWSWVaYThBcFFZMG5qSlV3SGJ5L1kxMGc9PSJ9fV0sInByZWZlcmVuY2VzIjp7InZlcnNpb24iOiIwLjEiLCJkYXRhIjp7InVzZV9icm93c2luZ19mb3JfcGVyc29uYWxpemF0aW9uIjp0cnVlfSwic291cmNlIjp7ImRvbWFpbiI6ImNtcC5jb20iLCJ0aW1lc3RhbXAiOjE2NDI1MDQ1NjAsInNpZ25hdHVyZSI6Ik9yNDFET0Q4T2F1M0hIeWdBaUZaempYTnZQbU14NmZPYXpjLzcyTHBtUEtNblRGZlpya3dQcENQSUdQWkt3Ri9XdWNQMU5PKy9hWDRMZlo2NWpsMlpBPT0ifX19LCJzZW5kZXIiOiJvcGVyYXRvci5wYWYtb3BlcmF0aW9uLWRvbWFpbi5pbyIsInJlY2VpdmVyIjoiYWR2ZXJ0aXNlci5jb20iLCJ0aW1lc3RhbXAiOjE2NDMwNDExNTAsInNpZ25hdHVyZSI6IjFXR0crRHRSNVE3Sk8vNHcxbUdvcXdkQjBWdGRyS01ObGg1am1GSlJLTFNPbmtpMldJNlBmNFJuSGQzYk42OGlDcXBNL0JIb2dNMDU5MEtWZHYzK3NnPT0ifX0%3D
 ```
 <!--partial-end-->
 
@@ -419,13 +416,13 @@ Host: operator.paf-operation-domain.io
       "identifiers": [
         {
           "persisted": false,
-          "version": 0,
+          "version": "0.1",
           "type": "paf_browser_id",
           "value": "2e71121a-4feb-4a34-b7d1-839587d36390",
           "source": {
             "domain": "operator.paf-operation-domain.io",
             "timestamp": 1643041140,
-            "signature": "0bZyM+yJ62GPPczvI+o6GMpfXDsi8dI6O9LfTswBz92eiXDFVX953lRbyBdmSPjVUBebqOR6HzFJCL9ySu76Iw=="
+            "signature": "lfvEkcQ/lw+aDAycLKwljD01BKdjfCAa/W6Uz85z/LuXRGg4L7tMJa/pEzYC5WxZSmY2jVsqCN/IF6mws8c2cA=="
           }
         }
       ]
@@ -433,7 +430,7 @@ Host: operator.paf-operation-domain.io
     "sender": "operator.paf-operation-domain.io",
     "receiver": "advertiser.com",
     "timestamp": 1643041150,
-    "signature": "EVdRUXg3Ji40knIXZjrzsf7FT4eJ3HHxyw8ajElZZbsHQcN4mOD/kV/TWyUbbQDmmCL4k7JE/G5tyzV3L31/Ig=="
+    "signature": "eecaGYcYFkXmgFdaCwzK/93zaVnaLC0dZIDsC4IkP3WubKdSfP/u5UsrPYBhDgt0STCyBnwF6eE79vtyi2UnWA=="
   }
 }
 ```
@@ -446,8 +443,7 @@ Notice `persisted` = `false`, see [identifier.md](model/identifier.md) for detai
 <!--partial-begin { "files": [ "redirectGetIdsPrefsResponse_unknown.txt" ], "block": "" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```
-303 https://advertiser.com/news/2022/02/07/something-crazy-happened?utm_content=campaign+content&paf=%7B%22code%22%3A200%2C%22response%22%3A%7B%22body%22%3A%7B%22identifiers%22%3A%5B%7B%22persisted%22%3Afalse%2C%22version%22%3A0%2C%22type%22%3A%22paf_browser_id%22%2C%22value%22%3A%222e71121a-4feb-4a34-b7d1-839587d36390%22%2C%22source%22%3A%7B%22domain%22%3A%22operator.paf-operation-domain.io%22%2C%22timestamp%22%3A1643041140%2C%22signature%22%3A%220bZyM%2ByJ62GPPczvI%2Bo6GMpfXDsi8dI6O9LfTswBz92eiXDFVX953lRbyBdmSPjVUBebqOR6HzFJCL9ySu76Iw%3D%3D%22%7D%7D%5D%7D%2C%22sender%22%3A%22operator.paf-operation-domain.io%22%2C%22receiver%22%3A%22advertiser.com%22%2C%22timestamp%22%3A1643041150%2C%22signature%22%3A%22EVdRUXg3Ji40knIXZjrzsf7FT4eJ3HHxyw8ajElZZbsHQcN4mOD%2FkV%2FTWyUbbQDmmCL4k7JE%2FG5tyzV3L31%2FIg%3D%3D%22%7D%7D
-
+303 https://advertiser.com/news/2022/02/07/something-crazy-happened?utm_content=campaign+content&paf=eyJjb2RlIjoyMDAsInJlc3BvbnNlIjp7ImJvZHkiOnsiaWRlbnRpZmllcnMiOlt7InBlcnNpc3RlZCI6ZmFsc2UsInZlcnNpb24iOiIwLjEiLCJ0eXBlIjoicGFmX2Jyb3dzZXJfaWQiLCJ2YWx1ZSI6IjJlNzExMjFhLTRmZWItNGEzNC1iN2QxLTgzOTU4N2QzNjM5MCIsInNvdXJjZSI6eyJkb21haW4iOiJvcGVyYXRvci5wYWYtb3BlcmF0aW9uLWRvbWFpbi5pbyIsInRpbWVzdGFtcCI6MTY0MzA0MTE0MCwic2lnbmF0dXJlIjoibGZ2RWtjUS9sdythREF5Y0xLd2xqRDAxQktkamZDQWEvVzZVejg1ei9MdVhSR2c0TDd0TUphL3BFellDNVd4WlNtWTJqVnNxQ04vSUY2bXdzOGMyY0E9PSJ9fV19LCJzZW5kZXIiOiJvcGVyYXRvci5wYWYtb3BlcmF0aW9uLWRvbWFpbi5pbyIsInJlY2VpdmVyIjoiYWR2ZXJ0aXNlci5jb20iLCJ0aW1lc3RhbXAiOjE2NDMwNDExNTAsInNpZ25hdHVyZSI6ImVlY2FHWWNZRmtYbWdGZGFDd3pLLzkzemFWbmFMQzBkWklEc0M0SWtQM1d1YktkU2ZQL3U1VXNyUFlCaERndDBTVEN5Qm53RjZlRTc5dnR5aTJVbldBPT0ifX0%3D
 ```
 <!--partial-end-->
 
@@ -481,32 +477,32 @@ Notice `persisted` = `false`, see [identifier.md](model/identifier.md) for detai
   "body": {
     "identifiers": [
       {
-        "version": 0,
+        "version": "0.1",
         "type": "paf_browser_id",
         "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
         "source": {
           "domain": "operator.paf-operation-domain.io",
           "timestamp": 1642504380,
-          "signature": "0goU7vswAK2AMCSvn97tcVYW5agLl6YgEULZ5ZnSGSviiYoSKgbWnaUv59viizdLlqRyATDAtYk1QCz2YUobVQ=="
+          "signature": "bszEOIHdTfmdRZZzTFrFrXiB87piBkysVXBjtx9visoiCgqmR0AvKqiycAQ049VIeZa8ApQY0njJUwHby/Y10g=="
         }
       }
     ],
     "preferences": {
-      "version": 0,
+      "version": "0.1",
       "data": {
         "use_browsing_for_personalization": true
       },
       "source": {
         "domain": "cmp.com",
         "timestamp": 1642504560,
-        "signature": "aZa/K9ZmPAMx7jvcqcP2h+UphLzF+M7KRSmSZ7ZZnv/o6M8uDAVODAB5CES2wJuVKIgJ2ndd5Tevw1xbC3tBHQ=="
+        "signature": "Or41DOD8Oau3HHygAiFZzjXNvPmMx6fOazc/72LpmPKMnTFfZrkwPpCPIGPZKwF/WucP1NO+/aX4LfZ65jl2ZA=="
       }
     }
   },
   "sender": "cmp.com",
   "receiver": "operator.paf-operation-domain.io",
   "timestamp": 1643097660,
-  "signature": "7NgjcdmC7aOrCvqY/Yew9eyCXtKB5pl61ei/N6aoF24WYV4N3tekuoaZAjDXoWDEItf7sl7Zm2h1AERKxu6Vuw=="
+  "signature": "A491+ew8CP9Yc3G3JCCqhHYIRpj5WlZwAaZFCPnXtKFh6lRGNCvY/8JRewP+B5wt7/dCMM2zITgEU2eReFL86g=="
 }
 ```
 <!--partial-end-->
@@ -518,7 +514,6 @@ Notice `persisted` = `false`, see [identifier.md](model/identifier.md) for detai
 ```http
 POST /v1/ids-prefs
 Host: operator.paf-operation-domain.io
-
 ```
 <!--partial-end-->
 
@@ -531,32 +526,32 @@ Host: operator.paf-operation-domain.io
   "body": {
     "identifiers": [
       {
-        "version": 0,
+        "version": "0.1",
         "type": "paf_browser_id",
         "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
         "source": {
           "domain": "operator.paf-operation-domain.io",
           "timestamp": 1642504380,
-          "signature": "0goU7vswAK2AMCSvn97tcVYW5agLl6YgEULZ5ZnSGSviiYoSKgbWnaUv59viizdLlqRyATDAtYk1QCz2YUobVQ=="
+          "signature": "bszEOIHdTfmdRZZzTFrFrXiB87piBkysVXBjtx9visoiCgqmR0AvKqiycAQ049VIeZa8ApQY0njJUwHby/Y10g=="
         }
       }
     ],
     "preferences": {
-      "version": 0,
+      "version": "0.1",
       "data": {
         "use_browsing_for_personalization": true
       },
       "source": {
         "domain": "cmp.com",
         "timestamp": 1642504560,
-        "signature": "aZa/K9ZmPAMx7jvcqcP2h+UphLzF+M7KRSmSZ7ZZnv/o6M8uDAVODAB5CES2wJuVKIgJ2ndd5Tevw1xbC3tBHQ=="
+        "signature": "Or41DOD8Oau3HHygAiFZzjXNvPmMx6fOazc/72LpmPKMnTFfZrkwPpCPIGPZKwF/WucP1NO+/aX4LfZ65jl2ZA=="
       }
     }
   },
   "sender": "operator.paf-operation-domain.io",
   "receiver": "cmp.com",
   "timestamp": 1643097663,
-  "signature": "zmcZfi0BmH8Bf3ewfaqPVj4N7AV+Nu+UulPl7z1d5KxYHj3BUU2qbgveFRVre+9EEcpkBl9bA03LiS25w/kJWg=="
+  "signature": "o4I1BMvUkUATj5l3tFyTo5zF1HRF1Yhjh+KOg5G/SchLRZPBsMzRDewCTS7ynAblwUpWLFfHYvaawW87O0/aVA=="
 }
 ```
 <!--partial-end-->
@@ -583,34 +578,34 @@ Host: operator.paf-operation-domain.io
     "body": {
       "identifiers": [
         {
-          "version": 0,
+          "version": "0.1",
           "type": "paf_browser_id",
           "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
           "source": {
             "domain": "operator.paf-operation-domain.io",
             "timestamp": 1642504380,
-            "signature": "0goU7vswAK2AMCSvn97tcVYW5agLl6YgEULZ5ZnSGSviiYoSKgbWnaUv59viizdLlqRyATDAtYk1QCz2YUobVQ=="
+            "signature": "bszEOIHdTfmdRZZzTFrFrXiB87piBkysVXBjtx9visoiCgqmR0AvKqiycAQ049VIeZa8ApQY0njJUwHby/Y10g=="
           }
         }
       ],
       "preferences": {
-        "version": 0,
+        "version": "0.1",
         "data": {
           "use_browsing_for_personalization": true
         },
         "source": {
           "domain": "cmp.com",
           "timestamp": 1642504560,
-          "signature": "aZa/K9ZmPAMx7jvcqcP2h+UphLzF+M7KRSmSZ7ZZnv/o6M8uDAVODAB5CES2wJuVKIgJ2ndd5Tevw1xbC3tBHQ=="
+          "signature": "Or41DOD8Oau3HHygAiFZzjXNvPmMx6fOazc/72LpmPKMnTFfZrkwPpCPIGPZKwF/WucP1NO+/aX4LfZ65jl2ZA=="
         }
       }
     },
     "sender": "cmp.com",
     "receiver": "operator.paf-operation-domain.io",
     "timestamp": 1643097660,
-    "signature": "7NgjcdmC7aOrCvqY/Yew9eyCXtKB5pl61ei/N6aoF24WYV4N3tekuoaZAjDXoWDEItf7sl7Zm2h1AERKxu6Vuw=="
+    "signature": "A491+ew8CP9Yc3G3JCCqhHYIRpj5WlZwAaZFCPnXtKFh6lRGNCvY/8JRewP+B5wt7/dCMM2zITgEU2eReFL86g=="
   },
-  "returnUrl": "https://advertiser.com/news/2022/02/07/something-crazy-happened?utm_content=campaign%20content"
+  "returnUrl": "https://advertiser.com/news/2022/02/07/something-crazy-happened?utm_content=campaign+content&paf=eyJjb2RlIjoyMDAsInJlc3BvbnNlIjp7ImJvZHkiOnsiaWRlbnRpZmllcnMiOlt7InBlcnNpc3RlZCI6ZmFsc2UsInZlcnNpb24iOiIwLjEiLCJ0eXBlIjoicGFmX2Jyb3dzZXJfaWQiLCJ2YWx1ZSI6IjJlNzExMjFhLTRmZWItNGEzNC1iN2QxLTgzOTU4N2QzNjM5MCIsInNvdXJjZSI6eyJkb21haW4iOiJvcGVyYXRvci5wYWYtb3BlcmF0aW9uLWRvbWFpbi5pbyIsInRpbWVzdGFtcCI6MTY0MzA0MTE0MCwic2lnbmF0dXJlIjoibGZ2RWtjUS9sdythREF5Y0xLd2xqRDAxQktkamZDQWEvVzZVejg1ei9MdVhSR2c0TDd0TUphL3BFellDNVd4WlNtWTJqVnNxQ04vSUY2bXdzOGMyY0E9PSJ9fV19LCJzZW5kZXIiOiJvcGVyYXRvci5wYWYtb3BlcmF0aW9uLWRvbWFpbi5pbyIsInJlY2VpdmVyIjoiYWR2ZXJ0aXNlci5jb20iLCJ0aW1lc3RhbXAiOjE2NDMwNDExNTAsInNpZ25hdHVyZSI6ImVlY2FHWWNZRmtYbWdGZGFDd3pLLzkzemFWbmFMQzBkWklEc0M0SWtQM1d1YktkU2ZQL3U1VXNyUFlCaERndDBTVEN5Qm53RjZlRTc5dnR5aTJVbldBPT0ifX0%3D"
 }
 ```
 <!--partial-end-->
@@ -620,9 +615,8 @@ Host: operator.paf-operation-domain.io
 <!--partial-begin { "files": [ "redirectPostIdsPrefsRequest.http" ], "block": "http" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```http
-GET /v1/redirect/post-ids-prefs?paf=%7B%22request%22%3A%7B%22body%22%3A%7B%22identifiers%22%3A%5B%7B%22version%22%3A0%2C%22type%22%3A%22paf_browser_id%22%2C%22value%22%3A%227435313e-caee-4889-8ad7-0acd0114ae3c%22%2C%22source%22%3A%7B%22domain%22%3A%22operator.paf-operation-domain.io%22%2C%22timestamp%22%3A1642504380%2C%22signature%22%3A%220goU7vswAK2AMCSvn97tcVYW5agLl6YgEULZ5ZnSGSviiYoSKgbWnaUv59viizdLlqRyATDAtYk1QCz2YUobVQ%3D%3D%22%7D%7D%5D%2C%22preferences%22%3A%7B%22version%22%3A0%2C%22data%22%3A%7B%22use_browsing_for_personalization%22%3Atrue%7D%2C%22source%22%3A%7B%22domain%22%3A%22cmp.com%22%2C%22timestamp%22%3A1642504560%2C%22signature%22%3A%22aZa%2FK9ZmPAMx7jvcqcP2h%2BUphLzF%2BM7KRSmSZ7ZZnv%2Fo6M8uDAVODAB5CES2wJuVKIgJ2ndd5Tevw1xbC3tBHQ%3D%3D%22%7D%7D%7D%2C%22sender%22%3A%22cmp.com%22%2C%22receiver%22%3A%22operator.paf-operation-domain.io%22%2C%22timestamp%22%3A1643097660%2C%22signature%22%3A%227NgjcdmC7aOrCvqY%2FYew9eyCXtKB5pl61ei%2FN6aoF24WYV4N3tekuoaZAjDXoWDEItf7sl7Zm2h1AERKxu6Vuw%3D%3D%22%7D%2C%22returnUrl%22%3A%22https%3A%2F%2Fadvertiser.com%2Fnews%2F2022%2F02%2F07%2Fsomething-crazy-happened%3Futm_content%3Dcampaign%2520content%22%7D
+GET /v1/redirect/post-ids-prefs?paf=eyJyZXF1ZXN0Ijp7ImJvZHkiOnsiaWRlbnRpZmllcnMiOlt7InZlcnNpb24iOiIwLjEiLCJ0eXBlIjoicGFmX2Jyb3dzZXJfaWQiLCJ2YWx1ZSI6Ijc0MzUzMTNlLWNhZWUtNDg4OS04YWQ3LTBhY2QwMTE0YWUzYyIsInNvdXJjZSI6eyJkb21haW4iOiJvcGVyYXRvci5wYWYtb3BlcmF0aW9uLWRvbWFpbi5pbyIsInRpbWVzdGFtcCI6MTY0MjUwNDM4MCwic2lnbmF0dXJlIjoiYnN6RU9JSGRUZm1kUlpaelRGckZyWGlCODdwaUJreXNWWEJqdHg5dmlzb2lDZ3FtUjBBdktxaXljQVEwNDlWSWVaYThBcFFZMG5qSlV3SGJ5L1kxMGc9PSJ9fV0sInByZWZlcmVuY2VzIjp7InZlcnNpb24iOiIwLjEiLCJkYXRhIjp7InVzZV9icm93c2luZ19mb3JfcGVyc29uYWxpemF0aW9uIjp0cnVlfSwic291cmNlIjp7ImRvbWFpbiI6ImNtcC5jb20iLCJ0aW1lc3RhbXAiOjE2NDI1MDQ1NjAsInNpZ25hdHVyZSI6Ik9yNDFET0Q4T2F1M0hIeWdBaUZaempYTnZQbU14NmZPYXpjLzcyTHBtUEtNblRGZlpya3dQcENQSUdQWkt3Ri9XdWNQMU5PKy9hWDRMZlo2NWpsMlpBPT0ifX19LCJzZW5kZXIiOiJjbXAuY29tIiwicmVjZWl2ZXIiOiJvcGVyYXRvci5wYWYtb3BlcmF0aW9uLWRvbWFpbi5pbyIsInRpbWVzdGFtcCI6MTY0MzA5NzY2MCwic2lnbmF0dXJlIjoiQTQ5MStldzhDUDlZYzNHM0pDQ3FoSFlJUnBqNVdsWndBYVpGQ1BuWHRLRmg2bFJHTkN2WS84SlJld1ArQjV3dDcvZENNTTJ6SVRnRVUyZVJlRkw4Nmc9PSJ9LCJyZXR1cm5VcmwiOiJodHRwczovL2FkdmVydGlzZXIuY29tL25ld3MvMjAyMi8wMi8wNy9zb21ldGhpbmctY3JhenktaGFwcGVuZWQ%2FdXRtX2NvbnRlbnQ9Y2FtcGFpZ24rY29udGVudCZwYWY9ZXlKamIyUmxJam95TURBc0luSmxjM0J2Ym5ObElqcDdJbUp2WkhraU9uc2lhV1JsYm5ScFptbGxjbk1pT2x0N0luQmxjbk5wYzNSbFpDSTZabUZzYzJVc0luWmxjbk5wYjI0aU9pSXdMakVpTENKMGVYQmxJam9pY0dGbVgySnliM2R6WlhKZmFXUWlMQ0oyWVd4MVpTSTZJakpsTnpFeE1qRmhMVFJtWldJdE5HRXpOQzFpTjJReExUZ3pPVFU0TjJRek5qTTVNQ0lzSW5OdmRYSmpaU0k2ZXlKa2IyMWhhVzRpT2lKdmNHVnlZWFJ2Y2k1d1lXWXRiM0JsY21GMGFXOXVMV1J2YldGcGJpNXBieUlzSW5ScGJXVnpkR0Z0Y0NJNk1UWTBNekEwTVRFME1Dd2ljMmxuYm1GMGRYSmxJam9pYkdaMlJXdGpVUzlzZHl0aFJFRjVZMHhMZDJ4cVJEQXhRa3RrYW1aRFFXRXZWelpWZWpnMWVpOU1kVmhTUjJjMFREZDBUVXBoTDNCRmVsbEROVmQ0V2xOdFdUSnFWbk54UTA0dlNVWTJiWGR6T0dNeVkwRTlQU0o5ZlYxOUxDSnpaVzVrWlhJaU9pSnZjR1Z5WVhSdmNpNXdZV1l0YjNCbGNtRjBhVzl1TFdSdmJXRnBiaTVwYnlJc0luSmxZMlZwZG1WeUlqb2lZV1IyWlhKMGFYTmxjaTVqYjIwaUxDSjBhVzFsYzNSaGJYQWlPakUyTkRNd05ERXhOVEFzSW5OcFoyNWhkSFZ5WlNJNkltVmxZMkZIV1dOWlJtdFliV2RHWkdGRGQzcExMemt6ZW1GV2JtRk1RekJrV2tsRWMwTTBTV3RRTTFkMVlrdGtVMlpRTDNVMVZYTnlVRmxDYUVSbmREQlRWRU41UW01M1JqWmxSVGM1ZG5SNWFUSlZibGRCUFQwaWZYMCUzRCJ9
 Host: operator.paf-operation-domain.io
-
 ```
 <!--partial-end-->
 
@@ -637,32 +631,32 @@ Host: operator.paf-operation-domain.io
     "body": {
       "identifiers": [
         {
-          "version": 0,
+          "version": "0.1",
           "type": "paf_browser_id",
           "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
           "source": {
             "domain": "operator.paf-operation-domain.io",
             "timestamp": 1642504380,
-            "signature": "0goU7vswAK2AMCSvn97tcVYW5agLl6YgEULZ5ZnSGSviiYoSKgbWnaUv59viizdLlqRyATDAtYk1QCz2YUobVQ=="
+            "signature": "bszEOIHdTfmdRZZzTFrFrXiB87piBkysVXBjtx9visoiCgqmR0AvKqiycAQ049VIeZa8ApQY0njJUwHby/Y10g=="
           }
         }
       ],
       "preferences": {
-        "version": 0,
+        "version": "0.1",
         "data": {
           "use_browsing_for_personalization": true
         },
         "source": {
           "domain": "cmp.com",
           "timestamp": 1642504560,
-          "signature": "aZa/K9ZmPAMx7jvcqcP2h+UphLzF+M7KRSmSZ7ZZnv/o6M8uDAVODAB5CES2wJuVKIgJ2ndd5Tevw1xbC3tBHQ=="
+          "signature": "Or41DOD8Oau3HHygAiFZzjXNvPmMx6fOazc/72LpmPKMnTFfZrkwPpCPIGPZKwF/WucP1NO+/aX4LfZ65jl2ZA=="
         }
       }
     },
     "sender": "operator.paf-operation-domain.io",
     "receiver": "cmp.com",
     "timestamp": 1643097663,
-    "signature": "zmcZfi0BmH8Bf3ewfaqPVj4N7AV+Nu+UulPl7z1d5KxYHj3BUU2qbgveFRVre+9EEcpkBl9bA03LiS25w/kJWg=="
+    "signature": "o4I1BMvUkUATj5l3tFyTo5zF1HRF1Yhjh+KOg5G/SchLRZPBsMzRDewCTS7ynAblwUpWLFfHYvaawW87O0/aVA=="
   }
 }
 ```
@@ -673,8 +667,7 @@ Host: operator.paf-operation-domain.io
 <!--partial-begin { "files": [ "redirectPostIdsPrefsResponse.txt" ], "block": "" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```
-303 https://advertiser.com/news/2022/02/07/something-crazy-happened?utm_content=campaign+content&paf=%7B%22code%22%3A200%2C%22response%22%3A%7B%22body%22%3A%7B%22identifiers%22%3A%5B%7B%22version%22%3A0%2C%22type%22%3A%22paf_browser_id%22%2C%22value%22%3A%227435313e-caee-4889-8ad7-0acd0114ae3c%22%2C%22source%22%3A%7B%22domain%22%3A%22operator.paf-operation-domain.io%22%2C%22timestamp%22%3A1642504380%2C%22signature%22%3A%220goU7vswAK2AMCSvn97tcVYW5agLl6YgEULZ5ZnSGSviiYoSKgbWnaUv59viizdLlqRyATDAtYk1QCz2YUobVQ%3D%3D%22%7D%7D%5D%2C%22preferences%22%3A%7B%22version%22%3A0%2C%22data%22%3A%7B%22use_browsing_for_personalization%22%3Atrue%7D%2C%22source%22%3A%7B%22domain%22%3A%22cmp.com%22%2C%22timestamp%22%3A1642504560%2C%22signature%22%3A%22aZa%2FK9ZmPAMx7jvcqcP2h%2BUphLzF%2BM7KRSmSZ7ZZnv%2Fo6M8uDAVODAB5CES2wJuVKIgJ2ndd5Tevw1xbC3tBHQ%3D%3D%22%7D%7D%7D%2C%22sender%22%3A%22operator.paf-operation-domain.io%22%2C%22receiver%22%3A%22cmp.com%22%2C%22timestamp%22%3A1643097663%2C%22signature%22%3A%22zmcZfi0BmH8Bf3ewfaqPVj4N7AV%2BNu%2BUulPl7z1d5KxYHj3BUU2qbgveFRVre%2B9EEcpkBl9bA03LiS25w%2FkJWg%3D%3D%22%7D%7D
-
+303 https://advertiser.com/news/2022/02/07/something-crazy-happened?utm_content=campaign+content&paf=eyJjb2RlIjoyMDAsInJlc3BvbnNlIjp7ImJvZHkiOnsiaWRlbnRpZmllcnMiOlt7InZlcnNpb24iOiIwLjEiLCJ0eXBlIjoicGFmX2Jyb3dzZXJfaWQiLCJ2YWx1ZSI6Ijc0MzUzMTNlLWNhZWUtNDg4OS04YWQ3LTBhY2QwMTE0YWUzYyIsInNvdXJjZSI6eyJkb21haW4iOiJvcGVyYXRvci5wYWYtb3BlcmF0aW9uLWRvbWFpbi5pbyIsInRpbWVzdGFtcCI6MTY0MjUwNDM4MCwic2lnbmF0dXJlIjoiYnN6RU9JSGRUZm1kUlpaelRGckZyWGlCODdwaUJreXNWWEJqdHg5dmlzb2lDZ3FtUjBBdktxaXljQVEwNDlWSWVaYThBcFFZMG5qSlV3SGJ5L1kxMGc9PSJ9fV0sInByZWZlcmVuY2VzIjp7InZlcnNpb24iOiIwLjEiLCJkYXRhIjp7InVzZV9icm93c2luZ19mb3JfcGVyc29uYWxpemF0aW9uIjp0cnVlfSwic291cmNlIjp7ImRvbWFpbiI6ImNtcC5jb20iLCJ0aW1lc3RhbXAiOjE2NDI1MDQ1NjAsInNpZ25hdHVyZSI6Ik9yNDFET0Q4T2F1M0hIeWdBaUZaempYTnZQbU14NmZPYXpjLzcyTHBtUEtNblRGZlpya3dQcENQSUdQWkt3Ri9XdWNQMU5PKy9hWDRMZlo2NWpsMlpBPT0ifX19LCJzZW5kZXIiOiJvcGVyYXRvci5wYWYtb3BlcmF0aW9uLWRvbWFpbi5pbyIsInJlY2VpdmVyIjoiY21wLmNvbSIsInRpbWVzdGFtcCI6MTY0MzA5NzY2Mywic2lnbmF0dXJlIjoibzRJMUJNdlVrVUFUajVsM3RGeVRvNXpGMUhSRjFZaGpoK0tPZzVHL1NjaExSWlBCc016UkRld0NUUzd5bkFibHdVcFdMRmZIWXZhYXdXODdPMC9hVkE9PSJ9fQ%3D%3D
 ```
 <!--partial-end-->
 
@@ -707,7 +700,7 @@ Host: operator.paf-operation-domain.io
   "sender": "cmp.com",
   "receiver": "operator.paf-operation-domain.io",
   "timestamp": 1646157840,
-  "signature": "m9egRPO67ri30qBspCykZbKM0EUYZHHYzZ4JTtDNfTIWFfvseLnC7kU+VfS+3Tj8RujXtiy/U0WJBcvwYiKFpg=="
+  "signature": "SaCxgYkhEh9AEFuMuRXx8rolSWx+MEsePekQR+vzWnevA9bZgqk7rb/yXpjy8h/++jcR/RwZzy400segTcQ7Mg=="
 }
 ```
 <!--partial-end-->
@@ -717,9 +710,8 @@ Host: operator.paf-operation-domain.io
 <!--partial-begin { "files": [ "getIdsPrefsRequest.http" ], "block": "http" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```http
-GET /v1/ids-prefs?paf=%7B%22sender%22%3A%22cmp.com%22%2C%22receiver%22%3A%22operator.paf-operation-domain.io%22%2C%22timestamp%22%3A1643041140%2C%22signature%22%3A%22UifOPFge9ZzttacVAnDqJtSYcFYNkMqReRoNrxWU1C25if1HmbepUSsXIa8XdKNpcnT5q2hd5K69xO9j1P0giQ%3D%3D%22%7D
+GET /v1/ids-prefs?paf=eyJzZW5kZXIiOiJjbXAuY29tIiwicmVjZWl2ZXIiOiJvcGVyYXRvci5wYWYtb3BlcmF0aW9uLWRvbWFpbi5pbyIsInRpbWVzdGFtcCI6MTY0MzA0MTE0MCwic2lnbmF0dXJlIjoidHZFanA3Rm94Nmp4a2d4Z1k5dGpUdXkzd0g1aW11Rmo2M1l1dWI0VXdlZWxZYnM4WHhuUDNuSzV3NDF1MTNQK2ZPcEVmRXFtSC9mQWdDOFdQWlloVVE9PSJ9
 Host: operator.paf-operation-domain.io
-
 ```
 <!--partial-end-->
 
@@ -733,13 +725,13 @@ Host: operator.paf-operation-domain.io
     "identifiers": [
       {
         "persisted": false,
-        "version": 0,
+        "version": "0.1",
         "type": "paf_browser_id",
         "value": "2e71121a-4feb-4a34-b7d1-839587d36390",
         "source": {
           "domain": "operator.paf-operation-domain.io",
           "timestamp": 1643041140,
-          "signature": "0bZyM+yJ62GPPczvI+o6GMpfXDsi8dI6O9LfTswBz92eiXDFVX953lRbyBdmSPjVUBebqOR6HzFJCL9ySu76Iw=="
+          "signature": "lfvEkcQ/lw+aDAycLKwljD01BKdjfCAa/W6Uz85z/LuXRGg4L7tMJa/pEzYC5WxZSmY2jVsqCN/IF6mws8c2cA=="
         }
       }
     ]
@@ -747,7 +739,7 @@ Host: operator.paf-operation-domain.io
   "sender": "operator.paf-operation-domain.io",
   "receiver": "cmp.com",
   "timestamp": 1646157887,
-  "signature": "V7E4WN9NZSWJaoZ0D/urVd5HbcmRYBUCmmqThhpf9H2imVzotWD5EidLkH2YknP2nlq1ZinFh4rt33UjxJJfBA=="
+  "signature": "4HLqlyCKsFlBoY2JY2hvRZdZxg+QBoSdF5R+tWIDJmdahn4LdfXim9dRHkVJ7tWcpGnl4PZXUJrSXyEkv0U5pw=="
 }
 ```
 <!--partial-end-->
@@ -790,7 +782,6 @@ See [website-design](./website-design.md) for the full picture.
 ```http
 GET /v1/3pc
 Host: operator.paf-operation-domain.io
-
 ```
 <!--partial-end-->
 
@@ -849,7 +840,6 @@ This endpoint doesn't rely on support of 3PC or not: the REST version will work 
 ```http
 GET /v1/identity
 Host: operator.paf-operation-domain.io
-
 ```
 <!--partial-end-->
 
@@ -868,7 +858,7 @@ Host: operator.paf-operation-domain.io
     }
   ],
   "type": "operator",
-  "version": 0
+  "version": "0.1"
 }
 ```
 <!--partial-end-->

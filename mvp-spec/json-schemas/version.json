@@ -1,10 +1,9 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "Version",
-  "description": "A version number. To be detailed.",
+  "description": "A version number made of a \"major\" and a \"minor\" version numbers.\n\nTo be detailed.",
   "$id": "version",
-  "type": "integer",
-  "enum": [
-    0
-  ]
+  "type": "string",
+  "pattern": "^[0-9].[0-9]$",
+  "examples": ["0.1", "0.4", "1.0"]
 }
