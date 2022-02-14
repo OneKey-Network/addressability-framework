@@ -41,12 +41,6 @@ Specifications for a MVP, covering only a single id managed by several operators
 | [model](./mvp-spec/model)                                                             | Data and messages model                                                                             |
 | [json-schemas](./mvp-spec/json-schemas)                                               | Data and messages model in [JSON schema](https://json-schema.org/understanding-json-schema/) format |
 
-⚠️ **Diagrams** in these documents use the [Mermaid](https://mermaidjs.github.io/) language. We plan to install GitHub
-actions to automatically generate images from the diagrams, but until then, you are invited to install a browser
-extension such
-as [markdown-diagrams](https://chrome.google.com/webstore/detail/markdown-diagrams/pmoglnmodacnbbofbgcagndelmgaclel/related)
-to visualise them. You might need to **refresh the page** to get the rendered image.
-
 # Contributing
 
 Please see [Contributing.md](CONTRIBUTING.md)
