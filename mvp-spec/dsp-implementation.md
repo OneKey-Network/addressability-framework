@@ -10,12 +10,7 @@ The described API use timestamps based on 1970 (UNIX epoch time).
 
 ## General note about signature
 
-Prebid SSO Data format is designed to let the user audit how his preference got
-to their current state. Therefore, PAF relies on the signatures 
-of the data and the communication to enforce security. The Elliptic Curve
-Digital Signature Algorithm (ECDSA) is used for this purpose. All the signatures
-described in this documentation are generated using NIST P-256 coupled with
-the hash algorithm SHA-256 on a specific string.
+For details on how to calculate or verify signatures, see [signatures.md](signatures.md).
 
 # Overview
 
@@ -62,11 +57,11 @@ rotations.
 
 ### Key object
 
-| Field | Type      | Details                                                             |
-|-------|-----------|---------------------------------------------------------------------|
-| key   | String    | Public key for verifying the signature. Encoded in a UTF-8 String. |
-| start | Integer   | Timestamp when the Contracting Party started to use this key for signing.         |
-| end   | Integer   | Timestamp when the Contracting Party stopped using this key for signing.          |
+| Field | Type    | Details                                                                   |
+|-------|---------|---------------------------------------------------------------------------|
+| key   | String  | Public key for verifying the signature. Encoded in a UTF-8 String.        |
+| start | Integer | Timestamp when the Contracting Party started to use this key for signing. |
+| end   | Integer | Timestamp when the Contracting Party stopped using this key for signing.  |
 
 
 ### Example of an Identity response
@@ -222,10 +217,10 @@ structure for an ad-hoc communication:
 <!--partial-begin { "files": [ "transmission-request-wrapper-table.md" ] } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 
-| Field                  | Type                                     | Details  |
-|------------------------|------------------------------------------|----------|
-| data                   | Prebid SSO Data object                   | The Pseudonymous-Identifiers and the Preferences |
-| transmissions          | Array of Transmission Request objects    | The list of Transmission Request, one per Transaction and Addressable Content.|
+| Field         | Type                                  | Details                                                                        |
+|---------------|---------------------------------------|--------------------------------------------------------------------------------|
+| data          | Prebid SSO Data object                | The Pseudonymous-Identifiers and the Preferences                               |
+| transmissions | Array of Transmission Request objects | The list of Transmission Request, one per Transaction and Addressable Content. |
 
 <!--partial-end-->
 
@@ -235,10 +230,10 @@ The Prebid SSO object contains the Pseudonymous-Identifier and the Preferences:
 <!--partial-begin { "files": [ "data-id-and-preferences-table.md" ] } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 
-| Field                  | Type                                     | Details  |
-|------------------------|------------------------------------------|----------|
-| preferences            | Preferences object                       | The Preferences of the user.|
-| identifiers            | Array of Pseudonymous-Identifier objects | The Pseudonymous-Identifiers of the user. For now, it only contains a Prebid ID.|
+| Field       | Type                                     | Details                                                                          |
+|-------------|------------------------------------------|----------------------------------------------------------------------------------|
+| preferences | Preferences object                       | The Preferences of the user.                                                     |
+| identifiers | Array of Pseudonymous-Identifier objects | The Pseudonymous-Identifiers of the user. For now, it only contains a Prebid ID. |
 
 <!--partial-end-->
 
@@ -246,11 +241,11 @@ The Prebid SSO object contains the Pseudonymous-Identifier and the Preferences:
 
 <!--partial-begin { "files": [ "preferences-table.md" ] } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
-| Field   | Type                   | Details                                   |
-|---------|------------------------|-------------------------------------------|
-| version | Number                 | The Prebid SSO version used.     |
-| data    | Dictionary             | The keys are strings and represent the name of the preferences. <br /> The values represent the value of the preference. <br /> For now there is only one preference named "optin" and its value is a boolean.|
-| source  | Source object          | The source contains the data for identifying and trusting the CMP that signed lastly the Preferences.<br /> <table><tr><th>Field</th><th>Type</th><th>Details</th></tr><tr><td>domain</td><td>String</td><td>The domain of the CMP.</td></tr><tr><td>timestamp</td><td>Integer</td><td>The timestamp of the signature.</td></tr><tr><td>signature</td><td>String</td><td>Encoded signature in UTF-8 of the CMP.</td></tr></table>|
+| Field   | Type          | Details                                                                                                                                                                                                                                                                                                                                                                                                                           |
+|---------|---------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| version | Number        | The Prebid SSO version used.                                                                                                                                                                                                                                                                                                                                                                                                      |
+| data    | Dictionary    | The keys are strings and represent the name of the preferences. <br /> The values represent the value of the preference. <br /> For now there is only one preference named "optin" and its value is a boolean.                                                                                                                                                                                                                    |
+| source  | Source object | The source contains the data for identifying and trusting the CMP that signed lastly the Preferences.<br /> <table><tr><th>Field</th><th>Type</th><th>Details</th></tr><tr><td>domain</td><td>String</td><td>The domain of the CMP.</td></tr><tr><td>timestamp</td><td>Integer</td><td>The timestamp of the signature.</td></tr><tr><td>signature</td><td>String</td><td>Encoded signature in UTF-8 of the CMP.</td></tr></table> |
 
 <!--partial-end-->
 
@@ -258,12 +253,12 @@ The Prebid SSO object contains the Pseudonymous-Identifier and the Preferences:
 
 <!--partial-begin { "files": [ "identifier-table.md" ] } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
-| Field   | Type          | Details                                            |
-|---------|---------------|----------------------------------------------------|
-| version | Number        | The version of PAF used.                                                                       |
-| type    | String        | The type of Pseudonymous-Identifier. For now, there is only one: "prebid_id".                                                    |
-| value   | String        | The Pseudonymous-Identifier value in UTF-8.                                                                                      |
-| source  | Source object | The Source contains all the data for identifying and trusting the Operator that generated the Pseudonymous-Identifier. <br /> <table><tr><th>Field</th><th>Type</th><th>Details</th></tr><tr><td>domain</td><td>String</td><td>The domain of the Operator.</td></tr><tr><td>timestamp</td><td>Integer</td><td>The timestamp of the signature.</td></tr><tr><td>signature</td><td>String</td><td>Encoded signature in UTF-8 of the Operator.</td></tr></table>|
+| Field   | Type          | Details                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+|---------|---------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| version | Number        | The version of PAF used.                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| type    | String        | The type of Pseudonymous-Identifier. For now, there is only one: "prebid_id".                                                                                                                                                                                                                                                                                                                                                                                 |
+| value   | String        | The Pseudonymous-Identifier value in UTF-8.                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| source  | Source object | The Source contains all the data for identifying and trusting the Operator that generated the Pseudonymous-Identifier. <br /> <table><tr><th>Field</th><th>Type</th><th>Details</th></tr><tr><td>domain</td><td>String</td><td>The domain of the Operator.</td></tr><tr><td>timestamp</td><td>Integer</td><td>The timestamp of the signature.</td></tr><tr><td>signature</td><td>String</td><td>Encoded signature in UTF-8 of the Operator.</td></tr></table> |
 
 <!--partial-end-->
 
@@ -273,12 +268,12 @@ The transmission Request object must follow strictly this structure:
 <!--partial-begin { "files": [ "transmission-request-table.md" ] } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 
-| Field  | Type                            | Details                           |
-|--------|---------------------------------|-----------------------------------|
-| version| Number                          | The PAF version used.               |
-| seed   | Seed object                     | A Seed object contains all the Prebid SSO Data gathered and signed by the Publisher concerning the user. |
-| parents| Array of Transmission Results   | A list of Transmission Results that participate to a chain of Transmissions and make this Transmission possible. |  
-| source | Source object                   | The source object contains data for identifying the Sender of the Transmission.<br /><table><tr><th>Field</th><th>Type</th><th>Details</th></tr><tr><td>domain</td><td>String</td><td>The domain of the Sender.</td></tr><tr><td>timestamp</td><td>Integer</td><td>The timestamp of the signature.</td></tr><tr><td>signature</td><td>String</td><td>Encoded signature in UTF-8 of the Tranmission sender.</td></tr></table>|
+| Field   | Type                          | Details                                                                                                                                                                                                                                                                                                                                                                                                                      |
+|---------|-------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| version | Number                        | The PAF version used.                                                                                                                                                                                                                                                                                                                                                                                                        |
+| seed    | Seed object                   | A Seed object contains all the Prebid SSO Data gathered and signed by the Publisher concerning the user.                                                                                                                                                                                                                                                                                                                     |
+| parents | Array of Transmission Results | A list of Transmission Results that participate to a chain of Transmissions and make this Transmission possible.                                                                                                                                                                                                                                                                                                             |  
+| source  | Source object                 | The source object contains data for identifying the Sender of the Transmission.<br /><table><tr><th>Field</th><th>Type</th><th>Details</th></tr><tr><td>domain</td><td>String</td><td>The domain of the Sender.</td></tr><tr><td>timestamp</td><td>Integer</td><td>The timestamp of the signature.</td></tr><tr><td>signature</td><td>String</td><td>Encoded signature in UTF-8 of the Tranmission sender.</td></tr></table> |
 
 <!--partial-end-->
 
@@ -286,12 +281,12 @@ The transmission Request object must follow strictly this structure:
 
 <!--partial-begin { "files": [ "seed-optimized-table.md" ] } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
-| Field                  | Type                                     | Details  |
-|------------------------|------------------------------------------|----------|
-| version                | Number                                   | The PAF version used.|
-| transaction_id         | String                                   | A GUID in a String format dedicated to the share of the Prebid SSO data for one Addressable Content.|
-| publisher              | String                                   | The domain name of the Publisher that displays the Addressable Content|
-| source                 | Source object                            | The source contains data for identifying and trusting the Publisher.<br /><table><tr><th>Field</th><th>Type</th><th>Details</th></tr><tr><td>domain</td><td>String</td><td>The domain of the Root Party (Publisher in most of the cases).</td></tr><tr><td>timestamp</td><td>Integer</td><td>The timestamp of the signature.</td></tr><tr><td>signature</td><td>String</td><td>Encoded signature in UTF-8 of the Root Party/Publisher.</td></tr></table>|
+| Field          | Type          | Details                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+|----------------|---------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| version        | Number        | The PAF version used.                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| transaction_id | String        | A GUID in a String format dedicated to the share of the Prebid SSO data for one Addressable Content.                                                                                                                                                                                                                                                                                                                                                     |
+| publisher      | String        | The domain name of the Publisher that displays the Addressable Content                                                                                                                                                                                                                                                                                                                                                                                   |
+| source         | Source object | The source contains data for identifying and trusting the Publisher.<br /><table><tr><th>Field</th><th>Type</th><th>Details</th></tr><tr><td>domain</td><td>String</td><td>The domain of the Root Party (Publisher in most of the cases).</td></tr><tr><td>timestamp</td><td>Integer</td><td>The timestamp of the signature.</td></tr><tr><td>signature</td><td>String</td><td>Encoded signature in UTF-8 of the Root Party/Publisher.</td></tr></table> |
 
 <!--partial-end-->
 
@@ -299,13 +294,13 @@ The transmission Request object must follow strictly this structure:
 
 <!--partial-begin { "files": [ "transmission-result-table.md" ] } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
-| Field           | Type                          | Details                           |
-|-----------------|-------------------------------|-----------------------------------|
-| version         | Number                        | The version of the PAF used.                                                                                                                                                                                                                               |
-| receiver        | String                        | The domain name of the DSP.                                                                                                                                                                                                                                                                                |
-| status          | String                        | Equals "success" if the DSP signed the Transmission and returns it to the sender.<br /> Equals "error_bad_request" if the receiver doesn't understand or see inconsistency in the Transmission Request.<br /> Equals "error_cannot_process" if the receiver failed to use the data of the Transmission Request properly. |
-| details         | String                        | In case of an error status, the DSP can provide details concerning the error.                                                                                                                                                                                                                              |
-| source          | Source object                 | The source contains all the data for identifying the DSP and verifying the Transmission.                                                                                                                                                                                                                   |
+| Field    | Type          | Details                                                                                                                                                                                                                                                                                                                  |
+|----------|---------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| version  | Number        | The version of the PAF used.                                                                                                                                                                                                                                                                                             |
+| receiver | String        | The domain name of the DSP.                                                                                                                                                                                                                                                                                              |
+| status   | String        | Equals "success" if the DSP signed the Transmission and returns it to the sender.<br /> Equals "error_bad_request" if the receiver doesn't understand or see inconsistency in the Transmission Request.<br /> Equals "error_cannot_process" if the receiver failed to use the data of the Transmission Request properly. |
+| details  | String        | In case of an error status, the DSP can provide details concerning the error.                                                                                                                                                                                                                                            |
+| source   | Source object | The source contains all the data for identifying the DSP and verifying the Transmission.                                                                                                                                                                                                                                 |
 
 <!--partial-end-->
 
@@ -437,28 +432,23 @@ suppliers, it shouldn't take care of the "children" Transmission Results.
 
 <!--partial-begin { "files": [ "transmission-response-table.md" ] } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
-| Field           | Type                          | Details                           |
-|-----------------|-------------------------------|-----------------------------------|
-| version         | Number                        | The version of the PAF used.                                                                                                                                                                                                                               |
-| transaction_id  | String                        | A GUID dedicated to the Addressable Content. It allows associating the Transmission Responses to Transmission Request                                                                                                                     |
-| receiver        | String                        | The domain name of the DSP.                                                                                                                                                                                                                                                                                |
-| status          | String                        | Equals "success" if the DSP signed the Transmission and returns it to the sender.<br /> Equals "error_bad_request" if the receiver doesn't understand or see inconsistency in the Transmission Request.<br /> Equals "error_cannot_process" if the receiver cannot handle the Transmission Request properly. |
-| details         | String                        | In case of an error status, the DSP can provide details concerning the error.                                                                                                                                                                                                                              |
-| children        | Array of Transmission Results | An empty array as we consider that the DSP doesn't share the Prebid SSO Data to its suppliers via new transmissions.                                                                                                                                                                                       |
-| source          | Source object                 | The source contains all the data for identifying the DSP and verifying the Transmission.                                                                                                                                                                                                                   |
+| Field          | Type                          | Details                                                                                                                                                                                                                                                                                                      |
+|----------------|-------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| version        | Number                        | The version of the PAF used.                                                                                                                                                                                                                                                                                 |
+| transaction_id | String                        | A GUID dedicated to the Addressable Content. It allows associating the Transmission Responses to Transmission Request                                                                                                                                                                                        |
+| receiver       | String                        | The domain name of the DSP.                                                                                                                                                                                                                                                                                  |
+| status         | String                        | Equals "success" if the DSP signed the Transmission and returns it to the sender.<br /> Equals "error_bad_request" if the receiver doesn't understand or see inconsistency in the Transmission Request.<br /> Equals "error_cannot_process" if the receiver cannot handle the Transmission Request properly. |
+| details        | String                        | In case of an error status, the DSP can provide details concerning the error.                                                                                                                                                                                                                                |
+| children       | Array of Transmission Results | An empty array as we consider that the DSP doesn't share the Prebid SSO Data to its suppliers via new transmissions.                                                                                                                                                                                         |
+| source         | Source object                 | The source contains all the data for identifying the DSP and verifying the Transmission.                                                                                                                                                                                                                     |
 
 <!--partial-end-->
 
 #### Signing the Transmission Object
 
-A Transmission Response must be signed by the DSP. This signature relies on the
-same cryptographic algorithm as the other signatures in PAF (ECDSA NIST
-P-256):
+A Transmission Response must be signed by the DSP.
 
-* Build a UTF-8 string from the data of the Transmission Request (see below);
-* Generates a SHA256 hash;
-* Sign it with its private key.
-
+The signature input is calculated as follows:
 
 To build the UTF-8 string, the DSP must generate a string as followed:
 
