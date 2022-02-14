@@ -157,14 +157,28 @@ The current preferences of the user
 <b>version</b>
 </td>
 <td>
-enum (of integer)
+string
 </td>
 <td>
 
-A version number. To be detailed.
+A version number made of a "major" and a "minor" version numbers.
 
-Can only take **one of these values**:
-* `0`
+To be detailed.
+
+**Examples:** 
+
+```json
+"0.1"
+```
+
+```json
+"0.407"
+```
+
+```json
+"10.0"
+```
+
 </td>
 </tr>
 
@@ -349,14 +363,28 @@ A pseudonymous identifier generated for a web user
 <b>version</b>
 </td>
 <td>
-enum (of integer)
+string
 </td>
 <td>
 
-A version number. To be detailed.
+A version number made of a "major" and a "minor" version numbers.
 
-Can only take **one of these values**:
-* `0`
+To be detailed.
+
+**Examples:** 
+
+```json
+"0.1"
+```
+
+```json
+"0.407"
+```
+
+```json
+"10.0"
+```
+
 </td>
 </tr>
 

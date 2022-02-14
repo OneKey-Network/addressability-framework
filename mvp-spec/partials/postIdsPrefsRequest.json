@@ -2,30 +2,30 @@
   "body": {
     "identifiers": [
       {
-        "version": 0,
+        "version": "0.1",
         "type": "paf_browser_id",
         "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
         "source": {
           "domain": "operator.paf-operation-domain.io",
           "timestamp": 1642504380,
-          "signature": "0goU7vswAK2AMCSvn97tcVYW5agLl6YgEULZ5ZnSGSviiYoSKgbWnaUv59viizdLlqRyATDAtYk1QCz2YUobVQ=="
+          "signature": "bszEOIHdTfmdRZZzTFrFrXiB87piBkysVXBjtx9visoiCgqmR0AvKqiycAQ049VIeZa8ApQY0njJUwHby/Y10g=="
         }
       }
     ],
     "preferences": {
-      "version": 0,
+      "version": "0.1",
       "data": {
         "use_browsing_for_personalization": true
       },
       "source": {
         "domain": "cmp.com",
         "timestamp": 1642504560,
-        "signature": "aZa/K9ZmPAMx7jvcqcP2h+UphLzF+M7KRSmSZ7ZZnv/o6M8uDAVODAB5CES2wJuVKIgJ2ndd5Tevw1xbC3tBHQ=="
+        "signature": "Or41DOD8Oau3HHygAiFZzjXNvPmMx6fOazc/72LpmPKMnTFfZrkwPpCPIGPZKwF/WucP1NO+/aX4LfZ65jl2ZA=="
       }
     }
   },
   "sender": "cmp.com",
   "receiver": "operator.paf-operation-domain.io",
   "timestamp": 1643097660,
-  "signature": "7NgjcdmC7aOrCvqY/Yew9eyCXtKB5pl61ei/N6aoF24WYV4N3tekuoaZAjDXoWDEItf7sl7Zm2h1AERKxu6Vuw=="
+  "signature": "A491+ew8CP9Yc3G3JCCqhHYIRpj5WlZwAaZFCPnXtKFh6lRGNCvY/8JRewP+B5wt7/dCMM2zITgEU2eReFL86g=="
 }

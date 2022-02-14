@@ -52,14 +52,26 @@ Can only take **one of these values**:
 <b>version</b>
 </td>
 <td>
-enum (of integer)
+string
 </td>
 <td>
 
 The type of contracting party in the PAF ecosystem
 
-Can only take **one of these values**:
-* `0`
+**Examples:** 
+
+```json
+"0.1"
+```
+
+```json
+"0.407"
+```
+
+```json
+"10.0"
+```
+
 </td>
 </tr>
 

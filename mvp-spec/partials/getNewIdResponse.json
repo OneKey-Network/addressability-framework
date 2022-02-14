@@ -3,13 +3,13 @@
     "identifiers": [
       {
         "persisted": false,
-        "version": 0,
+        "version": "0.1",
         "type": "paf_browser_id",
         "value": "2e71121a-4feb-4a34-b7d1-839587d36390",
         "source": {
           "domain": "operator.paf-operation-domain.io",
           "timestamp": 1643041140,
-          "signature": "0bZyM+yJ62GPPczvI+o6GMpfXDsi8dI6O9LfTswBz92eiXDFVX953lRbyBdmSPjVUBebqOR6HzFJCL9ySu76Iw=="
+          "signature": "lfvEkcQ/lw+aDAycLKwljD01BKdjfCAa/W6Uz85z/LuXRGg4L7tMJa/pEzYC5WxZSmY2jVsqCN/IF6mws8c2cA=="
         }
       }
     ]
@@ -17,5 +17,5 @@
   "sender": "operator.paf-operation-domain.io",
   "receiver": "cmp.com",
   "timestamp": 1646157887,
-  "signature": "V7E4WN9NZSWJaoZ0D/urVd5HbcmRYBUCmmqThhpf9H2imVzotWD5EidLkH2YknP2nlq1ZinFh4rt33UjxJJfBA=="
+  "signature": "4HLqlyCKsFlBoY2JY2hvRZdZxg+QBoSdF5R+tWIDJmdahn4LdfXim9dRHkVJ7tWcpGnl4PZXUJrSXyEkv0U5pw=="
 }

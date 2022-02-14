@@ -1,2 +1,2 @@
-GET /v1/ids-prefs?paf=%7B%22sender%22%3A%22cmp.com%22%2C%22receiver%22%3A%22operator.paf-operation-domain.io%22%2C%22timestamp%22%3A1643041140%2C%22signature%22%3A%22UifOPFge9ZzttacVAnDqJtSYcFYNkMqReRoNrxWU1C25if1HmbepUSsXIa8XdKNpcnT5q2hd5K69xO9j1P0giQ%3D%3D%22%7D
+GET /v1/ids-prefs?paf=eyJzZW5kZXIiOiJjbXAuY29tIiwicmVjZWl2ZXIiOiJvcGVyYXRvci5wYWYtb3BlcmF0aW9uLWRvbWFpbi5pbyIsInRpbWVzdGFtcCI6MTY0MzA0MTE0MCwic2lnbmF0dXJlIjoidHZFanA3Rm94Nmp4a2d4Z1k5dGpUdXkzd0g1aW11Rmo2M1l1dWI0VXdlZWxZYnM4WHhuUDNuSzV3NDF1MTNQK2ZPcEVmRXFtSC9mQWdDOFdQWlloVVE9PSJ9
 Host: operator.paf-operation-domain.io
