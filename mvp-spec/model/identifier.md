@@ -17,14 +17,28 @@ A pseudonymous identifier generated for a web user
 <b>version</b>
 </td>
 <td>
-enum (of integer)
+string
 </td>
 <td>
 
-A version number. To be detailed.
+A version number made of a "major" and a "minor" version numbers.
 
-Can only take **one of these values**:
-* `0`
+To be detailed.
+
+**Examples:** 
+
+```json
+"0.1"
+```
+
+```json
+"0.407"
+```
+
+```json
+"10.0"
+```
+
 </td>
 </tr>
 
@@ -46,7 +60,7 @@ Can only take **one of these values**:
 
 <tr>
 <td>
-<b>persisted</b>
+persisted<br>(<i>optional</i>)
 </td>
 <td>
 boolean
@@ -87,7 +101,13 @@ object
 </td>
 <td>
 
-Source of data representing what contracting party created and signed the data
+Signature based on input:
+
+```identifier.source.domain + '\u2063' + 
+identifier.source.timestamp + '\u2063' + 
+identifier.type + '\u2063'+
+identifier.value
+```
 
 <details>
 <summary>Object details</summary>

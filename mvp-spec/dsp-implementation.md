@@ -10,12 +10,7 @@ The described API use timestamps based on 1970 (UNIX epoch time).
 
 ## General note about signature
 
-Prebid SSO Data format is designed to let the user audit how his preference got
-to their current state. Therefore, PAF relies on the signatures 
-of the data and the communication to enforce security. The Elliptic Curve
-Digital Signature Algorithm (ECDSA) is used for this purpose. All the signatures
-described in this documentation are generated using NIST P-256 coupled with
-the hash algorithm SHA-256 on a specific string.
+For details on how to calculate or verify signatures, see [signatures.md](signatures.md).
 
 # Overview
 
@@ -62,11 +57,11 @@ rotations.
 
 ### Key object
 
-| Field | Type      | Details                                                             |
-|-------|-----------|---------------------------------------------------------------------|
-| key   | String    | Public key for verifying the signature. Encoded in a UTF-8 String. |
-| start | Integer   | Timestamp when the Contracting Party started to use this key for signing.         |
-| end   | Integer   | Timestamp when the Contracting Party stopped using this key for signing.          |
+| Field | Type    | Details                                                                   |
+|-------|---------|---------------------------------------------------------------------------|
+| key   | String  | Public key for verifying the signature. Encoded in a UTF-8 String.        |
+| start | Integer | Timestamp when the Contracting Party started to use this key for signing. |
+| end   | Integer | Timestamp when the Contracting Party stopped using this key for signing.  |
 
 
 ### Example of an Identity response
@@ -437,14 +432,9 @@ suppliers, it shouldn't take care of the "children" Transmission Results.
 
 #### Signing the Transmission Object
 
-A Transmission Response must be signed by the DSP. This signature relies on the
-same cryptographic algorithm as the other signatures in PAF (ECDSA NIST
-P-256):
+A Transmission Response must be signed by the DSP.
 
-* Build a UTF-8 string from the data of the Transmission Request (see below);
-* Generates a SHA256 hash;
-* Sign it with its private key.
-
+The signature input is calculated as follows:
 
 To build the UTF-8 string, the DSP must generate a string as followed:
 

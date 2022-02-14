@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Error",
+  "description": "The description of an error",
+  "$id": "error",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "message": {
+      "type": "string",
+      "description": "The error message"
+    }
+  },
+  "required": [
+    "message"
+  ]
+}

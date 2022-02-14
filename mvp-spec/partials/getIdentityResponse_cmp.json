@@ -1,0 +1,11 @@
+{
+  "name": "The CMP CORP",
+  "keys": [
+    {
+      "key": "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEl0278pcupaxUfiqHJ9AG9gVMyIO+\nn07PJaNI22v+s7hR1Hkb71De6Ot5Z4JLoZ7aj1xYhFcQJsYkFlXxcBWfRQ==\n-----END PUBLIC KEY-----",
+      "start": 1642243800
+    }
+  ],
+  "type": "vendor",
+  "version": "0.1"
+}

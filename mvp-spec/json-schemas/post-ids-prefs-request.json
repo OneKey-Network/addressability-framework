@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "post-ids-prefs-request",
+  "title": "POST /v1/ids-prefs request",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "sender": {
+      "$ref": "domain.json",
+      "description": "The domain name of the sender of this request (the website domain)"
+    },
+    "receiver": {
+      "$ref": "domain.json",
+      "description": "The domain name of the receiver of this request (the operator domain name)"
+    },
+    "timestamp": {
+      "$ref": "timestamp.json"
+    },
+    "signature": {
+      "$ref": "signature.json",
+      "description": "Signature based on input:\n\n```\nsender + '\\u2063' +\nreceiver + '\\u2063' +\ntimestamp + '\\u2063' +\npreferences.source.signature + '\\u2063' +\nidentifiers[0].source.signature + '\\u2063' +\nidentifiers[1].source.signature + '\\u2063' +\n...\nidentifiers[n].source.signature\n```"
+    },
+    "body": {
+      "$ref": "ids-and-preferences.json"
+    }
+  },
+  "required": [
+    "sender",
+    "receiver",
+    "timestamp",
+    "signature",
+    "body"
+  ]
+}

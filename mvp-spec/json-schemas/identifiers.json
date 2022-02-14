@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "List of identifiers",
+  "$id": "identifiers",
+  "type": "array",
+  "additionalProperties": false,
+  "items": {
+    "$ref": "identifier.json",
+    "description": "Signature based on input **that depends on the identifiers**:\n\n```identifier.source.domain + '\\u2063' + \nidentifier.source.timestamp + '\\u2063' + \nidentifier.type + '\\u2063'+\nidentifier.value\n```"
+  }
+}

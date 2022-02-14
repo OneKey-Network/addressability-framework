@@ -2,6 +2,7 @@ import RootPath from "app-root-path";
 import fs from "fs";
 import path from "path";
 import gitChangedFiles from "git-changed-files";
+import {EOL} from "os";
 
 const binDir = path.join(RootPath.path, "node_modules", ".bin");
 const assetsDir = path.join(RootPath.path, "..", "assets");
@@ -48,7 +49,9 @@ export function rewriteDocument(name: string, content: string): Promise<void> {
 }
 
 function getDocumentSeparator(content: string) {
-    return (content.match(/\r\n|\r|\n/))[0];
+    const match = content.match(/\r\n|\r|\n/);
+    // Some files just don't have an end of line => use the system default in this case
+    return match?.[0] ?? EOL;
 }
 
 export interface Document {

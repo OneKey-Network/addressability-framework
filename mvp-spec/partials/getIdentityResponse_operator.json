@@ -1,0 +1,12 @@
+{
+  "name": "Some PAF operator",
+  "keys": [
+    {
+      "key": "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEEiZIRhGxNdfG4l6LuY2Qfjyf60R0\njmcW7W3x9wvlX4YXqJUQKR2c0lveqVDj4hwO0kTZDuNRUhgxk4irwV3fzw==\n-----END PUBLIC KEY-----",
+      "start": 1641034200,
+      "end": 1646132400
+    }
+  ],
+  "type": "operator",
+  "version": "0.1"
+}

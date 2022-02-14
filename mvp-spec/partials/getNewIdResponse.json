@@ -3,19 +3,19 @@
     "identifiers": [
       {
         "persisted": false,
-        "version": 0,
-        "type": "prebid_id",
+        "version": "0.1",
+        "type": "paf_browser_id",
         "value": "2e71121a-4feb-4a34-b7d1-839587d36390",
         "source": {
-          "domain": "operator.prebidsso.com",
-          "timestamp": 1643041140000,
-          "signature": "/97uDMKRyaW1v2MH4UbU6UNRft/v+1bJV0vpmArVc3l9ErOhCuM2nsewgAI5w9HjFJbzvdLlTOTlTjTlZCdw8w=="
+          "domain": "operator.paf-operation-domain.io",
+          "timestamp": 1643041140,
+          "signature": "lfvEkcQ/lw+aDAycLKwljD01BKdjfCAa/W6Uz85z/LuXRGg4L7tMJa/pEzYC5WxZSmY2jVsqCN/IF6mws8c2cA=="
         }
       }
     ]
   },
-  "sender": "operator.prebidsso.com",
+  "sender": "operator.paf-operation-domain.io",
   "receiver": "cmp.com",
-  "timestamp": 1646157887000,
-  "signature": "q1DV1/H+gJmYKebgJXf2pzMu7cwoAgoJ10bz9t6Adx3w/iMYNmqawu/QaXctAnttG/mhS0TwjDIyL2/jHdlKIg=="
+  "timestamp": 1646157887,
+  "signature": "4HLqlyCKsFlBoY2JY2hvRZdZxg+QBoSdF5R+tWIDJmdahn4LdfXim9dRHkVJ7tWcpGnl4PZXUJrSXyEkv0U5pw=="
 }

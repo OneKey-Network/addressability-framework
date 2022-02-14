@@ -17,14 +17,28 @@ The current preferences of the user
 <b>version</b>
 </td>
 <td>
-enum (of integer)
+string
 </td>
 <td>
 
-A version number. To be detailed.
+A version number made of a "major" and a "minor" version numbers.
 
-Can only take **one of these values**:
-* `0`
+To be detailed.
+
+**Examples:** 
+
+```json
+"0.1"
+```
+
+```json
+"0.407"
+```
+
+```json
+"10.0"
+```
+
 </td>
 </tr>
 
@@ -78,7 +92,18 @@ object
 </td>
 <td>
 
-Source of data representing what contracting party created and signed the data
+Signature based on input:
+
+**⚠️ Note that it uses data from identifiers**:
+
+```preferences.source.domain + '\u2063' +
+preferences.source.timestamp + '\u2063' +
+identifiers[type="prebid_id"].source.signature + '\u2063' +
+preferences.data.key1 + '\u2063' + preferences.data[key1].value + '\u2063' +
+preferences.data.key2 + '\u2063' + preferences.data[key2].value + '\u2063' +
+...
+preferences.data.keyN + '\u2063' + preferences.data[keyN].value
+```
 
 <details>
 <summary>Object details</summary>

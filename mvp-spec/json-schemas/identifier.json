@@ -27,7 +27,8 @@
       "examples": ["7435313e-caee-4889-8ad7-0acd0114ae3c"]
     },
     "source": {
-      "$ref": "source.json"
+      "$ref": "source.json",
+      "description": "Signature based on input:\n\n```identifier.source.domain + '\\u2063' + \nidentifier.source.timestamp + '\\u2063' + \nidentifier.type + '\\u2063'+\nidentifier.value\n```"
     }
   },
   "required": [
