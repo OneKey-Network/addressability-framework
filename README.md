@@ -2,11 +2,11 @@
 
 At Criteo Engineering we are working on:
 
-- Clarifying and documenting our understanding of the Prebid SSO project requirements.
+- Clarifying and documenting our understanding of the Prebid Addressability Framework (PAF) project requirements.
 - Drafting specification and demonstrable prototypes that answer those
 - Delivering an MVP of the necessary components
 
-This repository is intended to share this work with the Prebid SSO community, get feedback and reviews.
+This repository is intended to share this work with the Prebid community, get feedback and reviews.
 
 # Providing feedback
 
@@ -31,12 +31,12 @@ Specifications for a MVP, covering only a single id managed by several operators
 | [audit-log-requirements.md](./mvp-spec/audit-log-requirements.md)                     | Functional requirements related to the Audit Log and the Transmissions.   |
 | [audit-log-design.md](./mvp-spec/audit-log-design.md)                                 | Design the technical solution for the Audit Log.                          |
 | [landscape.md](./mvp-spec/landscape.md)                                               | An overview of the different actors and their roles.                      |
-| [ad-server-implementation.md](./mvp-spec/ad-server-implementation.md)                 | Details the implementation of Prebid SSO in an Ad Server.                 |
+| [ad-server-implementation.md](./mvp-spec/ad-server-implementation.md)                 | Details PAF implementation in an Ad Server.                               |
 | [dsp-implementation.md](./mvp-spec/dsp-implementation.md)                             | Data exchange specification, from the point of view of a DSP implementer. |
 | [operator-api.md](./mvp-spec/operator-api.md)                                         | Operator API specification                                                |
 | [operator-design.md](./mvp-spec/operator-design.md)                                   | Design of the generation of Prebid SSO Data.                              |
-| [operator-design-alternative-swan.md](./mvp-spec/operator-design-alternative-swan.md) | Summary of the SWAN solution for generating Prebid SSO Data.              |
-| [operator-requirements.md](./mvp-spec/operator-requirements.md)                       | Requirements for the generation of the Prebid SSO Data.                   |
+| [operator-design-alternative-swan.md](./mvp-spec/operator-design-alternative-swan.md) | Summary of the SWAN solution for generating PAF Data.                     |
+| [operator-requirements.md](./mvp-spec/operator-requirements.md)                       | Requirements for the generation of the PAF Data.                          |
 | [website-design.md](./mvp-spec/website-design.md)                                     | Design of the website integration.                                        |
 | [model](./mvp-spec/model)                                                             | Data and messages model                                                                             |
 | [json-schemas](./mvp-spec/json-schemas)                                               | Data and messages model in [JSON schema](https://json-schema.org/understanding-json-schema/) format |
