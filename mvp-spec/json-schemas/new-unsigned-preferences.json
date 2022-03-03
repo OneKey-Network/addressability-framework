@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Identifiers and unsigned preferences",
+  "description": "A list of identifiers and a new (unsigned) value for preferences",
+  "$id": "new-unsigned-preferences",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "unsignedPreferences": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "version": {
+          "$ref": "version.json"
+        },
+        "data": {
+          "$ref": "preferences-data.json"
+        }
+      },
+      "required": [
+        "version",
+        "data"
+      ]
+    },
+    "identifiers": {
+      "type": "array",
+      "items": {
+        "$ref": "identifier.json"
+      }
+    }
+  },
+  "required": [
+    "identifiers",
+    "preferences"
+  ]
+}

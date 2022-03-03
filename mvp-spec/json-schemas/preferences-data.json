@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "preferences-data",
+  "title": "Preferences data",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "use_browsing_for_personalization": {
+      "type": "boolean",
+      "description": "Whether the user accepts (`true`) or not (`false`) that their browsing is used for personalization"
+    }
+  },
+  "required": ["use_browsing_for_personalization"]
+}
