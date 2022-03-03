@@ -1,1 +1,1 @@
-[{"version":"0.1","type":"paf_browser_id","value":"7435313e-caee-4889-8ad7-0acd0114ae3c","source":{"domain":"operator.paf-operation-domain.io","timestamp":1642504380,"signature":"bszEOIHdTfmdRZZzTFrFrXiB87piBkysVXBjtx9visoiCgqmR0AvKqiycAQ049VIeZa8ApQY0njJUwHby/Y10g=="}}]
+[{"version":"0.1","type":"paf_browser_id","value":"7435313e-caee-4889-8ad7-0acd0114ae3c","source":{"domain":"operator.paf-operation-domain.io","timestamp":1642504380,"signature":"ZtvL2PAZRUs0A3W+Af1Vj/8qNbZV5pHGJWTqc+frfEBwiLed08xY5dpgsPHelLG3f5tV39tKPEKhcXD+hJA3eQ=="}}]

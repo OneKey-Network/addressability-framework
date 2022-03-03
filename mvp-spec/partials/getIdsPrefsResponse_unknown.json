@@ -9,7 +9,7 @@
         "source": {
           "domain": "operator.paf-operation-domain.io",
           "timestamp": 1643041140,
-          "signature": "lfvEkcQ/lw+aDAycLKwljD01BKdjfCAa/W6Uz85z/LuXRGg4L7tMJa/pEzYC5WxZSmY2jVsqCN/IF6mws8c2cA=="
+          "signature": "y81l1QeClcKmcS7m5wcKbwBMJsDwndxYKEw3J/9zj0cLwgz52i42QLfX6nDcCa/LEBx1rvsedisz+xkhqcctVw=="
         }
       }
     ]
@@ -17,5 +17,5 @@
   "sender": "operator.paf-operation-domain.io",
   "receiver": "advertiser.com",
   "timestamp": 1643041150,
-  "signature": "eecaGYcYFkXmgFdaCwzK/93zaVnaLC0dZIDsC4IkP3WubKdSfP/u5UsrPYBhDgt0STCyBnwF6eE79vtyi2UnWA=="
+  "signature": "IHrS3ezsro1F08LzKdNj6k2ZeeTDup7WXnO9/B34l3aJtkGZ23HlTIPEkBNQFVLejp8+ZuG7kNtxsxGw8r3Xbw=="
 }

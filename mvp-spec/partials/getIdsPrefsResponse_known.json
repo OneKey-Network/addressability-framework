@@ -8,7 +8,7 @@
         "source": {
           "domain": "operator.paf-operation-domain.io",
           "timestamp": 1642504380,
-          "signature": "bszEOIHdTfmdRZZzTFrFrXiB87piBkysVXBjtx9visoiCgqmR0AvKqiycAQ049VIeZa8ApQY0njJUwHby/Y10g=="
+          "signature": "ZtvL2PAZRUs0A3W+Af1Vj/8qNbZV5pHGJWTqc+frfEBwiLed08xY5dpgsPHelLG3f5tV39tKPEKhcXD+hJA3eQ=="
         }
       }
     ],
@@ -20,12 +20,12 @@
       "source": {
         "domain": "cmp.com",
         "timestamp": 1642504560,
-        "signature": "Or41DOD8Oau3HHygAiFZzjXNvPmMx6fOazc/72LpmPKMnTFfZrkwPpCPIGPZKwF/WucP1NO+/aX4LfZ65jl2ZA=="
+        "signature": "uOFJJo3xpyp5goiF9gHh10NqhwIlnEEVeyke2OtPseXPq+BSC/R/3LgqmE8b3TYqFbn2HvKDx0/arFwRBCURLg=="
       }
     }
   },
   "sender": "operator.paf-operation-domain.io",
   "receiver": "advertiser.com",
   "timestamp": 1643041150,
-  "signature": "1WGG+DtR5Q7JO/4w1mGoqwdB0VtdrKMNlh5jmFJRKLSOnki2WI6Pf4RnHd3bN68iCqpM/BHogM0590KVdv3+sg=="
+  "signature": "IchR+WB5ekkmm+ERNju0fc3pVHpcOLA5IKn2HGsYJusH98yCZWlLg9dNzNdC2nAPc0OGcHgHqRcZc38S9ckO0w=="
 }
