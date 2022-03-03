@@ -68,7 +68,7 @@ This role can be played directly by the advertiser or by another module _on beha
 
 Usually, publishers include a CMP javascript in their web pages, to gather user consent _on their behalf_.
 
-In Prebid SSO, the CMP is also responsible for **signing user preferences** and **writing** these preferences via the operator.
+In Prebid Addressability Framework, the CMP is also responsible for **signing user preferences** and **writing** these preferences via the operator.
 
 Because it requires a secret key, a `CMP server: operator client` module is needed.
 
