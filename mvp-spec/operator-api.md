@@ -763,7 +763,7 @@ the operator attempts to write a short-life `paf_test_3pc` cookie.
 This endpoint is **only** called immediately after a call to `GET /v1/ids-prefs` has failed, to
 check if the `paf_test_3pc` cookie was indeed written by the web browser.
 
-See [website-design](./operator-client.md) for the full picture.
+See [implementation details](./operator-client.md#implementation-details) for details.
 
 #### REST verify 3PC: `GET /v1/3pc`
 
