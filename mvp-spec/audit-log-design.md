@@ -1,7 +1,7 @@
 # The Audit Log
 
 The Audit Log is the data attached to an Addressable Content so that the user
-can see how has used her/his Prebid SSO Data for generating this content. This
+can see how has used her/his Prebid Addressability Framework Data for generating this content. This
 document describes technical aspects in addition of 
 [the Audit Log Requirements](audit-log-requirements.md).
 
@@ -33,7 +33,7 @@ the Audit UI.
 The Contracting Party responsible for the Audit Log must build a valid Audit Log. 
 For this purpose, it must:
 
-1. Take the Prebid SSO data, the Seed and the Transmission Results 
+1. Take the Prebid Addressability Framework data, the Seed and the Transmission Results 
 of the Addressable Content.
 4. Shuffle the list of Transmission Results
 5. Build the Audit Log by following the specification below.

@@ -16,7 +16,7 @@ Some core principles of SWAN are:
 
 - it is originally made to support a tree of operator nodes, under a different domain, although the solution works with a single TLD+1 domain.
 
-The SWAN solution is very modular, based on different open source projects (OWID, SWIFT) and meant to be generic (not limited to the Prebid SSO use case).
+The SWAN solution is very modular, based on different open source projects (OWID, SWIFT) and meant to be generic (not limited to the Prebid Addressability Framework use case).
 
 ✅ the level of security is high because all data is encrypted
 

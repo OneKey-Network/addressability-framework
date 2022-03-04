@@ -38,9 +38,9 @@ The designed solution is a protocol:
 
 ✅ protects from hackers' attempts:
 
-- to read or write Prebid SSO data without being authenticated and authorized.
+- to read or write Prebid Addressability Framework data without being authenticated and authorized.
 
-- to replay legit requests to the operator in an attempt to read or write Prebid SSO data or to websites to overwrite cookies on their domains (because of timestamp + signature).
+- to replay legit requests to the operator in an attempt to read or write Prebid Addressability Framework data or to websites to overwrite cookies on their domains (because of timestamp + signature).
 
 - to replay legit URLs to overwrite cookies on *other* websites' domain (because the signature includes the receiver's domain name, it is tight to a specific receiver).
 

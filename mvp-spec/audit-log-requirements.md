@@ -1,6 +1,6 @@
 # Goal
 
-Define the use cases and associated requirements for the auditing of Prebid SSO
+Define the use cases and associated requirements for the auditing of Prebid Addressability Framework
 data exchange targeted in the MVP.
 
 # Disclaimer
@@ -23,7 +23,7 @@ Model Terms before this document.
 Here are both existing and extra definitions from the Model Terms:
 
 **Addressable Content** means the interface on the webpage that displays 
-ad-hoc - or not - content to the user thank to the Prebid SSO Data.
+ad-hoc - or not - content to the user thank to the Prebid Addressability Framework Data.
 
 **Audit Log** means a log containing information received by a Party of each 
 Transmission that has been Signed.
@@ -41,7 +41,7 @@ Audits to the user.
 Model Terms and “**Parties**” shall be construed accordingly.
 
 **Operator** means the Party or Parties responsible for adding, updating, 
-deleting and controlling access to the Prebid SSO Data;
+deleting and controlling access to the Prebid Addressability Framework Data;
 
 **Prebid SSO Data** means all Pseudonymous Identifiers and associated 
 Preferences
