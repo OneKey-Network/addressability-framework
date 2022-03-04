@@ -71,7 +71,7 @@ boolean
 </td>
 <td>
 
-`true` if the user accepted the usage of browsing history for ad personalization, `false` otherwise
+Whether the user accepts (`true`) or not (`false`) that their browsing is used for personalization
 
 </td>
 </tr>

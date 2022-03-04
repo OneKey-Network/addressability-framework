@@ -1,8 +1,8 @@
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 
-# Identifiers and preferences
+# Identifiers and unsigned preferences
 
-A list of identifiers and some preferences
+A list of identifiers and a new (unsigned) value for preferences
 
 <table>
 
@@ -14,14 +14,12 @@ A list of identifiers and some preferences
 
 <tr>
 <td>
-<b>preferences</b>
+unsignedPreferences<br>(<i>optional</i>)
 </td>
 <td>
 object
 </td>
 <td>
-
-The current preferences of the user
 
 <details>
 <summary>Object details</summary>
@@ -94,110 +92,6 @@ boolean
 <td>
 
 Whether the user accepts (`true`) or not (`false`) that their browsing is used for personalization
-
-</td>
-</tr>
-
-</table>
-
-</details>
-
-</td>
-</tr>
-
-<tr>
-<td>
-<b>source</b>
-</td>
-<td>
-object
-</td>
-<td>
-
-Signature based on input:
-
-**⚠️ Note that it uses data from identifiers**:
-
-```preferences.source.domain + '\u2063' +
-preferences.source.timestamp + '\u2063' +
-identifiers[type="prebid_id"].source.signature + '\u2063' +
-preferences.data.key1 + '\u2063' + preferences.data[key1].value + '\u2063' +
-preferences.data.key2 + '\u2063' + preferences.data[key2].value + '\u2063' +
-...
-preferences.data.keyN + '\u2063' + preferences.data[keyN].value
-```
-
-<details>
-<summary>Object details</summary>
-
-<table>
-
-<tr>
-    <th> Property </th>
-    <th> Type </th>
-    <th> Description </th>
-</tr>
-
-<tr>
-<td>
-<b>timestamp</b>
-</td>
-<td>
-integer
-</td>
-<td>
-
-Time when data was signed
-
-**Example:** 
-
-```json
-1643297316
-```
-
-</td>
-</tr>
-
-<tr>
-<td>
-<b>domain</b>
-</td>
-<td>
-string
-</td>
-<td>
-
-The domain name of the entity that signed this data
-
-**Examples:** 
-
-```json
-"a-domain-name.com"
-```
-
-```json
-"another.domain.co.uk"
-```
-
-</td>
-</tr>
-
-<tr>
-<td>
-<b>signature</b>
-</td>
-<td>
-string
-</td>
-<td>
-
-The base64 representation of a data signature
-
-**Example:** 
-
-```json
-"RYGHYsBUEwMgFgOJ9aUQl7ywl4xnqdmwWIgPbaIowbXbmZAFKLa7mcBJQuWh1wEskpu57SHn2mmCF6V5+cESgw=="
-```
 
 </td>
 </tr>

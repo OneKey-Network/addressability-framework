@@ -10,15 +10,7 @@
       "$ref": "version.json"
     },
     "data": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "use_browsing_for_personalization": {
-          "type": "boolean",
-          "description": "`true` if the user accepted the usage of browsing history for ad personalization, `false` otherwise"
-        }
-      },
-      "required": ["use_browsing_for_personalization"]
+      "$ref": "preferences-data.json"
     },
     "source": {
       "$ref": "source.json",
