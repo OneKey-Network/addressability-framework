@@ -1,6 +1,28 @@
 # Prebid Addressability Framework MVP specs
 
-This project contains functional and technical specifications for a minimum viable product (MVP) PAF. 
+This directory contains functional and technical specifications for PAF minimum viable product (MVP). 
+
+## Documents
+
+| Document                                                                   | Description                                                                                         |
+|----------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------|
+| [signatures.md](signatures.md)                                             | General introduction on signatures and signature verification                                       |
+| [audit-log-requirements.md](audit-log-requirements.md)                     | Functional requirements related to the Audit Log and the Transmissions.                             |
+| [audit-log-design.md](audit-log-design.md)                                 | Design the technical solution for the Audit Log.                                                    |
+| [ad-server-implementation.md](ad-server-implementation.md)                 | Details PAF implementation in an Ad Server.                                                         |
+| [dsp-implementation.md](dsp-implementation.md)                             | Data exchange specification, from the point of view of a DSP implementer.                           |
+| [operator-api.md](operator-api.md)                                         | Operator API specification                                                                          |
+| [operator-design.md](operator-design.md)                                   | Design of the generation of Prebid SSO Data.                                                        |
+| [operator-design-alternative-swan.md](operator-design-alternative-swan.md) | Summary of the SWAN solution for generating PAF Data.                                               |
+| [operator-requirements.md](operator-requirements.md)                       | Requirements for the generation of the PAF Data.                                                    |
+| [operator-client.md](operator-client.md)                                   | Modules needed to connect to the operator                                                           |
+| [advertiser-implementation.md](advertiser-implementation.md)               | Instructions for advertisers                                                                        |
+| [publisher-implementation.md](publisher-implementation.md)                 | Instructions for publishers                                                                         |
+| [cmp-implementation.md](cmp-implementation.md)                             | Instructions for CMPs (Consent Management Platforms)                                                |
+| [model/](model)                                                            | Data and messages model                                                                             |
+| [json-schemas/](json-schemas)                                              | Data and messages model in [JSON schema](https://json-schema.org/understanding-json-schema/) format |
+| `assets/` `model-updater/` `partials/` `partials-updater/`                 | Technical dependencies, please ignore                                                               |
+
 
 ## Architecture
 
@@ -10,26 +32,26 @@ PAF integrates in the existing digital marketing landscape and introduces a new 
 flowchart LR
     
     O(PAF Operator)
-    click O href "operator-api.md" "Operator API"
+    click O href "./operator-api.md" "Operator API"
     
     Ad(Ad server)
-    click Ad href "ad-server-implementation.md" "Ad server implementation"
+    click Ad href "./ad-server-implementation.md" "Ad server implementation"
     
     Advertiser --->|read user ids & preferences| O
-    click Advertiser href "advertiser-implementation.md" "Advertiser implementation"
+    click Advertiser href "./advertiser-implementation.md" "Advertiser implementation"
     
     Publisher -->|read user ids & preferences| O
-    click Publisher href "publisher-implementation.md" "Publisher implementation"
+    click Publisher href "./publisher-implementation.md" "Publisher implementation"
     
     Publisher -.->|include| CMP
     Publisher -- start transaction --> SSP
     Publisher -- get ad & audit logs --> Ad
     
     SSP -- send transmission --> DSP
-    click DSP href "dsp-implementation.md" "DSP implementation"
+    click DSP href "./dsp-implementation.md" "DSP implementation"
     
     CMP -->|write user preferences| O
-    click CMP href "cmp-implementation.md" "CMP implementation"
+    click CMP href "./cmp-implementation.md" "CMP implementation"
 
 ```
 
