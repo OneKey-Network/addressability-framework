@@ -43,39 +43,39 @@ Model Terms and “**Parties**” shall be construed accordingly.
 **Operator** means the Party or Parties responsible for adding, updating, 
 deleting and controlling access to the Prebid Addressability Framework Data;
 
-**Prebid SSO Data** means all Pseudonymous Identifiers and associated 
+**Prebid Addressability Framework Data** means all Pseudonymous Identifiers and associated 
 Preferences
 
-**Prebid SSO Ecosystem** means each and every Party.
+**Prebid Addressability Framework Ecosystem** means each and every Party.
 
 **Pseudo-Identifier or Pseudonymous-Identifier** means a generated Identifiers
 for the User.
 
-**Receiver** means the Contracting Party receiving the Prebid SSO Data from
+**Receiver** means the Contracting Party receiving the Prebid Addressability Framework Data from
 the Sender.
 
 **Root Party** means the Contracting Party initiating the originating 
 Transmission in a particular chain of Transmissions.
 
-**Sender** means the Contracting Party sending the Prebid SSO Data to 
+**Sender** means the Contracting Party sending the Prebid Addressability Framework Data to 
 the Receiver.
 
 **Sign** means a cryptographic confirmation of generating, sending or 
-receipt of Prebid SSO Data.
+receipt of Prebid Addressability Framework Data.
 
-**Transaction**: the sending of Prebid SSO Data from the Root Party through the 
-Prebid SSO ecosystem by consecutive Transmissions.
+**Transaction**: the sending of Prebid Addressability Framework Data from the Root Party through the 
+Prebid Addressability Framework ecosystem by consecutive Transmissions.
 
 **Transaction ID** is the generated identifier for a dedicated placement. One 
 Transaction ID per Audit Log.
 
-**Transmission** means the sending of Prebid SSO Data from the Sender to
+**Transmission** means the sending of Prebid Addressability Framework Data from the Sender to
 the Receiver. One Transaction can be composed of many Transmissions.
 
-**Transmission Request** means the communication of the Prebid SSO Data from 
+**Transmission Request** means the communication of the Prebid Addressability Framework Data from 
 a Sender to a Receiver.
 
-**Transmission Response** means the communication of the Prebid SSO Data from 
+**Transmission Response** means the communication of the Prebid Addressability Framework Data from 
 a Receiver to a Sender.
 
 **Transmission Result** means the final statement of a Transmission that is 
@@ -98,18 +98,18 @@ formal complaint through the law enforcement mechanism of the relevant
 jurisdiction. The audit is achievable through a dedicated Audit Log UI. Each ad 
 has an Audit Log that can be displayed independently in the Audit Log UI. 
 Those Audit Logs are available at least as long as the ads are shown. 
-More generally, a Prebid SSO ad is a Addressable Content.
+More generally, a Prebid Addressability Framework ad is a Addressable Content.
 
 ![Audit Button and Audit UI](./assets/audit-button-and-audit-ui-example.png)
 
 The Audit Log contains:
 
-* The Prebid SSO Data (Pseudonymous-identifiers + Preferences)
+* The Prebid Addressability Framework Data (Pseudonymous-identifiers + Preferences)
 * A Transaction ID
 * The Contracting Parties that received the Prebid SSO Data through
 Transmissions for the given Transaction ID.
 * The security data for validating the accountability of the Contracting Parties
-concerning the Prebid SSO Data.
+concerning the Prebid Addressability Framework Data.
 
 The Audit Log UI can be:
 * a dedicated webpage where the user is redirected once she/he clicks on
@@ -122,10 +122,10 @@ The Audit Log UI must show:
 the user can understand how she/he is identified;
 * The Preferences so that the user know exactly on what the
 Addressable Content relies;
-* The list of the parties who received the Prebid SSO Data for
+* The list of the parties who received the Prebid Addressability Framework Data for
 the Addressable Content;
 * A "green or red" status for each Contacting Party: the status is green 
-when the Receiver is part of the Prebid SSO ecosystem and signed properly
+when the Receiver is part of the Prebid Addressability Framework ecosystem and signed properly
 a transmission, else it is red.
 
 ## Display responsibility
@@ -147,7 +147,7 @@ The Publisher must express this responsibility preferences in the Seed.
 
 ## From the overall data flows
 
-The Audit Log must help the user to audit the Prebid SSO Data and 
+The Audit Log must help the user to audit the Prebid Addressability Framework Data and 
 the Transmission that occur when the ad is displayed.
 
 If we consider the typical personal ad scenario, we have two important entities:
@@ -175,7 +175,7 @@ the Addressable Content.
 ## Nominal case where all actors are Contracting Parties
 
 The nominal case is a Publisher's website offering an ad inventory with
-Prebid SSO Data. Those data flow through different Contracting Parties. The
+Prebid Addressability Framework Data. Those data flow through different Contracting Parties. The
 communication between those Parties can includes OpenRTB responses and 
 OpenRTB requests and the election of a bid winner:
 
@@ -185,22 +185,22 @@ OpenRTB requests and the election of a bid winner:
 <!--partial-end-->
 
 In the diagram above, the Publisher, the SSP, and the DSPs MUST be part of the
-Prebid SSO ecosystem. For being part of it, they must commit to the Model Terms
+Prebid Addressability Framework ecosystem. For being part of it, they must commit to the Model Terms
 meaning that they have to sign their transmissions and the Audit Log must 
-reflect it. However, if they aren't part of the Prebid SSO ecosystem, there is
-no Prebid SSO transmission between them and they don't appear in the Audit Log
+reflect it. However, if they aren't part of the Prebid Addressability Framework ecosystem, there is
+no Prebid Addressability Framework transmission between them and they don't appear in the Audit Log
 even if they participate in the Addressable Content.
 
 ## Filtered transmissions of the data flow
 
 The Audit Log shows the Contracting Parties who collaborate on the 
-Addressable Content that relies on the Prebid SSO data. The Audit Log UI lets
+Addressable Content that relies on the Prebid Addressability Framework data. The Audit Log UI lets
 the user pinpoints the Contracting Parties. There is no requirement to show
 Transmission that didn't have an impact on the Addressable Content.
 
 ![Transmission Flow Explanation](./assets/transmission-flow-explanation.png)
 
-The Audit Log helps the user to know who received her/his Prebid SSO Data. In
+The Audit Log helps the user to know who received her/his Prebid Addressability Framework Data. In
 other words, the user doesn't need to know who was the Sender of a 
 Transmission, only the Receiver. She/he doesn't even need to know the order of
 the Transmissions. So it is acceptable to see the Audit Log as an unordered 
@@ -209,8 +209,8 @@ approach for the rest of the requirement.
 
 # Heterogeneous systems
 
-While adopting Prebid SSO, the Contracting Parties will still interact with 
-actors that are part not of the Prebid SSO ecosystem. Moreover, Prebid SSO need 
+While adopting Prebid Addressability Framework, the Contracting Parties will still interact with 
+actors that are part not of the Prebid Addressability Framework ecosystem. Moreover, Prebid Addressability Framework needs 
 to be integrate to existing communication standard and format. For instance, 
 some actors use OpenRTB to communicate and other will use custom communications.
 This section is about clarifying those edge cases.
@@ -218,23 +218,23 @@ This section is about clarifying those edge cases.
 ## Transaction as a continuous chain
 
 A transmission is a direct communication between a Sender and a Receiver that 
-are parts of the Prebid SSO ecosystem. Therefore, the Prebid SSO Data cannot be
-shared to a non-Prebid SSO actor even if this later is in communication with
-other Parties that are parts of the Prebid SSO ecosystem. Therefore, there is
+are parts of the Prebid Addressability Framework ecosystem. Therefore, the Prebid Addressability Framework Data cannot be
+shared to a non-Prebid Addressability Framework actor even if this later is in communication with
+other Parties that are parts of the Prebid Addressability Framework ecosystem. Therefore, there is
 no transaction possible with this path because there is no transmission.
 
 ![Transmission Flow and Audit Log](./assets/transmission-flow-and-audit-log.png)
 
 In term of Transmission (see diagram above):
 
-* SSP2 and DSP4 won't receive any Prebid SSO Data because they aren't part 
-of the Prebid SSO ecosystem.
-* DSP3 won't receive any Prebid SSO Data because it suppliers isn't part 
-of the Prebid SSO ecosystem.
+* SSP2 and DSP4 won't receive any Prebid Addressability Framework Data because they aren't part 
+of the Prebid Addressability Framework ecosystem.
+* DSP3 won't receive any Prebid Addressability Framework Data because it suppliers isn't part 
+of the Prebid Addressability Framework ecosystem.
 
 
 In term of Audit Log, if the winner of the inventory is DSP3, there is no 
-Audit Log because DSP3 didn't receive Prebid SSO Data. To enumerate all cases
+Audit Log because DSP3 didn't receive Prebid Addressability Framework Data. To enumerate all cases
 concerning the Addressable Content of the Audit Log:
 
 |          | All are Contracting Parties | "Leaves" aren't Contracting Parties | Middlemen aren't Contracting Parties | No actor except the Publisher are Contracting Parties|
@@ -243,10 +243,10 @@ concerning the Addressable Content of the Audit Log:
 
 
   
-## Who is part of the Prebid SSO ecosystem
+## Who is part of the Prebid Addressability Framework ecosystem
 
-Before sharing Prebid SSO Data via a Transmission, a Sender must know that 
-the Receiver is part of the Prebid SSO Ecosystem. For this purpose, both share 
+Before sharing Prebid Addressability Framework Data via a Transmission, a Sender must know that 
+the Receiver is part of the Prebid Addressability Framework Ecosystem. For this purpose, both share 
 mutually their commitments to the Model Terms when they define the frame of 
 their partnership. This commitment also includes the fact that the Sender and
 the Receiver must provide a web API for letting other Contracting Parties
@@ -256,14 +256,14 @@ The API must:
 
 * include the Receiver's name;
 * include the data for validating the signatures of the Receiver (e.g a public key);
-* include the Prebid SSO version used (for forward and backward compatibility);
+* include the Prebid Addressability Framework version used (for forward and backward compatibility);
 * respect the technical details of further specifications.
 
 For performance reasons, the Contracting Party can fetch this data once
 and cache it. The time-to-live of the cache must be treated in a technical
 document.
 
-The general philosophy of Prebid SSO is to have a purely decentralized 
+The general philosophy of Prebid Addressability Framework is to have a purely decentralized 
 ecosystem. Therefore, there is no centralized list of all the 
 Contracting Parties that the Prebid SSO ecosystem maintains. Instead, it relies
 on the relationships between Contracting Parties and their respective
@@ -272,22 +272,22 @@ commitments on the Model Terms.
 ## Communications with non-contracting parties
 
 As soon as a Sender signs a Transmission, it cannot repudiate that it received
-the Prebid SSO Data. Few elements to consider:
+the Prebid Addressability Framework Data. Few elements to consider:
 
-* a Contracting Party can communicate non-Prebid SSO data to its suppliers that
-are out of the Prebid SSO ecosystem. However, it cannot share Prebid SSO data
+* a Contracting Party can communicate non-Prebid Addressability Framework data to its suppliers that
+are out of the Prebid Addressability Framework ecosystem. However, it cannot share Prebid Addressability Framework data
 with them.
 * a Contracting Party isn't responsible for the behavior of its suppliers that
-are out of the Prebid SSO ecosystem even if the user expressed an opt-out.
+are out of the Prebid Addressability Framework ecosystem even if the user expressed an opt-out.
 
 ![Communicatio with non contracting parties](./assets/communication-with-non-contracting-parties.png)
 
 ## OpenRTB, one request for many audit logs
 
-The technical solution must specify how the Prebid SSO Data is handled in 
+The technical solution must specify how the Prebid Addressability Framework Data is handled in 
 OpenRTB requests and responses. OpenRTB is a standardized format for bidding on
 an inventory. We won't provide technical solution here. However, we should 
-consider few elements if we want to integrate Prebid SSO in the existing 
+consider few elements if we want to integrate Prebid Addressability Framework in the existing 
 protocol:
 
 * a Bid request can contain multiple placements so it means that we can have 
@@ -321,7 +321,7 @@ Transmission Result and signs it;
 
 # Signatures
 
-The Parties must sign when generating Prebid SSO Data or when they received it
+The Parties must sign when generating Prebid Addressability Framework Data or when they received it
 with the Transaction ID. Those signatures are cryptographic ones and so:
 
 * It cannot be reproduced by anybody;
@@ -351,7 +351,7 @@ Sender              -> Domain of a Contracting Party (domain.com)
 Receiver            -> Domain of a Contracting Party (domain.com)
 Contracting_Party   -> Root_Party | Sender | Receiver
 
-Signature<Contracting_Party> -> Cryptographic signature relying on Prebid SSO Data
+Signature<Contracting_Party> -> Cryptographic signature relying on Prebid Addressability Framework Data
 
 # Transmissions
 Transmission_Success            -> (Receiver, Signature<Receiver>)
@@ -372,7 +372,7 @@ Transmissions     -> List<Transmission_Result>
 Audit_Log   -> (Seed, Transmissions)
 ````
 
-To put it in perspective, we need tho highligh that Prebid SSO Data
+To put it in perspective, we need tho highligh that Prebid Addressability Framework Data
 and transmissions contain signatures:
 * The Identifiers (one for each)
 * The Preferences (one for all)
@@ -457,10 +457,10 @@ the audit log must be able to see that:
 
 * all the parties commit to the Model Terms by signing the Prebid SSO data;
 * there are transmissions that are not well signed and so there is an issue
-with the correct propagation of my Prebid SSO data.
+with the correct propagation of my Prebid Addressability Framework data.
 
 However, the audit logs cannot tell the user which exact Party didn't behave 
-correctly with her/his Prebid SSO Data.
+correctly with her/his Prebid Addressability Framework Data.
 
 # Transmission parents and children
 
