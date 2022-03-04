@@ -41,7 +41,7 @@ sequenceDiagram
 ```
 <!--partial-end-->
 
-## Offer inventory with Prebid SSO Data
+## Offer inventory with Prebid Addressability Framework Data
 
 PAF doesn't standardize the API of the Ad Server for offering
 inventory because each Ad Server has an existing and specific API. 

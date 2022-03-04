@@ -2,7 +2,7 @@
 
 ## Read data
 
-This diagram details the steps needed to read existing cookies from Prebid SSO
+This diagram details the steps needed to read existing cookies from Prebid Addressability Framework
 - at server level, _if the website decides to use a specific library_ (referred to as **backend operator client** in the diagram), HTTP redirects can be triggered when needed
 - at browser level, a Javascript library (referred to as **frontend operator client**) is used
   - depending on the context, the JS library calls a REST or "redirect" endpoint on the operator
@@ -19,7 +19,7 @@ To test if third party cookies are supported and trigger redirect otherwise, the
 2. in Javascript,
    - based on user agent, if the browser is known to **not** support 3PC (ex: Safari) ➡️ consider no 3PC and immediately **javascript redirect**
 3. otherwise, attempt to call REST endpoint and read existing (3PC) Prebid ID
-   - at the same time, the operator attempts to write a "test" cookie on .prebidsso.com (ie. attempt to write a 3PC)
+   - at the same time, the operator attempts to write a "test" cookie on a third-party domain (ie. attempt to write a 3PC)
 4. if Prebid ID is retrieved, of course it means 3PC **are** supported
 5. if no Prebid ID retrieved, it means either that the user is not known, or that 3PC are not supported
    - call operator to attempt to read "test" cookie that was just written
