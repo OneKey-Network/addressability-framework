@@ -34,7 +34,7 @@ Specifications for a MVP, covering only a single id managed by several operators
 | [ad-server-implementation.md](./mvp-spec/ad-server-implementation.md)                 | Details PAF implementation in an Ad Server.                               |
 | [dsp-implementation.md](./mvp-spec/dsp-implementation.md)                             | Data exchange specification, from the point of view of a DSP implementer. |
 | [operator-api.md](./mvp-spec/operator-api.md)                                         | Operator API specification                                                |
-| [operator-design.md](./mvp-spec/operator-design.md)                                   | Design of the generation of Prebid SSO Data.                              |
+| [operator-design.md](./mvp-spec/operator-design.md)                                   | Design of the generation of PAF Data.                              |
 | [operator-design-alternative-swan.md](./mvp-spec/operator-design-alternative-swan.md) | Summary of the SWAN solution for generating PAF Data.                     |
 | [operator-requirements.md](./mvp-spec/operator-requirements.md)                       | Requirements for the generation of the PAF Data.                          |
 | [website-design.md](./mvp-spec/website-design.md)                                     | Design of the website integration.                                        |
