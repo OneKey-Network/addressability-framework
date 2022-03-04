@@ -1,6 +1,6 @@
 # DSP Implementation
 
-DSPs can implement Prebid SSO and shares Prebid SSO Data with partners 
+DSPs can implement Prebid Addressability Framework and shares Prebid Addressability Framework Data with partners 
 accordingly to the Model Terms. This document describes the technical
 requirements for it.
 
@@ -16,7 +16,7 @@ For details on how to calculate or verify signatures, see [signatures.md](signat
 
 To implement PAF, the DSP must:
 1. expose a new *Identity endpoint*  
-2. extend its existing API for handing Transmissions of Prebid SSO Data. 
+2. extend its existing API for handing Transmissions of Prebid Addressability Framework Data. 
 
 
 # The Identity endpoint
@@ -26,7 +26,7 @@ To be part of the PAF network, a DSP must expose an Identity Endpoint
 for providing:
 * The name of the DSP;
 * The PAF version that it handles;
-* The public key used to verify its signatures of Prebid SSO Data and
+* The public key used to verify its signatures of Prebid Addressability Framework Data and
   transmissions.
 
 It is reachable at the following endpoint:

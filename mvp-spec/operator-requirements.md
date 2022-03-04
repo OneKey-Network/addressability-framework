@@ -12,7 +12,7 @@ In this context,
   - **Preferences** are user-set preferences regarding online tracking that is _captured by a CMP UI_ or a website (
     such as a publisher).
     - In the MVP, only one "preference" is supported: optin status.
-- **storing** means in the form of **cookies** stored on Prebid SSO top level domain +1 (TLD+1, ex: `prebidsso.com`)
+- **storing** means in the form of **cookies** stored on Prebid Addressability Framework top level domain +1 (TLD+1, ex: `prebid-a-f.net`)
 - **controlling access** means to offer ways for contracting parties to read and write this data and help them store a
   copy ("cache") of these cookies on their own domain.
 - ***in a secured way*** has different meanings that are discussed below
@@ -37,18 +37,18 @@ We represent:
 
 When 3d party cookies are available, all calls to read cookies can be made via Javascript to read or write data.
 
-- When visiting a publisher and meeting Prebid SSO for the first time:
+- When visiting a publisher and meeting Prebid Addressability Framework for the first time:
   - the publisher's page is called.
   - the publisher's backend serves the requested page, and it includes a JS library that checks for existence of
-    Prebid SSO cookie
+    Prebid Addressability Framework cookie
   - a JS call to the operator to "read or init" data will generate a new ID
   - the ID can be displayed in the CMP UI
   - when the user submits their preferences:
     - a JS call is made to the CMP to "prepare" the values to write (more about this, below)
-    - another JS call is made to the operator to write these values (saved under Prebid SSO domain)
+    - another JS call is made to the operator to write these values (saved under Prebid Addressability Framework domain)
     - finally, these values are saved on the publisher's domain
 - When a participating user visits an advertiser:
-  - a JS call is made to the operator to get the Prebid SSO ID and preferences
+  - a JS call is made to the operator to get the Prebid Addressability Framework ID and preferences
   - the values are saved on the advertiser's domain
 
 ℹ️ in this scenario, no full page redirect is needed
