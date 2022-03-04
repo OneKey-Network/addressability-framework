@@ -5,7 +5,7 @@ A quick introduction on how data (identifiers & preferences cookies) and message
 PAF Data format is designed to let the users audit how their preferences got
 to their current state. It relies on the signatures of data and communication, to enforce security.
 
-All "signers" have a pair of **private** and a **public** Elliptic Curve Cryptography (ECC) keys, based on the `secp256r1` curve.
+All "signers" have a pair of **private** and a **public** Elliptic Curve Cryptography (ECC) keys, based on the ECDSA NIST P-256 (FIPS 186-3, section D.2.3), also known as `secp256r1` or `prime256v1`:
 - the private one must remain secret
 - the public one needs to be accessible to anyone
 

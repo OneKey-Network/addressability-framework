@@ -787,8 +787,6 @@ Host: operator.paf-operation-domain.io
 
 - response in case of 3PC supported (test cookie was found)
 
-HTTP code `200`
-
 <!--partial-begin { "files": [ "get3pcResponse_supported.json" ], "block": "json" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```json
@@ -801,8 +799,6 @@ HTTP code `200`
 <!--partial-end-->
 
 - response in case of 3PC **not** supported (test cookie could not be found)
-
-HTTP code `404`
 
 <!--partial-begin { "files": [ "get3pcResponse_unsupported.json" ], "block": "json" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
