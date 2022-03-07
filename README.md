@@ -23,7 +23,7 @@ It looks like this:
 ## [mvp-spec/](/mvp-spec)
 
 Specifications for a MVP, covering only a single id managed by several operators sharing a common registrable domain
-(e.g. operator1.prebidsso.com and operator2.prebidsso.com).
+(e.g. operator1.prebid-a-f.com and operator2.prebid-a-f.com).
 
 | Document                                                                              | Description                                                               |
 |---------------------------------------------------------------------------------------|---------------------------------------------------------------------------|
