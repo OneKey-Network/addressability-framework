@@ -16,13 +16,9 @@ This directory contains functional and technical specifications for PAF minimum 
 | [operator-design-alternative-swan.md](operator-design-alternative-swan.md) | Summary of the SWAN solution for generating PAF Data.                                               |
 | [operator-requirements.md](operator-requirements.md)                       | Requirements for the generation of the PAF Data.                                                    |
 | [operator-client.md](operator-client.md)                                   | Modules needed to connect to the operator                                                           |
-| [advertiser-implementation.md](advertiser-implementation.md)               | Instructions for advertisers                                                                        |
-| [publisher-implementation.md](publisher-implementation.md)                 | Instructions for publishers                                                                         |
-| [cmp-implementation.md](cmp-implementation.md)                             | Instructions for CMPs (Consent Management Platforms)                                                |
 | [model/](model)                                                            | Data and messages model                                                                             |
 | [json-schemas/](json-schemas)                                              | Data and messages model in [JSON schema](https://json-schema.org/understanding-json-schema/) format |
 | `assets/` `model-updater/` `partials/` `partials-updater/`                 | Technical dependencies, please ignore                                                               |
-
 
 ## Architecture
 
@@ -32,26 +28,27 @@ PAF integrates in the existing digital marketing landscape and introduces a new 
 flowchart LR
     
     O(PAF Operator)
-    click O href "./operator-api.md" "Operator API"
+    click O href "#operator" "Operator API"
     
     Ad(Ad server)
-    click Ad href "./ad-server-implementation.md" "Ad server implementation"
+    click Ad href "#ad-server" "Ad server"
     
     Advertiser --->|read user ids & preferences| O
-    click Advertiser href "./advertiser-implementation.md" "Advertiser implementation"
+    click Advertiser href "#advertiser" "Advertiser"
     
     Publisher -->|read user ids & preferences| O
-    click Publisher href "./publisher-implementation.md" "Publisher implementation"
+    click Publisher href "#publisher" "Publisher"
     
     Publisher -.->|include| CMP
     Publisher -- start transaction --> SSP
     Publisher -- get ad & audit logs --> Ad
     
     SSP -- send transmission --> DSP
-    click DSP href "./dsp-implementation.md" "DSP implementation"
+    click SSP href "#ssp-supply-side-platform" "SSP"
+    click DSP href "#dsp-demand-side-platform" "DSP"
     
     CMP -->|write user preferences| O
-    click CMP href "./cmp-implementation.md" "CMP implementation"
+    click CMP href "#cmp-consent-management-platform" "CMP"
 
 ```
 
@@ -59,7 +56,9 @@ Note: most nodes are clickable on the diagram.
 
 ## Advertiser
 
-See [advertiser-implementation.md](advertiser-implementation.md).
+An advertiser is a client of the operator to read ids and preferences from the visiting user.
+
+See [operator-client.md](operator-client.md) for instructions on implementing the operator client.
 
 ## CMP (Consent Management Platform)
 
@@ -67,9 +66,9 @@ Usually, publishers include a CMP javascript in their web pages, to gather user 
 
 In PAF, the CMP is also responsible for **signing user preferences** and **writing** these preferences via the operator.
 
-Note that the CMP role can be taken by the publisher in some cases.
+See [operator-client.md](operator-client.md) for instructions on implementing the operator client.
 
-See [cmp-implementation.md](cmp-implementation.md).
+Note that the CMP role can be taken by the publisher in some cases.
 
 ## Publisher
 
@@ -79,7 +78,9 @@ The publisher has multiple roles
 2. It is also selling inventory to contracting parties and must create and sign a "seed" object and initialize an RTB transaction sent to an SSP
    1. this is done through the ad server
 
-See [publisher-implementation.md](publisher-implementation.md).
+A publisher is a client of the operator to read ids and preferences from the visiting user.
+
+See [operator-client.md](operator-client.md) for instructions on implementing the operator client.
 
 ## Ad server
 
