@@ -103,10 +103,10 @@ To do so, it exposes:
 
 #### REST sign user preferences: `POST /paf-proxy/v1/sign/prefs`
 
-| Message  | Format                                                          |
-|----------|-----------------------------------------------------------------|
-| Request  | [new-unsigned-preferences](./model/new-unsigned-preferences.md) |
-| Response | [preferences](model/preferences.md)                             |
+| Message  | Format                                                                    |
+|----------|---------------------------------------------------------------------------|
+| Request  | [post-sign-preferences-request](./model/post-sign-preferences-request.md) |
+| Response | [preferences](model/preferences.md)                                       |
 
 <details>
 <summary>Full example</summary>

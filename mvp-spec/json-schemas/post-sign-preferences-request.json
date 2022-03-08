@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "POST /paf-proxy/v1/sign/prefs request",
+  "$id": "post-sign-preferences-request",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "unsignedPreferences": {
+      "$ref": "unsigned-preferences.json"
+    },
+    "identifiers": {
+        "$ref": "identifiers.json"
+    }
+  },
+  "required": [
+    "identifiers",
+    "unsignedPreferences"
+  ]
+}
