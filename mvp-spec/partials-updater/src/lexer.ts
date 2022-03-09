@@ -74,9 +74,10 @@ export function lex({content, lineBreak}: Document): LexerToken[] {
  * @returns An array of lines including the separator.
  */
 function getLines(content: string, eolChar: string): string[] {
-    // Includes an empty "line" AFTER the last separator. Need to remove it
     const lines = content.split(eolChar);
-    lines.pop()
+    if (lines[lines.length - 1] == "") {
+        lines.pop()
+    }
 
     // Re-inject the separator
     return lines.map(line => `${line}${eolChar}`);
