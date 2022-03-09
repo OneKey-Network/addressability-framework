@@ -16,75 +16,53 @@ For details on how to calculate or verify signatures, see [signatures.md](signat
 
 To implement PAF, the DSP must:
 1. expose a new *Identity endpoint*  
-2. extend its existing API for handing Transmissions of Prebid Addressability Framework Data. 
+2. extend its existing API for handing Transmissions of Prebid Addressability Framework (PAF) Data. 
 
 
 # The Identity endpoint
 
-
-To be part of the PAF network, a DSP must expose an Identity Endpoint
-for providing:
-* The name of the DSP;
-* The PAF version that it handles;
-* The public key used to verify its signatures of Prebid Addressability Framework Data and
-  transmissions.
-
-It is reachable at the following endpoint:
-
-```
-GET https://<domain>/prebidsso/API/v1/identity
-```
-
-## Identity object
-
-It provides the following data as JSON:
-
-<!--partial-begin { "files": [ "identity-table.md" ] } -->
-<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
-| Field                    | Type                 | Details                    |
-|--------------------------|----------------------|----------------------------|
-| name                     | String               | The name of the Contracting Party since the domain may not reflect the Company name.<br /> e.g "Criteo"                                                                                                                    |
-| type                     | String               | The type of Contracting Party in the PAF ecosystem. For now, the type for a DSP is "vendor"
-| version                  | Number               | A two-digit number separated by a point for expressing the last PAF version handled.<br /> For now, the value is "0.1"<br /> Note: a new field may appear with the new versions of the PAF for the last supported version. |
-| keys                     | Array of Key objects | Public keys for verifying the signatures of the DSP. Those public keys are strings associated with a timeframe for handling key rotation.|
-<!--partial-end-->
-
+The Contracting Party must expose an Identity endpoint. It gathers information for verifying the identity and the transmissions that it signed.
 
 All signatures shared across the network must be verifiable. Therefore, each
 signature must have an associable key available in the Identity Endpoint. It is
-possible to have overlaps between the key timeframes for handing properly the
+possible to have overlaps between the key timeframes for handing the
 rotations. 
 
-### Key object
+It is reachable at the following endpoint:
+```
+GET https://<domain>/prebid/v1/identity
+```
 
-| Field | Type    | Details                                                                   |
-|-------|---------|---------------------------------------------------------------------------|
-| key   | String  | Public key for verifying the signature. Encoded in a UTF-8 String.        |
-| start | Integer | Timestamp when the Contracting Party started to use this key for signing. |
-| end   | Integer | Timestamp when the Contracting Party stopped using this key for signing.  |
+| Message  | Format|
+|----------|-------|
+| Request  | [get-identity-request.md](./model/get-identity-request.md)  |
+| Response | [get-identity-response.md](./model/get-identity-response.md)|
 
+<details>
+<summary>Example</summary>
 
-### Example of an Identity response
+Request:
+```http
+GET /v1/identity
+Host: my-dsp.io
+```
 
+Response:
 ```json
 {
-    "name": "Criteo",
-    "type": "vendor",
-    "version": 0.1,
-    "keys": [
-        { 
-            "key": "04f3b7ec9095779b119cc6d30a21a6a3920c5e710d13ea8438727b7fd5cca47d048f020539d24e74b049a418ac68c03ea75c66982eef7fdc60d8fb2c7707df3dcd",
-            "start": 1639500000,
-            "end": 1639510000
-        },
-        { 
-            "key": "044782dd8b7a6b8affa0f6cd94ede3682e85307224064f39db20e8f49b5f415d83fef66f3818ee549b04e443efa63c2d7f1fe9a631dc05c9f51ad98139b202f9f3",
-            "start": 1639510000,
-            "end":  1639520000
-        }
-    ]
+  "name": "My DSP",
+  "keys": [
+    {
+      "key": "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEEiZIRhGxNdfG4l6LuY2Qfjyf60R0\njmcW7W3x9wvlX4YXqJUQKR2c0lveqVDj4hwO0kTZDuNRUhgxk4irwV3fzw==\n-----END PUBLIC KEY-----",
+      "start": 1641034200,
+      "end": 1646132400
+    }
+  ],
+  "type": "vendor",
+  "version": "0.1"
 }
 ```
+</details>
 
 ## Transaction and Transmission Overview
 
