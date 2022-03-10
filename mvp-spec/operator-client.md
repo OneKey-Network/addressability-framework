@@ -125,7 +125,7 @@ To do so, it exposes:
       "source": {
         "domain": "operator.paf-operation-domain.io",
         "timestamp": 1642504380,
-        "signature": "ZtvL2PAZRUs0A3W+Af1Vj/8qNbZV5pHGJWTqc+frfEBwiLed08xY5dpgsPHelLG3f5tV39tKPEKhcXD+hJA3eQ=="
+        "signature": "B/fOZumQHzzkQtSjYnzLOIJA2GQpoP5bWwzFQCMiQ/Mlvu6itJ1hbRVJkq8+yElu7NxMzojVMNdrc1mD7SJ0SQ=="
       }
     }
   ],
@@ -162,7 +162,7 @@ Host: cmp.com
   "source": {
     "domain": "cmp.com",
     "timestamp": 1642504560,
-    "signature": "uOFJJo3xpyp5goiF9gHh10NqhwIlnEEVeyke2OtPseXPq+BSC/R/3LgqmE8b3TYqFbn2HvKDx0/arFwRBCURLg=="
+    "signature": "QE/7TpxT5nDZH0VO2WcJLdO09IBgZ0gtTKqvQY2Ck8Afy/diGmFN71SV6KjkdAItXH3rCM97oLMewTyAccxq+w=="
   }
 }
 ```
@@ -200,7 +200,7 @@ Host: cmp.com
       "source": {
         "domain": "operator.paf-operation-domain.io",
         "timestamp": 1642504380,
-        "signature": "ZtvL2PAZRUs0A3W+Af1Vj/8qNbZV5pHGJWTqc+frfEBwiLed08xY5dpgsPHelLG3f5tV39tKPEKhcXD+hJA3eQ=="
+        "signature": "B/fOZumQHzzkQtSjYnzLOIJA2GQpoP5bWwzFQCMiQ/Mlvu6itJ1hbRVJkq8+yElu7NxMzojVMNdrc1mD7SJ0SQ=="
       }
     }
   ],
@@ -212,7 +212,7 @@ Host: cmp.com
     "source": {
       "domain": "cmp.com",
       "timestamp": 1642504560,
-      "signature": "uOFJJo3xpyp5goiF9gHh10NqhwIlnEEVeyke2OtPseXPq+BSC/R/3LgqmE8b3TYqFbn2HvKDx0/arFwRBCURLg=="
+      "signature": "QE/7TpxT5nDZH0VO2WcJLdO09IBgZ0gtTKqvQY2Ck8Afy/diGmFN71SV6KjkdAItXH3rCM97oLMewTyAccxq+w=="
     }
   }
 }
@@ -244,7 +244,7 @@ Host: cmp.com
         "source": {
           "domain": "operator.paf-operation-domain.io",
           "timestamp": 1642504380,
-          "signature": "ZtvL2PAZRUs0A3W+Af1Vj/8qNbZV5pHGJWTqc+frfEBwiLed08xY5dpgsPHelLG3f5tV39tKPEKhcXD+hJA3eQ=="
+          "signature": "B/fOZumQHzzkQtSjYnzLOIJA2GQpoP5bWwzFQCMiQ/Mlvu6itJ1hbRVJkq8+yElu7NxMzojVMNdrc1mD7SJ0SQ=="
         }
       }
     ],
@@ -256,14 +256,14 @@ Host: cmp.com
       "source": {
         "domain": "cmp.com",
         "timestamp": 1642504560,
-        "signature": "uOFJJo3xpyp5goiF9gHh10NqhwIlnEEVeyke2OtPseXPq+BSC/R/3LgqmE8b3TYqFbn2HvKDx0/arFwRBCURLg=="
+        "signature": "QE/7TpxT5nDZH0VO2WcJLdO09IBgZ0gtTKqvQY2Ck8Afy/diGmFN71SV6KjkdAItXH3rCM97oLMewTyAccxq+w=="
       }
     }
   },
   "sender": "cmp.com",
   "receiver": "operator.paf-operation-domain.io",
   "timestamp": 1643097660,
-  "signature": "JQLoDxL2UjEtOSJiugXuvF4FUfRS3X7GSCYJygFbvqsUFWG3AALvAPVzUxee3JAh4UcbJA4LZSDfTn7spiZvdA=="
+  "signature": "uVJjcDT8XRO7Ct5RXXJMIRG+zKDbCzJPXcQtstwBpAn0xt/xwFCSZBTZdqKjKaF3WkDJj/ypYeqBYFb4amj+bw=="
 }
 ```
 <!--partial-end-->
@@ -323,7 +323,7 @@ The purpose of this proxy endpoint is to take such a message and verify that the
         "source": {
           "domain": "operator.paf-operation-domain.io",
           "timestamp": 1642504380,
-          "signature": "ZtvL2PAZRUs0A3W+Af1Vj/8qNbZV5pHGJWTqc+frfEBwiLed08xY5dpgsPHelLG3f5tV39tKPEKhcXD+hJA3eQ=="
+          "signature": "B/fOZumQHzzkQtSjYnzLOIJA2GQpoP5bWwzFQCMiQ/Mlvu6itJ1hbRVJkq8+yElu7NxMzojVMNdrc1mD7SJ0SQ=="
         }
       }
     ],
@@ -335,14 +335,14 @@ The purpose of this proxy endpoint is to take such a message and verify that the
       "source": {
         "domain": "cmp.com",
         "timestamp": 1642504560,
-        "signature": "uOFJJo3xpyp5goiF9gHh10NqhwIlnEEVeyke2OtPseXPq+BSC/R/3LgqmE8b3TYqFbn2HvKDx0/arFwRBCURLg=="
+        "signature": "QE/7TpxT5nDZH0VO2WcJLdO09IBgZ0gtTKqvQY2Ck8Afy/diGmFN71SV6KjkdAItXH3rCM97oLMewTyAccxq+w=="
       }
     }
   },
   "sender": "operator.paf-operation-domain.io",
   "receiver": "advertiser.com",
   "timestamp": 1643041150,
-  "signature": "IchR+WB5ekkmm+ERNju0fc3pVHpcOLA5IKn2HGsYJusH98yCZWlLg9dNzNdC2nAPc0OGcHgHqRcZc38S9ckO0w=="
+  "signature": "57j7i9oyM3TXzPobJ1OcSorkUisHC4QYWzoXoQGUnlIJGOyun6OYNi4epM4YwmDnH9kA5wG6m3+9aQ56kKRB8w=="
 }
 ```
 <!--partial-end-->
@@ -372,7 +372,7 @@ Host: cmp.com
         "source": {
           "domain": "operator.paf-operation-domain.io",
           "timestamp": 1642504380,
-          "signature": "ZtvL2PAZRUs0A3W+Af1Vj/8qNbZV5pHGJWTqc+frfEBwiLed08xY5dpgsPHelLG3f5tV39tKPEKhcXD+hJA3eQ=="
+          "signature": "B/fOZumQHzzkQtSjYnzLOIJA2GQpoP5bWwzFQCMiQ/Mlvu6itJ1hbRVJkq8+yElu7NxMzojVMNdrc1mD7SJ0SQ=="
         }
       }
     ],
@@ -384,14 +384,14 @@ Host: cmp.com
       "source": {
         "domain": "cmp.com",
         "timestamp": 1642504560,
-        "signature": "uOFJJo3xpyp5goiF9gHh10NqhwIlnEEVeyke2OtPseXPq+BSC/R/3LgqmE8b3TYqFbn2HvKDx0/arFwRBCURLg=="
+        "signature": "QE/7TpxT5nDZH0VO2WcJLdO09IBgZ0gtTKqvQY2Ck8Afy/diGmFN71SV6KjkdAItXH3rCM97oLMewTyAccxq+w=="
       }
     }
   },
   "sender": "operator.paf-operation-domain.io",
   "receiver": "advertiser.com",
   "timestamp": 1643041150,
-  "signature": "IchR+WB5ekkmm+ERNju0fc3pVHpcOLA5IKn2HGsYJusH98yCZWlLg9dNzNdC2nAPc0OGcHgHqRcZc38S9ckO0w=="
+  "signature": "57j7i9oyM3TXzPobJ1OcSorkUisHC4QYWzoXoQGUnlIJGOyun6OYNi4epM4YwmDnH9kA5wG6m3+9aQ56kKRB8w=="
 }
 ```
 <!--partial-end-->
