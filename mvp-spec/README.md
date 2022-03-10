@@ -33,13 +33,16 @@ flowchart LR
     Ad(Ad server)
     click Ad href "#ad-server" "Ad server"
     
+    Advertiser("Advertiser website")
     Advertiser --->|read user ids & preferences| O
     click Advertiser href "#advertiser" "Advertiser"
+    
+    Publisher("Publisher website")
     
     Publisher -->|read user ids & preferences| O
     click Publisher href "#publisher" "Publisher"
     
-    Publisher -.->|include| CMP
+    Publisher -.->|include| UI
     Publisher -- start transaction --> SSP
     Publisher -- get ad & audit logs --> Ad
     
@@ -47,30 +50,28 @@ flowchart LR
     click SSP href "#ssp-supply-side-platform" "SSP"
     click DSP href "#dsp-demand-side-platform" "DSP"
     
-    CMP -->|write user preferences| O
-    click CMP href "#cmp-consent-management-platform" "CMP"
-
+    UI("User Interface Provider") -->|write user preferences| O
+    click UI href "#user-interface-provider" "UI provider"
 ```
 
-Note: most nodes are clickable on the diagram.
+## Nodes
 
-## Advertiser
+### Advertiser website
 
 An advertiser is a client of the operator to read ids and preferences from the visiting user.
 
 See [operator-client.md](operator-client.md) for instructions on implementing the operator client.
 
-## CMP (Consent Management Platform)
+### User Interface Provider
 
-Usually, publishers include a CMP javascript in their web pages, to gather user consent _on their behalf_.
+User Interface Providers are responsible for gathering **user preferences**.
 
-In PAF, the CMP is also responsible for **signing user preferences** and **writing** these preferences via the operator.
+A clear User Interface must be provided to users and the UI Provider must **sign** preferences before they are **saved**
+by the operator.
 
-See [operator-client.md](operator-client.md) for instructions on implementing the operator client.
+Signing and writing preferences is explained in [operator-client.md](operator-client.md).
 
-Note that the CMP role can be taken by the publisher in some cases.
-
-## Publisher
+### Publisher website
 
 The publisher has multiple roles
 
@@ -82,21 +83,21 @@ A publisher is a client of the operator to read ids and preferences from the vis
 
 See [operator-client.md](operator-client.md) for instructions on implementing the operator client.
 
-## Ad server
+### Ad server
 
 See [ad-server-implementation.md](ad-server-implementation.md).
 
-## SSP (Supply Side Platform)
+### SSP (Supply Side Platform)
 
 The SSP shares PAF Data to DSPs via Transmission Requests. Depending of the context, it can generate the Seed and emit the first Transmission of the Transaction or receive the Seed from a previous Transmission Request.
 
-## DSP (Demand Side Platform)
+### DSP (Demand Side Platform)
 
 DSPs receive transmissions that they must sign before they respond to the SSP
 
 See [dsp-implementation.md](dsp-implementation.md).
 
-## Operator
+### Operator
 
 The operator is responsible for:
 - generating unique user ids
@@ -104,7 +105,7 @@ The operator is responsible for:
 
 See [operator-api.md](operator-api.md) for details.
 
-## See also
+### See also
 
 - Focus on [signatures](signatures.md)
 - Audit log [design](audit-log-design.md)
