@@ -11,7 +11,7 @@
           "source": {
             "domain": "operator.paf-operation-domain.io",
             "timestamp": 1643041140,
-            "signature": "y81l1QeClcKmcS7m5wcKbwBMJsDwndxYKEw3J/9zj0cLwgz52i42QLfX6nDcCa/LEBx1rvsedisz+xkhqcctVw=="
+            "signature": "6B15zXpxx8xP7vJhOVjDhZVuUvv9zLbzoTLieGQ7L2bzbpfcmRWnLRYh+dcBOsAqcA5aRu8HF1dqtTpv+0TPZg=="
           }
         }
       ]
@@ -19,6 +19,6 @@
     "sender": "operator.paf-operation-domain.io",
     "receiver": "advertiser.com",
     "timestamp": 1643041150,
-    "signature": "IHrS3ezsro1F08LzKdNj6k2ZeeTDup7WXnO9/B34l3aJtkGZ23HlTIPEkBNQFVLejp8+ZuG7kNtxsxGw8r3Xbw=="
+    "signature": "3RrA5pAaxAreZ2ez5BAzgZH/Z8vYTRAz4x1OsifS5Z7M+3ZayiE5yfLPY7Eh5GgmMAuKPOgX10iObl8UOb5zkg=="
   }
 }
