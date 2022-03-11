@@ -92,14 +92,14 @@ object
 <td>
 
 Signature based on input:
-```seed.source.domain + '⁣' +
-seed.source.timestamp + '⁣' +
-seed.transaction_id + '⁣' +
-seed.publisher + '⁣' +
-data.identifiers[0].source.signature + '⁣' +
-data.identifiers[1].source.signature + '⁣' +
-... + '⁣' +
-data.identifiers[n].source.signature + '⁣' +
+```seed.source.domain + '\u2063' +
+seed.source.timestamp + '\u2063' +
+seed.transaction_id + '\u2063' +
+seed.publisher + '\u2063' +
+data.identifiers[0].source.signature + '\u2063' +
+data.identifiers[1].source.signature + '\u2063' +
+... + '\u2063' +
+data.identifiers[n].source.signature + '\u2063' +
 data.preferences.source.signature
 ```
 

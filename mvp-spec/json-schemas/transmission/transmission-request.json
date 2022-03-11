@@ -12,7 +12,7 @@
             "$ref": "seed.json"
         },
         "source": {
-            "description": "Signature based on input:\n```\ntransmission_request_receiver_domain        + '\u2063' +\ntransmission_request.source.domain          + '\u2063' + \ntransmission_request.source.timestamp       + '\u2063' +\nseed.source.signature\n```",
+            "description": "Signature based on input:\n```\ntransmission_request_receiver_domain        + '\\u2063' +\ntransmission_request.source.domain          + '\\u2063' + \ntransmission_request.source.timestamp       + '\\u2063' +\nseed.source.signature\n```",
             "$ref": "source.json"
         },
         "parents": {

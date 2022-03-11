@@ -609,14 +609,14 @@ object
 <td>
 
 Signature based on input:
-```seed.source.domain + '⁣' +
-seed.source.timestamp + '⁣' +
-seed.transaction_id + '⁣' +
-seed.publisher + '⁣' +
-data.identifiers[0].source.signature + '⁣' +
-data.identifiers[1].source.signature + '⁣' +
-... + '⁣' +
-data.identifiers[n].source.signature + '⁣' +
+```seed.source.domain + '\u2063' +
+seed.source.timestamp + '\u2063' +
+seed.transaction_id + '\u2063' +
+seed.publisher + '\u2063' +
+data.identifiers[0].source.signature + '\u2063' +
+data.identifiers[1].source.signature + '\u2063' +
+... + '\u2063' +
+data.identifiers[n].source.signature + '\u2063' +
 data.preferences.source.signature
 ```
 
@@ -720,9 +720,9 @@ object
 
 Signature based on input:
 ```
-transmission_request_receiver_domain        + '⁣' +
-transmission_request.source.domain          + '⁣' + 
-transmission_request.source.timestamp       + '⁣' +
+transmission_request_receiver_domain        + '\u2063' +
+transmission_request.source.domain          + '\u2063' + 
+transmission_request.source.timestamp       + '\u2063' +
 seed.source.signature
 ```
 
@@ -905,7 +905,7 @@ string
 </td>
 <td>
 
-The details of the status. It can be empty for "success" but it should details the reason(s) in case of an error.
+The details of the status. It can be empty for "success" but it should detail the reason(s) in case of an error.
 
 **Example:** 
 
@@ -927,10 +927,10 @@ object
 
 Signature based on input:
 ```
-transmission_result.receiver                + '⁣' +
-transmission_result.status                  + '⁣' 
-transmission_result.source.domain           + '⁣' +
-transmission_result.source.timestamp        + '⁣' +
+transmission_result.receiver                + '\u2063' +
+transmission_result.status                  + '\u2063' 
+transmission_result.source.domain           + '\u2063' +
+transmission_result.source.timestamp        + '\u2063' +
 seed.source.signature      // -> The Seed associated to the given Transaction Result
 ```
 

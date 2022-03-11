@@ -21,7 +21,7 @@
             "$ref": "transmission-details.json"
         },
         "source": {
-            "description": "Signature based on input:\n```\ntransmission_response.receiver                + '\u2063' +\ntransmission_response.status                  + '\u2063'\ntransmission_response.source.domain           + '\u2063' +\ntransmission_response.source.timestamp        + '\u2063' +\nseed.source.signature      // -> The Seed associated to the given Transaction Result\n```",
+            "description": "Signature based on input:\n```\ntransmission_response.receiver                + '\\u2063' +\ntransmission_response.status                  + '\\u2063'\ntransmission_response.source.domain           + '\\u2063' +\ntransmission_response.source.timestamp        + '\\u2063' +\nseed.source.signature      // -> The Seed associated to the given Transaction Result\n```",
             "$ref": "source.json"
         },
         "children": {
@@ -30,7 +30,6 @@
                 "$ref": "transmission-result.json"
             }
         }
-        
     },
     "required": [
         "version",
