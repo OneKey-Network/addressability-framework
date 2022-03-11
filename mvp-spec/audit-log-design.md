@@ -5,30 +5,7 @@ can see how has used her/his Prebid Addressability Framework Data for generating
 document describes technical aspects in addition of 
 [the Audit Log Requirements](audit-log-requirements.md).
 
-## The interface
-
-An Audit Button must be within or aside to an Addressable Content.
-
-The standard approach is to use an HTML button for the Audit Button. This HTML
-button is in a form containing a hidden input for retaining the Audit Log.
-The Audit Log stored in the value of the hidden input is in JSON encoded in
-base64.
-
-The method of the form must be a POST and the action is the URL of the Audit UI
-hosted by the the Contracting Party responsible to display the Audit Button and
-the Audit UI.
-
-```html
-<div class="ad_container">
-    <div>This is an ad.</div>
-    <form action="https://vendor.com/prebidsso/v1/audit_ui" method="post"> 
-        <input type="hidden" id="audit_log" value="eyJPV0lEIjoiQTI1....C8iLC" />
-        <button type="submit" class="prebid_sso_audit_button">Audit Log</button>
-    </form>
-</div>
-```
-
-## The Audit Log
+## Generate the Audit Log
 
 The Contracting Party responsible for the Audit Log must build a valid Audit Log. 
 For this purpose, it must:
@@ -38,26 +15,12 @@ of the Addressable Content.
 4. Shuffle the list of Transmission Results
 5. Build the Audit Log by following the specification below.
 
-The Audit Log follows this structure:
-<!--partial-begin { "files": [ "audit-log-table.md" ] } -->
-<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
-| Field         | Type                         | Detail                        |
-|---------------|------------------------------|-------------------------------|
-| data          | Prebid SSO Data Object       | List the Pseudonymous-Identifiers and the Preferences of the user. |
-| seed          | Seed Object                  | The Seed object is the association of an Addressable Content to the Prebid SSO Data. |
-| transmissions | List of Transmission Results | A list of Transmission Results |
-<!--partial-end-->
+| Type  | Format|
+|----------|-------|
+| Audit Log  | [audit-log.md](./model/audit-log.md)  |
 
-### The Transmission Result object
-
-A Transmission Result is the output of a Transmission. It can be a
-Transmission Response without the "children" field when the Receiver of 
-a Transmission responded correctly to a Transmission Request. 
-Those Transmission Results are appended to the Audit Log. Therefore,
-the Contracting Party handles those objects.
-
-### Example of Audit Log
-
+<details>
+<summary>Audit Log Example</summary>
 <!--partial-begin { "files": [ "audit-log.json" ], "block": "json" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```json
@@ -135,14 +98,56 @@ the Contracting Party handles those objects.
 }
 ```
 <!--partial-end-->
+</details>
 
-# Display of the Audit UI
 
-## Web Page interface
+## Reference the Addressable Content
 
-Once the user has clicked on the Audit Button, she/he is redirected to the
-Audit UI. The Contracting Party generates the UI based on the validations 
-of the Prebid SSO Data and the Transmission Results. The following elements must
+To be able to match an Audit Log to an Addressable Content when there are many in the webpage, the DOM tag that contains the Addressable Content must have the attribute `paf-transaction` that contains the Transaction Id.
+
+```html
+<div paf-transaction="ad_container">
+    <div>This is an ad.</div>
+    <a  class="prebid_sso_audit_button">Audit Log</a>
+</div>
+```
+
+## Store the Audit Log
+
+### Alternative 1 - HTML
+
+Each Addressable Content has an Audit Log in a webpage. The Publisher stores the Audit Log on the page via a `<meta>` tag.
+The `<meta>` tag has the following attributes:
+* `name` that contains `"paf"` so that the PAF meta tag can be differencieted from the other metatag
+* `transaction-id` that contains the Transaction Id of the Addressable Content
+* `content` that contains the Audit Log encoded in base 64
+
+<details>
+<summary>Example</summary>
+```html
+<meta name="paf" transaction-id="a0651946-0f5b-482b-8cfc-eab3644d2743" content="ewogICAgImRhdGEiOiB7CiAgICAgICAgImlkZW50aWZpZXJzIjogWwogICAgICAgICAgICB7CiAgICAgICAgICAgICAgICAidmVyc2lvbiI6IDAsCiAgICAgICAgICAgICAgICAidHlwZSI6ICJwcmViaWRfaWQiLAogICAgICAgICAgICAgICAgInZhbHVlIjogIjc0MzUzMTNlLWNhZWUtNDg4OS04YWQ3LTBhY2QwMTE0YWUzYyIsCiAgICAgICAgICAgICAgICAic291cmNlIjogewogICAgICAgICAgICAgICAgICAgICJkb21haW4iOiAib3Blcm90b3IwLmNvbSIsCiAgICAgICAgICAgICAgICAgICAgInRpbWVzdGFtcCI6IDE2Mzk1ODk1MzEsCiAgICAgICAgICAgICAgICAgICAgInNpZ25hdHVyZSI6ICIxMjM0NV9zaWduYXR1cmUiCiAgICAgICAgICAgICAgICB9CiAgICAgICAgICAgIH0KICAgICAgICBdLAogICAgICAgICJwcmVmZXJlbmNlcyI6IHsKICAgICAgICAgICAgInZlcnNpb24iOiAwLAogICAgICAgICAgICAiZGF0YSI6IHsgCiAgICAgICAgICAgICAgICAib3B0X2luIjogdHJ1ZSAKICAgICAgICAgICAgfSwKICAgICAgICAgICAgInNvdXJjZSI6IHsKICAgICAgICAgICAgICAgICJkb21haW4iOiAiY21wMS5jb20iLAogICAgICAgICAgICAgICAgInRpbWVzdGFtcCI6IDE2Mzk1ODk1MzEsCiAgICAgICAgICAgICAgICAic2lnbmF0dXJlIjogIjEyMzQ1X3NpZ25hdHVyZSIKICAgICAgICAgICAgfQogICAgICAgIH0KICAgIH0sCiAgICAic2VlZCI6IHsKICAgICAgICAidmVyc2lvbiI6IDAsCiAgICAgICAgInRyYW5zYWN0aW9uX2lkIjogImEwNjUxOTQ2LTBmNWItNDgyYi04Y2ZjLWVhYjM2NDRkMjc0MyIsCiAgICAgICAgInB1Ymxpc2hlciI6ICJwdWJsaXNoZXIuY29tIiwKICAgICAgICAic291cmNlIjogewogICAgICAgICAgImRvbWFpbiI6ICJhZC1zZXJ2ZXIuY29tIiwKICAgICAgICAgICJ0aW1lc3RhbXAiOiAxNjM5NTg5NTMxLAogICAgICAgICAgInNpZ25hdHVyZSI6ICIxMjM0NV9zaWduYXR1cmUiCiAgICAgICAgfQogICAgfSwKICAgICJ0cmFuc21pc3Npb25zIjogWwogICAgICAgIHsKICAgICAgICAgICAgInZlcnNpb24iOiAwLAogICAgICAgICAgICAicmVjZWl2ZXIiOiAic3NwMS5jb20iLAogICAgICAgICAgICAic3RhdHVzIjogInN1Y2Nlc3MiLAogICAgICAgICAgICAiZGV0YWlscyI6ICIiLAogICAgICAgICAgICAic291cmNlIjogewogICAgICAgICAgICAgICAgImRvbWFpbiI6ICJzc3AxLmNvbSIsCiAgICAgICAgICAgICAgICAidGltZXN0YW1wIjogMTYzOTU4OTUzMSwKICAgICAgICAgICAgICAgICJzaWduYXR1cmUiOiAiMTIzNDVfc2lnbmF0dXJlIgogICAgICAgICAgICB9CiAgICAgICAgfSwKICAgICAgICB7CiAgICAgICAgICAgICJ2ZXJzaW9uIjogMCwKICAgICAgICAgICAgInJlY2VpdmVyIjogInNzcDIuY29tIiwKICAgICAgICAgICAgInN0YXR1cyI6ICJzdWNjZXNzIiwKICAgICAgICAgICAgImRldGFpbHMiOiAiIiwKICAgICAgICAgICAgInNvdXJjZSI6IHsKICAgICAgICAgICAgICAgICJkb21haW4iOiAic3NwMi5jb20iLAogICAgICAgICAgICAgICAgInRpbWVzdGFtcCI6IDE2Mzk1ODk1MzEsCiAgICAgICAgICAgICAgICAic2lnbmF0dXJlIjogIjEyMzQ1X3NpZ25hdHVyZSIKICAgICAgICAgICAgfQogICAgICAgIH0sCiAgICAgICAgewogICAgICAgICAgICAidmVyc2lvbiI6IDAsCiAgICAgICAgICAgICJyZWNlaXZlciI6ICJkc3AuY29tIiwKICAgICAgICAgICAgInN0YXR1cyI6ICJzdWNjZXNzIiwKICAgICAgICAgICAgImRldGFpbHMiOiAiIiwKICAgICAgICAgICAgInNvdXJjZSI6IHsKICAgICAgICAgICAgICAgICJkb21haW4iOiAiZHBzLmNvbSIsCiAgICAgICAgICAgICAgICAidGltZXN0YW1wIjogMTYzOTU4OTUzMSwKICAgICAgICAgICAgICAgICJzaWduYXR1cmUiOiAiMTIzNDVfc2lnbmF0dXJlIgogICAgICAgICAgICB9CiAgICAgICAgfQogICAgXQp9" />
+```
+</details>
+
+###  Alternative 2 - Javascript
+
+The Audit logs can be stored on the `window` of the webpage via `javascript`. The exact path is `window.paf.audit`. The `audit` object is a dictionary that provides the audit log (the value) given the Transaction Id (the key). 
+
+```javascript
+window.paf = {};
+window.paf.audit = {};
+window.pad.audit["a0651946-0f5b-482b-8cfc-eab3644d2743"] = audit_log1;
+window.pad.audit["eab36444-0f5b-482b-8cfc-eaba06519462"] = audit_log2;
+```
+
+
+## Display of the Audit UI
+
+## Interface
+
+Once the user has clicked on the Audit Button, the Audit UI appear as a popup. 
+The Contracting Party generates the UI based on the validations of the 
+Prebid SSO Data and the Transmission Results. The following elements must
 appear in the page:
 
 | Element                          | Details                                   |
@@ -250,4 +255,3 @@ transmission_response.source.timestamp        + '\u2063' +
 seed.source.signature      // -> The Seed associated to the given Transaction Result
 ```
 <!--partial-end-->
-
