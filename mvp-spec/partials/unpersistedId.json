@@ -1,0 +1,11 @@
+{
+  "persisted": false,
+  "version": "0.1",
+  "type": "paf_browser_id",
+  "value": "2e71121a-4feb-4a34-b7d1-839587d36390",
+  "source": {
+    "domain": "operator.paf-operation-domain.io",
+    "timestamp": 1643041140,
+    "signature": "oYfxGczI+LmVzX1NqvmAGiManZbdiwEPUWa5HoHJAtg/ThiF3JlAN6GOZF/WrTutW//AjSH2a8GhVTJXc8dwKw=="
+  }
+}

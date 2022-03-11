@@ -1,0 +1,2 @@
+POST /paf-proxy/v1/verify/read
+Host: cmp.com

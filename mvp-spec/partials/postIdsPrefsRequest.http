@@ -1,2 +1,2 @@
-POST /v1/ids-prefs
+POST /paf/v1/ids-prefs
 Host: operator.paf-operation-domain.io
