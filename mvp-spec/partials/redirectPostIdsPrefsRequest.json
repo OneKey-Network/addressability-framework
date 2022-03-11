@@ -9,7 +9,7 @@
           "source": {
             "domain": "operator.paf-operation-domain.io",
             "timestamp": 1642504380,
-            "signature": "B/fOZumQHzzkQtSjYnzLOIJA2GQpoP5bWwzFQCMiQ/Mlvu6itJ1hbRVJkq8+yElu7NxMzojVMNdrc1mD7SJ0SQ=="
+            "signature": "bszEOIHdTfmdRZZzTFrFrXiB87piBkysVXBjtx9visoiCgqmR0AvKqiycAQ049VIeZa8ApQY0njJUwHby/Y10g=="
           }
         }
       ],
@@ -21,14 +21,14 @@
         "source": {
           "domain": "cmp.com",
           "timestamp": 1642504560,
-          "signature": "QE/7TpxT5nDZH0VO2WcJLdO09IBgZ0gtTKqvQY2Ck8Afy/diGmFN71SV6KjkdAItXH3rCM97oLMewTyAccxq+w=="
+          "signature": "Or41DOD8Oau3HHygAiFZzjXNvPmMx6fOazc/72LpmPKMnTFfZrkwPpCPIGPZKwF/WucP1NO+/aX4LfZ65jl2ZA=="
         }
       }
     },
     "sender": "cmp.com",
     "receiver": "operator.paf-operation-domain.io",
     "timestamp": 1643097660,
-    "signature": "uVJjcDT8XRO7Ct5RXXJMIRG+zKDbCzJPXcQtstwBpAn0xt/xwFCSZBTZdqKjKaF3WkDJj/ypYeqBYFb4amj+bw=="
+    "signature": "A491+ew8CP9Yc3G3JCCqhHYIRpj5WlZwAaZFCPnXtKFh6lRGNCvY/8JRewP+B5wt7/dCMM2zITgEU2eReFL86g=="
   },
-  "returnUrl": "https://advertiser.com/news/2022/02/07/something-crazy-happened?utm_content=campaign+content&paf=eyJjb2RlIjoyMDAsInJlc3BvbnNlIjp7ImJvZHkiOnsiaWRlbnRpZmllcnMiOlt7InBlcnNpc3RlZCI6ZmFsc2UsInZlcnNpb24iOiIwLjEiLCJ0eXBlIjoicGFmX2Jyb3dzZXJfaWQiLCJ2YWx1ZSI6IjJlNzExMjFhLTRmZWItNGEzNC1iN2QxLTgzOTU4N2QzNjM5MCIsInNvdXJjZSI6eyJkb21haW4iOiJvcGVyYXRvci5wYWYtb3BlcmF0aW9uLWRvbWFpbi5pbyIsInRpbWVzdGFtcCI6MTY0MzA0MTE0MCwic2lnbmF0dXJlIjoiNkIxNXpYcHh4OHhQN3ZKaE9WakRoWlZ1VXZ2OXpMYnpvVExpZUdRN0wyYnpicGZjbVJXbkxSWWgrZGNCT3NBcWNBNWFSdThIRjFkcXRUcHYrMFRQWmc9PSJ9fV19LCJzZW5kZXIiOiJvcGVyYXRvci5wYWYtb3BlcmF0aW9uLWRvbWFpbi5pbyIsInJlY2VpdmVyIjoiYWR2ZXJ0aXNlci5jb20iLCJ0aW1lc3RhbXAiOjE2NDMwNDExNTAsInNpZ25hdHVyZSI6IjNSckE1cEFheEFyZVoyZXo1QkF6Z1pIL1o4dllUUkF6NHgxT3NpZlM1WjdNKzNaYXlpRTV5ZkxQWTdFaDVHZ21NQXVLUE9nWDEwaU9ibDhVT2I1emtnPT0ifX0%3D"
+  "returnUrl": "https://advertiser.com/news/2022/02/07/something-crazy-happened?utm_content=campaign+content&paf=eyJjb2RlIjoyMDAsInJlc3BvbnNlIjp7ImJvZHkiOnsiaWRlbnRpZmllcnMiOlt7InBlcnNpc3RlZCI6ZmFsc2UsInZlcnNpb24iOiIwLjEiLCJ0eXBlIjoicGFmX2Jyb3dzZXJfaWQiLCJ2YWx1ZSI6IjJlNzExMjFhLTRmZWItNGEzNC1iN2QxLTgzOTU4N2QzNjM5MCIsInNvdXJjZSI6eyJkb21haW4iOiJvcGVyYXRvci5wYWYtb3BlcmF0aW9uLWRvbWFpbi5pbyIsInRpbWVzdGFtcCI6MTY0MzA0MTE0MCwic2lnbmF0dXJlIjoib1lmeEdjekkrTG1WelgxTnF2bUFHaU1hblpiZGl3RVBVV2E1SG9ISkF0Zy9UaGlGM0psQU42R09aRi9XclR1dFcvL0FqU0gyYThHaFZUSlhjOGR3S3c9PSJ9fV19LCJzZW5kZXIiOiJvcGVyYXRvci5wYWYtb3BlcmF0aW9uLWRvbWFpbi5pbyIsInJlY2VpdmVyIjoiYWR2ZXJ0aXNlci5jb20iLCJ0aW1lc3RhbXAiOjE2NDMwNDExNTAsInNpZ25hdHVyZSI6IkJJV2YzTkFURG54dHpGaG5xM3lUeW0vRGpaNmhmRmZtKzE1NVRxenNScVZHQUtFamd1emhsa2E0cGh3S3N5ZzA2T3ptNmRFbHhaUnk4elRxbEtpOGhnPT0ifX0%3D"
 }
