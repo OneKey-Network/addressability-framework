@@ -1,0 +1,16 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "title": "Standalone request with Transmissions Responses",
+    "description": "A response in an custom communication for acknowledging the use (or not) of PAF data between two Contracting Parties for many Addressable Contents",
+    "$id": "transmission-response-standalone",
+    "type": "object",
+    "transmissions": {
+        "type": "array",
+        "items": {
+            "$ref": "transmission-response.json"
+        }
+    },
+    "required": [
+        "transmissions"
+    ]
+}

@@ -1,0 +1,28 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "title": "Transmission",
+    "description": "",
+    "$id": "transmission-request",
+    "type": "object",
+    "properties": {
+        "version": {
+            "$ref": "version.json"
+        },
+        "seed": {
+            "$ref": "seed.json"
+        },
+        "source": {
+            "description": "Signature based on input:\n```\ntransmission_request_receiver_domain        + '\u2063' +\ntransmission_request.source.domain          + '\u2063' + \ntransmission_request.source.timestamp       + '\u2063' +\nseed.source.signature\n```",
+            "$ref": "source.json"
+        },
+        "parents": {
+            "$ref": "transmission-result.json"
+        }
+    },
+    "required": [
+        "version",
+        "seed",
+        "source",
+        "parents"
+    ]
+}

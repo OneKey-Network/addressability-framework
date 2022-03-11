@@ -1,0 +1,42 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "title": "Transmission Response",
+    "description": "",
+    "$id": "transmission-response",
+    "type": "object",
+    "properties": {
+        "version": {
+            "$ref": "version.json"
+        },
+        "transaction_id": {
+            "$ref": "transaction_id.json"
+        },
+        "receiver": {
+            "$ref": "transmission-receiver.json"
+        },
+        "status": {
+            "$ref": "transmission-status.json"
+        },
+        "details": {
+            "$ref": "transmission-details.json"
+        },
+        "source": {
+            "description": "Signature based on input:\n```\ntransmission_response.receiver                + '\u2063' +\ntransmission_response.status                  + '\u2063'\ntransmission_response.source.domain           + '\u2063' +\ntransmission_response.source.timestamp        + '\u2063' +\nseed.source.signature      // -> The Seed associated to the given Transaction Result\n```",
+            "$ref": "source.json"
+        },
+        "children": {
+            "type": "array",
+            "items": {
+                "$ref": "transmission-result.json"
+            }
+        }
+        
+    },
+    "required": [
+        "version",
+        "transaction_id",
+        "receiver",
+        "source",
+        "parents"
+    ]
+}
