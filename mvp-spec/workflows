@@ -5,9 +5,9 @@ The workflows part of the Prebid Addressability Framework are:
 - Bidding workflow
 
 # User Preferences and Id
-## With shared client side storage
+## With shared client-side storage
 
-## Without shared client side storage 
+## Without shared client-side storage 
 ### Retrieval
 
 In this workflow, a Participant retrieves the Preferences and Id set by a User, if any.
@@ -16,7 +16,7 @@ In this workflow, a Participant retrieves the Preferences and Id set by a User, 
 sequenceDiagram
 participant U as User
 participant P as Participant 
-participant O as Operator server
+participant O as Operator
 
     U ->> P: visit Participant site
 
@@ -31,10 +31,10 @@ participant O as Operator server
     deactivate O 
 
     activate P
-    P -->> P: Write client-side Preferences and Id, if any
+    P ->> P: Write client-side Preferences and Id, if any
     deactivate P
 
-    P -->> U: 
+    P ->> U: 
 
 ```
 
