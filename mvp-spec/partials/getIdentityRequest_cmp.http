@@ -1,2 +1,2 @@
-GET /v1/identity
+GET /paf/v1/identity
 Host: cmp.com

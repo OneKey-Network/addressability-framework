@@ -24,7 +24,7 @@ An extra cookie, with a very short lifetime, can be created to test the support 
 <!--partial-begin { "files": [ "ids_cookie.txt" ], "block": "" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```
-[{"version":"0.1","type":"paf_browser_id","value":"7435313e-caee-4889-8ad7-0acd0114ae3c","source":{"domain":"operator.paf-operation-domain.io","timestamp":1642504380,"signature":"bszEOIHdTfmdRZZzTFrFrXiB87piBkysVXBjtx9visoiCgqmR0AvKqiycAQ049VIeZa8ApQY0njJUwHby/Y10g=="}}]
+[{"version":"0.1","type":"paf_browser_id","value":"7435313e-caee-4889-8ad7-0acd0114ae3c","source":{"domain":"operator.paf-operation-domain.io","timestamp":1642504380,"signature":"B/fOZumQHzzkQtSjYnzLOIJA2GQpoP5bWwzFQCMiQ/Mlvu6itJ1hbRVJkq8+yElu7NxMzojVMNdrc1mD7SJ0SQ=="}}]
 ```
 <!--partial-end-->
 
@@ -41,7 +41,7 @@ Which is the "stringified" version of:
     "source": {
       "domain": "operator.paf-operation-domain.io",
       "timestamp": 1642504380,
-      "signature": "bszEOIHdTfmdRZZzTFrFrXiB87piBkysVXBjtx9visoiCgqmR0AvKqiycAQ049VIeZa8ApQY0njJUwHby/Y10g=="
+      "signature": "B/fOZumQHzzkQtSjYnzLOIJA2GQpoP5bWwzFQCMiQ/Mlvu6itJ1hbRVJkq8+yElu7NxMzojVMNdrc1mD7SJ0SQ=="
     }
   }
 ]
@@ -53,7 +53,7 @@ Which is the "stringified" version of:
 <!--partial-begin { "files": [ "preferences_cookie.txt" ], "block": "" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```
-{"version":"0.1","data":{"use_browsing_for_personalization":true},"source":{"domain":"cmp.com","timestamp":1642504560,"signature":"Or41DOD8Oau3HHygAiFZzjXNvPmMx6fOazc/72LpmPKMnTFfZrkwPpCPIGPZKwF/WucP1NO+/aX4LfZ65jl2ZA=="}}
+{"version":"0.1","data":{"use_browsing_for_personalization":true},"source":{"domain":"cmp.com","timestamp":1642504560,"signature":"QE/7TpxT5nDZH0VO2WcJLdO09IBgZ0gtTKqvQY2Ck8Afy/diGmFN71SV6KjkdAItXH3rCM97oLMewTyAccxq+w=="}}
 ```
 <!--partial-end-->
 
@@ -70,7 +70,7 @@ Which is the "stringified" version of:
   "source": {
     "domain": "cmp.com",
     "timestamp": 1642504560,
-    "signature": "Or41DOD8Oau3HHygAiFZzjXNvPmMx6fOazc/72LpmPKMnTFfZrkwPpCPIGPZKwF/WucP1NO+/aX4LfZ65jl2ZA=="
+    "signature": "QE/7TpxT5nDZH0VO2WcJLdO09IBgZ0gtTKqvQY2Ck8Afy/diGmFN71SV6KjkdAItXH3rCM97oLMewTyAccxq+w=="
   }
 }
 ```
@@ -120,13 +120,13 @@ Notes:
 - values returned by the endpoints are based cookies stored on the web user's browser. Of course, it means the same
   calls on different web browsers will return different responses.
 
-| Endpoint                                      | Description                                                  | Input                 | Output                                                                          | REST                 | Redirect                          |
-|-----------------------------------------------|--------------------------------------------------------------|-----------------------|---------------------------------------------------------------------------------|----------------------|-----------------------------------|
-| [Read ids & prefs](#read-ids-&-preferences)   | Read existing cookies.<br>Return new ID if none              | -                     | List of persisted IDs.<br>List of preferences<br>newly generated PAF ID, if any | `GET /v1/ids-prefs`  | `GET /v1/redirect/get-ids-prefs`  |
-| [Write ids & prefs](#write-ids-&-preferences) | Update cookies                                               | PAF ID<br>preferences | List of persisted IDs.<br>List of preferences                                   | `POST /v1/ids-prefs` | `GET /v1/redirect/post-ids-prefs` |
-| [Get new id](#get-a-new-id)                   | Generate new ID                                              | -                     | newly generated PAF ID                                                          | `GET /v1/new-id`     | N/A                               |
-| [Verify 3PC support](#verify-3pc-support)     | Confirm if 3PC are supported                                 | -                     | value of `paf_test_3pc` if any, error otherwise                                 | `GET /v1/3pc`        | N/A                               |
-| [Get identity](#get-operator-identity)        | Get operator public key to verify ID or responses signatures | -                     | list of:<br>public key + start and end dates if any                             | `GET /v1/identity`   | N/A                               |
+| Endpoint                                     | Description                                                  | Input                 | Output                                                                          | REST                     | Redirect                              |
+|----------------------------------------------|--------------------------------------------------------------|-----------------------|---------------------------------------------------------------------------------|--------------------------|---------------------------------------|
+| [Read ids & prefs](#read-ids--preferences)   | Read existing cookies.<br>Return new ID if none              | -                     | List of persisted IDs.<br>List of preferences<br>newly generated PAF ID, if any | `GET /paf/v1/ids-prefs`  | `GET /paf/v1/redirect/get-ids-prefs`  |
+| [Write ids & prefs](#write-ids--preferences) | Update cookies                                               | PAF ID<br>preferences | List of persisted IDs.<br>List of preferences                                   | `POST /paf/v1/ids-prefs` | `GET /paf/v1/redirect/post-ids-prefs` |
+| [Get new id](#get-a-new-id)                  | Generate new ID                                              | -                     | newly generated PAF ID                                                          | `GET /paf/v1/new-id`     | N/A                                   |
+| [Verify 3PC support](#verify-3pc-support)    | Confirm if 3PC are supported                                 | -                     | value of `paf_test_3pc` if any, error otherwise                                 | `GET /paf/v1/3pc`        | N/A                                   |
+| [Get identity](#get-operator-identity)       | Get operator public key to verify ID or responses signatures | -                     | list of:<br>public key + start and end dates if any                             | `GET /paf/v1/identity`   | N/A                                   |
 
 ## Commons
 
@@ -210,10 +210,10 @@ For endpoints that exist as "redirect", the following pattern is used:
 - if `paf_preferences` cookie exists, return its values
 - [_on REST version only_] attempt to create a temporary, short-life, "test 3PC" cookie
 
-#### REST read: `GET /v1/ids-prefs`
+#### REST read: `GET /paf/v1/ids-prefs`
 
-| Message  | Format                                                  |
-|----------|---------------------------------------------------------|
+| Message  | Format                                                    |
+|----------|-----------------------------------------------------------|
 | Request  | [get-ids-prefs-request](model/get-ids-prefs-request.md)   |
 | Response | [get-ids-prefs-response](model/get-ids-prefs-response.md) |
 
@@ -229,7 +229,7 @@ For endpoints that exist as "redirect", the following pattern is used:
   "sender": "cmp.com",
   "receiver": "operator.paf-operation-domain.io",
   "timestamp": 1643041140,
-  "signature": "tvEjp7Fox6jxkgxgY9tjTuy3wH5imuFj63Yuub4UweelYbs8XxnP3nK5w41u13P+fOpEfEqmH/fAgC8WPZYhUQ=="
+  "signature": "ubAJTaQYms5oNDImzABDPNLgGa4UXyrQ6PRYTIVA/z+R62fxSFw4Gehk8Ri1uTM+FKXlB++Vqq1/dJvjRbSh6A=="
 }
 ```
 <!--partial-end-->
@@ -239,7 +239,7 @@ For endpoints that exist as "redirect", the following pattern is used:
 <!--partial-begin { "files": [ "getIdsPrefsRequest.http" ], "block": "http" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```http
-GET /v1/ids-prefs?paf=eyJzZW5kZXIiOiJjbXAuY29tIiwicmVjZWl2ZXIiOiJvcGVyYXRvci5wYWYtb3BlcmF0aW9uLWRvbWFpbi5pbyIsInRpbWVzdGFtcCI6MTY0MzA0MTE0MCwic2lnbmF0dXJlIjoidHZFanA3Rm94Nmp4a2d4Z1k5dGpUdXkzd0g1aW11Rmo2M1l1dWI0VXdlZWxZYnM4WHhuUDNuSzV3NDF1MTNQK2ZPcEVmRXFtSC9mQWdDOFdQWlloVVE9PSJ9
+GET /paf/v1/ids-prefs?paf=eyJzZW5kZXIiOiJjbXAuY29tIiwicmVjZWl2ZXIiOiJvcGVyYXRvci5wYWYtb3BlcmF0aW9uLWRvbWFpbi5pbyIsInRpbWVzdGFtcCI6MTY0MzA0MTE0MCwic2lnbmF0dXJlIjoidWJBSlRhUVltczVvTkRJbXpBQkRQTkxnR2E0VVh5clE2UFJZVElWQS96K1I2MmZ4U0Z3NEdlaGs4UmkxdVRNK0ZLWGxCKytWcXExL2RKdmpSYlNoNkE9PSJ9
 Host: operator.paf-operation-domain.io
 ```
 <!--partial-end-->
@@ -259,7 +259,7 @@ Host: operator.paf-operation-domain.io
         "source": {
           "domain": "operator.paf-operation-domain.io",
           "timestamp": 1642504380,
-          "signature": "bszEOIHdTfmdRZZzTFrFrXiB87piBkysVXBjtx9visoiCgqmR0AvKqiycAQ049VIeZa8ApQY0njJUwHby/Y10g=="
+          "signature": "B/fOZumQHzzkQtSjYnzLOIJA2GQpoP5bWwzFQCMiQ/Mlvu6itJ1hbRVJkq8+yElu7NxMzojVMNdrc1mD7SJ0SQ=="
         }
       }
     ],
@@ -271,14 +271,14 @@ Host: operator.paf-operation-domain.io
       "source": {
         "domain": "cmp.com",
         "timestamp": 1642504560,
-        "signature": "Or41DOD8Oau3HHygAiFZzjXNvPmMx6fOazc/72LpmPKMnTFfZrkwPpCPIGPZKwF/WucP1NO+/aX4LfZ65jl2ZA=="
+        "signature": "QE/7TpxT5nDZH0VO2WcJLdO09IBgZ0gtTKqvQY2Ck8Afy/diGmFN71SV6KjkdAItXH3rCM97oLMewTyAccxq+w=="
       }
     }
   },
   "sender": "operator.paf-operation-domain.io",
   "receiver": "advertiser.com",
   "timestamp": 1643041150,
-  "signature": "1WGG+DtR5Q7JO/4w1mGoqwdB0VtdrKMNlh5jmFJRKLSOnki2WI6Pf4RnHd3bN68iCqpM/BHogM0590KVdv3+sg=="
+  "signature": "57j7i9oyM3TXzPobJ1OcSorkUisHC4QYWzoXoQGUnlIJGOyun6OYNi4epM4YwmDnH9kA5wG6m3+9aQ56kKRB8w=="
 }
 ```
 <!--partial-end-->
@@ -299,7 +299,7 @@ Host: operator.paf-operation-domain.io
         "source": {
           "domain": "operator.paf-operation-domain.io",
           "timestamp": 1643041140,
-          "signature": "lfvEkcQ/lw+aDAycLKwljD01BKdjfCAa/W6Uz85z/LuXRGg4L7tMJa/pEzYC5WxZSmY2jVsqCN/IF6mws8c2cA=="
+          "signature": "6B15zXpxx8xP7vJhOVjDhZVuUvv9zLbzoTLieGQ7L2bzbpfcmRWnLRYh+dcBOsAqcA5aRu8HF1dqtTpv+0TPZg=="
         }
       }
     ]
@@ -307,7 +307,7 @@ Host: operator.paf-operation-domain.io
   "sender": "operator.paf-operation-domain.io",
   "receiver": "advertiser.com",
   "timestamp": 1643041150,
-  "signature": "eecaGYcYFkXmgFdaCwzK/93zaVnaLC0dZIDsC4IkP3WubKdSfP/u5UsrPYBhDgt0STCyBnwF6eE79vtyi2UnWA=="
+  "signature": "3RrA5pAaxAreZ2ez5BAzgZH/Z8vYTRAz4x1OsifS5Z7M+3ZayiE5yfLPY7Eh5GgmMAuKPOgX10iObl8UOb5zkg=="
 }
 ```
 <!--partial-end-->
@@ -316,10 +316,10 @@ Notice `persisted` = `false`, see [identifier.md](model/identifier.md) for detai
 
 </details>
 
-#### Redirect read: `GET /v1/redirect/get-ids-prefs`
+#### Redirect read: `GET /paf/v1/redirect/get-ids-prefs`
 
-| Message  | Format                                                                      |
-|----------|-----------------------------------------------------------------------------|
+| Message  | Format                                                                        |
+|----------|-------------------------------------------------------------------------------|
 | Request  | [redirect-get-ids-prefs-request](./model/redirect-get-ids-prefs-request.md)   |
 | Response | [redirect-get-ids-prefs-response](./model/redirect-get-ids-prefs-response.md) |
 
@@ -336,7 +336,7 @@ Notice `persisted` = `false`, see [identifier.md](model/identifier.md) for detai
     "sender": "cmp.com",
     "receiver": "operator.paf-operation-domain.io",
     "timestamp": 1643041140,
-    "signature": "tvEjp7Fox6jxkgxgY9tjTuy3wH5imuFj63Yuub4UweelYbs8XxnP3nK5w41u13P+fOpEfEqmH/fAgC8WPZYhUQ=="
+    "signature": "ubAJTaQYms5oNDImzABDPNLgGa4UXyrQ6PRYTIVA/z+R62fxSFw4Gehk8Ri1uTM+FKXlB++Vqq1/dJvjRbSh6A=="
   },
   "returnUrl": "https://advertiser.com/news/2022/02/07/something-crazy-happened?utm_content=campaign%20content"
 }
@@ -348,7 +348,7 @@ Notice `persisted` = `false`, see [identifier.md](model/identifier.md) for detai
 <!--partial-begin { "files": [ "redirectGetIdsPrefsRequest.http" ], "block": "http" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```http
-GET /v1/redirect/get-ids-prefs?paf=eyJyZXF1ZXN0Ijp7InNlbmRlciI6ImNtcC5jb20iLCJyZWNlaXZlciI6Im9wZXJhdG9yLnBhZi1vcGVyYXRpb24tZG9tYWluLmlvIiwidGltZXN0YW1wIjoxNjQzMDQxMTQwLCJzaWduYXR1cmUiOiJ0dkVqcDdGb3g2anhrZ3hnWTl0alR1eTN3SDVpbXVGajYzWXV1YjRVd2VlbFliczhYeG5QM25LNXc0MXUxM1ArZk9wRWZFcW1IL2ZBZ0M4V1BaWWhVUT09In0sInJldHVyblVybCI6Imh0dHBzOi8vYWR2ZXJ0aXNlci5jb20vbmV3cy8yMDIyLzAyLzA3L3NvbWV0aGluZy1jcmF6eS1oYXBwZW5lZD91dG1fY29udGVudD1jYW1wYWlnbiUyMGNvbnRlbnQifQ%3D%3D
+GET /paf/v1/redirect/get-ids-prefs?paf=eyJyZXF1ZXN0Ijp7InNlbmRlciI6ImNtcC5jb20iLCJyZWNlaXZlciI6Im9wZXJhdG9yLnBhZi1vcGVyYXRpb24tZG9tYWluLmlvIiwidGltZXN0YW1wIjoxNjQzMDQxMTQwLCJzaWduYXR1cmUiOiJ1YkFKVGFRWW1zNW9OREltekFCRFBOTGdHYTRVWHlyUTZQUllUSVZBL3orUjYyZnhTRnc0R2VoazhSaTF1VE0rRktYbEIrK1ZxcTEvZEp2alJiU2g2QT09In0sInJldHVyblVybCI6Imh0dHBzOi8vYWR2ZXJ0aXNlci5jb20vbmV3cy8yMDIyLzAyLzA3L3NvbWV0aGluZy1jcmF6eS1oYXBwZW5lZD91dG1fY29udGVudD1jYW1wYWlnbiUyMGNvbnRlbnQifQ%3D%3D
 Host: operator.paf-operation-domain.io
 ```
 <!--partial-end-->
@@ -370,7 +370,7 @@ Host: operator.paf-operation-domain.io
           "source": {
             "domain": "operator.paf-operation-domain.io",
             "timestamp": 1642504380,
-            "signature": "bszEOIHdTfmdRZZzTFrFrXiB87piBkysVXBjtx9visoiCgqmR0AvKqiycAQ049VIeZa8ApQY0njJUwHby/Y10g=="
+            "signature": "B/fOZumQHzzkQtSjYnzLOIJA2GQpoP5bWwzFQCMiQ/Mlvu6itJ1hbRVJkq8+yElu7NxMzojVMNdrc1mD7SJ0SQ=="
           }
         }
       ],
@@ -382,14 +382,14 @@ Host: operator.paf-operation-domain.io
         "source": {
           "domain": "cmp.com",
           "timestamp": 1642504560,
-          "signature": "Or41DOD8Oau3HHygAiFZzjXNvPmMx6fOazc/72LpmPKMnTFfZrkwPpCPIGPZKwF/WucP1NO+/aX4LfZ65jl2ZA=="
+          "signature": "QE/7TpxT5nDZH0VO2WcJLdO09IBgZ0gtTKqvQY2Ck8Afy/diGmFN71SV6KjkdAItXH3rCM97oLMewTyAccxq+w=="
         }
       }
     },
     "sender": "operator.paf-operation-domain.io",
     "receiver": "advertiser.com",
     "timestamp": 1643041150,
-    "signature": "1WGG+DtR5Q7JO/4w1mGoqwdB0VtdrKMNlh5jmFJRKLSOnki2WI6Pf4RnHd3bN68iCqpM/BHogM0590KVdv3+sg=="
+    "signature": "57j7i9oyM3TXzPobJ1OcSorkUisHC4QYWzoXoQGUnlIJGOyun6OYNi4epM4YwmDnH9kA5wG6m3+9aQ56kKRB8w=="
   }
 }
 ```
@@ -400,7 +400,7 @@ Host: operator.paf-operation-domain.io
 <!--partial-begin { "files": [ "redirectGetIdsPrefsResponse_known.txt" ], "block": "" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```
-303 https://advertiser.com/news/2022/02/07/something-crazy-happened?utm_content=campaign+content&paf=eyJjb2RlIjoyMDAsInJlc3BvbnNlIjp7ImJvZHkiOnsiaWRlbnRpZmllcnMiOlt7InZlcnNpb24iOiIwLjEiLCJ0eXBlIjoicGFmX2Jyb3dzZXJfaWQiLCJ2YWx1ZSI6Ijc0MzUzMTNlLWNhZWUtNDg4OS04YWQ3LTBhY2QwMTE0YWUzYyIsInNvdXJjZSI6eyJkb21haW4iOiJvcGVyYXRvci5wYWYtb3BlcmF0aW9uLWRvbWFpbi5pbyIsInRpbWVzdGFtcCI6MTY0MjUwNDM4MCwic2lnbmF0dXJlIjoiYnN6RU9JSGRUZm1kUlpaelRGckZyWGlCODdwaUJreXNWWEJqdHg5dmlzb2lDZ3FtUjBBdktxaXljQVEwNDlWSWVaYThBcFFZMG5qSlV3SGJ5L1kxMGc9PSJ9fV0sInByZWZlcmVuY2VzIjp7InZlcnNpb24iOiIwLjEiLCJkYXRhIjp7InVzZV9icm93c2luZ19mb3JfcGVyc29uYWxpemF0aW9uIjp0cnVlfSwic291cmNlIjp7ImRvbWFpbiI6ImNtcC5jb20iLCJ0aW1lc3RhbXAiOjE2NDI1MDQ1NjAsInNpZ25hdHVyZSI6Ik9yNDFET0Q4T2F1M0hIeWdBaUZaempYTnZQbU14NmZPYXpjLzcyTHBtUEtNblRGZlpya3dQcENQSUdQWkt3Ri9XdWNQMU5PKy9hWDRMZlo2NWpsMlpBPT0ifX19LCJzZW5kZXIiOiJvcGVyYXRvci5wYWYtb3BlcmF0aW9uLWRvbWFpbi5pbyIsInJlY2VpdmVyIjoiYWR2ZXJ0aXNlci5jb20iLCJ0aW1lc3RhbXAiOjE2NDMwNDExNTAsInNpZ25hdHVyZSI6IjFXR0crRHRSNVE3Sk8vNHcxbUdvcXdkQjBWdGRyS01ObGg1am1GSlJLTFNPbmtpMldJNlBmNFJuSGQzYk42OGlDcXBNL0JIb2dNMDU5MEtWZHYzK3NnPT0ifX0%3D
+303 https://advertiser.com/news/2022/02/07/something-crazy-happened?utm_content=campaign+content&paf=eyJjb2RlIjoyMDAsInJlc3BvbnNlIjp7ImJvZHkiOnsiaWRlbnRpZmllcnMiOlt7InZlcnNpb24iOiIwLjEiLCJ0eXBlIjoicGFmX2Jyb3dzZXJfaWQiLCJ2YWx1ZSI6Ijc0MzUzMTNlLWNhZWUtNDg4OS04YWQ3LTBhY2QwMTE0YWUzYyIsInNvdXJjZSI6eyJkb21haW4iOiJvcGVyYXRvci5wYWYtb3BlcmF0aW9uLWRvbWFpbi5pbyIsInRpbWVzdGFtcCI6MTY0MjUwNDM4MCwic2lnbmF0dXJlIjoiQi9mT1p1bVFIenprUXRTalluekxPSUpBMkdRcG9QNWJXd3pGUUNNaVEvTWx2dTZpdEoxaGJSVkprcTgreUVsdTdOeE16b2pWTU5kcmMxbUQ3U0owU1E9PSJ9fV0sInByZWZlcmVuY2VzIjp7InZlcnNpb24iOiIwLjEiLCJkYXRhIjp7InVzZV9icm93c2luZ19mb3JfcGVyc29uYWxpemF0aW9uIjp0cnVlfSwic291cmNlIjp7ImRvbWFpbiI6ImNtcC5jb20iLCJ0aW1lc3RhbXAiOjE2NDI1MDQ1NjAsInNpZ25hdHVyZSI6IlFFLzdUcHhUNW5EWkgwVk8yV2NKTGRPMDlJQmdaMGd0VEtxdlFZMkNrOEFmeS9kaUdtRk43MVNWNktqa2RBSXRYSDNyQ005N29MTWV3VHlBY2N4cSt3PT0ifX19LCJzZW5kZXIiOiJvcGVyYXRvci5wYWYtb3BlcmF0aW9uLWRvbWFpbi5pbyIsInJlY2VpdmVyIjoiYWR2ZXJ0aXNlci5jb20iLCJ0aW1lc3RhbXAiOjE2NDMwNDExNTAsInNpZ25hdHVyZSI6IjU3ajdpOW95TTNUWHpQb2JKMU9jU29ya1Vpc0hDNFFZV3pvWG9RR1VubElKR095dW42T1lOaTRlcE00WXdtRG5IOWtBNXdHNm0zKzlhUTU2a0tSQjh3PT0ifX0%3D
 ```
 <!--partial-end-->
 
@@ -422,7 +422,7 @@ Host: operator.paf-operation-domain.io
           "source": {
             "domain": "operator.paf-operation-domain.io",
             "timestamp": 1643041140,
-            "signature": "lfvEkcQ/lw+aDAycLKwljD01BKdjfCAa/W6Uz85z/LuXRGg4L7tMJa/pEzYC5WxZSmY2jVsqCN/IF6mws8c2cA=="
+            "signature": "6B15zXpxx8xP7vJhOVjDhZVuUvv9zLbzoTLieGQ7L2bzbpfcmRWnLRYh+dcBOsAqcA5aRu8HF1dqtTpv+0TPZg=="
           }
         }
       ]
@@ -430,7 +430,7 @@ Host: operator.paf-operation-domain.io
     "sender": "operator.paf-operation-domain.io",
     "receiver": "advertiser.com",
     "timestamp": 1643041150,
-    "signature": "eecaGYcYFkXmgFdaCwzK/93zaVnaLC0dZIDsC4IkP3WubKdSfP/u5UsrPYBhDgt0STCyBnwF6eE79vtyi2UnWA=="
+    "signature": "3RrA5pAaxAreZ2ez5BAzgZH/Z8vYTRAz4x1OsifS5Z7M+3ZayiE5yfLPY7Eh5GgmMAuKPOgX10iObl8UOb5zkg=="
   }
 }
 ```
@@ -443,7 +443,7 @@ Notice `persisted` = `false`, see [identifier.md](model/identifier.md) for detai
 <!--partial-begin { "files": [ "redirectGetIdsPrefsResponse_unknown.txt" ], "block": "" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```
-303 https://advertiser.com/news/2022/02/07/something-crazy-happened?utm_content=campaign+content&paf=eyJjb2RlIjoyMDAsInJlc3BvbnNlIjp7ImJvZHkiOnsiaWRlbnRpZmllcnMiOlt7InBlcnNpc3RlZCI6ZmFsc2UsInZlcnNpb24iOiIwLjEiLCJ0eXBlIjoicGFmX2Jyb3dzZXJfaWQiLCJ2YWx1ZSI6IjJlNzExMjFhLTRmZWItNGEzNC1iN2QxLTgzOTU4N2QzNjM5MCIsInNvdXJjZSI6eyJkb21haW4iOiJvcGVyYXRvci5wYWYtb3BlcmF0aW9uLWRvbWFpbi5pbyIsInRpbWVzdGFtcCI6MTY0MzA0MTE0MCwic2lnbmF0dXJlIjoibGZ2RWtjUS9sdythREF5Y0xLd2xqRDAxQktkamZDQWEvVzZVejg1ei9MdVhSR2c0TDd0TUphL3BFellDNVd4WlNtWTJqVnNxQ04vSUY2bXdzOGMyY0E9PSJ9fV19LCJzZW5kZXIiOiJvcGVyYXRvci5wYWYtb3BlcmF0aW9uLWRvbWFpbi5pbyIsInJlY2VpdmVyIjoiYWR2ZXJ0aXNlci5jb20iLCJ0aW1lc3RhbXAiOjE2NDMwNDExNTAsInNpZ25hdHVyZSI6ImVlY2FHWWNZRmtYbWdGZGFDd3pLLzkzemFWbmFMQzBkWklEc0M0SWtQM1d1YktkU2ZQL3U1VXNyUFlCaERndDBTVEN5Qm53RjZlRTc5dnR5aTJVbldBPT0ifX0%3D
+303 https://advertiser.com/news/2022/02/07/something-crazy-happened?utm_content=campaign+content&paf=eyJjb2RlIjoyMDAsInJlc3BvbnNlIjp7ImJvZHkiOnsiaWRlbnRpZmllcnMiOlt7InBlcnNpc3RlZCI6ZmFsc2UsInZlcnNpb24iOiIwLjEiLCJ0eXBlIjoicGFmX2Jyb3dzZXJfaWQiLCJ2YWx1ZSI6IjJlNzExMjFhLTRmZWItNGEzNC1iN2QxLTgzOTU4N2QzNjM5MCIsInNvdXJjZSI6eyJkb21haW4iOiJvcGVyYXRvci5wYWYtb3BlcmF0aW9uLWRvbWFpbi5pbyIsInRpbWVzdGFtcCI6MTY0MzA0MTE0MCwic2lnbmF0dXJlIjoiNkIxNXpYcHh4OHhQN3ZKaE9WakRoWlZ1VXZ2OXpMYnpvVExpZUdRN0wyYnpicGZjbVJXbkxSWWgrZGNCT3NBcWNBNWFSdThIRjFkcXRUcHYrMFRQWmc9PSJ9fV19LCJzZW5kZXIiOiJvcGVyYXRvci5wYWYtb3BlcmF0aW9uLWRvbWFpbi5pbyIsInJlY2VpdmVyIjoiYWR2ZXJ0aXNlci5jb20iLCJ0aW1lc3RhbXAiOjE2NDMwNDExNTAsInNpZ25hdHVyZSI6IjNSckE1cEFheEFyZVoyZXo1QkF6Z1pIL1o4dllUUkF6NHgxT3NpZlM1WjdNKzNaYXlpRTV5ZkxQWTdFaDVHZ21NQXVLUE9nWDEwaU9ibDhVT2I1emtnPT0ifX0%3D
 ```
 <!--partial-end-->
 
@@ -458,10 +458,10 @@ Notice `persisted` = `false`, see [identifier.md](model/identifier.md) for detai
 - update `paf_preferences` cookie with new value
 - return both values
 
-#### REST write: `POST /v1/ids-prefs`
+#### REST write: `POST /paf/v1/ids-prefs`
 
-| Message  | Format                                                      |
-|----------|-------------------------------------------------------------|
+| Message  | Format                                                        |
+|----------|---------------------------------------------------------------|
 | Request  | [post-ids-prefs-request](./model/post-ids-prefs-request.md)   |
 | Response | [post-ids-prefs-response](./model/post-ids-prefs-response.md) |
 
@@ -483,7 +483,7 @@ Notice `persisted` = `false`, see [identifier.md](model/identifier.md) for detai
         "source": {
           "domain": "operator.paf-operation-domain.io",
           "timestamp": 1642504380,
-          "signature": "bszEOIHdTfmdRZZzTFrFrXiB87piBkysVXBjtx9visoiCgqmR0AvKqiycAQ049VIeZa8ApQY0njJUwHby/Y10g=="
+          "signature": "B/fOZumQHzzkQtSjYnzLOIJA2GQpoP5bWwzFQCMiQ/Mlvu6itJ1hbRVJkq8+yElu7NxMzojVMNdrc1mD7SJ0SQ=="
         }
       }
     ],
@@ -495,14 +495,14 @@ Notice `persisted` = `false`, see [identifier.md](model/identifier.md) for detai
       "source": {
         "domain": "cmp.com",
         "timestamp": 1642504560,
-        "signature": "Or41DOD8Oau3HHygAiFZzjXNvPmMx6fOazc/72LpmPKMnTFfZrkwPpCPIGPZKwF/WucP1NO+/aX4LfZ65jl2ZA=="
+        "signature": "QE/7TpxT5nDZH0VO2WcJLdO09IBgZ0gtTKqvQY2Ck8Afy/diGmFN71SV6KjkdAItXH3rCM97oLMewTyAccxq+w=="
       }
     }
   },
   "sender": "cmp.com",
   "receiver": "operator.paf-operation-domain.io",
   "timestamp": 1643097660,
-  "signature": "A491+ew8CP9Yc3G3JCCqhHYIRpj5WlZwAaZFCPnXtKFh6lRGNCvY/8JRewP+B5wt7/dCMM2zITgEU2eReFL86g=="
+  "signature": "uVJjcDT8XRO7Ct5RXXJMIRG+zKDbCzJPXcQtstwBpAn0xt/xwFCSZBTZdqKjKaF3WkDJj/ypYeqBYFb4amj+bw=="
 }
 ```
 <!--partial-end-->
@@ -512,7 +512,7 @@ Notice `persisted` = `false`, see [identifier.md](model/identifier.md) for detai
 <!--partial-begin { "files": [ "postIdsPrefsRequest.http" ], "block": "http" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```http
-POST /v1/ids-prefs
+POST /paf/v1/ids-prefs
 Host: operator.paf-operation-domain.io
 ```
 <!--partial-end-->
@@ -532,7 +532,7 @@ Host: operator.paf-operation-domain.io
         "source": {
           "domain": "operator.paf-operation-domain.io",
           "timestamp": 1642504380,
-          "signature": "bszEOIHdTfmdRZZzTFrFrXiB87piBkysVXBjtx9visoiCgqmR0AvKqiycAQ049VIeZa8ApQY0njJUwHby/Y10g=="
+          "signature": "B/fOZumQHzzkQtSjYnzLOIJA2GQpoP5bWwzFQCMiQ/Mlvu6itJ1hbRVJkq8+yElu7NxMzojVMNdrc1mD7SJ0SQ=="
         }
       }
     ],
@@ -544,24 +544,24 @@ Host: operator.paf-operation-domain.io
       "source": {
         "domain": "cmp.com",
         "timestamp": 1642504560,
-        "signature": "Or41DOD8Oau3HHygAiFZzjXNvPmMx6fOazc/72LpmPKMnTFfZrkwPpCPIGPZKwF/WucP1NO+/aX4LfZ65jl2ZA=="
+        "signature": "QE/7TpxT5nDZH0VO2WcJLdO09IBgZ0gtTKqvQY2Ck8Afy/diGmFN71SV6KjkdAItXH3rCM97oLMewTyAccxq+w=="
       }
     }
   },
   "sender": "operator.paf-operation-domain.io",
   "receiver": "cmp.com",
   "timestamp": 1643097663,
-  "signature": "o4I1BMvUkUATj5l3tFyTo5zF1HRF1Yhjh+KOg5G/SchLRZPBsMzRDewCTS7ynAblwUpWLFfHYvaawW87O0/aVA=="
+  "signature": "6eHCK6a+x0i8WTqC9kw9k028mOOONsIiQIfbQJqkqcHYiVHZpD/LH0Opw8oZTgIza/WZFPv7xb2Io3O0bKE7bA=="
 }
 ```
 <!--partial-end-->
 
 </details>
 
-#### Redirect write: `GET /v1/redirect/post-ids-prefs`
+#### Redirect write: `GET /paf/v1/redirect/post-ids-prefs`
 
-| Message  | Format                                                                        |
-|----------|-------------------------------------------------------------------------------|
+| Message  | Format                                                                          |
+|----------|---------------------------------------------------------------------------------|
 | Request  | [redirect-post-ids-prefs-request](./model/redirect-post-ids-prefs-request.md)   |
 | Response | [redirect-post-ids-prefs-response](./model/redirect-post-ids-prefs-response.md) |
 
@@ -584,7 +584,7 @@ Host: operator.paf-operation-domain.io
           "source": {
             "domain": "operator.paf-operation-domain.io",
             "timestamp": 1642504380,
-            "signature": "bszEOIHdTfmdRZZzTFrFrXiB87piBkysVXBjtx9visoiCgqmR0AvKqiycAQ049VIeZa8ApQY0njJUwHby/Y10g=="
+            "signature": "B/fOZumQHzzkQtSjYnzLOIJA2GQpoP5bWwzFQCMiQ/Mlvu6itJ1hbRVJkq8+yElu7NxMzojVMNdrc1mD7SJ0SQ=="
           }
         }
       ],
@@ -596,16 +596,16 @@ Host: operator.paf-operation-domain.io
         "source": {
           "domain": "cmp.com",
           "timestamp": 1642504560,
-          "signature": "Or41DOD8Oau3HHygAiFZzjXNvPmMx6fOazc/72LpmPKMnTFfZrkwPpCPIGPZKwF/WucP1NO+/aX4LfZ65jl2ZA=="
+          "signature": "QE/7TpxT5nDZH0VO2WcJLdO09IBgZ0gtTKqvQY2Ck8Afy/diGmFN71SV6KjkdAItXH3rCM97oLMewTyAccxq+w=="
         }
       }
     },
     "sender": "cmp.com",
     "receiver": "operator.paf-operation-domain.io",
     "timestamp": 1643097660,
-    "signature": "A491+ew8CP9Yc3G3JCCqhHYIRpj5WlZwAaZFCPnXtKFh6lRGNCvY/8JRewP+B5wt7/dCMM2zITgEU2eReFL86g=="
+    "signature": "uVJjcDT8XRO7Ct5RXXJMIRG+zKDbCzJPXcQtstwBpAn0xt/xwFCSZBTZdqKjKaF3WkDJj/ypYeqBYFb4amj+bw=="
   },
-  "returnUrl": "https://advertiser.com/news/2022/02/07/something-crazy-happened?utm_content=campaign+content&paf=eyJjb2RlIjoyMDAsInJlc3BvbnNlIjp7ImJvZHkiOnsiaWRlbnRpZmllcnMiOlt7InBlcnNpc3RlZCI6ZmFsc2UsInZlcnNpb24iOiIwLjEiLCJ0eXBlIjoicGFmX2Jyb3dzZXJfaWQiLCJ2YWx1ZSI6IjJlNzExMjFhLTRmZWItNGEzNC1iN2QxLTgzOTU4N2QzNjM5MCIsInNvdXJjZSI6eyJkb21haW4iOiJvcGVyYXRvci5wYWYtb3BlcmF0aW9uLWRvbWFpbi5pbyIsInRpbWVzdGFtcCI6MTY0MzA0MTE0MCwic2lnbmF0dXJlIjoibGZ2RWtjUS9sdythREF5Y0xLd2xqRDAxQktkamZDQWEvVzZVejg1ei9MdVhSR2c0TDd0TUphL3BFellDNVd4WlNtWTJqVnNxQ04vSUY2bXdzOGMyY0E9PSJ9fV19LCJzZW5kZXIiOiJvcGVyYXRvci5wYWYtb3BlcmF0aW9uLWRvbWFpbi5pbyIsInJlY2VpdmVyIjoiYWR2ZXJ0aXNlci5jb20iLCJ0aW1lc3RhbXAiOjE2NDMwNDExNTAsInNpZ25hdHVyZSI6ImVlY2FHWWNZRmtYbWdGZGFDd3pLLzkzemFWbmFMQzBkWklEc0M0SWtQM1d1YktkU2ZQL3U1VXNyUFlCaERndDBTVEN5Qm53RjZlRTc5dnR5aTJVbldBPT0ifX0%3D"
+  "returnUrl": "https://advertiser.com/news/2022/02/07/something-crazy-happened?utm_content=campaign+content&paf=eyJjb2RlIjoyMDAsInJlc3BvbnNlIjp7ImJvZHkiOnsiaWRlbnRpZmllcnMiOlt7InBlcnNpc3RlZCI6ZmFsc2UsInZlcnNpb24iOiIwLjEiLCJ0eXBlIjoicGFmX2Jyb3dzZXJfaWQiLCJ2YWx1ZSI6IjJlNzExMjFhLTRmZWItNGEzNC1iN2QxLTgzOTU4N2QzNjM5MCIsInNvdXJjZSI6eyJkb21haW4iOiJvcGVyYXRvci5wYWYtb3BlcmF0aW9uLWRvbWFpbi5pbyIsInRpbWVzdGFtcCI6MTY0MzA0MTE0MCwic2lnbmF0dXJlIjoiNkIxNXpYcHh4OHhQN3ZKaE9WakRoWlZ1VXZ2OXpMYnpvVExpZUdRN0wyYnpicGZjbVJXbkxSWWgrZGNCT3NBcWNBNWFSdThIRjFkcXRUcHYrMFRQWmc9PSJ9fV19LCJzZW5kZXIiOiJvcGVyYXRvci5wYWYtb3BlcmF0aW9uLWRvbWFpbi5pbyIsInJlY2VpdmVyIjoiYWR2ZXJ0aXNlci5jb20iLCJ0aW1lc3RhbXAiOjE2NDMwNDExNTAsInNpZ25hdHVyZSI6IjNSckE1cEFheEFyZVoyZXo1QkF6Z1pIL1o4dllUUkF6NHgxT3NpZlM1WjdNKzNaYXlpRTV5ZkxQWTdFaDVHZ21NQXVLUE9nWDEwaU9ibDhVT2I1emtnPT0ifX0%3D"
 }
 ```
 <!--partial-end-->
@@ -615,7 +615,7 @@ Host: operator.paf-operation-domain.io
 <!--partial-begin { "files": [ "redirectPostIdsPrefsRequest.http" ], "block": "http" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```http
-GET /v1/redirect/post-ids-prefs?paf=eyJyZXF1ZXN0Ijp7ImJvZHkiOnsiaWRlbnRpZmllcnMiOlt7InZlcnNpb24iOiIwLjEiLCJ0eXBlIjoicGFmX2Jyb3dzZXJfaWQiLCJ2YWx1ZSI6Ijc0MzUzMTNlLWNhZWUtNDg4OS04YWQ3LTBhY2QwMTE0YWUzYyIsInNvdXJjZSI6eyJkb21haW4iOiJvcGVyYXRvci5wYWYtb3BlcmF0aW9uLWRvbWFpbi5pbyIsInRpbWVzdGFtcCI6MTY0MjUwNDM4MCwic2lnbmF0dXJlIjoiYnN6RU9JSGRUZm1kUlpaelRGckZyWGlCODdwaUJreXNWWEJqdHg5dmlzb2lDZ3FtUjBBdktxaXljQVEwNDlWSWVaYThBcFFZMG5qSlV3SGJ5L1kxMGc9PSJ9fV0sInByZWZlcmVuY2VzIjp7InZlcnNpb24iOiIwLjEiLCJkYXRhIjp7InVzZV9icm93c2luZ19mb3JfcGVyc29uYWxpemF0aW9uIjp0cnVlfSwic291cmNlIjp7ImRvbWFpbiI6ImNtcC5jb20iLCJ0aW1lc3RhbXAiOjE2NDI1MDQ1NjAsInNpZ25hdHVyZSI6Ik9yNDFET0Q4T2F1M0hIeWdBaUZaempYTnZQbU14NmZPYXpjLzcyTHBtUEtNblRGZlpya3dQcENQSUdQWkt3Ri9XdWNQMU5PKy9hWDRMZlo2NWpsMlpBPT0ifX19LCJzZW5kZXIiOiJjbXAuY29tIiwicmVjZWl2ZXIiOiJvcGVyYXRvci5wYWYtb3BlcmF0aW9uLWRvbWFpbi5pbyIsInRpbWVzdGFtcCI6MTY0MzA5NzY2MCwic2lnbmF0dXJlIjoiQTQ5MStldzhDUDlZYzNHM0pDQ3FoSFlJUnBqNVdsWndBYVpGQ1BuWHRLRmg2bFJHTkN2WS84SlJld1ArQjV3dDcvZENNTTJ6SVRnRVUyZVJlRkw4Nmc9PSJ9LCJyZXR1cm5VcmwiOiJodHRwczovL2FkdmVydGlzZXIuY29tL25ld3MvMjAyMi8wMi8wNy9zb21ldGhpbmctY3JhenktaGFwcGVuZWQ%2FdXRtX2NvbnRlbnQ9Y2FtcGFpZ24rY29udGVudCZwYWY9ZXlKamIyUmxJam95TURBc0luSmxjM0J2Ym5ObElqcDdJbUp2WkhraU9uc2lhV1JsYm5ScFptbGxjbk1pT2x0N0luQmxjbk5wYzNSbFpDSTZabUZzYzJVc0luWmxjbk5wYjI0aU9pSXdMakVpTENKMGVYQmxJam9pY0dGbVgySnliM2R6WlhKZmFXUWlMQ0oyWVd4MVpTSTZJakpsTnpFeE1qRmhMVFJtWldJdE5HRXpOQzFpTjJReExUZ3pPVFU0TjJRek5qTTVNQ0lzSW5OdmRYSmpaU0k2ZXlKa2IyMWhhVzRpT2lKdmNHVnlZWFJ2Y2k1d1lXWXRiM0JsY21GMGFXOXVMV1J2YldGcGJpNXBieUlzSW5ScGJXVnpkR0Z0Y0NJNk1UWTBNekEwTVRFME1Dd2ljMmxuYm1GMGRYSmxJam9pYkdaMlJXdGpVUzlzZHl0aFJFRjVZMHhMZDJ4cVJEQXhRa3RrYW1aRFFXRXZWelpWZWpnMWVpOU1kVmhTUjJjMFREZDBUVXBoTDNCRmVsbEROVmQ0V2xOdFdUSnFWbk54UTA0dlNVWTJiWGR6T0dNeVkwRTlQU0o5ZlYxOUxDSnpaVzVrWlhJaU9pSnZjR1Z5WVhSdmNpNXdZV1l0YjNCbGNtRjBhVzl1TFdSdmJXRnBiaTVwYnlJc0luSmxZMlZwZG1WeUlqb2lZV1IyWlhKMGFYTmxjaTVqYjIwaUxDSjBhVzFsYzNSaGJYQWlPakUyTkRNd05ERXhOVEFzSW5OcFoyNWhkSFZ5WlNJNkltVmxZMkZIV1dOWlJtdFliV2RHWkdGRGQzcExMemt6ZW1GV2JtRk1RekJrV2tsRWMwTTBTV3RRTTFkMVlrdGtVMlpRTDNVMVZYTnlVRmxDYUVSbmREQlRWRU41UW01M1JqWmxSVGM1ZG5SNWFUSlZibGRCUFQwaWZYMCUzRCJ9
+GET /paf/v1/redirect/post-ids-prefs?paf=eyJyZXF1ZXN0Ijp7ImJvZHkiOnsiaWRlbnRpZmllcnMiOlt7InZlcnNpb24iOiIwLjEiLCJ0eXBlIjoicGFmX2Jyb3dzZXJfaWQiLCJ2YWx1ZSI6Ijc0MzUzMTNlLWNhZWUtNDg4OS04YWQ3LTBhY2QwMTE0YWUzYyIsInNvdXJjZSI6eyJkb21haW4iOiJvcGVyYXRvci5wYWYtb3BlcmF0aW9uLWRvbWFpbi5pbyIsInRpbWVzdGFtcCI6MTY0MjUwNDM4MCwic2lnbmF0dXJlIjoiQi9mT1p1bVFIenprUXRTalluekxPSUpBMkdRcG9QNWJXd3pGUUNNaVEvTWx2dTZpdEoxaGJSVkprcTgreUVsdTdOeE16b2pWTU5kcmMxbUQ3U0owU1E9PSJ9fV0sInByZWZlcmVuY2VzIjp7InZlcnNpb24iOiIwLjEiLCJkYXRhIjp7InVzZV9icm93c2luZ19mb3JfcGVyc29uYWxpemF0aW9uIjp0cnVlfSwic291cmNlIjp7ImRvbWFpbiI6ImNtcC5jb20iLCJ0aW1lc3RhbXAiOjE2NDI1MDQ1NjAsInNpZ25hdHVyZSI6IlFFLzdUcHhUNW5EWkgwVk8yV2NKTGRPMDlJQmdaMGd0VEtxdlFZMkNrOEFmeS9kaUdtRk43MVNWNktqa2RBSXRYSDNyQ005N29MTWV3VHlBY2N4cSt3PT0ifX19LCJzZW5kZXIiOiJjbXAuY29tIiwicmVjZWl2ZXIiOiJvcGVyYXRvci5wYWYtb3BlcmF0aW9uLWRvbWFpbi5pbyIsInRpbWVzdGFtcCI6MTY0MzA5NzY2MCwic2lnbmF0dXJlIjoidVZKamNEVDhYUk83Q3Q1UlhYSk1JUkcrektEYkN6SlBYY1F0c3R3QnBBbjB4dC94d0ZDU1pCVFpkcUtqS2FGM1drREpqL3lwWWVxQllGYjRhbWorYnc9PSJ9LCJyZXR1cm5VcmwiOiJodHRwczovL2FkdmVydGlzZXIuY29tL25ld3MvMjAyMi8wMi8wNy9zb21ldGhpbmctY3JhenktaGFwcGVuZWQ%2FdXRtX2NvbnRlbnQ9Y2FtcGFpZ24rY29udGVudCZwYWY9ZXlKamIyUmxJam95TURBc0luSmxjM0J2Ym5ObElqcDdJbUp2WkhraU9uc2lhV1JsYm5ScFptbGxjbk1pT2x0N0luQmxjbk5wYzNSbFpDSTZabUZzYzJVc0luWmxjbk5wYjI0aU9pSXdMakVpTENKMGVYQmxJam9pY0dGbVgySnliM2R6WlhKZmFXUWlMQ0oyWVd4MVpTSTZJakpsTnpFeE1qRmhMVFJtWldJdE5HRXpOQzFpTjJReExUZ3pPVFU0TjJRek5qTTVNQ0lzSW5OdmRYSmpaU0k2ZXlKa2IyMWhhVzRpT2lKdmNHVnlZWFJ2Y2k1d1lXWXRiM0JsY21GMGFXOXVMV1J2YldGcGJpNXBieUlzSW5ScGJXVnpkR0Z0Y0NJNk1UWTBNekEwTVRFME1Dd2ljMmxuYm1GMGRYSmxJam9pTmtJeE5YcFljSGg0T0hoUU4zWkthRTlXYWtSb1dsWjFWWFoyT1hwTVlucHZWRXhwWlVkUk4wd3lZbnBpY0daamJWSlhia3hTV1dnclpHTkNUM05CY1dOQk5XRlNkVGhJUmpGa2NYUlVjSFlyTUZSUVdtYzlQU0o5ZlYxOUxDSnpaVzVrWlhJaU9pSnZjR1Z5WVhSdmNpNXdZV1l0YjNCbGNtRjBhVzl1TFdSdmJXRnBiaTVwYnlJc0luSmxZMlZwZG1WeUlqb2lZV1IyWlhKMGFYTmxjaTVqYjIwaUxDSjBhVzFsYzNSaGJYQWlPakUyTkRNd05ERXhOVEFzSW5OcFoyNWhkSFZ5WlNJNklqTlNja0UxY0VGaGVFRnlaVm95WlhvMVFrRjZaMXBJTDFvNGRsbFVVa0Y2TkhneFQzTnBabE0xV2pkTkt6TmFZWGxwUlRWNVpreFFXVGRGYURWSFoyMU5RWFZMVUU5bldERXdhVTlpYkRoVlQySTFlbXRuUFQwaWZYMCUzRCJ9
 Host: operator.paf-operation-domain.io
 ```
 <!--partial-end-->
@@ -637,7 +637,7 @@ Host: operator.paf-operation-domain.io
           "source": {
             "domain": "operator.paf-operation-domain.io",
             "timestamp": 1642504380,
-            "signature": "bszEOIHdTfmdRZZzTFrFrXiB87piBkysVXBjtx9visoiCgqmR0AvKqiycAQ049VIeZa8ApQY0njJUwHby/Y10g=="
+            "signature": "B/fOZumQHzzkQtSjYnzLOIJA2GQpoP5bWwzFQCMiQ/Mlvu6itJ1hbRVJkq8+yElu7NxMzojVMNdrc1mD7SJ0SQ=="
           }
         }
       ],
@@ -649,14 +649,14 @@ Host: operator.paf-operation-domain.io
         "source": {
           "domain": "cmp.com",
           "timestamp": 1642504560,
-          "signature": "Or41DOD8Oau3HHygAiFZzjXNvPmMx6fOazc/72LpmPKMnTFfZrkwPpCPIGPZKwF/WucP1NO+/aX4LfZ65jl2ZA=="
+          "signature": "QE/7TpxT5nDZH0VO2WcJLdO09IBgZ0gtTKqvQY2Ck8Afy/diGmFN71SV6KjkdAItXH3rCM97oLMewTyAccxq+w=="
         }
       }
     },
     "sender": "operator.paf-operation-domain.io",
     "receiver": "cmp.com",
     "timestamp": 1643097663,
-    "signature": "o4I1BMvUkUATj5l3tFyTo5zF1HRF1Yhjh+KOg5G/SchLRZPBsMzRDewCTS7ynAblwUpWLFfHYvaawW87O0/aVA=="
+    "signature": "6eHCK6a+x0i8WTqC9kw9k028mOOONsIiQIfbQJqkqcHYiVHZpD/LH0Opw8oZTgIza/WZFPv7xb2Io3O0bKE7bA=="
   }
 }
 ```
@@ -667,7 +667,7 @@ Host: operator.paf-operation-domain.io
 <!--partial-begin { "files": [ "redirectPostIdsPrefsResponse.txt" ], "block": "" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```
-303 https://advertiser.com/news/2022/02/07/something-crazy-happened?utm_content=campaign+content&paf=eyJjb2RlIjoyMDAsInJlc3BvbnNlIjp7ImJvZHkiOnsiaWRlbnRpZmllcnMiOlt7InZlcnNpb24iOiIwLjEiLCJ0eXBlIjoicGFmX2Jyb3dzZXJfaWQiLCJ2YWx1ZSI6Ijc0MzUzMTNlLWNhZWUtNDg4OS04YWQ3LTBhY2QwMTE0YWUzYyIsInNvdXJjZSI6eyJkb21haW4iOiJvcGVyYXRvci5wYWYtb3BlcmF0aW9uLWRvbWFpbi5pbyIsInRpbWVzdGFtcCI6MTY0MjUwNDM4MCwic2lnbmF0dXJlIjoiYnN6RU9JSGRUZm1kUlpaelRGckZyWGlCODdwaUJreXNWWEJqdHg5dmlzb2lDZ3FtUjBBdktxaXljQVEwNDlWSWVaYThBcFFZMG5qSlV3SGJ5L1kxMGc9PSJ9fV0sInByZWZlcmVuY2VzIjp7InZlcnNpb24iOiIwLjEiLCJkYXRhIjp7InVzZV9icm93c2luZ19mb3JfcGVyc29uYWxpemF0aW9uIjp0cnVlfSwic291cmNlIjp7ImRvbWFpbiI6ImNtcC5jb20iLCJ0aW1lc3RhbXAiOjE2NDI1MDQ1NjAsInNpZ25hdHVyZSI6Ik9yNDFET0Q4T2F1M0hIeWdBaUZaempYTnZQbU14NmZPYXpjLzcyTHBtUEtNblRGZlpya3dQcENQSUdQWkt3Ri9XdWNQMU5PKy9hWDRMZlo2NWpsMlpBPT0ifX19LCJzZW5kZXIiOiJvcGVyYXRvci5wYWYtb3BlcmF0aW9uLWRvbWFpbi5pbyIsInJlY2VpdmVyIjoiY21wLmNvbSIsInRpbWVzdGFtcCI6MTY0MzA5NzY2Mywic2lnbmF0dXJlIjoibzRJMUJNdlVrVUFUajVsM3RGeVRvNXpGMUhSRjFZaGpoK0tPZzVHL1NjaExSWlBCc016UkRld0NUUzd5bkFibHdVcFdMRmZIWXZhYXdXODdPMC9hVkE9PSJ9fQ%3D%3D
+303 https://advertiser.com/news/2022/02/07/something-crazy-happened?utm_content=campaign+content&paf=eyJjb2RlIjoyMDAsInJlc3BvbnNlIjp7ImJvZHkiOnsiaWRlbnRpZmllcnMiOlt7InZlcnNpb24iOiIwLjEiLCJ0eXBlIjoicGFmX2Jyb3dzZXJfaWQiLCJ2YWx1ZSI6Ijc0MzUzMTNlLWNhZWUtNDg4OS04YWQ3LTBhY2QwMTE0YWUzYyIsInNvdXJjZSI6eyJkb21haW4iOiJvcGVyYXRvci5wYWYtb3BlcmF0aW9uLWRvbWFpbi5pbyIsInRpbWVzdGFtcCI6MTY0MjUwNDM4MCwic2lnbmF0dXJlIjoiQi9mT1p1bVFIenprUXRTalluekxPSUpBMkdRcG9QNWJXd3pGUUNNaVEvTWx2dTZpdEoxaGJSVkprcTgreUVsdTdOeE16b2pWTU5kcmMxbUQ3U0owU1E9PSJ9fV0sInByZWZlcmVuY2VzIjp7InZlcnNpb24iOiIwLjEiLCJkYXRhIjp7InVzZV9icm93c2luZ19mb3JfcGVyc29uYWxpemF0aW9uIjp0cnVlfSwic291cmNlIjp7ImRvbWFpbiI6ImNtcC5jb20iLCJ0aW1lc3RhbXAiOjE2NDI1MDQ1NjAsInNpZ25hdHVyZSI6IlFFLzdUcHhUNW5EWkgwVk8yV2NKTGRPMDlJQmdaMGd0VEtxdlFZMkNrOEFmeS9kaUdtRk43MVNWNktqa2RBSXRYSDNyQ005N29MTWV3VHlBY2N4cSt3PT0ifX19LCJzZW5kZXIiOiJvcGVyYXRvci5wYWYtb3BlcmF0aW9uLWRvbWFpbi5pbyIsInJlY2VpdmVyIjoiY21wLmNvbSIsInRpbWVzdGFtcCI6MTY0MzA5NzY2Mywic2lnbmF0dXJlIjoiNmVIQ0s2YSt4MGk4V1RxQzlrdzlrMDI4bU9PT05zSWlRSWZiUUpxa3FjSFlpVkhacEQvTEgwT3B3OG9aVGdJemEvV1pGUHY3eGIySW8zTzBiS0U3YkE9PSJ9fQ%3D%3D
 ```
 <!--partial-end-->
 
@@ -681,7 +681,7 @@ Host: operator.paf-operation-domain.io
   - this returned identifier has `persisted` property set to `false`
   - this is to avoid an extra call (and potentially, an extra "boomerang redirect")
 
-#### REST get new id: `GET /v1/new-id`
+#### REST get new id: `GET /paf/v1/new-id`
 
 | Message  | Format                                                |
 |----------|-------------------------------------------------------|
@@ -700,7 +700,7 @@ Host: operator.paf-operation-domain.io
   "sender": "cmp.com",
   "receiver": "operator.paf-operation-domain.io",
   "timestamp": 1646157840,
-  "signature": "SaCxgYkhEh9AEFuMuRXx8rolSWx+MEsePekQR+vzWnevA9bZgqk7rb/yXpjy8h/++jcR/RwZzy400segTcQ7Mg=="
+  "signature": "PytkXHxZjhvjourDVi+qZeDmGT0ZU5KJmEayFJPnaOXaXIlxN/v5hoUH/tLJ0xDvP3ROwuK0d2p0NxJir4g+bg=="
 }
 ```
 <!--partial-end-->
@@ -710,7 +710,7 @@ Host: operator.paf-operation-domain.io
 <!--partial-begin { "files": [ "getIdsPrefsRequest.http" ], "block": "http" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```http
-GET /v1/ids-prefs?paf=eyJzZW5kZXIiOiJjbXAuY29tIiwicmVjZWl2ZXIiOiJvcGVyYXRvci5wYWYtb3BlcmF0aW9uLWRvbWFpbi5pbyIsInRpbWVzdGFtcCI6MTY0MzA0MTE0MCwic2lnbmF0dXJlIjoidHZFanA3Rm94Nmp4a2d4Z1k5dGpUdXkzd0g1aW11Rmo2M1l1dWI0VXdlZWxZYnM4WHhuUDNuSzV3NDF1MTNQK2ZPcEVmRXFtSC9mQWdDOFdQWlloVVE9PSJ9
+GET /paf/v1/ids-prefs?paf=eyJzZW5kZXIiOiJjbXAuY29tIiwicmVjZWl2ZXIiOiJvcGVyYXRvci5wYWYtb3BlcmF0aW9uLWRvbWFpbi5pbyIsInRpbWVzdGFtcCI6MTY0MzA0MTE0MCwic2lnbmF0dXJlIjoidWJBSlRhUVltczVvTkRJbXpBQkRQTkxnR2E0VVh5clE2UFJZVElWQS96K1I2MmZ4U0Z3NEdlaGs4UmkxdVRNK0ZLWGxCKytWcXExL2RKdmpSYlNoNkE9PSJ9
 Host: operator.paf-operation-domain.io
 ```
 <!--partial-end-->
@@ -731,7 +731,7 @@ Host: operator.paf-operation-domain.io
         "source": {
           "domain": "operator.paf-operation-domain.io",
           "timestamp": 1643041140,
-          "signature": "lfvEkcQ/lw+aDAycLKwljD01BKdjfCAa/W6Uz85z/LuXRGg4L7tMJa/pEzYC5WxZSmY2jVsqCN/IF6mws8c2cA=="
+          "signature": "6B15zXpxx8xP7vJhOVjDhZVuUvv9zLbzoTLieGQ7L2bzbpfcmRWnLRYh+dcBOsAqcA5aRu8HF1dqtTpv+0TPZg=="
         }
       }
     ]
@@ -739,7 +739,7 @@ Host: operator.paf-operation-domain.io
   "sender": "operator.paf-operation-domain.io",
   "receiver": "cmp.com",
   "timestamp": 1646157887,
-  "signature": "4HLqlyCKsFlBoY2JY2hvRZdZxg+QBoSdF5R+tWIDJmdahn4LdfXim9dRHkVJ7tWcpGnl4PZXUJrSXyEkv0U5pw=="
+  "signature": "TuNtuRhk03QpdtNxjQrDC9FPRqZpoL9FU425eWui+YmSoQNW9lpMSfcDzxh49esmvbfEzIM04JOfsEPR8yt/wg=="
 }
 ```
 <!--partial-end-->
@@ -757,15 +757,15 @@ This endpoint doesn't rely on support of 3PC or not: the REST version will work 
 - **no** signature verification
 - if `paf_test_3pc` exists, return `true`. Otherwise, return `false`
 
-On a call to `GET /v1/ids-prefs`, when no cookie is found on PAF TLD+1 domain,
+On a call to `GET /paf/v1/ids-prefs`, when no cookie is found on PAF TLD+1 domain,
 the operator attempts to write a short-life `paf_test_3pc` cookie.
 
-This endpoint is **only** called immediately after a call to `GET /v1/ids-prefs` has failed, to
+This endpoint is **only** called immediately after a call to `GET /paf/v1/ids-prefs` has failed, to
 check if the `paf_test_3pc` cookie was indeed written by the web browser.
 
-See [website-design](./website-design.md) for the full picture.
+See [implementation details](./operator-client.md#implementation-details) for details.
 
-#### REST verify 3PC: `GET /v1/3pc`
+#### REST verify 3PC: `GET /paf/v1/3pc`
 
 | Message  | Format                                                             |
 |----------|--------------------------------------------------------------------|
@@ -780,7 +780,7 @@ See [website-design](./website-design.md) for the full picture.
 <!--partial-begin { "files": [ "get3pcRequest.http" ], "block": "http" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```http
-GET /v1/3pc
+GET /paf/v1/3pc
 Host: operator.paf-operation-domain.io
 ```
 <!--partial-end-->
@@ -819,7 +819,7 @@ This endpoint doesn't rely on support of 3PC or not: the REST version will work 
 
 - simply serve the list of public keys for the operator
 
-#### REST get identity: `GET /v1/identity`
+#### REST get identity: `GET /paf/v1/identity`
 
 | Message  | Format                                                                          |
 |----------|---------------------------------------------------------------------------------|
@@ -834,7 +834,7 @@ This endpoint doesn't rely on support of 3PC or not: the REST version will work 
 <!--partial-begin { "files": [ "getIdentityRequest_operator.http" ], "block": "http" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```http
-GET /v1/identity
+GET /paf/v1/identity
 Host: operator.paf-operation-domain.io
 ```
 <!--partial-end-->

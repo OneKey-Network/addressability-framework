@@ -3,7 +3,6 @@
   "$id": "redirect-post-ids-prefs-response",
   "title": "GET /v1/redirect/post-ids-prefs response",
   "additionalProperties": false,
-  "description": "",
   "properties": {
     "code": {
       "$ref": "response-code.json"

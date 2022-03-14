@@ -1,0 +1,20 @@
+{
+  "identifiers": [
+    {
+      "version": "0.1",
+      "type": "paf_browser_id",
+      "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
+      "source": {
+        "domain": "operator.paf-operation-domain.io",
+        "timestamp": 1642504380,
+        "signature": "B/fOZumQHzzkQtSjYnzLOIJA2GQpoP5bWwzFQCMiQ/Mlvu6itJ1hbRVJkq8+yElu7NxMzojVMNdrc1mD7SJ0SQ=="
+      }
+    }
+  ],
+  "unsignedPreferences": {
+    "version": "0.1",
+    "data": {
+      "use_browsing_for_personalization": true
+    }
+  }
+}
