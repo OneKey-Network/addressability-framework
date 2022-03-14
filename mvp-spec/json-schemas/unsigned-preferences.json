@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "unsigned-preferences",
+  "title": "Unsigned user preferences",
+  "description": "The current preferences of the user before they are signed",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "$ref": "version.json"
+    },
+    "data": {
+      "$ref": "preferences-data.json"
+    }
+  },
+  "required": [
+    "version",
+    "data"
+  ]
+}

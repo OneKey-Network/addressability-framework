@@ -1,8 +1,6 @@
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 
-# Identifiers and unsigned preferences
-
-A list of identifiers and a new (unsigned) value for preferences
+# POST /paf-proxy/v1/sign/prefs request
 
 <table>
 
@@ -14,12 +12,14 @@ A list of identifiers and a new (unsigned) value for preferences
 
 <tr>
 <td>
-unsignedPreferences<br>(<i>optional</i>)
+<b>unsignedPreferences</b>
 </td>
 <td>
 object
 </td>
 <td>
+
+The current preferences of the user before they are signed
 
 <details>
 <summary>Object details</summary>
@@ -121,7 +121,13 @@ array
 
 Type of **each element in the array**:
 
-A pseudonymous identifier generated for a web user
+Signature based on input **that depends on the identifiers**:
+
+```identifier.source.domain + '\u2063' + 
+identifier.source.timestamp + '\u2063' + 
+identifier.type + '\u2063'+
+identifier.value
+```
 
 <details>
 <summary>Object details</summary>
