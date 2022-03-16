@@ -2,7 +2,7 @@
 
 The Prebid Addressability Framework (PAF) is a set of technical standards, UX requirements, and mandatory contractual terms designed to improve addressable advertising across the open internet.
 
-This directory contains functional andPAF technical specifications for PAFa minimum viable product (MVP)
+This directory contains functional and technical specifications for a minimum viable product (MVP).
 
 ## Overview
 
