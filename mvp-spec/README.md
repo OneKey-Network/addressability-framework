@@ -1,4 +1,4 @@
-# Prebid Addressability Framework MVP specs
+# Prebid Addressability Framework
 
 This directory contains functional and technical specifications for PAF minimum viable product (MVP). 
 
