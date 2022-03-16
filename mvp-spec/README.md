@@ -12,28 +12,18 @@ flowchart LR
     O(PAF Operator)
     click O href "#operator" "Operator API"
     
-    Ad(Ad server)
-    click Ad href "#ad-server" "Ad server"
+    Participant("Participant website")
     
-    Advertiser("Advertiser website")
-    Advertiser --->|read user ids & preferences| O
-    click Advertiser href "#advertiser" "Advertiser"
+    Participant -->|read user ids & preferences| O
+    click Participant href "#publisher" "Participant"
     
-    Publisher("Publisher website")
-    
-    Publisher -->|read user ids & preferences| O
-    click Publisher href "#publisher" "Publisher"
-    
-    Publisher -.->|include| UI
-    Publisher -- start transaction --> SSP
-    Publisher -- get ad & audit logs --> Ad
-    
+    Participant -- start transaction --> SSP
     SSP -- send transmission --> DSP
+    DSP -- send transmission response --> SSP
+    SSP -- send transmission response --> Participant    
+
     click SSP href "#ssp-supply-side-platform" "SSP"
     click DSP href "#dsp-demand-side-platform" "DSP"
-    
-    UI("User Interface Provider") -->|write user preferences| O
-    click UI href "#user-interface-provider" "UI provider"
 ```
 
 PAF integrates in the existing digital marketing landscape and introduces a new actor: the "PAF operator".
@@ -45,7 +35,7 @@ The operator is responsible for:
 Key features of PAF include:
 
 - signing transmissions and request with private keys
-- making available an ad display audit log
+- making available alongside the ad an audit log of entities involved
 
 ## Documents
 
