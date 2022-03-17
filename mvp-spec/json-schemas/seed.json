@@ -12,9 +12,8 @@
             "$ref": "transaction_id.json"
         },
         "publisher": {
-            "type": "string",
+            "$ref": "domain.json",
             "description": "The domain name of the Publisher that displays the Addressable Content",
-            "format": "hostname",
             "examples": [
                 "publisher.com"
             ]
