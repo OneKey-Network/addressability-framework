@@ -370,6 +370,7 @@ of this new object in the "ext" object is "prebid_sso_transmissions".
 
 <details>
 <summary>OpenRTB Request Example</summary>
+
 <!--partial-begin { "files": [ "openrtb-request-with-transmissions.json" ], "block": "json" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```json
@@ -469,6 +470,7 @@ of this new object in the "ext" object is "prebid_sso_transmissions".
 
 <details>
 <summary>OpenRTB Request Example</summary>
+
 <!--partial-begin { "files": [ "openrtb-response-with-transmissions.json" ], "block": "json" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```json
