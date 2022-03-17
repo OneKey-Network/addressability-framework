@@ -172,7 +172,7 @@ The Contracting Party must expose an Identity endpoint. It gathers information f
 
 It is reachable at the following endpoint:
 ```
-GET https://<domain>/prebid/v1/identity
+GET https://<domain>/paf/v1/identity
 ```
 
 | Message  | Format|
@@ -185,7 +185,7 @@ GET https://<domain>/prebid/v1/identity
 
 Request:
 ```http
-GET /v1/identity
+GET /paf/v1/identity
 Host: my-dsp.io
 ```
 
