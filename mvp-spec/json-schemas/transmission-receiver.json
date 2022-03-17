@@ -1,8 +1,7 @@
 {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$ref": "domain.json",
     "description": "The domain name of the receiver of the Transmission.",
-    "type": "string",
-    "format": "hostname",
     "examples": [
         "receiver.com"
     ]
