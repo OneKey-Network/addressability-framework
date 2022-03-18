@@ -4,119 +4,96 @@ DSPs can implement Prebid Addressability Framework and shares Prebid Addressabil
 accordingly to the Model Terms. This document describes the technical
 requirements for it.
 
-## General note about formats
+## Principles
 
-The described API use timestamps based on 1970 (UNIX epoch time).
+### Overview
 
-## General note about signature
-
-For details on how to calculate or verify signatures, see [signatures.md](signatures.md).
-
-# Overview
-
-To implement PAF, the DSP must:
-1. expose a new *Identity endpoint*  
-2. extend its existing API for handing Transmissions of Prebid Addressability Framework Data. 
-
-
-# The Identity endpoint
-
-
-To be part of the PAF network, a DSP must expose an Identity Endpoint
-for providing:
-* The name of the DSP;
-* The PAF version that it handles;
-* The public key used to verify its signatures of Prebid Addressability Framework Data and
-  transmissions.
-
-It is reachable at the following endpoint:
-
-```
-GET https://<domain>/prebidsso/API/v1/identity
-```
-
-## Identity object
-
-It provides the following data as JSON:
-
-<!--partial-begin { "files": [ "identity-table.md" ] } -->
-<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
-| Field                    | Type                 | Details                    |
-|--------------------------|----------------------|----------------------------|
-| name                     | String               | The name of the Contracting Party since the domain may not reflect the Company name.<br /> e.g "Criteo"                                                                                                                    |
-| type                     | String               | The type of Contracting Party in the PAF ecosystem. For now, the type for a DSP is "vendor"
-| version                  | Number               | A two-digit number separated by a point for expressing the last PAF version handled.<br /> For now, the value is "0.1"<br /> Note: a new field may appear with the new versions of the PAF for the last supported version. |
-| keys                     | Array of Key objects | Public keys for verifying the signatures of the DSP. Those public keys are strings associated with a timeframe for handling key rotation.|
-<!--partial-end-->
-
-
-All signatures shared across the network must be verifiable. Therefore, each
-signature must have an associable key available in the Identity Endpoint. It is
-possible to have overlaps between the key timeframes for handing properly the
-rotations. 
-
-### Key object
-
-| Field | Type    | Details                                                                   |
-|-------|---------|---------------------------------------------------------------------------|
-| key   | String  | Public key for verifying the signature. Encoded in a UTF-8 String.        |
-| start | Integer | Timestamp when the Contracting Party started to use this key for signing. |
-| end   | Integer | Timestamp when the Contracting Party stopped using this key for signing.  |
-
-
-### Example of an Identity response
-
-```json
-{
-    "name": "Criteo",
-    "type": "vendor",
-    "version": 0.1,
-    "keys": [
-        { 
-            "key": "04f3b7ec9095779b119cc6d30a21a6a3920c5e710d13ea8438727b7fd5cca47d048f020539d24e74b049a418ac68c03ea75c66982eef7fdc60d8fb2c7707df3dcd",
-            "start": 1639500000,
-            "end": 1639510000
-        },
-        { 
-            "key": "044782dd8b7a6b8affa0f6cd94ede3682e85307224064f39db20e8f49b5f415d83fef66f3818ee549b04e443efa63c2d7f1fe9a631dc05c9f51ad98139b202f9f3",
-            "start": 1639510000,
-            "end":  1639520000
-        }
-    ]
-}
-```
-
-## Transaction and Transmission Overview
-
-### Definitions
-
-A **Transaction** is the sending of PAF Data from the Root Party 
+A **Transaction** is the act of sending PAF Data from the Root Party 
 through the PAF ecosystem by consecutive Transmissions.
 
-A **Transmission** is the act of sharing Prebid SSO Data (Pseudonymous-Identifiers
-and Preferences) between two Contracting Parties of PAF: the Sender and
+A **Transmission** is the act of sharing PAF Data (Pseudonymous-Identifiers
+and Preferences) between two Contracting Parties: the Sender and
 the Receiver. Transactions are chainable.
 
-The **Sender** sends a **Transmission Request** and the **Receiver** sends back 
-a **Transaction Response** which is composed of **Transmission Results**.
+The **Transmission Protocol** is the communication protocol between the **Sender**
+and the **Receiver**:
+1. The **Sender** sends one or many **Transmission Request** in a communication
+1. The **Receiver** sends back one or many **Transaction Response**
 
 ```mermaid
 flowchart LR
     S[Sender]
     R[Receiver]
 
-    S --Transmission Request--> R
-    R --Transmission Response--> S
+    S -- Transmission Request --> R
+    R -- Transmission Response --> S
 ```
 
-At the end of a Transmission, the Sender sets a **Transmission Result**. Either
-by using the Transmission Response if it fits. Or by generating it with a
-status error. The Transmission Results are described in detail in a further
-section.
+The **Transmission Protocol** includes **Transmission Results** both in the Request
+and the Response. The **Transmission Result** gathers all the data necessary for
+auditing a **Transmission**. The **Transmission Protocol** is designed in a way that 
+all parties that participate in the Addressable Content have all the necessary
+**Transmission Results** for auditing the **Transaction**. 
 
-Here is a workflow that highlights that a Contracting Party can send
-many Transmission Requests and then get many Transmission Responses.
+### Transmission Request
 
+A **Transmission Request** is always sent aside from PAF Data. It is signed so that
+we can trust that it comes from the actual **Sender**. It is associated with 
+a **Transaction** via a **Seed**.
+
+A **Seed** is data generated by the publisher or one of its direct third parties. 
+It gathers the identity of the publisher and a **Transaction Id**. The Seed is signed
+by the actor that generated it so that it can be verified.
+
+A **Transmission Request** contains **Transmission Results** so that
+the **Receiver** knows all the *in progress* Transmissions that lead to the current one.
+Those **Transmission Results** are named the **parents** of the Transmission.
+
+### Transmission Response
+
+A **Transmission Request** is mandatory only if the Receiver uses the PAF Data to participate
+to the **Addressable Content** of the **Transmission**.
+
+A **Transmission Response** is associated to a **Transmission Response** through the 
+**Transaction Id** of its **Seed**.
+
+A **Sender** must send its own *Transmission Requests* as a Receiver and receive responses
+(or acknowledgments) before sending back its own **Transmission Response**. 
+The **Transmission Response** includes all the **Transmission Results** of those transmissions
+so that the Sender knows all the Transmissions that occurred after its **Transmission Request**.
+Those **Transmission Results** are named the **children** of the Transmission.
+
+### Identity endpoint
+
+All signatures shared across the network must be verifiable. Each digital signature is associated to:
+* The domain name of the signer
+* The timestamp of the signature
+
+Thanks to those data, any party can call the **Identity Endpoint** of the signer for fetching its public keys
+and verifying its signatures. The Identity Endpoint must have Therefore, each signature must have an associable 
+key available in the Identity Endpoint. It is possible to have overlaps between the key timeframes for handing
+the rotations. 
+
+### Digital signature and Audit Log
+
+For details on how to calculate or verify signatures, see [signatures.md](signatures.md).
+
+The Audit Log of a **Transaction** is the audit of all its **Transmissions** and their associated
+**PAF Data**. The audit is accomplished thanks to the digital signatures of the Transmissions, the
+Seed and the Data.
+
+Every entity in possession of the Audit Log can audit by:
+1. Fetching the public keys of the Contracting Parties that participate in the Transaction.
+1. Build the strings that help to generate the signatures thanks to the data of the Audit Log.
+1. Verifying all the signatures of the Audit Log thanks to the public keys.
+
+⚠️ It is required to verify those signatures in the scope of the MVP only when the audit 
+is asked by the user to the Publisher. The verification of the signatures isn't required
+during the Transmissions.
+
+### Workflow
+
+Here is a nominal workflow where the Transmission Protocol is integrated for sharing PAF Data.
 
 ```mermaid
 sequenceDiagram
@@ -132,17 +109,10 @@ sequenceDiagram
     Publisher->>User: Display the Addressable Content<br />with an Audit button
 ```
 
-At the end of a Transmission, the Sender sets a **Transmission Result**. Either
-by using the Transmission Response if it fits. Or by generating it with a
-status error. The Transmission Results are described in detail in a further
-section.
 <!--partial-begin { "files": [ "transmissions-diagrams-and-details.md" ] } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
-Here is a workflow with detailed steps that explains how 
-Transmissions Request contain **parents** and Transmission Responses contains
-**children** (here, we loan the terminology of the Tree data structure). 
-**children** and **parents** are Transmission Results and they are helpful for
-the Publisher and the DSP for generating the Audit Log of an Addressable Content.
+Here is a workflow with detailed steps  how Transmission Requests contain
+ **parents** and Transmission Responses contains **children**. 
 
 ```mermaid
 sequenceDiagram
@@ -160,17 +130,17 @@ sequenceDiagram
 The detailed steps of the diagram above:
 
 1. The Publisher generates the Seed.
-2. The Publisher sends the Transmission Request 1 to SSP1. The "parents" field of the Transmission Request is empty.
-3. The SSP1 receives the Transmission Request 1 and generates the Transmission Result 1.
+2. The Publisher sends Transmission Request 1 to SSP1. The "parents" field of the Transmission Request is empty.
+3. The SSP1 receives Transmission Request 1 and generates Transmission Result 1.
 4. The SSP1 sends the Transmission Request 2 to SSP2. The "parents" contains the Transmission Result 1.
-5. The SSP2 receives the Transmission Request 2 and generates the Transmission Result 2.
-6. The SSP2 sends the Transmission Request 3 to the DSP. The "parents" contain the Transmission Result 1 and the Transmission Result 2.
-7. The DSP receives the Transmission Request 3 and generates a Transmission Result 3.
+5. The SSP2 receives Transmission Request 2 and generates Transmission Result 2.
+6. The SSP2 sends the Transmission Request 3 to the DSP. The "parents" contain Transmission Result 1 and Transmission Result 2.
+7. The DSP receives Transmission Request 3 and generates a Transmission Result 3.
 8. The DSP returns a Transmission Response 3 to the Transmission Request 3 (SSP2). It includes the Transmission Result 3. The 'children" field is empty.
 8. The SSP2 receives the Transmission Response 3.
 10. The SSP2 returns a Transmission Response 2 to Transmission Request 2 (SSP1). It contains the Transmission Result 2. The "children" field includes the Transmission Result 3.
 11. The SSP1 receives the Transmission Response 2.
-12. The SSP1 returns a Transmission Response 1 to Transmission Request 3 (Publisher). It contains the Transmission Result 1. The "children" field includes the Transmission Result 2 and the Transmission Result 3.
+12. The SSP1 returns a Transmission Response 1 to Transmission Request 3 (Publisher). It contains Transmission Result 1. The "children" field includes Transmission Result 2 and Transmission Result 3.
 13. The Publisher shows the Addressable Content via the DSP and the Audit Log is available.
 <!--partial-end-->
 
@@ -181,12 +151,12 @@ purposes and POST requests for server-to-server communications for accommodating
 a greater payload than GET. However, since PAF can be integrated as
 a sub-component, its design doesn't rely on the HTTP status. Therefore, the
 error handling would be described in the API details. Other transport protocols
-are fine in the case of an integration to existing solutions, as far as it
+are fine in the case of integration to existing solutions, as far as it
 provides the same level of security as HTTPS.
 
 ### Formats
 
-Prebid SSO Data is associated with an Addressable Content (an ad) of an
+PAF Data is associated with an Addressable Content (an ad) of an
 existing ecosystem. Thus, it is, in most cases, a sub-component of existing
 communication protocols like OpenRTB. This document introduces API contracts
 with field names and types for this data. It is followed each time by a
@@ -196,138 +166,62 @@ are subject to adaptation to the context. For instance, if the
 Transmissions are integrated into an OpenRTB implementation in Protobuf, then it
 is possible to use Protobuf for the format of the Transmissions.
 
-## Transmission protocol
+## The Identity endpoint
 
-In a case of an ad-hoc communication between two Contracting Parties, the
-transmission protocol can be used coupled with the Prebid SSO Data. 
+The Contracting Party must expose an Identity endpoint. It gathers information for verifying the identity and the transmissions that it signed.
 
-It is important to consider that ad-hoc communication can contain multiple
-Transactions (one for each placement of a webpage). Therefore, to avoid the
-duplication of the Prebid SSO Data in the communication it is aside of the
-Transmission Request (and not inside it).
-
-### Transmission Request with Prebid SSO Data
-
-Since it is mandatory to share Prebid SSO Data with one Transmission Request per
-Transaction (between two Contracting Parties), here is an example of a 
-structure for an ad-hoc communication:
-
-<!--partial-begin { "files": [ "transmission-request-wrapper-table.md" ] } -->
-<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
-| Field                  | Type                                     | Details  |
-|------------------------|------------------------------------------|----------|
-| data                   | Prebid SSO Data object                   | The Pseudonymous-Identifiers and the Preferences |
-| transmissions          | Array of Transmission Request objects    | The list of Transmission Request, one per Transaction and Addressable Content.|
-<!--partial-end-->
-
-#### The Prebid SSO Object
-
-The Prebid SSO object contains the Pseudonymous-Identifier and the Preferences:
-<!--partial-begin { "files": [ "data-id-and-preferences-table.md" ] } -->
-<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
-| Field                  | Type                                     | Details  |
-|------------------------|------------------------------------------|----------|
-| preferences            | Preferences object                       | The Preferences of the user.|
-| identifiers            | Array of Pseudonymous-Identifier objects | The Pseudonymous-Identifiers of the user. For now, it only contains a Prebid ID.|
-<!--partial-end-->
-
-#### The Preferences object
-
-<!--partial-begin { "files": [ "preferences-table.md" ] } -->
-<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
-| Field   | Type                   | Details                                   |
-|---------|------------------------|-------------------------------------------|
-| version | Number                 | The Prebid SSO version used.     |
-| data    | Dictionary             | The keys are strings and represent the name of the preferences. <br /> The values represent the value of the preference. <br /> For now there is only one preference named "optin" and its value is a boolean.|
-| source  | Source object          | The source contains the data for identifying and trusting the CMP that signed lastly the Preferences.<br /> <table><tr><th>Field</th><th>Type</th><th>Details</th></tr><tr><td>domain</td><td>String</td><td>The domain of the CMP.</td></tr><tr><td>timestamp</td><td>Integer</td><td>The timestamp of the signature.</td></tr><tr><td>signature</td><td>String</td><td>Encoded signature in UTF-8 of the CMP.</td></tr></table>|
-<!--partial-end-->
-
-#### The Identifier object
-
-<!--partial-begin { "files": [ "identifier-table.md" ] } -->
-<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
-| Field   | Type          | Details                                            |
-|---------|---------------|----------------------------------------------------|
-| version | Number        | The version of PAF used.                                                                       |
-| type    | String        | The type of Pseudonymous-Identifier. For now, there is only one: "prebid_id".                                                    |
-| value   | String        | The Pseudonymous-Identifier value in UTF-8.                                                                                      |
-| source  | Source object | The Source contains all the data for identifying and trusting the Operator that generated the Pseudonymous-Identifier. <br /> <table><tr><th>Field</th><th>Type</th><th>Details</th></tr><tr><td>domain</td><td>String</td><td>The domain of the Operator.</td></tr><tr><td>timestamp</td><td>Integer</td><td>The timestamp of the signature.</td></tr><tr><td>signature</td><td>String</td><td>Encoded signature in UTF-8 of the Operator.</td></tr></table>|
-<!--partial-end-->
-
-#### The Transmission Request object
-
-The transmission Request object must follow strictly this structure:
-<!--partial-begin { "files": [ "transmission-request-table.md" ] } -->
-<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
-| Field  | Type                            | Details                           |
-|--------|---------------------------------|-----------------------------------|
-| version| Number                          | The PAF version used.               |
-| seed   | Seed object                     | A Seed object contains all the Prebid SSO Data gathered and signed by the Publisher concerning the user. |
-| parents| Array of Transmission Results   | A list of Transmission Results that participate to a chain of Transmissions and make this Transmission possible. |  
-| source | Source object                   | The source object contains data for identifying the Sender of the Transmission.<br /><table><tr><th>Field</th><th>Type</th><th>Details</th></tr><tr><td>domain</td><td>String</td><td>The domain of the Sender.</td></tr><tr><td>timestamp</td><td>Integer</td><td>The timestamp of the signature.</td></tr><tr><td>signature</td><td>String</td><td>Encoded signature in UTF-8 of the Tranmission sender.</td></tr></table>|
-<!--partial-end-->
-
-#### The Seed object
-
-<!--partial-begin { "files": [ "seed-optimized-table.md" ] } -->
-<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
-| Field                  | Type                                     | Details  |
-|------------------------|------------------------------------------|----------|
-| version                | Number                                   | The PAF version used.|
-| transaction_id         | String                                   | A GUID in a String format dedicated to the share of the Prebid SSO data for one Addressable Content.|
-| publisher              | String                                   | The domain name of the Publisher that displays the Addressable Content|
-| source                 | Source object                            | The source contains data for identifying and trusting the Publisher.<br /><table><tr><th>Field</th><th>Type</th><th>Details</th></tr><tr><td>domain</td><td>String</td><td>The domain of the Root Party (Publisher in most of the cases).</td></tr><tr><td>timestamp</td><td>Integer</td><td>The timestamp of the signature.</td></tr><tr><td>signature</td><td>String</td><td>Encoded signature in UTF-8 of the Root Party/Publisher.</td></tr></table>|
-<!--partial-end-->
-
-#### The Transmission Result object
-
-<!--partial-begin { "files": [ "transmission-result-table.md" ] } -->
-<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
-| Field           | Type                          | Details                           |
-|-----------------|-------------------------------|-----------------------------------|
-| version         | Number                        | The version of the PAF used.                                                                                                                                                                                                                               |
-| receiver        | String                        | The domain name of the DSP.                                                                                                                                                                                                                                                                                |
-| status          | String                        | Equals "success" if the DSP signed the Transmission and returns it to the sender.<br /> Equals "error_bad_request" if the receiver doesn't understand or see inconsistency in the Transmission Request.<br /> Equals "error_cannot_process" if the receiver failed to use the data of the Transmission Request properly. |
-| details         | String                        | In case of an error status, the DSP can provide details concerning the error.                                                                                                                                                                                                                              |
-| source          | Source object                 | The source contains all the data for identifying the DSP and verifying the Transmission.                                                                                                                                                                                                                   |
-<!--partial-end-->
-
-#### Signatures
-
-Note that the signature of the `source` in the Transmission Request is 
-generated with the following string:
-
-<!--partial-begin { "files": [ "transmission-request-signature-string.txt" ], "block": "" } -->
-<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
+It is reachable at the following endpoint:
 ```
-transmission_request_receiver_domain        + '\u2063' +
-transmission_request.source.domain          + '\u2063' + 
-transmission_request.source.timestamp       + '\u2063' + 
-seed.source.signature
+GET https://<domain>/paf/v1/identity
 ```
-<!--partial-end-->
 
-The signatures of the `source`s in the Transmission Results are generated with
-the following string:
+| Message  | Format|
+|----------|-------|
+| Request  | [get-identity-request.md](./model/get-identity-request.md)  |
+| Response | [get-identity-response.md](./model/get-identity-response.md)|
 
-<!--partial-begin { "files": [ "transmission-result-signature-string.txt" ], "block": "" } -->
-<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
+<details>
+<summary>Identity Response Example</summary>
+
+Request:
+```http
+GET /paf/v1/identity
+Host: my-dsp.io
 ```
-transmission_result.receiver                + '\u2063' +
-transmission_result.status                  + '\u2063' 
-transmission_result.source.domain           + '\u2063' + 
-transmission_result.source.timestamp        + '\u2063' + 
-seed.source.signature      // -> The Seed associated to the given Transaction Result
+
+Response:
+```json
+{
+  "name": "My DSP",
+  "keys": [
+    {
+      "key": "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEEiZIRhGxNdfG4l6LuY2Qfjyf60R0\njmcW7W3x9wvlX4YXqJUQKR2c0lveqVDj4hwO0kTZDuNRUhgxk4irwV3fzw==\n-----END PUBLIC KEY-----",
+      "start": 1641034200,
+      "end": 1646132400
+    }
+  ],
+  "type": "vendor",
+  "version": "0.1"
+}
 ```
-<!--partial-end-->
+</details>
 
-⚠️ **It is not required to verify those signatures in the scope of the MVP.**
-The details of those signatures are here just for the understanding purpose.
+## Standalone implementation of the Transmissions protocol
 
-#### Example of a Transmission Request
+If the Sender and the Receiver want to integrate the Transmissions in an existing
+communication, they must integrate the Standalone version in of the Transmission Protocol
+in their existing models. 
 
+| Message                          | Format|
+|----------------------------------|-------|
+| Standalone Transmission Request  | [transmission-requests-standalone.md](./model/transmission-requests-standalone.md)  |
+| Standalone Transmission Response | [transmission-responses-standalone.md](./model/transmission-responses-standalone.md) |
+
+<details>
+<summary>Transmission Request Example</summary>
 <!--partial-begin { "files": [ "transmission-requests.json" ], "block": "json" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
+
 ```json
 {
     "data": {
@@ -398,61 +292,15 @@ The details of those signatures are here just for the understanding purpose.
 }
 ```
 <!--partial-end-->
+</details>
 
+<details>
 
-### Transmission Responses
-
-The response of the ad-hoc communication contains zero to many 
-Transmission Responses. It is required to provide a Transmission Response on
-a Transaction only when the Receiver of the Transmission expects to supply 
-the Addressable Content for a given Transmission.
-
-Concretely, if a DSP bids for a placement with Prebid SSO Data, it must provide
-a Transmission Response for it. If a DSP bids without it, the bid will be 
-dismissed.
-
-The Transmission Response contains the signature of the DSP. Considering that, 
-in a nominal case, the DSP doesn't share the Prebid SSO Data with other
-suppliers, it shouldn't take care of the "children" Transmission Results.
-
-#### Transmission object
-
-<!--partial-begin { "files": [ "transmission-response-table.md" ] } -->
-<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
-| Field           | Type                          | Details                           |
-|-----------------|-------------------------------|-----------------------------------|
-| version         | Number                        | The version of the PAF used.                                                                                                                                                                                                                               |
-| transaction_id  | String                        | A GUID dedicated to the Addressable Content. It allows associating the Transmission Responses to Transmission Request                                                                                                                     |
-| receiver        | String                        | The domain name of the DSP.                                                                                                                                                                                                                                                                                |
-| status          | String                        | Equals "success" if the DSP signed the Transmission and returns it to the sender.<br /> Equals "error_bad_request" if the receiver doesn't understand or see inconsistency in the Transmission Request.<br /> Equals "error_cannot_process" if the receiver cannot handle the Transmission Request properly. |
-| details         | String                        | In case of an error status, the DSP can provide details concerning the error.                                                                                                                                                                                                                              |
-| children        | Array of Transmission Results | An empty array as we consider that the DSP doesn't share the Prebid SSO Data to its suppliers via new transmissions.                                                                                                                                                                                       |
-| source          | Source object                 | The source contains all the data for identifying the DSP and verifying the Transmission.                                                                                                                                                                                                                   |
-<!--partial-end-->
-
-#### Signing the Transmission Object
-
-A Transmission Response must be signed by the DSP.
-
-The signature input is calculated as follows:
-
-To build the UTF-8 string, the DSP must generate a string as followed:
-
-<!--partial-begin { "files": [ "transmission-response-signature-string.txt" ], "block": "" } -->
-<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
-```
-transmission_response.receiver                + '\u2063' +
-transmission_response.status                  + '\u2063' 
-transmission_response.source.domain           + '\u2063' + 
-transmission_response.source.timestamp        + '\u2063' + 
-seed.source.signature      // -> The Seed associated to the given Transaction Result
-```
-<!--partial-end-->
-
-#### Example of a Transmission Response
+<summary>Transmission Response Example</summary>
 
 <!--partial-begin { "files": [ "transmission-response-with-children.json" ], "block": "json" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
+
 ```json
 {
     "version": 0,
@@ -490,14 +338,13 @@ seed.source.signature      // -> The Seed associated to the given Transaction Re
 }
 ```
 <!--partial-end-->
+</details>
 
-## Transmissions in OpenRTB
+## OpenRTB implementation of the Transmissions protocol
 
 OpenRTB is a standardized format for bidding on inventory. It is widely used in
 the industry and PAF Transmission can be integrated into it. For this
 purpose, PAF uses the "extensions" of OpenRTB requests and responses.
-
-### Many Transmission Requests in one OpenRTB Bid Request
 
 There is one transmission between two Contracting Parties for one ad and one
 OpenRTB bid request can contain multiple ads - named "impression" in OpenRTB
@@ -506,7 +353,23 @@ Requests. Those Transmissions are added in the "ext" object of each "imp" (for
 impression) object of the Bid Request. This new object dedicated to the 
 Transmission is named "prebid_sso".
 
-##### Example of Transmission Requests in an OpenRTB Bid Request
+Similar to the OpenRTB Bid Request for the Transmission Requests, the OpenRTB
+Bid Response can contain multiple Transmission Responses - one for each
+bid. The Bid Response contains only Transmission Responses for impressions that
+the DSP bids on. The rationale is that if the DSP doesn't expect to provide an 
+Addressable Content, won't appear in the Audit Log, and thus its Transmission
+Response isn't useful.
+
+To provide a concrete example, the OpenRTB specifications allow providing 
+an empty payload for a "No Bid". Because there is no bid, there is also no
+Transmission Response and it is an acceptable scenario.
+
+Each Transmission Request must be expressed in the "ext" object of the root 
+Bid Response paired with the impression ids provided in the request. The name 
+of this new object in the "ext" object is "prebid_sso_transmissions".
+
+<details>
+<summary>OpenRTB Request Example</summary>
 
 <!--partial-begin { "files": [ "openrtb-request-with-transmissions.json" ], "block": "json" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
@@ -603,26 +466,10 @@ Transmission is named "prebid_sso".
 }
 ```
 <!--partial-end-->
+</details>
 
-### Many Transmission Responses in one OpenRTB Bid Response
-
-Similar to the OpenRTB Bid Request for the Transmission Requests, the OpenRTB
-Bid Response can contain multiple Transmission Responses - one for each
-bid. The Bid Response contains only Transmission Responses for impressions that
-the DSP bids on. The rational is that if the DSP doesn't expect to provide an 
-Addressable Content, it won't appear in the Audit Log and thus its Transmission
-Response isn't useful.
-
-To provide a concrete example, the OpenRTB specifications allow providing 
-an empty payload for a "No Bid". Because there is no bid, there is also no
-Transmission Response and it is an acceptable scenario.
-
-Each Transmission Request must be expressed in the "ext" object of the root 
-Bid Response paired with the impression ids provided in the request. The name 
-of this new object in the "ext" object is "prebid_sso_transmissions".
-
-
-##### Example of a Transmission Response in an OpenRTB Bid Response
+<details>
+<summary>OpenRTB Request Example</summary>
 
 <!--partial-begin { "files": [ "openrtb-response-with-transmissions.json" ], "block": "json" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
@@ -666,4 +513,4 @@ of this new object in the "ext" object is "prebid_sso_transmissions".
 }
 ```
 <!--partial-end-->
-
+</details>
