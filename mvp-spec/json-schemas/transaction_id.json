@@ -1,0 +1,11 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "title": "Transaction Id",
+    "description": "A Generated Unique Identifier dedicated to a placement and an Addressable Content",
+    "$id": "transaction_id",
+    "type": "string",
+    "format": "GUID",
+    "examples": [
+        "b0cffcd0-177e-46d5-8bcd-32ed52a414dc"
+    ]
+}

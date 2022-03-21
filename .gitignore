@@ -3,3 +3,4 @@
 mvp-spec/partials-updater/dist/
 mvp-spec/partials-updater/node_modules/
 .DS_Store
+tmp-schemas

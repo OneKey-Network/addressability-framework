@@ -12,5 +12,7 @@ generate-schema-doc \
   --config show_array_restrictions=false \
   --config badge_as_image=true \
   --config show_heading_numbers=false \
-  "../json-schemas" \
+  "../json-schemas/" \
   "../model/"
+
+rm -Rf ${TMP_DIR};
