@@ -68,18 +68,15 @@
                         },
                         "seed": {
                             "version": 0,
-                            "seed": {
-                                "version": 0,
-                                "transaction_id": "a0651946-0f5b-482b-8cfc-eab3644d2743",
-                                "publisher": "publisher.com",
-                                "source": {
-                                    "domain": "publisher0.com",
-                                    "timestamp": 1639589531,
-                                    "signature": "12345_signature"
-                                }
-                            },
-                            "parents": []
-                        }
+                            "transaction_id": "a0651946-0f5b-482b-8cfc-eab3644d2743",
+                            "publisher": "publisher.com",
+                            "source": {
+                                "domain": "publisher0.com",
+                                "timestamp": 1639589531,
+                                "signature": "12345_signature"
+                            }
+                        },
+                        "parents": []
                     }
                 }
             ]

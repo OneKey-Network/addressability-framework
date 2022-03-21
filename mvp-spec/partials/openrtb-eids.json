@@ -28,8 +28,12 @@
               "timestamp": 1639589531,
               "signature": "12345_signature"
             }
-          },
-          "transmissions": [
+          }
+        }
+      }
+    ],
+    "paf": {
+        "transmissions": [
             {
               "version": 0,
               "seed": {
@@ -43,8 +47,6 @@
                 }
               }
             }
-          ]
-        }
-      }
-    ]
+        ]
+    }
   }

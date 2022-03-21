@@ -20,6 +20,7 @@ This design can be changed to use multiple seeds if desired, and will be covered
 
 The Prebid.js solution should offer the following:
 * Addition of a PAF userId submodule to Prebid.js
+* Addition of a PAF RTD submodule to Prebid.js
 * Expose PAF Data, Permissions, and Seed to adapters
 * Collect PAF signatures for the purpose of audit log construction
 
@@ -63,7 +64,7 @@ the relationships between them:
 * A Publisher offers *multiple* placements - one for each for 
 Addressable Contents - via Prebid.js.
 * A Publisher Server generates a Seed for each PAF Data transaction
-* Prebid.js sends a Request for opportunites and *one* Transaction Request
+* Prebid.js sends a Request for opportunites and 1 or more Transaction Requests
 * A Supplier generates and sends *one* Transaction Response per Impression Opportunity
 
 
@@ -72,11 +73,10 @@ Addressable Contents - via Prebid.js.
 Prebid.js already offers identity submodules and a PAF sub module will be added.
 This module will be very straight-forward and will simply fetch the PAF data from the
 window using the [PAF frontend](https://github.com/criteo/paf-mvp-implementation/tree/main/paf-mvp-frontend). The module will call
-`PAF.getIdsAndPreferences()` to get the PAF Data. It will next call `PAF.generateSeeds(1)`
-to retrieve a transmission seed. These data will be combined and offered to all
-configured bidders in the transmission request format:
+`PAF.getIdsAndPreferences()` to get the PAF Data. These data will be offered to all
+configured bidders in the format:
 
-<!--partial-begin { "files": [ "transmission-requests.json" ], "block": "json" } -->
+<!--partial-begin { "files": [ "prebid-userid-request.json" ], "block": "json" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```json
 {
@@ -104,61 +104,119 @@ configured bidders in the transmission request format:
                 "signature": "12345_signature"
             }
         }
-    },
-    "transmissions": [
-        {
-            "version": 0,
-            "seed": {
-                "version": 0,
-                "transaction_id": "a0651946-0f5b-482b-8cfc-eab3644d2743",
-                "publisher": "publisher.com",
-                "source": {
-                    "domain": "publisher.com",
-                    "timestamp": 1639582000,
-                    "signature": "12345_signature"
-                }
-            },
-            "source": {
-                "domain": "dsp1.com",
-                "timestamp": 1639581000,
-                "signature": "12345_signature"
-            },
-            "parents": []
-        },
-        {
-            "version": 0,
-            "seed": {
-                "version": 0,
-                "transaction_id": "a0651946-0f5b-482b-8cfc-eab3644d2743",
-                "publisher": "publisher.com",
-                "source": {
-                    "domain": "publisher.com",
-                    "timestamp": 1639582000,
-                    "signature": "12345_signature"
-                }
-            },
-            "source": {
-                "domain": "dps1.com",
-                "timestamp": 1639581000,
-                "signature": "12345_signature"
-            },
-            "parents": []
-        }
-    ]
+    }
 }
 ```
 <!--partial-end-->
 
 If the bidderAdapter utilizes `bidRequest.userIdAsEids` then the
-transmissions and preferences will be in eid extension, e.g.
+transmissions preferences will be in eid extension, e.g.
 
-<!--partial-begin { "files": [ "openrtb-request-with-transmissions.json" ], "block": "json" } -->
+<!--partial-begin { "files": [ "openrtb-eids.json" ], "block": "json" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```json
 {
-    "id": "80ce30c53c16e6ede735f123ef6e32361bfc7b22",
-    "at": 1, 
-    "cur": [ "USD" ],
+    "eids": [
+      {
+        "source": "paf",
+        "uids": [
+          {
+            "atype": 1,
+            "id": "7435313e-caee-4889-8ad7-0acd0114ae3c",
+            "ext": {
+              "version": 0,
+              "type": "prebid_id",
+              "source": {
+                "domain": "operotor0.com",
+                "timestamp": 1639589531,
+                "signature": "12345_signature"
+              }
+            }
+          }
+        ],
+        "ext": {
+          "preferences": {
+            "version": 0,
+            "data": {
+              "opt_in": true
+            },
+            "source": {
+              "domain": "cmp1.com",
+              "timestamp": 1639589531,
+              "signature": "12345_signature"
+            }
+          }
+        }
+      }
+    ],
+    "paf": {
+        "transmissions": [
+            {
+              "version": 0,
+              "seed": {
+                "version": 0,
+                "transaction_id": "a0651946-0f5b-482b-8cfc-eab3644d2743",
+                "publisher": "publisher.com",
+                "source": {
+                  "domain": "publisher.com",
+                  "timestamp": 1639582000,
+                  "signature": "12345_signature"
+                }
+              }
+            }
+        ]
+    }
+  }
+```
+<!--partial-end-->
+
+The publisher can restrict the PAF data to participating parties.
+
+```javascript
+pbjs.setConfig(
+    { 
+    userSync: {
+        userIds: [{
+            name: "pafId",
+            bidders: ["openx"]
+        }] 
+    }
+});
+```
+
+#### Prebid.js RTD Module
+
+Prebid.js already offers real-time-data submodules and a PAF sub module will be added.
+This module will be responsible for retreiving one or many seeds from the paf-lib.
+A pulisher will add the module in the configuration. The design allows for one or many seeds.
+
+```javascript
+pbjs.setConfig({
+    realTimeData: {
+        auctionDelay: 1000,
+        dataProviders: [
+                {
+                name: "paf",
+                waitForIt: true,
+                params: {
+                    seedPerImpression: true
+                }
+            }
+        ]
+    }
+});
+```
+
+##### seedPerImpression = true
+
+The PAF submodule will call `PAF.generateSeeds(N)` where N is the number of
+impression opportunities. These seeds are then appended to imps using the 
+FPD module (ortb2imp). The object is passed to bidders as follows:
+
+<!--partial-begin { "files": [ "openrtb-imp-with-transmission.json" ], "block": "json" } -->
+<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
+```json
+{
     "imp": [
         {
             "id": "1",
@@ -185,82 +243,75 @@ transmissions and preferences will be in eid extension, e.g.
                 }
             }
         }
-    ],
-    "site": {
-        "id": "102855",
-        "cat": [ "IAB3-1" ],
-        "domain": "www.publisher.com",
-        "page": "http://www.publisher.com/1234.html ",
-        "publisher": {
-            "id": "8953",
-            "name": "publisher.com",
-            "cat": ["IAB3-1"],
-            "domain": "publisher.com"
-        }
-    },
-    "device": {
-        "ua": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_8) AppleWebKit/537.13 (KHTML, like Gecko) Version/5.1.7 Safari/534.57.2",
-        "ip": "123.145.167.10"
-    },
-    "user": {
-        "id": "55816b39711f9b5acf3b90e313ed29e51665623f",
-         "ext":
-         {
-            "eids": 
-            [
-                {
-                    "source": "paf",
-                    "uids": [
-                        {
-                            "atype": 1,
-                            "id": "7435313e-caee-4889-8ad7-0acd0114ae3c",
-                            "ext": 
-                            {
-                                "version": 0,
-                                "type": "prebid_id",
-                                "source": 
-                                {
-                                    "domain": "operotor0.com",
-                                    "timestamp": 1639589531,
-                                    "signature": "12345_signature"
-                                }
-                            }
-                        }
-                    ],
-                    "ext": {
-                        "preferences": {
-                            "version": 0,
-                            "data": { 
-                                "opt_in": true 
-                            },
-                            "source": {
-                                "domain": "cmp1.com",
-                                "timestamp": 1639589531,
-                                "signature": "12345_signature"
-                            }
-                        }
-                    }
-                }
-            ]
-        }
-    }
+    ]
 }
 ```
 <!--partial-end-->
 
-The publisher can restrict the PAF data to participating parties.
+##### seedPerImpression = false
 
-```
-        pbjs.setConfig(
-          { 
-            userSync: {
-              userIds: [{
-                            name: "pafId",
-                            bidders: ["openx"]
-                        }] 
+The PAF submodule will call `PAF.generateSeeds(1)`.
+The seeds are then appended to the user object using the 
+FPD module (ortb2). The object is passed to bidders as follows:
+
+<!--partial-begin { "files": [ "openrtb-user-with-transmission.json" ], "block": "json" } -->
+<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
+```json
+{
+    "eids": [
+      {
+        "source": "paf",
+        "uids": [
+          {
+            "atype": 1,
+            "id": "7435313e-caee-4889-8ad7-0acd0114ae3c",
+            "ext": {
+              "version": 0,
+              "type": "prebid_id",
+              "source": {
+                "domain": "operotor0.com",
+                "timestamp": 1639589531,
+                "signature": "12345_signature"
+              }
             }
-        });
+          }
+        ],
+        "ext": {
+          "preferences": {
+            "version": 0,
+            "data": {
+              "opt_in": true
+            },
+            "source": {
+              "domain": "cmp1.com",
+              "timestamp": 1639589531,
+              "signature": "12345_signature"
+            }
+          }
+        }
+      }
+    ],
+    "paf": {
+        "transmissions": [
+            {
+              "version": 0,
+              "seed": {
+                "version": 0,
+                "transaction_id": "a0651946-0f5b-482b-8cfc-eab3644d2743",
+                "publisher": "publisher.com",
+                "source": {
+                  "domain": "publisher.com",
+                  "timestamp": 1639582000,
+                  "signature": "12345_signature"
+                }
+              }
+            }
+        ]
+    }
+  }
 ```
+<!--partial-end-->
+
 
 ### Receiving Transmission Responses
 
@@ -416,7 +467,7 @@ of `slotId` to the `prebidTransacionId`. If there is an existing slot mapping it
 PAF will expose the audit log to the window with two methods of retrieval.
 ```
 // look up by transactionId
-PAF.getAuditLogByTransaction(transactionId)
+PAF.getAuditLogByTransaction(prebidTransactionId)
 
 // look up transactionId by slot mapping
 PAF.getAuditLogBySlot(slotId)
@@ -433,9 +484,9 @@ window.pbjs.onEvent("bidWon", (bid) =>
 
 #### Note: All Audit Log support
 
-In order to support all audit logs, there are 2 changes. The trigger is now tied to `onBidResponse` and 
-the transmission registration also now requires the prebid `adId` in order to store multiple audit
-logs per slot.
+In order to support audit logs for every bid, not just the winner, there are 2 changes.
+The trigger is now tied to `onBidResponse` and the transmission registration 
+also now requires the prebid `adId` in order to store multiple audit logs per slot.
 
 #### Note: Audit Log Rendering
 
@@ -453,70 +504,39 @@ Rendering is out of scope, but adding this as a note as to how it can be accompl
     });
 ```
 
-### Refresh The Seed
+### Sequence Summary
 
-Prebid.js uses the `requestBids` funcion to initiate AdRequests.
-If the Publisher wishes to utilize a new seed(s) for subsequent
-AdRequests they explicitly refresh the seed using 
-`pbjs.refreshUserIds(paf)`.
+Below is a brief summary of the interactions in the browser.
 
-It is proposed that the PAF lib performs this function for the
-publisher. This can be accomplished by using a before hook
-on the `requestBids` function. This can be accomplished as follows:
-```
-  function requestBidHook(next, config) {
-    pbjs.refreshUserIds(paf);
-    return next.call(this, config);
-  }
-  window.pbjs.requestBids.before(requestBidHook, 1000);
-```
-
-### Supporting multiple seeds
-
-The proposed design is flexible to support multiple seeds if the publisher
-chooses to. There are only 2 changes required. The proposed design requires no
-changes for responses.
-
-#### Implement RTD and FPD module
-
-In this design seeds move from eids into impression objects. This can be done
-by using the Prebid FPD and RTD modules. A new PAF RTD module would be created
-which would now call `PAF.generateSeeds(N)` where N is the number of
-impression opportunities. These seeds are then appended to imps using the 
-FPD module (ortb2imp). The object is passed to bidders as follows:
-
-<!--partial-begin { "files": [ "openrtb-imp-with-transmission.json" ], "block": "json" } -->
+<!--partial-begin { "files": [ "prebid-browser-flow.mmd" ], "block": "mermaid" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
-```json
-{
-    "imp": [
-        {
-            "id": "1",
-            "bidfloor": 0.03,
-            "banner": {
-                "h": 250,
-                "w": 300,
-                "pos": 0
-            },
-            "ext": {
-                "paf": {
-                    "version": 0,
-                    "seed": {
-                        "version": 0,
-                        "transaction_id": "a0651946-0f5b-482b-8cfc-eab3644d2743",
-                        "publisher": "publisher.com",
-                        "source": {
-                            "domain": "publisher0.com",
-                            "timestamp": 1639589531,
-                            "signature": "12345_signature"
-                        }
-                    },
-                    "parents": []
-                }
-            }
-        }
-    ]
-}
+```mermaid
+sequenceDiagram
+    participant Webpage
+    participant Prebid.js
+    participant PAF.js
+    participant PublisherServer
+    participant SSPs
+    participant AdServer
+
+    PAF.js->>Prebid.js: window.pbjs.onEvent("bidWon") -><br />PAF.registerTransmissionResponse()
+    Prebid.js->>Prebid.js: pbjs.setConfig(userId and rtd config)
+    Prebid.js->>PAF.js: PAF.getIdsAndPreferences()
+    PAF.js->>Prebid.js: ids and preferences
+    Prebid.js->>Prebid.js: initiate RTD module
+    Prebid.js->>PAF.js: PAF.generateSeeds()
+    PAF.js->>PublisherServer: Transmission Request
+    PublisherServer->>PAF.js: Seed(s)
+    PAF.js->>Prebid.js: Seed(s)
+    Prebid.js->>SSPs: AdRequest with PAF data<br /> and Transmissions
+    SSPs->>Prebid.js: Addressable Content(s) <br />and Transmission Response(s)
+    Prebid.js->>Prebid.js: bidResponse.meta.paf = Transmission Response
+    Prebid.js->>AdServer: AdRequest with Prebid.js key values
+    AdServer->>Prebid.js: Return Prebid.js callback
+    Prebid.js->>Prebid.js: bidWon event
+    Prebid.js->>PAF.js: PAF.registerTransmissionResponse
+    PAF.js->>PAF.js: compute and store audit log
+    Webpage->PAF.js: PAF.getAuditLogByTransaction(transactionId)
 ```
 <!--partial-end-->
 
@@ -617,18 +637,15 @@ for nom.
                         },
                         "seed": {
                             "version": 0,
-                            "seed": {
-                                "version": 0,
-                                "transaction_id": "a0651946-0f5b-482b-8cfc-eab3644d2743",
-                                "publisher": "publisher.com",
-                                "source": {
-                                    "domain": "publisher0.com",
-                                    "timestamp": 1639589531,
-                                    "signature": "12345_signature"
-                                }
-                            },
-                            "parents": []
-                        }
+                            "transaction_id": "a0651946-0f5b-482b-8cfc-eab3644d2743",
+                            "publisher": "publisher.com",
+                            "source": {
+                                "domain": "publisher0.com",
+                                "timestamp": 1639589531,
+                                "signature": "12345_signature"
+                            }
+                        },
+                        "parents": []
                     }
                 }
             ]

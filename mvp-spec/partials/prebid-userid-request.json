@@ -1,0 +1,27 @@
+{
+    "data": {
+        "identifiers": [
+            {
+                "version": 0,
+                "type": "prebid_id",
+                "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
+                "source": {
+                    "domain": "operator0.com",
+                    "timestamp": 1639580000,
+                    "signature": "12345_signature"
+                }
+            }
+        ],
+        "preferences": {
+            "version": 0,
+            "data": { 
+                "opt_in": true 
+            },
+            "source": {
+                "domain": "cmp1.com",
+                "timestamp": 1639581000,
+                "signature": "12345_signature"
+            }
+        }
+    }
+}
