@@ -182,75 +182,56 @@ multiple Transmissions referring to it.
 
 Here is an example that must be adapted to the existing API of the Ad Server:
 
-<!--partial-begin { "files": [ "transmission-requests.json" ], "block": "json" } -->
+<!--partial-begin { "files": [ "transmission-request.json" ], "block": "json" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```json
 {
-    "data": {
-        "identifiers": [
-            {
+    "version": 0,
+    "seed": {
+        "version": 0,
+        "transaction_id": "a0651946-0f5b-482b-8cfc-eab3644d2743",
+        "addressable_content_ids": [ 
+            "4640dc9f-385f-4e02-a0e5-abbf241af94d", 
+            "7d71a23a-fafa-449a-8b85-63a634780107" 
+        ],
+        "publisher": "publisher.com",
+        "data": {
+            "identifiers": [
+                {
+                    "version": 0,
+                    "type": "prebid_id",
+                    "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
+                    "source": {
+                        "domain": "operator0.com",
+                        "timestamp": 1639580000,
+                        "signature": "868e7a6c27b7b7fe5fed219503894bf263f31bb6d8fd48336d283e77b512cda7"
+                    }
+                }
+            ],
+            "preferences": {
                 "version": 0,
-                "type": "prebid_id",
-                "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
+                "data": { 
+                    "opt_in": true 
+                },
                 "source": {
-                    "domain": "operator0.com",
-                    "timestamp": 1639580000,
-                    "signature": "12345_signature"
+                    "domain": "cmp1.com",
+                    "timestamp": 1639581000,
+                    "signature": "65acdcfdbdba8b17936f25a32b33b000393c866588d146cb62ec51ab8890c54f"
                 }
             }
-        ],
-        "preferences": {
-            "version": 0,
-            "data": { 
-                "opt_in": true 
-            },
-            "source": {
-                "domain": "cmp1.com",
-                "timestamp": 1639581000,
-                "signature": "12345_signature"
-            }
+        },
+        "source": {
+            "domain": "publisher.com",
+            "timestamp": 1639582000,
+            "signature": "f1f4871d48b825931c5016a433cb3b6388f989fac363af09b9ee3cd400d86b74"
         }
     },
-    "transmissions": [
-        {
-            "version": 0,
-            "seed": {
-                "version": 0,
-                "transaction_id": "a0651946-0f5b-482b-8cfc-eab3644d2743",
-                "publisher": "publisher.com",
-                "source": {
-                    "domain": "publisher.com",
-                    "timestamp": 1639582000,
-                    "signature": "12345_signature"
-                }
-            },
-            "source": {
-                "domain": "dsp1.com",
-                "timestamp": 1639581000,
-                "signature": "12345_signature"
-            },
-            "parents": []
-        },
-        {
-            "version": 0,
-            "seed": {
-                "version": 0,
-                "transaction_id": "a0651946-0f5b-482b-8cfc-eab3644d2743",
-                "publisher": "publisher.com",
-                "source": {
-                    "domain": "publisher.com",
-                    "timestamp": 1639582000,
-                    "signature": "12345_signature"
-                }
-            },
-            "source": {
-                "domain": "dps1.com",
-                "timestamp": 1639581000,
-                "signature": "12345_signature"
-            },
-            "parents": []
-        }
-    ]
+    "source": {
+        "domain": "dsp1.com",
+        "timestamp": 1639581000,
+        "signature": "5d0519da9c65feeae715dfcf380c7997ea9ee859e2636a498c43c1044dc20354"
+    },
+    "parents": []
 }
 ```
 <!--partial-end-->
@@ -357,34 +338,42 @@ Here is a received Transmission Response that helps to generate the Addressable 
 ```json
 {
     "version": 0,
-    "transaction_id": "a0651946-0f5b-482b-8cfc-eab3644d2743",
     "receiver": "ssp1.com",
     "status": "success",
     "details": "",
+    "addressable_content_ids": [
+        "4640dc9f-385f-4e02-a0e5-abbf241af94d"
+    ],
     "source": {
         "domain": "ssp1.com",
         "timestamp": 1639589531,
-        "signature": "12345_signature"
+        "signature": "d01c6e83f14b4f057c2a2a86d320e2454fc0c60df4645518d993b5f40019d24c"
     },
     "children": [
         {
             "receiver": "ssp2.com",
             "status": "success",
             "details": "",
+            "addressable_content_ids": [
+                "4640dc9f-385f-4e02-a0e5-abbf241af94d"
+            ],
             "source": {
                 "domain": "ssp2.com",
                 "timestamp": 1639589531,
-                "signature": "12345_signature"
+                "signature": "4ed0d811a96e424cdcbe8b85cd4e58bc75f3b6d701870fb4a2a620feee670d54"
             }
         },
         {
             "receiver": "dsp.com",
             "status": "success",
             "details": "",
+            "addressable_content_ids": [
+                "4640dc9f-385f-4e02-a0e5-abbf241af94d"
+            ],
             "source": {
                 "domain": "dsp.com",
                 "timestamp": 1639589531,
-                "signature": "12345_signature"
+                "signature": "b9d2918542e4a4155e5e404cf3d6e73449152c974da1e8f554282d7ed7c62278"
             }
         }
     ]
@@ -571,18 +560,7 @@ for nom.
             },
             "ext": {
                 "paf": {
-                    "version": 0,
-                    "seed": {
-                        "version": 0,
-                        "transaction_id": "a0651946-0f5b-482b-8cfc-eab3644d2743",
-                        "publisher": "publisher.com",
-                        "source": {
-                            "domain": "publisher0.com",
-                            "timestamp": 1639589531,
-                            "signature": "12345_signature"
-                        }
-                    },
-                    "parents": []
+                    "addressable_content_id": "4640dc9f-385f-4e02-a0e5-abbf241af94d"
                 }
             }
         }
@@ -619,26 +597,46 @@ for nom.
                             {
                                 "version": 0,
                                 "type": "prebid_id",
-                                "source": 
-                                {
-                                    "domain": "operotor0.com",
-                                    "timestamp": 1639589531,
-                                    "signature": "12345_signature"
+                                "source": {
+                                    "domain": "operator0.com",
+                                    "timestamp": 1639580000,
+                                    "signature": "868e7a6c27b7b7fe5fed219503894bf263f31bb6d8fd48336d283e77b512cda7"
                                 }
                             }
                         }
                     ],
                     "ext": {
-                        "preferences": {
+                        "seed": {
                             "version": 0,
-                            "data": { 
-                                "opt_in": true 
+                            "transaction_id": "a0651946-0f5b-482b-8cfc-eab3644d2743",
+                            "addressable_content_ids": [ 
+                                "4640dc9f-385f-4e02-a0e5-abbf241af94d", 
+                                "7d71a23a-fafa-449a-8b85-63a634780107" 
+                            ],
+                            "publisher": "publisher.com",
+                            "data": {
+                                "preferences": {
+                                    "version": 0,
+                                    "data": { 
+                                        "opt_in": true 
+                                    },
+                                    "source": {
+                                        "domain": "cmp1.com",
+                                        "timestamp": 1639581000,
+                                        "signature": "65acdcfdbdba8b17936f25a32b33b000393c866588d146cb62ec51ab8890c54f"
+                                    }
+                                }
                             },
                             "source": {
-                                "domain": "cmp1.com",
-                                "timestamp": 1639589531,
-                                "signature": "12345_signature"
+                                "domain": "publisher.com",
+                                "timestamp": 1639582000,
+                                "signature": "f1f4871d48b825931c5016a433cb3b6388f989fac363af09b9ee3cd400d86b74"
                             }
+                        },
+                        "source": {
+                            "domain": "dsp1.com",
+                            "timestamp": 1639581000,
+                            "signature": "5d0519da9c65feeae715dfcf380c7997ea9ee859e2636a498c43c1044dc20354"
                         }
                     }
                 }
@@ -682,13 +680,16 @@ Here is an example:
                     "ext": {
                         "paf": {
                             "version": 0,
+                            "addressable_content_ids": [
+                                "4640dc9f-385f-4e02-a0e5-abbf241af94d"
+                            ],
                             "receiver": "dsp1.com",
                             "status": "success",
                             "details": "",
                             "source": {
                                 "domain": "dsp1.com",
                                 "timestamp": 1639589531,
-                                "signature": "12345_signature"
+                                "signature": "d01c6e83f14b4f057c2a2a86d320e2454fc0c60df4645518d993b5f40019d24c"
                             },
                             "children": []
                         }
