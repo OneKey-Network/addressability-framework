@@ -17,11 +17,11 @@
         "details": {
             "$ref": "transmission-details.json"
         },
-        "addressable_content_ids": {
+        "transaction_ids": {
             "type": "array",
             "items": {
-                "description": "The Ids of the Addressable Content for which the Receiver want to participate to",
-                "$ref": "addressable-content-id.json"
+                "description": "The transaction-ids of the Addressable Contents for which the Receiver want to participate to",
+                "$ref": "transaction_id.json"
             }
         },
         "source": {

@@ -1,8 +1,0 @@
-{
-    "$schema": "https://json-schema.org/draft/2020-12/schema",
-    "title": "Addressable Content Id",
-    "description": "A Generated Unique Identifier dedicated to an Addressable Content",
-    "$id": "addressable-content-id",
-    "type": "string",
-    "examples": ["7435313e-caee-4889-8ad7-0acd0114ae3c"]
-  }

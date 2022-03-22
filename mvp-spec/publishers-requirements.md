@@ -176,8 +176,8 @@ Here is a hypothetical structure of the associated User Id and Preferences, name
 <!--partial-end-->
 
 In the communication, the Transmission Requests must be associated to the 
-PAF Data. Depending on the existing structure of the communication,
-it makes sense to have a shared structure for the PAF Data and 
+Prebid SSO Data. Depending on the existing structure of the communication,
+it makes sense to have a shared structure for the Prebid SSO Data and 
 multiple Transmissions referring to it.
 
 Here is an example that must be adapted to the existing API of the Ad Server:
@@ -189,8 +189,7 @@ Here is an example that must be adapted to the existing API of the Ad Server:
     "version": 0,
     "seed": {
         "version": 0,
-        "transaction_id": "a0651946-0f5b-482b-8cfc-eab3644d2743",
-        "addressable_content_ids": [ 
+        "transaction_ids": [ 
             "4640dc9f-385f-4e02-a0e5-abbf241af94d", 
             "7d71a23a-fafa-449a-8b85-63a634780107" 
         ],
@@ -211,7 +210,7 @@ Here is an example that must be adapted to the existing API of the Ad Server:
             "preferences": {
                 "version": 0,
                 "data": { 
-                    "opt_in": true 
+                    "use_browsing_for_personalization": true 
                 },
                 "source": {
                     "domain": "cmp1.com",
@@ -299,7 +298,7 @@ must be adapted to the existing API:
 
 Once the Ad Server has selected the supplier that will display the
 Addressable Content, it must generate the Audit Log based on the related
-Transmission Response and the PAF Data.
+Transmission Response and the Prebid SSO Data.
 
 The Audit Log has the following structure:
 
@@ -341,8 +340,9 @@ Here is a received Transmission Response that helps to generate the Addressable 
     "receiver": "ssp1.com",
     "status": "success",
     "details": "",
-    "addressable_content_ids": [
-        "4640dc9f-385f-4e02-a0e5-abbf241af94d"
+    "transaction_ids": [
+        "4640dc9f-385f-4e02-a0e5-abbf241af94d",
+        "7d71a23a-fafa-449a-8b85-63a634780107" 
     ],
     "source": {
         "domain": "ssp1.com",
@@ -354,7 +354,7 @@ Here is a received Transmission Response that helps to generate the Addressable 
             "receiver": "ssp2.com",
             "status": "success",
             "details": "",
-            "addressable_content_ids": [
+            "transaction_ids": [
                 "4640dc9f-385f-4e02-a0e5-abbf241af94d"
             ],
             "source": {
@@ -367,7 +367,7 @@ Here is a received Transmission Response that helps to generate the Addressable 
             "receiver": "dsp.com",
             "status": "success",
             "details": "",
-            "addressable_content_ids": [
+            "transaction_ids": [
                 "4640dc9f-385f-4e02-a0e5-abbf241af94d"
             ],
             "source": {
@@ -520,7 +520,7 @@ to respect the following for integrating PAF.
 
 #### The OpenRTB Bid Request
 
-In step **Step 4**, the Ad Server must share the PAF Data in the 
+In step **Step 4**, the Ad Server must share the Prebid SSO Data in the 
 extensions of the Bid Request:
 
 First, The Transmission Request object in an OpenRTB request keeps the same structure.
@@ -560,7 +560,7 @@ for nom.
             },
             "ext": {
                 "paf": {
-                    "addressable_content_id": "4640dc9f-385f-4e02-a0e5-abbf241af94d"
+                    "transaction-id": "4640dc9f-385f-4e02-a0e5-abbf241af94d"
                 }
             }
         }
@@ -608,8 +608,7 @@ for nom.
                     "ext": {
                         "seed": {
                             "version": 0,
-                            "transaction_id": "a0651946-0f5b-482b-8cfc-eab3644d2743",
-                            "addressable_content_ids": [ 
+                            "transaction_ids": [ 
                                 "4640dc9f-385f-4e02-a0e5-abbf241af94d", 
                                 "7d71a23a-fafa-449a-8b85-63a634780107" 
                             ],
@@ -618,7 +617,7 @@ for nom.
                                 "preferences": {
                                     "version": 0,
                                     "data": { 
-                                        "opt_in": true 
+                                        "use_browsing_for_personalization": true 
                                     },
                                     "source": {
                                         "domain": "cmp1.com",
@@ -680,7 +679,7 @@ Here is an example:
                     "ext": {
                         "paf": {
                             "version": 0,
-                            "addressable_content_ids": [
+                            "transaction_ids": [
                                 "4640dc9f-385f-4e02-a0e5-abbf241af94d"
                             ],
                             "receiver": "dsp1.com",

@@ -62,7 +62,7 @@ The domain name of the receiver of the Transmission.
 
 <tr>
 <td>
-<b>addressable_content_ids</b>
+<b>transaction_ids</b>
 </td>
 <td>
 array
@@ -71,12 +71,12 @@ array
 
 Type of **each element in the array**:
 
-The Ids of the Addressable Content for which the Receiver want to participate to
+The transaction-ids of the Addressable Contents for which the Receiver want to participate to
 
 **Example:** 
 
 ```json
-"7435313e-caee-4889-8ad7-0acd0114ae3c"
+"b0cffcd0-177e-46d5-8bcd-32ed52a414dc"
 ```
 
 </td>
@@ -84,7 +84,7 @@ The Ids of the Addressable Content for which the Receiver want to participate to
 
 <tr>
 <td>
-status<br>(<i>optional</i>)
+<b>status</b>
 </td>
 <td>
 enum (of string)
@@ -102,7 +102,7 @@ Can only take **one of these values**:
 
 <tr>
 <td>
-details<br>(<i>optional</i>)
+<b>details</b>
 </td>
 <td>
 string
@@ -136,9 +136,9 @@ transmission_response.status                  + '\u2063'
 transmission_response.source.domain           + '\u2063' +
 transmission_response.source.timestamp        + '\u2063' +
 seed.source.signature+ '\u2063' +
-addressable_content_ids[0] + '\u2063' +
+transaction_ids[0] + '\u2063' +
 ... + '\u2063' +
-addressable_content_ids[n]
+transaction_ids[n]
 ```
 
 <details>
@@ -225,7 +225,7 @@ The base64 representation of a data signature
 
 <tr>
 <td>
-children<br>(<i>optional</i>)
+<b>children</b>
 </td>
 <td>
 array
@@ -335,7 +335,7 @@ The details of the status. It can be empty for "success" but it should detail th
 
 <tr>
 <td>
-addressable_content_ids<br>(<i>optional</i>)
+transaction_ids<br>(<i>optional</i>)
 </td>
 <td>
 array
@@ -344,12 +344,12 @@ array
 
 Type of **each element in the array**:
 
-The Ids of the Addressable Content for which the Receiver want to participate to
+The transaction-ids of the Addressable Contents for which the Receiver want to participate to
 
 **Example:** 
 
 ```json
-"7435313e-caee-4889-8ad7-0acd0114ae3c"
+"b0cffcd0-177e-46d5-8bcd-32ed52a414dc"
 ```
 
 </td>

@@ -2,8 +2,7 @@
     "version": 0,
     "seed": {
         "version": 0,
-        "transaction_id": "a0651946-0f5b-482b-8cfc-eab3644d2743",
-        "addressable_content_ids": [ 
+        "transaction_ids": [ 
             "4640dc9f-385f-4e02-a0e5-abbf241af94d", 
             "7d71a23a-fafa-449a-8b85-63a634780107" 
         ],
@@ -24,7 +23,7 @@
             "preferences": {
                 "version": 0,
                 "data": { 
-                    "opt_in": true 
+                    "use_browsing_for_personalization": true 
                 },
                 "source": {
                     "domain": "cmp1.com",

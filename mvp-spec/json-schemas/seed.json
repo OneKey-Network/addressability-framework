@@ -8,13 +8,10 @@
         "version": {
             "$ref": "version.json"
         },
-        "transaction_id": {
-            "$ref": "transaction_id.json"
-        },
-        "addressable_content_ids": {
+        "transaction_ids": {
             "type": "array",
             "items": {
-                "$ref": "addressable-content-id.json"
+                "$ref": "transaction_id.json"
             }
         },
         "data": {
@@ -28,14 +25,13 @@
             ]
         },
         "source": {
-            "description": "Signature based on input:\n```source.domain + '\\u2063' +\nsource.timestamp + '\\u2063' +\ntransaction_id + '\\u2063' +\naddressable_content_ids[0] + '\\u2063' +\n... + '\\u2063' +\naddressable_content_ids[n] +\npublisher + '\\u2063' +\ndata.identifiers[0].source.signature + '\\u2063' +\ndata.identifiers[1].source.signature + '\\u2063' +\n... + '\\u2063' +\ndata.identifiers[n].source.signature + '\\u2063' +\ndata.preferences.source.signature\n```",
+            "description": "Signature based on input:\n```source.domain + '\\u2063' +\nsource.timestamp + '\\u2063' +\ntransaction_ids[0] + '\\u2063' +\n... + '\\u2063' +\ntransaction_ids[n] +\npublisher + '\\u2063' +\ndata.identifiers[0].source.signature + '\\u2063' +\ndata.identifiers[1].source.signature + '\\u2063' +\n... + '\\u2063' +\ndata.identifiers[n].source.signature + '\\u2063' +\ndata.preferences.source.signature\n```",
             "$ref": "source.json"
         }
     },
     "required": [
         "version",
-        "transaction_id",
-        "addressable_content_ids",
+        "transaction_ids",
         "data",
         "publisher",
         "source"

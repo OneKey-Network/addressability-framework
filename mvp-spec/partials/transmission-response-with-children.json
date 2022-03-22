@@ -3,8 +3,9 @@
     "receiver": "ssp1.com",
     "status": "success",
     "details": "",
-    "addressable_content_ids": [
-        "4640dc9f-385f-4e02-a0e5-abbf241af94d"
+    "transaction_ids": [
+        "4640dc9f-385f-4e02-a0e5-abbf241af94d",
+        "7d71a23a-fafa-449a-8b85-63a634780107" 
     ],
     "source": {
         "domain": "ssp1.com",
@@ -16,7 +17,7 @@
             "receiver": "ssp2.com",
             "status": "success",
             "details": "",
-            "addressable_content_ids": [
+            "transaction_ids": [
                 "4640dc9f-385f-4e02-a0e5-abbf241af94d"
             ],
             "source": {
@@ -29,7 +30,7 @@
             "receiver": "dsp.com",
             "status": "success",
             "details": "",
-            "addressable_content_ids": [
+            "transaction_ids": [
                 "4640dc9f-385f-4e02-a0e5-abbf241af94d"
             ],
             "source": {

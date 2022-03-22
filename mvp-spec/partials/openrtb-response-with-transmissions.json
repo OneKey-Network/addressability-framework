@@ -19,7 +19,7 @@
                     "ext": {
                         "paf": {
                             "version": 0,
-                            "addressable_content_ids": [
+                            "transaction_ids": [
                                 "4640dc9f-385f-4e02-a0e5-abbf241af94d"
                             ],
                             "receiver": "dsp1.com",

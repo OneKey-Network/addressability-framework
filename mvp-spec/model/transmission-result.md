@@ -100,7 +100,7 @@ The details of the status. It can be empty for "success" but it should detail th
 
 <tr>
 <td>
-addressable_content_ids<br>(<i>optional</i>)
+transaction_ids<br>(<i>optional</i>)
 </td>
 <td>
 array
@@ -109,12 +109,12 @@ array
 
 Type of **each element in the array**:
 
-The Ids of the Addressable Content for which the Receiver want to participate to
+The transaction-ids of the Addressable Contents for which the Receiver want to participate to
 
 **Example:** 
 
 ```json
-"7435313e-caee-4889-8ad7-0acd0114ae3c"
+"b0cffcd0-177e-46d5-8bcd-32ed52a414dc"
 ```
 
 </td>

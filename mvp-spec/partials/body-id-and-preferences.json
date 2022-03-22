@@ -3,7 +3,7 @@
     "preferences": {
       "version": 0,
       "data": {
-        "opt_in": true
+        "use_browsing_for_personalization": true
       },
       "source": {
         "domain": "cmpC.com",
