@@ -19,7 +19,7 @@
             ]
         },
         "source": {
-            "description": "Signature based on input:\n```seed.source.domain + '\\u2063' +\nseed.source.timestamp + '\\u2063' +\nseed.transaction_id + '\\u2063' +\nseed.publisher + '\\u2063' +\ndata.identifiers[0].source.signature + '\\u2063' +\ndata.identifiers[1].source.signature + '\\u2063' +\n... + '\\u2063' +\ndata.identifiers[n].source.signature + '\\u2063' +\ndata.preferences.source.signature\n```",
+            "description": "Signature based on input:\n```\nseed.source.domain + '\\u2063' +\nseed.source.timestamp + '\\u2063' +\nseed.transaction_id + '\\u2063' +\nseed.publisher + '\\u2063' +\ndata.identifiers[0].source.signature + '\\u2063' +\ndata.identifiers[1].source.signature + '\\u2063' +\n... + '\\u2063' +\ndata.identifiers[n].source.signature + '\\u2063' +\ndata.preferences.source.signature\n```",
             "$ref": "source.json"
         }
     },

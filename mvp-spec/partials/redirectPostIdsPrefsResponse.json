@@ -22,13 +22,13 @@
         "source": {
           "domain": "cmp.com",
           "timestamp": 1642504560,
-          "signature": "QE/7TpxT5nDZH0VO2WcJLdO09IBgZ0gtTKqvQY2Ck8Afy/diGmFN71SV6KjkdAItXH3rCM97oLMewTyAccxq+w=="
+          "signature": "JYXJjM04I1WuANplc+RZgHfD7bVDhmf7kg8+kd8DLDfJKDkNp+/3ldWe0O1wFQKT9g5KxwvmF96i3pvI+Wtbvw=="
         }
       }
     },
     "sender": "operator.paf-operation-domain.io",
     "receiver": "cmp.com",
     "timestamp": 1643097663,
-    "signature": "6eHCK6a+x0i8WTqC9kw9k028mOOONsIiQIfbQJqkqcHYiVHZpD/LH0Opw8oZTgIza/WZFPv7xb2Io3O0bKE7bA=="
+    "signature": "KUiE4/ba/Tyqv0gK2Jq/oH+bvC4kvd3IGxiiFjsPQpxhslcUZUGi2MAF1LqQEIpTpXkmdhVxrzr1eg2g8q0+3A=="
   }
 }
