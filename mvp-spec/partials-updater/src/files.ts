@@ -31,8 +31,11 @@ export const listDocuments = (): Promise<string[]> => listFiles(documentsDir, is
 
 export const listMermaidAssets = (): Promise<string[]> => listFiles(partialsDir, isMermaid);
 
+export const listPartials = (): Promise<string[]> => listFiles(partialsDir, isPartial);
+
 const isDocument = (file: string): boolean => documentExts.some(e => file.endsWith(e));
 const isMermaid = (file: string): boolean => mermaidExts.some(e => file.endsWith(e));
+const isPartial = (file: string): boolean => true;
 
 /** Rewrite a file */
 export function rewriteFile(fullPath: string, content: string): Promise<void> {
