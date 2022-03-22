@@ -42,26 +42,6 @@ To be detailed.
 
 <tr>
 <td>
-<b>transaction_id</b>
-</td>
-<td>
-string
-</td>
-<td>
-
-A Generated Unique Identifier dedicated to a placement and an Addressable Content
-
-**Example:** 
-
-```json
-"b0cffcd0-177e-46d5-8bcd-32ed52a414dc"
-```
-
-</td>
-</tr>
-
-<tr>
-<td>
 <b>receiver</b>
 </td>
 <td>
@@ -75,6 +55,28 @@ The domain name of the receiver of the Transmission.
 
 ```json
 "receiver.com"
+```
+
+</td>
+</tr>
+
+<tr>
+<td>
+<b>addressable_content_ids</b>
+</td>
+<td>
+array
+</td>
+<td>
+
+Type of **each element in the array**:
+
+The Ids of the Addressable Content for which the Receiver want to participate to
+
+**Example:** 
+
+```json
+"7435313e-caee-4889-8ad7-0acd0114ae3c"
 ```
 
 </td>
@@ -133,7 +135,10 @@ transmission_response.receiver                + '\u2063' +
 transmission_response.status                  + '\u2063'
 transmission_response.source.domain           + '\u2063' +
 transmission_response.source.timestamp        + '\u2063' +
-seed.source.signature      // -> The Seed associated to the given Transaction Result
+seed.source.signature+ '\u2063' +
+addressable_content_ids[0] + '\u2063' +
+... + '\u2063' +
+addressable_content_ids[n]
 ```
 
 <details>
@@ -323,6 +328,28 @@ The details of the status. It can be empty for "success" but it should detail th
 
 ```json
 "No signature in the Transaction Request."
+```
+
+</td>
+</tr>
+
+<tr>
+<td>
+addressable_content_ids<br>(<i>optional</i>)
+</td>
+<td>
+array
+</td>
+<td>
+
+Type of **each element in the array**:
+
+The Ids of the Addressable Content for which the Receiver want to participate to
+
+**Example:** 
+
+```json
+"7435313e-caee-4889-8ad7-0acd0114ae3c"
 ```
 
 </td>

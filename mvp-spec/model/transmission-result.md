@@ -100,6 +100,28 @@ The details of the status. It can be empty for "success" but it should detail th
 
 <tr>
 <td>
+addressable_content_ids<br>(<i>optional</i>)
+</td>
+<td>
+array
+</td>
+<td>
+
+Type of **each element in the array**:
+
+The Ids of the Addressable Content for which the Receiver want to participate to
+
+**Example:** 
+
+```json
+"7435313e-caee-4889-8ad7-0acd0114ae3c"
+```
+
+</td>
+</tr>
+
+<tr>
+<td>
 <b>source</b>
 </td>
 <td>

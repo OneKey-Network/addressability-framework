@@ -19,13 +19,16 @@
                     "ext": {
                         "paf": {
                             "version": 0,
+                            "addressable_content_ids": [
+                                "4640dc9f-385f-4e02-a0e5-abbf241af94d"
+                            ],
                             "receiver": "dsp1.com",
                             "status": "success",
                             "details": "",
                             "source": {
                                 "domain": "dsp1.com",
                                 "timestamp": 1639589531,
-                                "signature": "12345_signature"
+                                "signature": "d01c6e83f14b4f057c2a2a86d320e2454fc0c60df4645518d993b5f40019d24c"
                             },
                             "children": []
                         }
