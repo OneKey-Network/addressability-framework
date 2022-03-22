@@ -45,7 +45,7 @@ The operator is responsible for:
 - generating unique user ids
 - storing these ids and their associated preferences
 
-See operator-api.md for details.
+See [operator-api.md](operator-api.md)  for details.
 
 ### Participant website
 
@@ -53,7 +53,7 @@ A participant website is usually either an advertiser or publisher website. It c
 - Call the Operator to read the user id and preferences
 - Sell ad placements to other PAF participants. To do so it must create and sign a "seed" object and initialize an RTB transaction sent to an SSP.
 
-See operator-client.md and ad-server-implementation.md.
+See [operator-client.md](operator-client.md) and [ad-server-implementation.md](ad-server-implementation.md).
 
 ### SSP (Supply Side Platform)
 
@@ -63,12 +63,12 @@ The SSP shares PAF Data to DSPs via Transmission Requests. Depending of the cont
 
 DSPs receive transmissions that they must sign before they respond to the SSP
 
-See dsp-implementation.md.
+See d[dsp-implementation.md](dsp-implementation.md).
 
 ### See also
 
-Focus on signatures
-Audit log design
+- Focus on signatures: [signatures.md](signatures.md)
+- Audit log design: [audit-log-design.md](audit-log-design.md)
 
 ## Documents
 
