@@ -38,25 +38,13 @@ of the Addressable Content.
 4. Shuffle the list of Transmission Results
 5. Build the Audit Log by following the specification below.
 
-The Audit Log follows this structure:
-<!--partial-begin { "files": [ "audit-log-table.md" ] } -->
-<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
-| Field         | Type                         | Detail                        |
-|---------------|------------------------------|-------------------------------|
-| data          | Prebid SSO Data Object       | List the Pseudonymous-Identifiers and the Preferences of the user. |
-| seed          | Seed Object                  | The Seed object is the association of an Addressable Content to the Prebid SSO Data. |
-| transmissions | List of Transmission Results | A list of Transmission Results |
-<!--partial-end-->
+| Structure  | Format |
+|------------|--------|
+| Audit Log  | [audit-log.md](./model/audit-log.md)  |
 
-### The Transmission Result object
 
-A Transmission Result is the output of a Transmission. It can be a
-Transmission Response without the "children" field when the Receiver of 
-a Transmission responded correctly to a Transmission Request. 
-Those Transmission Results are appended to the Audit Log. Therefore,
-the Contracting Party handles those objects.
-
-### Example of Audit Log
+<details>
+<summary>Example</summary>
 
 <!--partial-begin { "files": [ "audit-log.json" ], "block": "json" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
@@ -71,70 +59,71 @@ the Contracting Party handles those objects.
                 "source": {
                     "domain": "operotor0.com",
                     "timestamp": 1639589531,
-                    "signature": "12345_signature"
+                    "signature": "3045022100aabf3ca5e4609990a1ff077c50aa52e3343005ead0d6f2ba1c05f71afe34b2f2022045fb8a98b154f8bcd66eb5774499d5fcb20e18274d67f14a43d5b45ec301d470"
                 }
             }
         ],
         "preferences": {
             "version": 0,
             "data": { 
-                "opt_in": true 
+                "use_browsing_for_personalization": true 
             },
             "source": {
                 "domain": "cmp1.com",
                 "timestamp": 1639589531,
-                "signature": "12345_signature"
+                "signature": "304502203be66cc4bfa525f20005bc0b921f756f6a1d016c49641bdf0133413fe2ee1e15022100d2a37aabdb3c58ca84dfbaccf59496087deb976e9b8aa18bc93c48f59853b587"
             }
         }
     },
     "seed": {
         "version": 0,
-        "transaction_id": "a0651946-0f5b-482b-8cfc-eab3644d2743",
+        "transaction_ids": [
+            "4640dc9f-385f-4e02-a0e5-abbf241af94d",
+            "7d71a23a-fafa-449a-8b85-63a634780107" 
+        ],
         "publisher": "publisher.com",
         "source": {
           "domain": "ad-server.com",
           "timestamp": 1639589531,
-          "signature": "12345_signature"
+          "signature": "3044022005aa77b713ef8fdac9d3031e450cfd9d66f22adb0636903c6eaa02f7b30a20780220331c7b3fed84c2a962d8ec6ca0f19795a79b799a99fd8f9589286049bd66a0da"
         }
     },
+    "transaction-id": "4640dc9f-385f-4e02-a0e5-abbf241af94d",
     "transmissions": [
         {
             "version": 0,
             "receiver": "ssp1.com",
             "status": "success",
             "details": "",
+            "transaction_ids": [
+                "4640dc9f-385f-4e02-a0e5-abbf241af94d",
+                "7d71a23a-fafa-449a-8b85-63a634780107" 
+            ],
             "source": {
                 "domain": "ssp1.com",
                 "timestamp": 1639589531,
-                "signature": "12345_signature"
-            }
-        },
-        {
-            "version": 0,
-            "receiver": "ssp2.com",
-            "status": "success",
-            "details": "",
-            "source": {
-                "domain": "ssp2.com",
-                "timestamp": 1639589531,
-                "signature": "12345_signature"
+                "signature": "30450221008546d33912bfd27ecc51a48a49d399bdadcc8795fb2b94ebda9aa6be902fb3ee02202cc41e980139c3f6e136088b9e01c2324ed3b6d522ba5e526869f36a7a931b1b"
             }
         },
         {
             "version": 0,
             "receiver": "dsp.com",
             "status": "success",
+            "transaction_ids": [
+                "4640dc9f-385f-4e02-a0e5-abbf241af94d",
+            ],
             "details": "",
             "source": {
                 "domain": "dps.com",
                 "timestamp": 1639589531,
-                "signature": "12345_signature"
+                "signature": "30440220340ecf9b0a430f02cf50689ce13af0bd39d79e7387fb6ca1a30be61cd845b7dd02200781e7e96aa64f18de516cc719fe08e6283a110d1ae70432d8e712db3a9f8b8b"
             }
         }
     ]
 }
 ```
 <!--partial-end-->
+</details>
 
 # Display of the Audit UI
 
@@ -149,7 +138,8 @@ appear in the page:
 |----------------------------------|-------------------------------------------|
 | List of Pseudonymous-Identifiers | Each Pseudonymous-Identifier must be paired with the Operator who generated it and signed it with a Reg/Green indicator expressing the validity of the signature.                                                |
 | Preferences          | The Preferences must be associated with the CMP who generated it and signed it with a Red/Green indicator expressing the validity of the signature.                                                             |
-| Seed                             | The Seed is represented by the Transaction ID and a Red/Green indicator expressing the validity of the signature                                                                                                             |
+| Transaction Id                   | The transaction Id of the Addressable Content|
+| Publisher                        | The publisher name and a Red/Green indicator expressing the validity of the signature of the Seed |
 | List of Transmission Results     | The Transmission Results available in the Audit Log. Each Transmission Result is represented by the Name of the Receiver, the status of the Transmission and a Red/Green indicator expressing the validity of the signature |
 
 The design of the page is up to the Contracting Party but it must consider 
@@ -176,78 +166,12 @@ Audit Log, the Contracting Party must:
 * Compare the hash to the decoded signature. If they match, the signature is
   validated.
 
-### Verify the Pseudo-Identifiers
+See how to build the UTF-8 strings for verifying the signatures of the different source:
 
-The Audit Log contains a list of Pseudo-identifiers. Each Pseudo-identifier is
-signed. The UTF-8 string for a specific Pseudo-Identifier must be built as follows:
-
-<!--partial-begin { "files": [ "identifier-signature-string.txt" ], "block": "" } -->
-<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
-```
-identifier.source.domain + '\u2063' + 
-identifier.source.timestamp + '\u2063' + 
-identifier.type + '\u2063'+
-identifier.value
-```
-<!--partial-end-->
-
-### Verify the Preferences
-
-The Audit Log contains Preferences with one signature. The UTF-8 string for a specific Preference must be built as follows:
-
-<!--partial-begin { "files": [ "preferences-signature-string.txt" ], "block": "" } -->
-<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
-```
-preferences.source.domain + '\u2063' +
-preferences.source.timestamp + '\u2063' +
-identifiers[type="prebid_id"].source.signature + '\u2063' +
-preferences.data.key1 + '\u2063' + preferences.data[key1].value + '\u2063' +
-preferences.data.key2 + '\u2063' + preferences.data[key2].value + '\u2063' +
-...
-preferences.data.keyN + '\u2063' + preferences.data[keyN].value
-```
-<!--partial-end-->
-
-For handling properly the preferences, key1, key2, ... keyN follows the
-alpha-numerical order of the keys existing in the dictionary.
-
-### Verify the Seed
-
-The Audit Log contains a Seed. The UTF-8 string for the Seed must be built as
-followed:
-
-<!--partial-begin { "files": [ "seed-signature-string.txt" ], "block": "" } -->
-<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
-```
-seed.source.domain + '\u2063' + 
-seed.source.timestamp + '\u2063' + 
-seed.transaction_id + '\u2063' + 
-seed.publisher + '\u2063' + 
-data.identifiers[0].source.signature + '\u2063' +
-data.identifiers[1].source.signature + '\u2063' +
-... + '\u2063' + 
-data.identifiers[n].source.signature + '\u2063' +
-data.preferences.source.signature
-```
-<!--partial-end-->
-
-Note that we iterate over the identifiers by taking for each signature and
-appending it to the UTF-8 string. 
-
-### Verify the Transmission Results
-
-The Audit Log contains a list of Transmission Results. Each Transmission Result
-is signed. The UTF-8 string for a specific Transmission Result must be built
-as follows:
-
-<!--partial-begin { "files": [ "transmission-response-signature-string.txt" ], "block": "" } -->
-<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
-```
-transmission_response.receiver                + '\u2063' +
-transmission_response.status                  + '\u2063' 
-transmission_response.source.domain           + '\u2063' + 
-transmission_response.source.timestamp        + '\u2063' + 
-seed.source.signature      // -> The Seed associated to the given Transaction Result
-```
-<!--partial-end-->
+| Structure  | Format explaining signature |
+|------------|-----------------------------|
+| Identifiers | [identifier.md](./model/identifier.md)  |
+| Preferences | [preferences.md](./model/preferences.md)  |
+| Seed | [seed.md](./model/seed.md)  |
+| Transmission Results | [transmission-result.md](./model/transmission-result.md)  |
 

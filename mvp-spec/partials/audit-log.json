@@ -8,64 +8,64 @@
                 "source": {
                     "domain": "operotor0.com",
                     "timestamp": 1639589531,
-                    "signature": "12345_signature"
+                    "signature": "3045022100aabf3ca5e4609990a1ff077c50aa52e3343005ead0d6f2ba1c05f71afe34b2f2022045fb8a98b154f8bcd66eb5774499d5fcb20e18274d67f14a43d5b45ec301d470"
                 }
             }
         ],
         "preferences": {
             "version": 0,
             "data": { 
-                "opt_in": true 
+                "use_browsing_for_personalization": true 
             },
             "source": {
                 "domain": "cmp1.com",
                 "timestamp": 1639589531,
-                "signature": "12345_signature"
+                "signature": "304502203be66cc4bfa525f20005bc0b921f756f6a1d016c49641bdf0133413fe2ee1e15022100d2a37aabdb3c58ca84dfbaccf59496087deb976e9b8aa18bc93c48f59853b587"
             }
         }
     },
     "seed": {
         "version": 0,
-        "transaction_id": "a0651946-0f5b-482b-8cfc-eab3644d2743",
+        "transaction_ids": [
+            "4640dc9f-385f-4e02-a0e5-abbf241af94d",
+            "7d71a23a-fafa-449a-8b85-63a634780107" 
+        ],
         "publisher": "publisher.com",
         "source": {
           "domain": "ad-server.com",
           "timestamp": 1639589531,
-          "signature": "12345_signature"
+          "signature": "3044022005aa77b713ef8fdac9d3031e450cfd9d66f22adb0636903c6eaa02f7b30a20780220331c7b3fed84c2a962d8ec6ca0f19795a79b799a99fd8f9589286049bd66a0da"
         }
     },
+    "transaction-id": "4640dc9f-385f-4e02-a0e5-abbf241af94d",
     "transmissions": [
         {
             "version": 0,
             "receiver": "ssp1.com",
             "status": "success",
             "details": "",
+            "transaction_ids": [
+                "4640dc9f-385f-4e02-a0e5-abbf241af94d",
+                "7d71a23a-fafa-449a-8b85-63a634780107" 
+            ],
             "source": {
                 "domain": "ssp1.com",
                 "timestamp": 1639589531,
-                "signature": "12345_signature"
-            }
-        },
-        {
-            "version": 0,
-            "receiver": "ssp2.com",
-            "status": "success",
-            "details": "",
-            "source": {
-                "domain": "ssp2.com",
-                "timestamp": 1639589531,
-                "signature": "12345_signature"
+                "signature": "30450221008546d33912bfd27ecc51a48a49d399bdadcc8795fb2b94ebda9aa6be902fb3ee02202cc41e980139c3f6e136088b9e01c2324ed3b6d522ba5e526869f36a7a931b1b"
             }
         },
         {
             "version": 0,
             "receiver": "dsp.com",
             "status": "success",
+            "transaction_ids": [
+                "4640dc9f-385f-4e02-a0e5-abbf241af94d",
+            ],
             "details": "",
             "source": {
                 "domain": "dps.com",
                 "timestamp": 1639589531,
-                "signature": "12345_signature"
+                "signature": "30440220340ecf9b0a430f02cf50689ce13af0bd39d79e7387fb6ca1a30be61cd845b7dd02200781e7e96aa64f18de516cc719fe08e6283a110d1ae70432d8e712db3a9f8b8b"
             }
         }
     ]

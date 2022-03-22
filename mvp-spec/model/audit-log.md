@@ -511,27 +511,7 @@ To be detailed.
 
 <tr>
 <td>
-<b>transaction_id</b>
-</td>
-<td>
-string
-</td>
-<td>
-
-A Generated Unique Identifier dedicated to a placement and an Addressable Content
-
-**Example:** 
-
-```json
-"b0cffcd0-177e-46d5-8bcd-32ed52a414dc"
-```
-
-</td>
-</tr>
-
-<tr>
-<td>
-<b>addressable_content_ids</b>
+<b>transaction_ids</b>
 </td>
 <td>
 array
@@ -540,12 +520,12 @@ array
 
 Type of **each element in the array**:
 
-A Generated Unique Identifier dedicated to an Addressable Content
+A Generated Unique Identifier dedicated to a placement and an Addressable Content
 
 **Example:** 
 
 ```json
-"7435313e-caee-4889-8ad7-0acd0114ae3c"
+"b0cffcd0-177e-46d5-8bcd-32ed52a414dc"
 ```
 
 </td>
@@ -1028,10 +1008,9 @@ object
 Signature based on input:
 ```source.domain + '\u2063' +
 source.timestamp + '\u2063' +
-transaction_id + '\u2063' +
-addressable_content_ids[0] + '\u2063' +
+transaction_ids[0] + '\u2063' +
 ... + '\u2063' +
-addressable_content_ids[n] +
+transaction_ids[n] +
 publisher + '\u2063' +
 data.identifiers[0].source.signature + '\u2063' +
 data.identifiers[1].source.signature + '\u2063' +
@@ -1125,6 +1104,26 @@ The base64 representation of a data signature
 </table>
 
 </details>
+
+</td>
+</tr>
+
+<tr>
+<td>
+<b>transaction_id</b>
+</td>
+<td>
+string
+</td>
+<td>
+
+A Generated Unique Identifier dedicated to a placement and an Addressable Content
+
+**Example:** 
+
+```json
+"b0cffcd0-177e-46d5-8bcd-32ed52a414dc"
+```
 
 </td>
 </tr>
@@ -1241,7 +1240,7 @@ The details of the status. It can be empty for "success" but it should detail th
 
 <tr>
 <td>
-addressable_content_ids<br>(<i>optional</i>)
+transaction_ids<br>(<i>optional</i>)
 </td>
 <td>
 array
@@ -1250,12 +1249,12 @@ array
 
 Type of **each element in the array**:
 
-The Ids of the Addressable Content for which the Receiver want to participate to
+The transaction-ids of the Addressable Contents for which the Receiver want to participate to
 
 **Example:** 
 
 ```json
-"7435313e-caee-4889-8ad7-0acd0114ae3c"
+"b0cffcd0-177e-46d5-8bcd-32ed52a414dc"
 ```
 
 </td>

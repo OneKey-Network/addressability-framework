@@ -225,8 +225,8 @@ protocol:
 multiple audit logs per Bid Request;
 * a Bid request can contain extra data not specified in the OpenRTB 
 specifications. It is named "Extension" and is represented by a field "ext" in 
-different technical objects including the "imp" object (for impression). It can 
-be a location for a Transmission request for each placement;
+different technical objects including the "imp" and "user"."ext"."eids" objects. It can 
+be locations to add Transmission request;
 * a Bid response can also be extended (field "ext") in different objects. It 
 can be a place for Transmission responses.
 * It is acceptable in OpenRTB to send an empty response for a no-bid. In this
@@ -293,10 +293,9 @@ Transmission_Result             -> Transmission_Success | Transmission_No_Bid | 
 
 # Seed and PAF Data
 Transaction_ID              -> Unique Identifier
-Audit_log_responsibility    -> "publisher" | "vendor"
 Identifiers                 -> List of unique Identifiers with their signatures (for now SWID)
 Preferences                 -> Preference of the user with their signatures (for now opt-in/opt-out)
-Seed                        -> (Transaction_ID, Audit_log_responsibility, Identifiers, Preferences, Signature<Root_Party>)
+Seed                        -> (Transaction_ID, Identifiers, Preferences, Signature<Root_Party>)
 
 Transmissions     -> List<Transmission_Result>
 
@@ -309,79 +308,6 @@ and transmissions contain signatures:
 * The Preferences (one for all)
 * The Seed
 * The Transmission (one for each)
-
-Here are details:
-
-| Entity     | Type               | Value           |
-|------------|--------------------|-----------------|
-| Seed       | object             | <table> <tr> <th>Name</th> <th>Type</th> <th>Value</th> </tr> <tr> <td>Transaction ID</td> <td>GUID</td> <td>8b4cf0ff-8b4c-4d79-4d79-69b65402f0ff</td> </tr> <tr> <td>Audit Responsibility</td> <td>String</td> <td>"Publisher"</td> </tr> <tr> <td>Identifier</td> <td>List<Pseudonymous-Identifier></td> <td> Each Identifier also includes: <ul> <li>A digital signature</li> <li>The domain of the Contracting Party that signs</li> <li>The date of the signature</li> </ul> </td> </tr> <tr> <td>Preferences</td> <td>List<Preferences></td> <td> For all Preferences, there are: <ul> <li>A digital signature</li> <li>The domain of the Contracting Party that signs</li> <li>The date of the signature</li> </ul> </td> </tr> <tr> <td>Signature</td> <td>Signature object</td> <td> <ul> <li>Domain - string</li> <li>Date - date</li> <li>Signature - string</li> </ul> </td> </tr> </table>|
-| Transmissions    | Array of objects   | <table> <tr> <th>Name</th> <th>Type</th> <th>Value</th> </tr> <tr> <td>Receiver</td> <td>String</td> <td>"party42.com"</td> </tr> <tr> <td>Status</td> <td>String</td> <td>"success", "bad_response", "no_response"</td> </tr> <tr> <td>Detail</td> <td>String</td> <td>"Error: The Receiver wasn't able to verify the identity of the sender."</td> </tr> </table> Each Transmission also includes: <ul> <li>A digital signature</li> <li>The domain of the Contracting Party that signs</li> <li>The date of the signature</li> </ul> If the transmission was successful, the Contracting Party is the Receiver. Else it is the sender. |
-
-A concrete example using a JSON format (that is subject to change in Technical 
-Specifications):
-
-**Example**
-
-````json
-{
-    "seed": {
-        "version": 1,
-        "transaction_id": "a0651946-0f5b-482b-8cfc-eab3644d2743",
-        "display_responsibility": "publisher",
-        "identifiers": [
-            {
-                "version": 1,
-                "type": "prebid_id",
-                "value": "prebidid12345",
-                "source": {
-                    "domain": "operotor0.com",
-                    "date": "2021-04-23T18:25:43.511Z",
-                    "signature": "12345_signature"
-                }
-            }
-        ],
-        "preferences": [
-            {
-                "version": 1,
-                "type": "opt_in",
-                "value": true,
-                "source": {
-                    "domain": "operator1.com",
-                    "date": "2021-04-23T18:25:43.511Z",
-                    "signature": "12345_signature"
-                }
-            }
-        ],
-        "source": {
-            "domain": "publisher.com",
-            "date": "2021-04-23T18:25:43.511Z",
-            "signature": "12345_signature"
-        }
-    },
-    "transactions": [
-        {
-            "version": 1,
-            "receiver": "party2.com",
-            "status": "success",
-            "source": {
-                "domain": "party2.com",
-                "date": "2021-04-23T18:25:43.511Z",
-                "signature": "12345_signature"
-            }
-        },
-        {
-            "version": 1,
-            "receiver": "party3.com",
-            "status": "success",
-            "source": {
-                "domain": "party3.com",
-                "date": "2021-04-23T18:25:43.511Z",
-                "signature": "12345_signature"
-            }
-        }
-    ]
-}
-````
 
 When a user wants to verify if her/his preferences haven't been respected,
 the audit log must be able to see that:

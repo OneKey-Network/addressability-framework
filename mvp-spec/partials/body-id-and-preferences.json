@@ -8,7 +8,7 @@
       "source": {
         "domain": "cmpC.com",
         "timestamp": 1639643112,
-        "signature": "preferences_signature_xyz12345"
+        "signature": "4ed0d811a96e424cdcbe8b85cd4e58bc75f3b6d701870fb4a2a620feee670d54"
       }
     },
     "identifiers": [
@@ -19,7 +19,7 @@
         "source": {
           "domain": "operator0.com",
           "timestamp": 1639643110,
-          "signature": "prebid_id_signature_xyz12345"
+          "signature": "b9d2918542e4a4155e5e404cf3d6e73449152c974da1e8f554282d7ed7c62278"
         }
       }
     ]
