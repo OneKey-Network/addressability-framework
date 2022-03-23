@@ -1,6 +1,74 @@
-# Prebid Addressability Framework MVP specs
+# Prebid Addressability Framework
 
-This directory contains functional and technical specifications for PAF minimum viable product (MVP). 
+The Prebid Addressability Framework (PAF) is a set of technical standards, UX requirements, and mandatory contractual terms designed to improve addressable advertising across the open internet.
+
+This directory contains functional and technical specifications for a minimum viable product (MVP).
+
+## Overview
+
+```mermaid
+flowchart LR
+    
+    O(PAF Operator)
+    click O href "#operator" "Operator API"
+    
+    Participant("Participant website")
+    
+    Participant -->|read user ids & preferences| O
+    click Participant href "#publisher" "Participant"
+    
+    Participant -- start transaction --> SSP
+    SSP -- send transmission --> DSP
+    DSP -- send transmission response --> SSP
+    SSP -- send transmission response --> Participant    
+
+    click SSP href "#ssp-supply-side-platform" "SSP"
+    click DSP href "#dsp-demand-side-platform" "DSP"
+```
+
+PAF integrates in the existing digital marketing landscape and introduces a new actor: the "PAF operator".
+
+The operator is responsible for:
+- generating unique pseudonymous user ids
+- storing these ids and their associated preferences
+
+Key features of PAF include:
+
+- signing transmissions and request with private keys
+- making available alongside the ad an audit log of entities involved
+
+## Nodes
+
+### Operator
+
+The operator is responsible for:
+- generating unique user ids
+- storing these ids and their associated preferences
+
+See [operator-api.md](operator-api.md)  for details.
+
+### Participant website
+
+A participant website is usually either an advertiser or publisher website. It can:
+- Call the Operator to read the user id and preferences
+- Sell ad placements to other PAF participants. To do so it must create and sign a "seed" object and initialize an RTB transaction sent to an SSP.
+
+See [operator-client.md](operator-client.md) and [ad-server-implementation.md](ad-server-implementation.md).
+
+### SSP (Supply Side Platform)
+
+The SSP shares PAF Data to DSPs via Transmission Requests. Depending of the context, it can generate the Seed and emit the first Transmission of the Transaction or receive the Seed from a previous Transmission Request.
+
+### DSP (Demand Side Platform)
+
+DSPs receive transmissions that they must sign before they respond to the SSP
+
+See d[dsp-implementation.md](dsp-implementation.md).
+
+### See also
+
+- Focus on signatures: [signatures.md](signatures.md)
+- Audit log design: [audit-log-design.md](audit-log-design.md)
 
 ## Documents
 
@@ -19,93 +87,3 @@ This directory contains functional and technical specifications for PAF minimum 
 | [model/](model)                                                            | Data and messages model                                                                             |
 | [json-schemas/](json-schemas)                                              | Data and messages model in [JSON schema](https://json-schema.org/understanding-json-schema/) format |
 | `assets/` `model-updater/` `partials/` `partials-updater/`                 | Technical dependencies, please ignore                                                               |
-
-## Architecture
-
-PAF integrates in the existing digital marketing landscape and introduces a new actor: the "PAF operator".
-
-```mermaid
-flowchart LR
-    
-    O(PAF Operator)
-    click O href "#operator" "Operator API"
-    
-    Ad(Ad server)
-    click Ad href "#ad-server" "Ad server"
-    
-    Advertiser("Advertiser website")
-    Advertiser --->|read user ids & preferences| O
-    click Advertiser href "#advertiser" "Advertiser"
-    
-    Publisher("Publisher website")
-    
-    Publisher -->|read user ids & preferences| O
-    click Publisher href "#publisher" "Publisher"
-    
-    Publisher -.->|include| UI
-    Publisher -- start transaction --> SSP
-    Publisher -- get ad & audit logs --> Ad
-    
-    SSP -- send transmission --> DSP
-    click SSP href "#ssp-supply-side-platform" "SSP"
-    click DSP href "#dsp-demand-side-platform" "DSP"
-    
-    UI("User Interface Provider") -->|write user preferences| O
-    click UI href "#user-interface-provider" "UI provider"
-```
-
-## Nodes
-
-### Advertiser website
-
-An advertiser is a client of the operator to read ids and preferences from the visiting user.
-
-See [operator-client.md](operator-client.md) for instructions on implementing the operator client.
-
-### User Interface Provider
-
-User Interface Providers are responsible for gathering **user preferences**.
-
-A clear User Interface must be provided to users and the UI Provider must **sign** preferences before they are **saved**
-by the operator.
-
-Signing and writing preferences is explained in [operator-client.md](operator-client.md).
-
-### Publisher website
-
-The publisher has multiple roles
-
-1. Just like the advertiser, it needs to read id and preferences from the operator
-2. It is also selling inventory to contracting parties and must create and sign a "seed" object and initialize an RTB transaction sent to an SSP
-   1. this is done through the ad server
-
-A publisher is a client of the operator to read ids and preferences from the visiting user.
-
-See [operator-client.md](operator-client.md) for instructions on implementing the operator client.
-
-### Ad server
-
-See [ad-server-implementation.md](ad-server-implementation.md).
-
-### SSP (Supply Side Platform)
-
-The SSP shares PAF Data to DSPs via Transmission Requests. Depending of the context, it can generate the Seed and emit the first Transmission of the Transaction or receive the Seed from a previous Transmission Request.
-
-### DSP (Demand Side Platform)
-
-DSPs receive transmissions that they must sign before they respond to the SSP
-
-See [dsp-implementation.md](dsp-implementation.md).
-
-### Operator
-
-The operator is responsible for:
-- generating unique user ids
-- storing these ids and their associated preferences
-
-See [operator-api.md](operator-api.md) for details.
-
-### See also
-
-- Focus on [signatures](signatures.md)
-- Audit log [design](audit-log-design.md)
