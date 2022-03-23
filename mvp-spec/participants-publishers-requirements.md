@@ -2,15 +2,15 @@
 
 ## Goal of the document
 
-This document describes what is required to participate in the Prebid Addressability Framework (PAF) as a Publisher.
+This document describes what is required for a Publisher to participate in the Prebid Addressability Framework (PAF).
 
 ## Overview
 
-To participate in PAF, a Publisher has to implement the following features:
-* The generation of the Seeds of the Addressable Contents;
-* The emission of Transmissions to the SSP;
-* The support of the Audit Log for the user;
-* The exposition of an Identity endpoint.
+The Prebid Addressability Framework instantiates an audit trail for ad displays. To participate in PAF, a Publisher has to implement the following features:
+* Generate Seeds for ad slots
+* Send Transmissions Requests with a Seed to SSP
+* Make available  the Audit Log to the user
+* Expose an Identity endpoint, so that participants can verify the the publisher's signature.
 
 The following diagram introduces an overview of this setup:
 
