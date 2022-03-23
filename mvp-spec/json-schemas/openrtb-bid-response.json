@@ -5,7 +5,7 @@
     "$id": "openrtb-bid-response",
     "type": "object",
     "properties": {
-        "seadbid": {
+        "seatbid": {
             "type": "array",
             "description": "Represents a specific seat that provides at least one bid.",
             "items": {
@@ -40,6 +40,6 @@
         }
     },
     "required": [
-        "seadbid"
+        "seatbid"
     ]
 }

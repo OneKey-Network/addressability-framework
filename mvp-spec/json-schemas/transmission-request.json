@@ -1,8 +1,8 @@
 {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "title": "Transmission Request",
-    "description": "",
     "$id": "transmission-request",
+    "description": "The request sent from a Sender to a Receiver for sharing PAF data for a set of Addressable Content",
     "type": "object",
     "properties": {
         "version": {
@@ -19,7 +19,11 @@
             "$ref": "source.json"
         },
         "parents": {
-            "$ref": "transmission-result.json"
+            "type": "array",
+            "description": "The list of Transmission Result before this Transmission Request for the given Seed.",
+            "items": { 
+                "$ref": "transmission-result.json"
+            }
         }
     },
     "required": [

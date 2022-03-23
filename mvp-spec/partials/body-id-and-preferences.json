@@ -1,7 +1,7 @@
 {
   "body": {
     "preferences": {
-      "version": 0,
+      "version": "0.1",
       "data": {
         "use_browsing_for_personalization": true
       },
@@ -13,8 +13,8 @@
     },
     "identifiers": [
       {
-        "version": 0,
-        "type": "prebid_id",
+        "version": "0.1",
+        "type": "paf_browser_id",
         "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
         "source": {
           "domain": "operator0.com",

@@ -2,6 +2,8 @@
 
 # Transmission Request
 
+The request sent from a Sender to a Receiver for sharing PAF data for a set of Addressable Content
+
 <table>
 
 <tr>
@@ -377,7 +379,7 @@ Signature based on input:
 ```
 preferences.source.domain + '\u2063' +
 preferences.source.timestamp + '\u2063' +
-identifiers[type="prebid_id"].source.signature + '\u2063' +
+identifiers[type="paf_browser_id"].source.signature + '\u2063' +
 preferences.data.key1 + '\u2063' + preferences.data[key1].value + '\u2063' +
 preferences.data.key2 + '\u2063' + preferences.data[key2].value + '\u2063' +
 ...
@@ -795,9 +797,13 @@ The base64 representation of a data signature
 <b>parents</b>
 </td>
 <td>
-object
+array
 </td>
 <td>
+
+The list of Transmission Result before this Transmission Request for the given Seed.
+
+Type of **each element in the array**:
 
 <details>
 <summary>Object details</summary>

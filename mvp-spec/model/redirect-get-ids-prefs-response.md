@@ -289,7 +289,7 @@ Signature based on input:
 ```
 preferences.source.domain + '\u2063' +
 preferences.source.timestamp + '\u2063' +
-identifiers[type="prebid_id"].source.signature + '\u2063' +
+identifiers[type="paf_browser_id"].source.signature + '\u2063' +
 preferences.data.key1 + '\u2063' + preferences.data[key1].value + '\u2063' +
 preferences.data.key2 + '\u2063' + preferences.data[key2].value + '\u2063' +
 ...

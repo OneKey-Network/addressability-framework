@@ -51,7 +51,7 @@ The structure of the User Id is:
 | Field   | Type          | Details                                            |
 |---------|---------------|----------------------------------------------------|
 | version | Number        | The version of PAF used.                                                                       |
-| type    | String        | The type of Pseudonymous-Identifier. For now, there is only one: "prebid_id".                                                    |
+| type    | String        | The type of Pseudonymous-Identifier. For now, there is only one: "paf_browser_id".                                                    |
 | value   | String        | The Pseudonymous-Identifier value in UTF-8.                                                                                      |
 | source  | Source object | The Source contains all the data for identifying and trusting the Operator that generated the Pseudonymous-Identifier. <br /> <table><tr><th>Field</th><th>Type</th><th>Details</th></tr><tr><td>domain</td><td>String</td><td>The domain of the Operator.</td></tr><tr><td>timestamp</td><td>Integer</td><td>The timestamp of the signature.</td></tr><tr><td>signature</td><td>String</td><td>Encoded signature in UTF-8 of the Operator.</td></tr></table>|
 <!--partial-end-->
@@ -90,7 +90,7 @@ Here is a JSON example of the Seed:
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```json
 {
-    "version": 0,
+    "version": "0.1",
     "transaction_id": "a0651946-0f5b-482b-8cfc-eab3644d2743",
     "publisher": "publisher.com",
     "source": {
@@ -186,9 +186,9 @@ Here is an example that must be adapted to the existing API of the Ad Server:
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```json
 {
-    "version": 0,
+    "version": "0.1",
     "seed": {
-        "version": 0,
+        "version": "0.1",
         "transaction_ids": [ 
             "4640dc9f-385f-4e02-a0e5-abbf241af94d", 
             "7d71a23a-fafa-449a-8b85-63a634780107" 
@@ -203,8 +203,8 @@ Here is an example that must be adapted to the existing API of the Ad Server:
     "data": {
         "identifiers": [
             {
-                "version": 0,
-                "type": "prebid_id",
+                "version": "0.1",
+                "type": "paf_browser_id",
                 "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
                 "source": {
                     "domain": "operator0.com",
@@ -214,7 +214,7 @@ Here is an example that must be adapted to the existing API of the Ad Server:
             }
         ],
         "preferences": {
-            "version": 0,
+            "version": "0.1",
             "data": { 
                 "use_browsing_for_personalization": true 
             },
@@ -264,7 +264,7 @@ must be adapted to the existing API:
 {
     "transmissions": [
         {
-            "version": 0,
+            "version": "0.1",
             "transaction_id": "a0651946-0f5b-482b-8cfc-eab3644d2743",
             "receiver": "dsp1.com",
             "status": "success",
@@ -277,8 +277,8 @@ must be adapted to the existing API:
             "children": []
         },
         {
-            "version": 0,
-            "transaction_id": "a0651946-0f5b-482b-8cfc-eab3644d2743"8,
+            "version": "0.1",
+            "transaction_id": "a0651946-0f5b-482b-8cfc-eab3644d2743",
             "receiver": "dsp1.com",
             "status": "success",
             "details": "",
@@ -336,7 +336,7 @@ Here is a received Transmission Response that helps to generate the Addressable 
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```json
 {
-    "version": 0,
+    "version": "0.1",
     "receiver": "ssp1.com",
     "status": "success",
     "details": "",
@@ -351,6 +351,7 @@ Here is a received Transmission Response that helps to generate the Addressable 
     },
     "children": [
         {
+            "version": "0.1",
             "receiver": "ssp2.com",
             "status": "success",
             "details": "",
@@ -364,6 +365,7 @@ Here is a received Transmission Response that helps to generate the Addressable 
             }
         },
         {
+            "version": "0.1",
             "receiver": "dsp.com",
             "status": "success",
             "details": "",
@@ -389,7 +391,7 @@ Here is the associated list of Transmission Results:
 {
     "transmissions": [
         {
-            "version": 0,
+            "version": "0.1",
             "receiver": "ssp1.com",
             "status": "success",
             "details": "",
@@ -400,7 +402,7 @@ Here is the associated list of Transmission Results:
             }
         },
         {
-            "version": 0,
+            "version": "0.1",
             "receiver": "ssp2.com",
             "status": "success",
             "details": "",
@@ -411,7 +413,7 @@ Here is the associated list of Transmission Results:
             }
         },
         {
-            "version": 0,
+            "version": "0.1",
             "receiver": "dsp.com",
             "status": "success",
             "details": "",
@@ -436,8 +438,8 @@ an example:
     "data": {
         "identifiers": [
             {
-                "version": 0,
-                "type": "prebid_id",
+                "version": "0.1",
+                "type": "paf_browser_id",
                 "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
                 "source": {
                     "domain": "operotor0.com",
@@ -447,7 +449,7 @@ an example:
             }
         ],
         "preferences": {
-            "version": 0,
+            "version": "0.1",
             "data": { 
                 "opt_in": true 
             },
@@ -459,7 +461,7 @@ an example:
         }
     },
     "seed": {
-        "version": 0,
+        "version": "0.1",
         "transaction_ids": [
             "4640dc9f-385f-4e02-a0e5-abbf241af94d",
             "7d71a23a-fafa-449a-8b85-63a634780107" 
@@ -471,10 +473,10 @@ an example:
           "signature": "3044022005aa77b713ef8fdac9d3031e450cfd9d66f22adb0636903c6eaa02f7b30a20780220331c7b3fed84c2a962d8ec6ca0f19795a79b799a99fd8f9589286049bd66a0da"
         }
     },
-    "transaction-id": "4640dc9f-385f-4e02-a0e5-abbf241af94d",
+    "transaction_id": "4640dc9f-385f-4e02-a0e5-abbf241af94d",
     "transmissions": [
         {
-            "version": 0,
+            "version": "0.1",
             "receiver": "ssp1.com",
             "status": "success",
             "details": "",
@@ -489,11 +491,11 @@ an example:
             }
         },
         {
-            "version": 0,
+            "version": "0.1",
             "receiver": "dsp.com",
             "status": "success",
             "transaction_ids": [
-                "4640dc9f-385f-4e02-a0e5-abbf241af94d",
+                "4640dc9f-385f-4e02-a0e5-abbf241af94d"
             ],
             "details": "",
             "source": {
@@ -595,8 +597,8 @@ for nom.
                             "id": "7435313e-caee-4889-8ad7-0acd0114ae3c",
                             "ext": 
                             {
-                                "version": 0,
-                                "type": "prebid_id",
+                                "version": "0.1",
+                                "type": "paf_browser_id",
                                 "source": {
                                     "domain": "operator0.com",
                                     "timestamp": 1639580000,
@@ -607,7 +609,7 @@ for nom.
                     ],
                     "ext": {
                         "preferences": {
-                            "version": 0,
+                            "version": "0.1",
                             "data": { 
                                 "use_browsing_for_personalization": true 
                             },
@@ -622,8 +624,9 @@ for nom.
             ],
             "paf": {
                 "transmission": {
+                    "version": "0.1",
                     "seed": {
-                        "version": 0,
+                        "version": "0.1",
                         "transaction_ids": [ 
                             "4640dc9f-385f-4e02-a0e5-abbf241af94d", 
                             "7d71a23a-fafa-449a-8b85-63a634780107" 
@@ -678,13 +681,13 @@ Here is an example:
                     "adomain": [ "advertiserdomain.com" ],
                     "cid": "campaign111",
                     "crid": "creative112",
-                    "attr": [ 1, 2, 3, 4, 5, 6, 7, 12 ],
+                    "attr": [ 1, 2, 3, 4, 5, 6, 7, 12 ]
                 }
             ],
             "ext": {
                 "paf": {
                     "transmission": {
-                        "version": 0,
+                        "version": "0.1",
                         "transaction_ids": [
                             "4640dc9f-385f-4e02-a0e5-abbf241af94d"
                         ],

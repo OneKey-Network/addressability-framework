@@ -1,7 +1,7 @@
 {
     "transmissions": [
         {
-            "version": 0,
+            "version": "0.1",
             "receiver": "ssp1.com",
             "status": "success",
             "details": "",
@@ -12,7 +12,7 @@
             }
         },
         {
-            "version": 0,
+            "version": "0.1",
             "receiver": "ssp2.com",
             "status": "success",
             "details": "",
@@ -23,7 +23,7 @@
             }
         },
         {
-            "version": 0,
+            "version": "0.1",
             "receiver": "dsp.com",
             "status": "success",
             "details": "",

@@ -1,7 +1,7 @@
 {
     "transmissions": [
         {
-            "version": 0,
+            "version": "0.1",
             "transaction_id": "a0651946-0f5b-482b-8cfc-eab3644d2743",
             "receiver": "dsp1.com",
             "status": "success",
@@ -14,8 +14,8 @@
             "children": []
         },
         {
-            "version": 0,
-            "transaction_id": "a0651946-0f5b-482b-8cfc-eab3644d2743"8,
+            "version": "0.1",
+            "transaction_id": "a0651946-0f5b-482b-8cfc-eab3644d2743",
             "receiver": "dsp1.com",
             "status": "success",
             "details": "",

@@ -226,9 +226,9 @@ in their existing models.
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```json
 {
-    "version": 0,
+    "version": "0.1",
     "seed": {
-        "version": 0,
+        "version": "0.1",
         "transaction_ids": [ 
             "4640dc9f-385f-4e02-a0e5-abbf241af94d", 
             "7d71a23a-fafa-449a-8b85-63a634780107" 
@@ -243,8 +243,8 @@ in their existing models.
     "data": {
         "identifiers": [
             {
-                "version": 0,
-                "type": "prebid_id",
+                "version": "0.1",
+                "type": "paf_browser_id",
                 "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
                 "source": {
                     "domain": "operator0.com",
@@ -254,7 +254,7 @@ in their existing models.
             }
         ],
         "preferences": {
-            "version": 0,
+            "version": "0.1",
             "data": { 
                 "use_browsing_for_personalization": true 
             },
@@ -284,7 +284,7 @@ in their existing models.
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```json
 {
-    "version": 0,
+    "version": "0.1",
     "receiver": "ssp1.com",
     "status": "success",
     "details": "",
@@ -299,6 +299,7 @@ in their existing models.
     },
     "children": [
         {
+            "version": "0.1",
             "receiver": "ssp2.com",
             "status": "success",
             "details": "",
@@ -312,6 +313,7 @@ in their existing models.
             }
         },
         {
+            "version": "0.1",
             "receiver": "dsp.com",
             "status": "success",
             "details": "",
@@ -451,8 +453,8 @@ of this new object in the "ext" object is "prebid_sso_transmissions".
                             "id": "7435313e-caee-4889-8ad7-0acd0114ae3c",
                             "ext": 
                             {
-                                "version": 0,
-                                "type": "prebid_id",
+                                "version": "0.1",
+                                "type": "paf_browser_id",
                                 "source": {
                                     "domain": "operator0.com",
                                     "timestamp": 1639580000,
@@ -463,7 +465,7 @@ of this new object in the "ext" object is "prebid_sso_transmissions".
                     ],
                     "ext": {
                         "preferences": {
-                            "version": 0,
+                            "version": "0.1",
                             "data": { 
                                 "use_browsing_for_personalization": true 
                             },
@@ -478,8 +480,9 @@ of this new object in the "ext" object is "prebid_sso_transmissions".
             ],
             "paf": {
                 "transmission": {
+                    "version": "0.1",
                     "seed": {
-                        "version": 0,
+                        "version": "0.1",
                         "transaction_ids": [ 
                             "4640dc9f-385f-4e02-a0e5-abbf241af94d", 
                             "7d71a23a-fafa-449a-8b85-63a634780107" 
@@ -529,13 +532,13 @@ of this new object in the "ext" object is "prebid_sso_transmissions".
                     "adomain": [ "advertiserdomain.com" ],
                     "cid": "campaign111",
                     "crid": "creative112",
-                    "attr": [ 1, 2, 3, 4, 5, 6, 7, 12 ],
+                    "attr": [ 1, 2, 3, 4, 5, 6, 7, 12 ]
                 }
             ],
             "ext": {
                 "paf": {
                     "transmission": {
-                        "version": 0,
+                        "version": "0.1",
                         "transaction_ids": [
                             "4640dc9f-385f-4e02-a0e5-abbf241af94d"
                         ],

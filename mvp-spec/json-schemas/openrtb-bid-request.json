@@ -66,7 +66,7 @@
                                                     "description": "Equal to 1 for the element of PAF Data.\nType of user agent the match is from. It is highly recommended to set this, as many DSPs separate app-native IDs from browser-based IDs and require a type value for ID resolution."
                                                 },
                                                 "id": {
-                                                    "type": "integer",
+                                                    "type": "string",
                                                     "description": "Equal to the PAF Id for the element of the PAF Data.\nCookie or platform-native identifier."
                                                 }
                                             },
@@ -98,28 +98,40 @@
                         },
                         "paf": {
                             "type": "object",
-                            "description": "Object dedicated to extended PAF transmission",
+                            "description": "Object dedicated to PAF",
                             "properties": {
-                                "version": {
-                                    "$ref": "version.json"
-                                },
-                                "seed": {
-                                    "$ref": "seed.json"
-                                },
-                                "source": {
-                                    "description": "Signature based on input:\n```\ntransmission_request_receiver_domain        + '\\u2063' +\nsource.domain          + '\\u2063' + \nsource.timestamp       + '\\u2063' +\nseed.source.signature\n```",
-                                    "$ref": "source.json"
-                                },
-                                "parents": {
-                                    "$ref": "transmission-result.json"
+                                "transmission": {
+                                    "type": "object",
+                                    "description": "Object dedicated to PAF transmission",
+                                    "properties": {
+                                        "version": {
+                                            "$ref": "version.json"
+                                        },
+                                        "seed": {
+                                            "$ref": "seed.json"
+                                        },
+                                        "source": {
+                                            "description": "Signature based on input:\n```\ntransmission_request_receiver_domain        + '\\u2063' +\nsource.domain          + '\\u2063' + \nsource.timestamp       + '\\u2063' +\nseed.source.signature\n```",
+                                            "$ref": "source.json"
+                                        },
+                                        "parents": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "transmission-result.json"
+                                            }
+                                        }
+                                    },
+                                    "required": [
+                                        "version",
+                                        "seed",
+                                        "source",
+                                        "parents"
+                                    ]                
                                 }
                             },
                             "required": [
-                                "version",
-                                "seed",
-                                "source",
-                                "parents"
-                            ]   
+                                "transmission"
+                            ]  
                         }
                     },
                     "required": [

@@ -15,13 +15,13 @@
                     "adomain": [ "advertiserdomain.com" ],
                     "cid": "campaign111",
                     "crid": "creative112",
-                    "attr": [ 1, 2, 3, 4, 5, 6, 7, 12 ],
+                    "attr": [ 1, 2, 3, 4, 5, 6, 7, 12 ]
                 }
             ],
             "ext": {
                 "paf": {
                     "transmission": {
-                        "version": 0,
+                        "version": "0.1",
                         "transaction_ids": [
                             "4640dc9f-385f-4e02-a0e5-abbf241af94d"
                         ],

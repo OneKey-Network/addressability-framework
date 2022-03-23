@@ -14,7 +14,7 @@ An Open RTB Bid Response according to the 2.5 OpenRTB specification. OpenRTB spe
 
 <tr>
 <td>
-<b>seadbid</b>
+<b>seatbid</b>
 </td>
 <td>
 array of object

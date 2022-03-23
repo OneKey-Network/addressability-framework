@@ -53,8 +53,8 @@ of the Addressable Content.
     "data": {
         "identifiers": [
             {
-                "version": 0,
-                "type": "prebid_id",
+                "version": "0.1",
+                "type": "paf_browser_id",
                 "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
                 "source": {
                     "domain": "operotor0.com",
@@ -64,7 +64,7 @@ of the Addressable Content.
             }
         ],
         "preferences": {
-            "version": 0,
+            "version": "0.1",
             "data": { 
                 "use_browsing_for_personalization": true 
             },
@@ -76,7 +76,7 @@ of the Addressable Content.
         }
     },
     "seed": {
-        "version": 0,
+        "version": "0.1",
         "transaction_ids": [
             "4640dc9f-385f-4e02-a0e5-abbf241af94d",
             "7d71a23a-fafa-449a-8b85-63a634780107" 
@@ -88,10 +88,10 @@ of the Addressable Content.
           "signature": "3044022005aa77b713ef8fdac9d3031e450cfd9d66f22adb0636903c6eaa02f7b30a20780220331c7b3fed84c2a962d8ec6ca0f19795a79b799a99fd8f9589286049bd66a0da"
         }
     },
-    "transaction-id": "4640dc9f-385f-4e02-a0e5-abbf241af94d",
+    "transaction_id": "4640dc9f-385f-4e02-a0e5-abbf241af94d",
     "transmissions": [
         {
-            "version": 0,
+            "version": "0.1",
             "receiver": "ssp1.com",
             "status": "success",
             "details": "",
@@ -106,11 +106,11 @@ of the Addressable Content.
             }
         },
         {
-            "version": 0,
+            "version": "0.1",
             "receiver": "dsp.com",
             "status": "success",
             "transaction_ids": [
-                "4640dc9f-385f-4e02-a0e5-abbf241af94d",
+                "4640dc9f-385f-4e02-a0e5-abbf241af94d"
             ],
             "details": "",
             "source": {
@@ -146,7 +146,7 @@ The design of the page is up to the Contracting Party but it must consider
 to have a neutral UI to be used for many different Publishers in case of a DSP.
 
 For the version v0.1, there are only one possible preference
-("opt-in") and one possible pseudonymous-identifiers ("prebid_id").
+("opt-in") and one possible pseudonymous-identifiers ("paf_browser_id").
 However the framework is designed to handle many of them. 
 
 ## Source validations

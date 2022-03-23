@@ -241,7 +241,7 @@ Type of user agent the match is from. It is highly recommended to set this, as m
 <b>id</b>
 </td>
 <td>
-integer
+string
 </td>
 <td>
 
@@ -388,7 +388,7 @@ Signature based on input:
 
 ```preferences.source.domain + '\u2063' +
 preferences.source.timestamp + '\u2063' +
-identifiers[type="prebid_id"].source.signature + '\u2063' +
+identifiers[type="paf_browser_id"].source.signature + '\u2063' +
 preferences.data.key1 + '\u2063' + preferences.data[key1].value + '\u2063' +
 preferences.data.key2 + '\u2063' + preferences.data[key2].value + '\u2063' +
 ...
@@ -507,7 +507,29 @@ object
 </td>
 <td>
 
-Object dedicated to extended PAF transmission
+Object dedicated to PAF
+
+<details>
+<summary>Object details</summary>
+
+<table>
+
+<tr>
+    <th> Property </th>
+    <th> Type </th>
+    <th> Description </th>
+</tr>
+
+<tr>
+<td>
+<b>transmission</b>
+</td>
+<td>
+object
+</td>
+<td>
+
+Object dedicated to PAF transmission
 
 <details>
 <summary>Object details</summary>
@@ -860,9 +882,11 @@ The base64 representation of a data signature
 <b>parents</b>
 </td>
 <td>
-object
+array
 </td>
 <td>
+
+Type of **each element in the array**:
 
 <details>
 <summary>Object details</summary>
@@ -1074,6 +1098,13 @@ The base64 representation of a data signature
 ```json
 "RYGHYsBUEwMgFgOJ9aUQl7ywl4xnqdmwWIgPbaIowbXbmZAFKLa7mcBJQuWh1wEskpu57SHn2mmCF6V5+cESgw=="
 ```
+
+</td>
+</tr>
+
+</table>
+
+</details>
 
 </td>
 </tr>

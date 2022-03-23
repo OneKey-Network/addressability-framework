@@ -2,8 +2,8 @@
     "data": {
         "identifiers": [
             {
-                "version": 0,
-                "type": "prebid_id",
+                "version": "0.1",
+                "type": "paf_browser_id",
                 "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
                 "source": {
                     "domain": "operotor0.com",
@@ -13,7 +13,7 @@
             }
         ],
         "preferences": {
-            "version": 0,
+            "version": "0.1",
             "data": { 
                 "use_browsing_for_personalization": true 
             },
@@ -25,7 +25,7 @@
         }
     },
     "seed": {
-        "version": 0,
+        "version": "0.1",
         "transaction_ids": [
             "4640dc9f-385f-4e02-a0e5-abbf241af94d",
             "7d71a23a-fafa-449a-8b85-63a634780107" 
@@ -37,10 +37,10 @@
           "signature": "3044022005aa77b713ef8fdac9d3031e450cfd9d66f22adb0636903c6eaa02f7b30a20780220331c7b3fed84c2a962d8ec6ca0f19795a79b799a99fd8f9589286049bd66a0da"
         }
     },
-    "transaction-id": "4640dc9f-385f-4e02-a0e5-abbf241af94d",
+    "transaction_id": "4640dc9f-385f-4e02-a0e5-abbf241af94d",
     "transmissions": [
         {
-            "version": 0,
+            "version": "0.1",
             "receiver": "ssp1.com",
             "status": "success",
             "details": "",
@@ -55,11 +55,11 @@
             }
         },
         {
-            "version": 0,
+            "version": "0.1",
             "receiver": "dsp.com",
             "status": "success",
             "transaction_ids": [
-                "4640dc9f-385f-4e02-a0e5-abbf241af94d",
+                "4640dc9f-385f-4e02-a0e5-abbf241af94d"
             ],
             "details": "",
             "source": {
