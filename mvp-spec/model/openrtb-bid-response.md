@@ -1,6 +1,96 @@
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 
-# Transmission Response
+# OpenRTB Bid Response with a Transmission Response
+
+An Open RTB Bid Response according to the 2.5 OpenRTB specification. OpenRTB specifies fields unused in the integration of the Transmission Response. Therefore, they are omitted on purpose here.
+
+<table>
+
+<tr>
+    <th> Property </th>
+    <th> Type </th>
+    <th> Description </th>
+</tr>
+
+<tr>
+<td>
+<b>seadbid</b>
+</td>
+<td>
+array of object
+</td>
+<td>
+
+Represents a specific seat that provides at least one bid.
+
+Type of **each element in the array**:
+
+<details>
+<summary>Object details</summary>
+
+<table>
+
+<tr>
+    <th> Property </th>
+    <th> Type </th>
+    <th> Description </th>
+</tr>
+
+<tr>
+<td>
+<b>ext</b>
+</td>
+<td>
+object
+</td>
+<td>
+
+Placeholder for exchange-specific extensions to OpenRTB.
+
+<details>
+<summary>Object details</summary>
+
+<table>
+
+<tr>
+    <th> Property </th>
+    <th> Type </th>
+    <th> Description </th>
+</tr>
+
+<tr>
+<td>
+<b>paf</b>
+</td>
+<td>
+object
+</td>
+<td>
+
+Dedicated object for PAF as an extension.
+
+<details>
+<summary>Object details</summary>
+
+<table>
+
+<tr>
+    <th> Property </th>
+    <th> Type </th>
+    <th> Description </th>
+</tr>
+
+<tr>
+<td>
+<b>transmission</b>
+</td>
+<td>
+object
+</td>
+<td>
+
+<details>
+<summary>Object details</summary>
 
 <table>
 
@@ -444,6 +534,34 @@ The base64 representation of a data signature
 ```json
 "RYGHYsBUEwMgFgOJ9aUQl7ywl4xnqdmwWIgPbaIowbXbmZAFKLa7mcBJQuWh1wEskpu57SHn2mmCF6V5+cESgw=="
 ```
+
+</td>
+</tr>
+
+</table>
+
+</details>
+
+</td>
+</tr>
+
+</table>
+
+</details>
+
+</td>
+</tr>
+
+</table>
+
+</details>
+
+</td>
+</tr>
+
+</table>
+
+</details>
 
 </td>
 </tr>

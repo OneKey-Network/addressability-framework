@@ -131,11 +131,11 @@ object
 
 Signature based on input:
 ```
-transmission_result.receiver                + '\u2063' +
-transmission_result.status                  + '\u2063' 
-transmission_result.source.domain           + '\u2063' +
-transmission_result.source.timestamp        + '\u2063' +
-seed.source.signature      // -> The Seed associated to the given Transaction Result
+receiver                + '\u2063' +
+status                  + '\u2063' 
+source.domain           + '\u2063' +
+source.timestamp        + '\u2063' +
+seed.source.signature 
 ```
 
 <details>

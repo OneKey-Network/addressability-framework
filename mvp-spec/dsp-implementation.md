@@ -234,35 +234,35 @@ in their existing models.
             "7d71a23a-fafa-449a-8b85-63a634780107" 
         ],
         "publisher": "publisher.com",
-        "data": {
-            "identifiers": [
-                {
-                    "version": 0,
-                    "type": "prebid_id",
-                    "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
-                    "source": {
-                        "domain": "operator0.com",
-                        "timestamp": 1639580000,
-                        "signature": "868e7a6c27b7b7fe5fed219503894bf263f31bb6d8fd48336d283e77b512cda7"
-                    }
-                }
-            ],
-            "preferences": {
-                "version": 0,
-                "data": { 
-                    "use_browsing_for_personalization": true 
-                },
-                "source": {
-                    "domain": "cmp1.com",
-                    "timestamp": 1639581000,
-                    "signature": "65acdcfdbdba8b17936f25a32b33b000393c866588d146cb62ec51ab8890c54f"
-                }
-            }
-        },
         "source": {
             "domain": "publisher.com",
             "timestamp": 1639582000,
             "signature": "f1f4871d48b825931c5016a433cb3b6388f989fac363af09b9ee3cd400d86b74"
+        }
+    },
+    "data": {
+        "identifiers": [
+            {
+                "version": 0,
+                "type": "prebid_id",
+                "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
+                "source": {
+                    "domain": "operator0.com",
+                    "timestamp": 1639580000,
+                    "signature": "868e7a6c27b7b7fe5fed219503894bf263f31bb6d8fd48336d283e77b512cda7"
+                }
+            }
+        ],
+        "preferences": {
+            "version": 0,
+            "data": { 
+                "use_browsing_for_personalization": true 
+            },
+            "source": {
+                "domain": "cmp1.com",
+                "timestamp": 1639581000,
+                "signature": "65acdcfdbdba8b17936f25a32b33b000393c866588d146cb62ec51ab8890c54f"
+            }
         }
     },
     "source": {
@@ -336,31 +336,69 @@ OpenRTB is a standardized format for bidding on inventory. It is widely used in
 the industry and PAF Transmission can be integrated into it. For this
 purpose, PAF uses the "extensions" of OpenRTB requests and responses.
 
-There is one transmission between two Contracting Parties for one ad and one
-OpenRTB bid request can contain multiple ads - named "impression" in OpenRTB
-specifications. Therefore, a bid request has one Transmission. This Transmissions 
-is added in the `ext` object of the `"user"."ext"."eids"` object of the Bid Request. 
-This "eid" has `paf` as value of the `source`. 
+The protocol of OpenRTB is mainly composed by:
+* one **Bid Request** for many Addressable Contents (a.k.a impressions) from the Sender to the Receiver
+* potentially one **Bid Response** in return from the Receiver to the Sender.
 
-Similar to the OpenRTB Bid Request for the Transmission Requests, the OpenRTB
-Bid Response can contain one Transmission Response. The Bid Response contains 
+```mermaid
+flowchart LR
+    BReq[Bid Request]
+    BRes[Bid Response]
+
+    BReq-- 1 to 0..1 ---BRes
+```
+
+
+So the Transmission protocol can be integrated by considering that:
+* one **Bid Request** contains one **Transmission Request** for many **Addressable Contents**
+* one **Bid Response** contains zero or one Transmission Response for **Addressable Contents** that the Receiver is bidding for.
+
+```mermaid
+flowchart LR
+    BReq[Bid Request]
+    BRes[Bid Response]
+    TReq[Transmission Request]
+    TRes[Transmission Response]
+    
+    BReq-- 1 to 1 ---TReq
+    BRes-- 1 to 0..1 ---TRes
+```
+
+OpenRTB already defines a field for "Extended Identifiers" in the Bid Request. This field (`eids`) at 
+the User level (`user`) is designed to support multiple third party identity provider to the OpenRTB 
+ecosystem. Then, to integrate the Transmission Request in the Bid Request, the PAF data is added in a
+new "Extended Identifier". Precisely, the path is `user`.`ext`.`eids`. The rest of the content of the
+Transmission Request is put in the `user`.`ext`.`paf`.
+
+The OpenRTB Bid Response can contain one Transmission Response. The Bid Response contains 
 this Transmission Response if the Receiver bid on at least one of the impressions. 
 The rationale is that if the DSP doesn't expect to provide an 
 Addressable Content, won't appear in the Audit Log, and thus its Transmission
 Response isn't useful.
 
+
+
+| Message                          | Format|
+|----------------------------------|-------|
+| OpenRTB Bid Request with Transmission Request  | [openrtb-bid-request.md](./model/openrtb-bid-request.md)  |
+| OpenRTB Bid Request with Transmission Response | [openrtb-bid-response.md](./model/openrtb-bid-response.md) |
+
+
+
+
+
 To provide a concrete example, the OpenRTB specifications allow providing 
 an empty payload for a "No Bid". Because there is no bid, there is also no
 Transmission Response and it is an acceptable scenario.
 
-Each Transmission Request must be expressed in the "ext" object of the root 
+Each Transmission Response must be expressed in the "ext" objects of the root 
 Bid Response paired with the impression ids provided in the request. The name 
 of this new object in the "ext" object is "prebid_sso_transmissions".
 
 <details>
 <summary>OpenRTB Request Example</summary>
 
-<!--partial-begin { "files": [ "openrtb-request-with-transmissions.json" ], "block": "json" } -->
+<!--partial-begin { "files": [ "openrtb-request-with-transmission.json" ], "block": "json" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```json
 {
@@ -424,40 +462,43 @@ of this new object in the "ext" object is "prebid_sso_transmissions".
                         }
                     ],
                     "ext": {
-                        "seed": {
+                        "preferences": {
                             "version": 0,
-                            "transaction_ids": [ 
-                                "4640dc9f-385f-4e02-a0e5-abbf241af94d", 
-                                "7d71a23a-fafa-449a-8b85-63a634780107" 
-                            ],
-                            "publisher": "publisher.com",
-                            "data": {
-                                "preferences": {
-                                    "version": 0,
-                                    "data": { 
-                                        "use_browsing_for_personalization": true 
-                                    },
-                                    "source": {
-                                        "domain": "cmp1.com",
-                                        "timestamp": 1639581000,
-                                        "signature": "65acdcfdbdba8b17936f25a32b33b000393c866588d146cb62ec51ab8890c54f"
-                                    }
-                                }
+                            "data": { 
+                                "use_browsing_for_personalization": true 
                             },
                             "source": {
-                                "domain": "publisher.com",
-                                "timestamp": 1639582000,
-                                "signature": "f1f4871d48b825931c5016a433cb3b6388f989fac363af09b9ee3cd400d86b74"
+                                "domain": "cmp1.com",
+                                "timestamp": 1639581000,
+                                "signature": "65acdcfdbdba8b17936f25a32b33b000393c866588d146cb62ec51ab8890c54f"
                             }
-                        },
-                        "source": {
-                            "domain": "dsp1.com",
-                            "timestamp": 1639581000,
-                            "signature": "5d0519da9c65feeae715dfcf380c7997ea9ee859e2636a498c43c1044dc20354"
                         }
                     }
                 }
-            ]
+            ],
+            "paf": {
+                "transmission": {
+                    "seed": {
+                        "version": 0,
+                        "transaction_ids": [ 
+                            "4640dc9f-385f-4e02-a0e5-abbf241af94d", 
+                            "7d71a23a-fafa-449a-8b85-63a634780107" 
+                        ],
+                        "publisher": "publisher.com",
+                        "source": {
+                            "domain": "publisher.com",
+                            "timestamp": 1639582000,
+                            "signature": "f1f4871d48b825931c5016a433cb3b6388f989fac363af09b9ee3cd400d86b74"
+                        }
+                    },
+                    "source": {
+                        "domain": "dsp1.com",
+                        "timestamp": 1639581000,
+                        "signature": "5d0519da9c65feeae715dfcf380c7997ea9ee859e2636a498c43c1044dc20354"
+                    },
+                    "parents": []
+                }
+            }
         }
     }
 }
@@ -468,7 +509,7 @@ of this new object in the "ext" object is "prebid_sso_transmissions".
 <details>
 <summary>OpenRTB Request Example</summary>
 
-<!--partial-begin { "files": [ "openrtb-response-with-transmissions.json" ], "block": "json" } -->
+<!--partial-begin { "files": [ "openrtb-response-with-transmission.json" ], "block": "json" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```json
 {
@@ -489,25 +530,27 @@ of this new object in the "ext" object is "prebid_sso_transmissions".
                     "cid": "campaign111",
                     "crid": "creative112",
                     "attr": [ 1, 2, 3, 4, 5, 6, 7, 12 ],
-                    "ext": {
-                        "paf": {
-                            "version": 0,
-                            "transaction_ids": [
-                                "4640dc9f-385f-4e02-a0e5-abbf241af94d"
-                            ],
-                            "receiver": "dsp1.com",
-                            "status": "success",
-                            "details": "",
-                            "source": {
-                                "domain": "dsp1.com",
-                                "timestamp": 1639589531,
-                                "signature": "d01c6e83f14b4f057c2a2a86d320e2454fc0c60df4645518d993b5f40019d24c"
-                            },
-                            "children": []
-                        }
+                }
+            ],
+            "ext": {
+                "paf": {
+                    "transmission": {
+                        "version": 0,
+                        "transaction_ids": [
+                            "4640dc9f-385f-4e02-a0e5-abbf241af94d"
+                        ],
+                        "receiver": "dsp1.com",
+                        "status": "success",
+                        "details": "",
+                        "source": {
+                            "domain": "dsp1.com",
+                            "timestamp": 1639589531,
+                            "signature": "d01c6e83f14b4f057c2a2a86d320e2454fc0c60df4645518d993b5f40019d24c"
+                        },
+                        "children": []
                     }
                 }
-            ]
+            }
         }
     ]
 }

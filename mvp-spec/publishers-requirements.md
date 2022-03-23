@@ -194,35 +194,35 @@ Here is an example that must be adapted to the existing API of the Ad Server:
             "7d71a23a-fafa-449a-8b85-63a634780107" 
         ],
         "publisher": "publisher.com",
-        "data": {
-            "identifiers": [
-                {
-                    "version": 0,
-                    "type": "prebid_id",
-                    "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
-                    "source": {
-                        "domain": "operator0.com",
-                        "timestamp": 1639580000,
-                        "signature": "868e7a6c27b7b7fe5fed219503894bf263f31bb6d8fd48336d283e77b512cda7"
-                    }
-                }
-            ],
-            "preferences": {
-                "version": 0,
-                "data": { 
-                    "use_browsing_for_personalization": true 
-                },
-                "source": {
-                    "domain": "cmp1.com",
-                    "timestamp": 1639581000,
-                    "signature": "65acdcfdbdba8b17936f25a32b33b000393c866588d146cb62ec51ab8890c54f"
-                }
-            }
-        },
         "source": {
             "domain": "publisher.com",
             "timestamp": 1639582000,
             "signature": "f1f4871d48b825931c5016a433cb3b6388f989fac363af09b9ee3cd400d86b74"
+        }
+    },
+    "data": {
+        "identifiers": [
+            {
+                "version": 0,
+                "type": "prebid_id",
+                "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
+                "source": {
+                    "domain": "operator0.com",
+                    "timestamp": 1639580000,
+                    "signature": "868e7a6c27b7b7fe5fed219503894bf263f31bb6d8fd48336d283e77b512cda7"
+                }
+            }
+        ],
+        "preferences": {
+            "version": 0,
+            "data": { 
+                "use_browsing_for_personalization": true 
+            },
+            "source": {
+                "domain": "cmp1.com",
+                "timestamp": 1639581000,
+                "signature": "65acdcfdbdba8b17936f25a32b33b000393c866588d146cb62ec51ab8890c54f"
+            }
         }
     },
     "source": {
@@ -542,7 +542,7 @@ for nom.
 
 #### Example of a OpenRTB Bid Request
 
-<!--partial-begin { "files": [ "openrtb-request-with-transmissions.json" ], "block": "json" } -->
+<!--partial-begin { "files": [ "openrtb-request-with-transmission.json" ], "block": "json" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```json
 {
@@ -606,40 +606,43 @@ for nom.
                         }
                     ],
                     "ext": {
-                        "seed": {
+                        "preferences": {
                             "version": 0,
-                            "transaction_ids": [ 
-                                "4640dc9f-385f-4e02-a0e5-abbf241af94d", 
-                                "7d71a23a-fafa-449a-8b85-63a634780107" 
-                            ],
-                            "publisher": "publisher.com",
-                            "data": {
-                                "preferences": {
-                                    "version": 0,
-                                    "data": { 
-                                        "use_browsing_for_personalization": true 
-                                    },
-                                    "source": {
-                                        "domain": "cmp1.com",
-                                        "timestamp": 1639581000,
-                                        "signature": "65acdcfdbdba8b17936f25a32b33b000393c866588d146cb62ec51ab8890c54f"
-                                    }
-                                }
+                            "data": { 
+                                "use_browsing_for_personalization": true 
                             },
                             "source": {
-                                "domain": "publisher.com",
-                                "timestamp": 1639582000,
-                                "signature": "f1f4871d48b825931c5016a433cb3b6388f989fac363af09b9ee3cd400d86b74"
+                                "domain": "cmp1.com",
+                                "timestamp": 1639581000,
+                                "signature": "65acdcfdbdba8b17936f25a32b33b000393c866588d146cb62ec51ab8890c54f"
                             }
-                        },
-                        "source": {
-                            "domain": "dsp1.com",
-                            "timestamp": 1639581000,
-                            "signature": "5d0519da9c65feeae715dfcf380c7997ea9ee859e2636a498c43c1044dc20354"
                         }
                     }
                 }
-            ]
+            ],
+            "paf": {
+                "transmission": {
+                    "seed": {
+                        "version": 0,
+                        "transaction_ids": [ 
+                            "4640dc9f-385f-4e02-a0e5-abbf241af94d", 
+                            "7d71a23a-fafa-449a-8b85-63a634780107" 
+                        ],
+                        "publisher": "publisher.com",
+                        "source": {
+                            "domain": "publisher.com",
+                            "timestamp": 1639582000,
+                            "signature": "f1f4871d48b825931c5016a433cb3b6388f989fac363af09b9ee3cd400d86b74"
+                        }
+                    },
+                    "source": {
+                        "domain": "dsp1.com",
+                        "timestamp": 1639581000,
+                        "signature": "5d0519da9c65feeae715dfcf380c7997ea9ee859e2636a498c43c1044dc20354"
+                    },
+                    "parents": []
+                }
+            }
         }
     }
 }
@@ -655,7 +658,7 @@ the `ext` field of a `bid` (full path: `seatbid[].bid.ext.paf`).
 
 Here is an example:
 
-<!--partial-begin { "files": [ "openrtb-response-with-transmissions.json" ], "block": "json" } -->
+<!--partial-begin { "files": [ "openrtb-response-with-transmission.json" ], "block": "json" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```json
 {
@@ -676,25 +679,27 @@ Here is an example:
                     "cid": "campaign111",
                     "crid": "creative112",
                     "attr": [ 1, 2, 3, 4, 5, 6, 7, 12 ],
-                    "ext": {
-                        "paf": {
-                            "version": 0,
-                            "transaction_ids": [
-                                "4640dc9f-385f-4e02-a0e5-abbf241af94d"
-                            ],
-                            "receiver": "dsp1.com",
-                            "status": "success",
-                            "details": "",
-                            "source": {
-                                "domain": "dsp1.com",
-                                "timestamp": 1639589531,
-                                "signature": "d01c6e83f14b4f057c2a2a86d320e2454fc0c60df4645518d993b5f40019d24c"
-                            },
-                            "children": []
-                        }
+                }
+            ],
+            "ext": {
+                "paf": {
+                    "transmission": {
+                        "version": 0,
+                        "transaction_ids": [
+                            "4640dc9f-385f-4e02-a0e5-abbf241af94d"
+                        ],
+                        "receiver": "dsp1.com",
+                        "status": "success",
+                        "details": "",
+                        "source": {
+                            "domain": "dsp1.com",
+                            "timestamp": 1639589531,
+                            "signature": "d01c6e83f14b4f057c2a2a86d320e2454fc0c60df4645518d993b5f40019d24c"
+                        },
+                        "children": []
                     }
                 }
-            ]
+            }
         }
     ]
 }

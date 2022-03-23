@@ -11,6 +11,9 @@
         "seed": {
             "$ref": "seed.json"
         },
+        "data": {
+            "$ref": "ids-and-preferences.json"
+        },
         "source": {
             "description": "Signature based on input:\n```\ntransmission_request_receiver_domain        + '\\u2063' +\nsource.domain          + '\\u2063' + \nsource.timestamp       + '\\u2063' +\nseed.source.signature\n```",
             "$ref": "source.json"
@@ -22,6 +25,7 @@
     "required": [
         "version",
         "seed",
+        "data",
         "source",
         "parents"
     ]
