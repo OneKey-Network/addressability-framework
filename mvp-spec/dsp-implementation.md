@@ -13,7 +13,7 @@ through the PAF ecosystem by consecutive Transmissions.
 
 A **Transmission** is the act of sharing PAF Data (Pseudonymous-Identifiers
 and Preferences) between two Contracting Parties: the Sender and
-the Receiver. Transactions are chainable.
+the Receiver. Transmissions are chainable.
 
 The **Transmission Protocol** is the communication protocol between the **Sender**
 and the **Receiver**:

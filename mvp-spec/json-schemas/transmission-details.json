@@ -5,6 +5,6 @@
     "$id": "details",
     "type": "string",
     "examples": [
-        "No signature in the Transaction Request."
+        "No signature in the Transmission Request."
     ]
 }
