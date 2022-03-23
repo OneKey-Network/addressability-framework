@@ -1,22 +1,14 @@
-# Ad Server Implementation
+# Participants - Publishers requirements
 
 ## Goal of the document
 
-This document provides the guidance and the requirements for implementing 
-Prebid Addressability Framework (PAF) on an Ad Server.
+This document describes what is required to participate in the Prebid Addressability Framework (PAF) as a Publisher.
 
 ## Overview
 
-For performance purposes, it is recommended to implement the 
-Addressable Content Service directly in the Ad Server. Therefore, the following
-document is focused on this setup.
-
-Compared to a usual setup with an Ad Server, the Publisher or the Provider of
-the Ad Server has to implement additional features to enable PAF. 
-
-Those features are:
+To participate in PAF, a Publisher has to implement the following features:
 * The generation of the Seeds of the Addressable Contents;
-* The emission of Transmissions to the Ad Network;
+* The emission of Transmissions to the SSP;
 * The support of the Audit Log for the user;
 * The exposition of an Identity endpoint.
 
@@ -41,55 +33,37 @@ sequenceDiagram
 ```
 <!--partial-end-->
 
-## Offer inventory with Prebid Addressability Framework Data
+## Selling ad slots through the Prebid Addressability Framework
 
-PAF doesn't standardize the API of the Ad Server for offering
-inventory because each Ad Server has an existing and specific API. 
-However, to implement PAF, the Ad Server need to implement new features
-in the existing endpoints called by the Publisher website to offer inventory 
-and get back Addressable Contents.
+### ad slots, Seeds, and Transmissions
 
-To understand the steps, it is important to overview how to generate the data and
-the relationships between them:
-* A Publisher offers *multiple* placements - one for each for 
-Addressable Contents - via an Ad Server.
-* An Ad Server generates *one* Seed for each Addressable Content
-* An Ad Server generates and sends *one* Transaction Request per Seed and Supplier
-* A Supplier generates and sends *one* Transaction Response per Transaction Request
+For a definition of Seeds and Transmissions, see [audit-log-requirements.md](audit-log-requirements.md).
+
+The relationships between ad slots, Seeds, and Transmissions are:
+* A Publisher offers *multiple* ad slots per page
+* The Publisher must create *one* Seed for per ad slot
+* The Publisher must send *one* Transmission Request per Seed and SSP
+* An SSP must generate *one* Transmission Response per Transmission Request
 
 
 ```mermaid
 flowchart LR
-    subgraph AdServer
-        Seed-- 1-n -->TR[Transmission Request]
-    end
-
-    subgraph Publisher
-        Placement-- 1-1 -->Seed
-    end
-
-     subgraph Supplier
-         TR[Transmission Request]-- 1-1 -->TRp[Transmission Response]
-    end
+    
+    Page-- 1-n -->AD[Ad Slot]
+    AD[Ad Slot]-- 1-1 -->Seed
+    Seed-- 1-n -->TR[Transmission Request]
+    TR[Transmission Request]-- 1-1 -->TRp[Transmission Response]
+    
 ```
 
-### Step 1: Require the PAF Cookies
+### Step 1: Access PAF User Id and Preferences
 
-The Ad Server API has to be extended to require the PAF cookies of 
-the Publisher website for a given user in addition to the inventory information. 
-Those cookies contain the PAF Data. As a reminder, 
-PAF Data are Pseudonymous-Identifiers and Preferences of the user.
+*To be added.*
 
-```mermaid
-flowchart LR
-    Publisher-- Send Placements info <br /> with PAF Cookies -->AdServer[Ad Server]
-```
 
-### Step 2: Deserialize the PAF Data
+### Step 2: Deserialize the User Id and Preferences
 
-The Ad Server can then deserialize the cookie for having the PAF Data.
-
-Here is the structure of a Pseudonymous-Identifier:
+The structure of the User Id is:
 
 <!--partial-begin { "files": [ "identifier-table.md" ] } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
@@ -101,7 +75,7 @@ Here is the structure of a Pseudonymous-Identifier:
 | source  | Source object | The Source contains all the data for identifying and trusting the Operator that generated the Pseudonymous-Identifier. <br /> <table><tr><th>Field</th><th>Type</th><th>Details</th></tr><tr><td>domain</td><td>String</td><td>The domain of the Operator.</td></tr><tr><td>timestamp</td><td>Integer</td><td>The timestamp of the signature.</td></tr><tr><td>signature</td><td>String</td><td>Encoded signature in UTF-8 of the Operator.</td></tr></table>|
 <!--partial-end-->
 
-Here is the structure of the Preferences:
+The structure of the Preferences is:
 
 <!--partial-begin { "files": [ "preferences-table.md" ] } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
@@ -114,14 +88,11 @@ Here is the structure of the Preferences:
 
 ### Step 3: Generate the Seeds
 
-The Seed is the association of the Pseudonymous-Identifiers and the
-Preferences of the user for a given Addressable Content. The Ad Server must
-generate this association and sign it.
-Once generated, a Contracting Party - including the Ad Server- in possession of 
-a Seed can share it with another party via Transmissions (see the next steps). 
-A Seed is signed by the Ad Server for audit purposes. 
+The Seed is the association of the User Id and Preferences with an ad slot. The Publisher must
+generate the Seed and sign it.
+Once generated, the Seed will be shared to SSP via Transmissions (see the next steps). 
 
-Here is the composition of a Seed:
+The composition of a Seed is:
 
 <!--partial-begin { "files": [ "seed-optimized-table.md" ] } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
@@ -151,7 +122,7 @@ Here is a JSON example of the Seed:
 ```
 <!--partial-end-->
 
-The Ad Server must sign the Seeds ("source"."signature"). The Elliptic Curve Digital Signature Algorithm
+The Publisher must sign the Seeds ("source"."signature"). The Elliptic Curve Digital Signature Algorithm
 (ECDSA) is used for this purpose. NIST P-256 coupled with the hash algorithm
 SHA-256 is applied on a built string relying on the Seed data
 and the PAF Data.
@@ -175,9 +146,15 @@ data.preferences.source.signature
 
 ### Step 4: Send Transmission Requests with Inventory
 
+<<<<<<< HEAD:mvp-spec/ad-server-implementation.md
 Once the Seeds are generated (one per Addressable Content), the Ad Server
 shares the PAF Data via Transmissions with placement data to 
 Contracting Parties. In the case of an existing custom communication 
+=======
+Once the Seeds are generated (one per ad slot), the Publisher
+shares the Seeds via Transmissions with placement data to 
+SSP. In the case of an existing custom communication 
+>>>>>>> 2b572f0 (Update and rename ad-server-implementation.md to participants-publishers-requirements):mvp-spec/participants-publishers-requirements
 (a.k.a not OpenRTB), Transmission Requests must be included in the existing
 communication and bound structurally or by references to the data of the 
 impressions (also named Addressable Content). One Transmission Requests 
