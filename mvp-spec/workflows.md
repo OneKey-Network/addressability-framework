@@ -1,13 +1,12 @@
+# Workflows
+
 The workflows part of the Prebid Addressability Framework are:
-- User Preferences and Id
+- User Id and Preferences
   - Retrieval
-  - Setting
-- Bidding workflow
+  - Creation and updating
+- Selling ad slots
 
-# User Preferences and Id
-## With shared client-side storage
-
-## Without shared client-side storage 
+## Id and User Preferences
 ### Retrieval
 
 In this workflow, a Participant retrieves the Preferences and Id set by a User, if any.
@@ -38,9 +37,28 @@ participant O as Operator
 
 ```
 
-## Creation
+### Creation and updating
 
-In this workflow, a user Preferences and Id get set following user preferences selection.
+In this workflow, User Id and Preferences get set following user preferences selection.
 
 This workflow can be triggered following the Retrieval workflow, when no user preferences have been found.
+
+## Selling ad slots
+
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant Publisher
+    participant SSP
+    participant DSP
+
+    User->>Publisher: Browse a webpage
+    Publisher->>Publisher: Generate Seed for <br /> ad slot
+    Publisher->>SSP: Send bid request<br />with Transmission Request
+    SSP->>DSP: Send bid request<br />with Transmission Request
+    DSP->>SSP: Send bid response<br />with Transmission Response
+    SSP->>Publisher: Send bid response<br />with Transmission Response
+    Publisher->>User: Make Audit Logs available next to ad display
+```
 
