@@ -14,7 +14,7 @@ In this workflow, a Participant retrieves the Preferences and Id set by a User, 
 ```mermaid
 sequenceDiagram
 participant U as User
-participant P as Participant 
+participant P as Participant website
 participant O as Operator
 
     U ->> P: visit Participant site
@@ -51,15 +51,19 @@ sequenceDiagram
     participant User
     participant Publisher
     participant SSP
-    participant DSP
+    participant DSP 1
+    participant DSP 2
 
     User->>Publisher: Visit a Publisher page
     Publisher->>Publisher: Generate Seed for <br /> ad slot
-    Publisher->>SSP: Send bid request<br />with Transmission Request
-    SSP->>DSP: Send bid request<br />with Transmission Request
-    DSP->>SSP: Send bid response<br />with Transmission Response
-    SSP->>Publisher: Send bid response<br />with Transmission Response
-    Publisher->>User: Make Audit Logs available next to ad display
+    Publisher->>SSP: Send request<br />with Transmission Request
+    SSP->>DSP 1: Send bid request<br />with Transmission Request
+    DSP 1->>SSP: Send bid response<br />with Transmission Response
+    SSP->>DSP 2: Send bid request<br />with Transmission Request
+    DSP 2->>SSP: Send bid response<br />with Transmission Response
+    SSP->>SSP: Select winning bid
+    SSP->>Publisher: Return data to display the ad
+    Publisher->>User: Display the ad <br />Make Audit Logs available next to the ad
 ```
 
 # Glossary
