@@ -30,7 +30,7 @@ participant O as Operator
     deactivate O 
 
     activate P
-    P ->> P: Write client-side Preferences and Id, if any
+    P ->> P: Write client-side User Id and Preferences, if any
     deactivate P
 
     P ->> U: 
