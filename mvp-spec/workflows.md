@@ -2,71 +2,46 @@
 
 The workflows part of the Prebid Addressability Framework are:
 - User Id and Preferences
-  - Retrieval
-  - Creation and updating
 - Selling ad slots
 
 ## Id and User Preferences
 
-### Creation
+### Generic workflow
+
+This workflow illustrates retrieving and creating/setting User Id and Preferences.
 
 ```mermaid
 sequenceDiagram
 participant U as User
-participant P as Participant website
+participant P as Participant's website
 participant O as Operator
 
     U ->> P: visit site
     
-    P ->> O: Retrieve User Id and Preferences
+    P ->> O: Read User Id and Preferences
     O ->> P: No User Id and Preferences
     
     P ->> U: Display consent prompt
     U ->> P: Give consent
 
-    P ->> O: Forward consent
-    O ->> O: Generate User Id and Preferences
+    P ->> O: Write User Id and Preferences
+    O ->> O: Generate<br />User Id and Preferences
     O ->> P: Forward User Id and Preferences
-
 ```
+### When third-party cookies are supported
 
-### Retrieval
+When third-party cookies are supported in the browser:
+- User Id and Preferences are stored on the Operator's domain and retrieved in third-party context from the participant's website.
 
+### When third-party cookies are not supported
 
-```mermaid
-sequenceDiagram
-participant U as User
-participant P as Participant website
-participant O as Operator
+When third-party cookies are not supported in the browser:
+- User Id and Preferences are stored on both the Operator's domain and the participant's domain.
+- The participant's website retrieves them by way of an HTTP redirect to the Operator website, and back to the participant's website.
 
-    U ->> P: visit Participant site
-
-    activate P
-    P ->> P: Read client-side storage
-    P ->> O: Redirect to Operator site
-    deactivate P
-
-    activate O
-    O ->> O: Read client-side storage
-    O ->> P: Redirect to Participant site
-    deactivate O 
-
-    activate P
-    P ->> P: Write client-side User Id and Preferences, if any
-    deactivate P
-
-    P ->> U: 
-
-```
-
-### Creation and updating
-
-In this workflow, User Id and Preferences get set following user preferences selection.
-
-This workflow can be triggered following the Retrieval workflow, when no user preferences have been found.
+See [operator-design.md](operator-design.md) for details. 
 
 ## Selling ad slots
-
 
 ```mermaid
 sequenceDiagram
@@ -92,18 +67,18 @@ sequenceDiagram
 
 **Audit Log** means a log identifying all participants (Publisher, SSP, DSP) part of a chain leading to an ad display.
 
-**Operator** means the entity responsible for adding, updating, deleting and controlling access to the User Id and Preferences.
-
 **PAF** is short for Prebid Addressability Framework
+
+**Operator** means the entity responsible for adding, updating, deleting and controlling access to the User Id and Preferences.
 
 **Root Party** means the entity initiating the originating Transmission in a particular chain of Transmissions.
 
-**Sign** means a cryptographic confirmation of generating, sending or receiving of PAF Data.
+**Sign** means a cryptographic confirmation of generating, sending or receiving of PAF data.
 
-**Transmission Request** and **Transmission Response** are envelops enabling the communication of User Id and Preferences between two entities, typically attached to bid requests and bid responses.
+**Transmission Request** and **Transmission Response** are signed statements that must be attached to the communication of User Id and Preferences between two entities (typically done through bid requests and bid responses).
 
 **Transmission Result** means the final statement of a Transmissions that is used in an Audit Log
 
 **User Id and Preferences** means as set of user pseudonymous identifiers and preferences managed within the Prebid Addressability Framework.
 
-**Vendor** means an entity, different from the Publisher, that participated to the generation of an ad display.
+**Vendor** means an entity, different from the Publisher, participating to the generation of an ad display.
