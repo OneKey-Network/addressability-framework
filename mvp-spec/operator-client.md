@@ -74,7 +74,7 @@ To do so, it exposes:
 | **Sign** user preferences | Sign preferences                                                                                       | Signed ids and **unsigned** preferences                                                    | Signed ids and preferences                                       | `POST /paf-proxy/v1/sign/prefs` | N/A                                         |
 | **Sign** "write" request  | Sign a "write" request so it can be sent to the operator                                               | **Unsigned** "write" message                                                               | Signed "write" request                                           | `POST /paf-proxy/v1/sign/write` | N/A                                         |
 | Write ids & prefs         | Redirect to [write](operator-api.md#write-ids-&-preferences) operator endpoint                         | Signed "write" request<br>(see [operator API](operator-api.md#write-ids-&-preferences))    | redirect to operator                                             | `POST /paf-proxy/v1/ids-prefs`  | `GET /paf-proxy/v1/redirect/post-ids-prefs` |
-| **Verify** read           | Verify the signature of response received from the operator                                            | Signed "read" **response**<br>(see [operator API](operator-api.md#read-ids-&-preferences)) | Same as input if verification succeeded, error message otherwise | `POST /paf-proxy/verify/read`   | N/A                                         |
+| **Verify** read           | Verify the response received from the operator                                                         | Signed "read" **response**<br>(see [operator API](operator-api.md#read-ids-&-preferences)) | Same as input if verification succeeded, error message otherwise | `POST /paf-proxy/verify/read`   | N/A                                         |
 
 ℹ️ An example implementation (for NodeJS) of a backend operator proxy is available in [the implementation project](https://github.com/criteo/paf-mvp-implementation/tree/main/paf-mvp-operator-client-express)
 
@@ -293,10 +293,18 @@ Host: cmp.com
 
 - take a read response message received from the operator, and verify it
 
-The data received by a website as part of a query string, after a "boomerang" redirect to the operator must be verified:
-- any malicious could have called the website's URL with query string data that does not originate from the operator
+The data received by a website as part of a query string, after a "boomerang" redirect to the operator must be verified
+because a malicious actor could have called the website's URL with query string data that does not originate from the operator,
+or that was meant to be sent to another website.
 
-The purpose of this proxy endpoint is to take such a message and verify that the signature is accurate (proving that the operator sent it)
+To verify a response message from the operator, this endpoint will make sure that:
+- the signature of the response is verified with the sender (the operator) public key
+- the operator domain should be the expected one
+- the receiver domain should be the one from the current client
+- the timestamp is compared to the current date and should not be out of the allowed window
+
+Only when these four checks have successfully passed, the request is considered legit.
+
 
 #### REST sign user preferences: `POST /paf-proxy/v1/verify/read`
 
