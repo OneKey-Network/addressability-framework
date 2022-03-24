@@ -53,7 +53,7 @@ sequenceDiagram
     participant SSP
     participant DSP
 
-    User->>Publisher: Browse a webpage
+    User->>Publisher: Visit a Publisher page
     Publisher->>Publisher: Generate Seed for <br /> ad slot
     Publisher->>SSP: Send bid request<br />with Transmission Request
     SSP->>DSP: Send bid request<br />with Transmission Request
