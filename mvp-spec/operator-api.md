@@ -159,6 +159,27 @@ The following signature verifications are optional:
 
 For details on how to calculate or verify signatures, see [signatures.md](signatures.md).
 
+#### Systematic checks
+
+##### Request to operator
+
+To verify a signed request to the operator (read, write, get new id endpoints):
+- the signature of the request is verified with the sender public key
+- the sender domain should be in the list of **authorized** domains with appropriate rights
+- the timestamp is compared to the current date and should not be out of of allowed window
+
+Only when these three checks have successfully passed, the request is considered legit.
+
+##### Response from operator
+
+To verify a response message from the operator, a client _should_ make sure that:
+- the signature of the response is verified with the sender (the operator) public key
+- the operator domain should be the expected one
+- the receiver domain should be the one from the current client
+- the timestamp is compared to the current date and should not be out of the allowed window
+
+Only when these four checks have successfully passed, the request is considered legit.
+
 ### Error handling
 
 Error messages are returned inside an `error` object:
@@ -200,7 +221,7 @@ For endpoints that exist as "redirect", the following pattern is used:
 
 ### Read ids & preferences
 
-- verify request signature
+- verify request (see above)
 - if `paf_identifiers` cookie exists and is not an empty list, return the value
 - otherwise
   - **generate a new identifier** (do **not** write any new cookie), and sign it
@@ -451,9 +472,9 @@ Notice `persisted` = `false`, see [identifier.md](model/identifier.md) for detai
 
 ### Write ids & preferences
 
-- verify request signature
-- verify identifier signature
-- verify preferences signature
+- verify **request** (see above)
+- verify **identifier** signature
+- verify **preferences** signature
 - add or replace identifier of type `paf_browser_id` in `paf_identifiers` cookie
 - update `paf_preferences` cookie with new value
 - return both values
