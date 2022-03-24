@@ -1,4 +1,4 @@
-# Participants - Publishers requirements
+# Publishers requirements
 
 ## Goal of the document
 
@@ -6,13 +6,18 @@ This document describes what is required for a Publisher to participate in the P
 
 ## Overview
 
-The Prebid Addressability Framework instantiates an audit trail for ad displays. To participate in PAF, a Publisher has to implement the following features:
-* Generate Seeds for ad slots
-* Send Transmissions Requests with a Seed to SSP
-* Make available  the Audit Log to the user
+The Prebid Addressability Framework enhances ad slots selling by instantiating an audit trail. This audit trail requires the following elements, that Publishers must implement:
+* a Seed, identifying an bid request for an ad slot for a given user
+* Transmission Requests, identifying the seed and the requester at each step of the bidding workflow
+* Transmission Responses, as answers to Transmission Request
+* an Audit Log, identifying which entities have been involved in the display of an ad
+
+Seeds, Transmission Requests, and Transmissions Responses are signed.
+
+Publishers are also required to:
 * Expose an Identity endpoint, so that participants can verify the the publisher's signature.
 
-The following diagram introduces an overview of this setup:
+Process overview:
 
 <!--partial-begin { "files": [ "ad-server-flow.mmd" ], "block": "mermaid" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
@@ -33,18 +38,15 @@ sequenceDiagram
 ```
 <!--partial-end-->
 
-## Selling ad slots through the Prebid Addressability Framework
+## Selling ad slots with the Prebid Addressability Framework
 
-### ad slots, Seeds, and Transmissions
-
-For a definition of Seeds and Transmissions, see [audit-log-requirements.md](audit-log-requirements.md).
+### ad slots, Seeds, and Transmissions Requests
 
 The relationships between ad slots, Seeds, and Transmissions are:
 * A Publisher offers *multiple* ad slots per page
 * The Publisher must create *one* Seed for per ad slot
 * The Publisher must send *one* Transmission Request per Seed and SSP
 * An SSP must generate *one* Transmission Response per Transmission Request
-
 
 ```mermaid
 flowchart LR
@@ -86,11 +88,10 @@ The structure of the Preferences is:
 | source  | Source object          | The source contains the data for identifying and trusting the CMP that signed lastly the Preferences.<br /> <table><tr><th>Field</th><th>Type</th><th>Details</th></tr><tr><td>domain</td><td>String</td><td>The domain of the CMP.</td></tr><tr><td>timestamp</td><td>Integer</td><td>The timestamp of the signature.</td></tr><tr><td>signature</td><td>String</td><td>Encoded signature in UTF-8 of the CMP.</td></tr></table>|
 <!--partial-end-->
 
-### Step 3: Generate the Seeds
+### Step 3: Generate the Seed
 
 The Seed is the association of the User Id and Preferences with an ad slot. The Publisher must
 generate the Seed and sign it.
-Once generated, the Seed will be shared to SSP via Transmissions (see the next steps). 
 
 The composition of a Seed is:
 
@@ -125,7 +126,7 @@ Here is a JSON example of the Seed:
 The Publisher must sign the Seeds ("source"."signature"). The Elliptic Curve Digital Signature Algorithm
 (ECDSA) is used for this purpose. NIST P-256 coupled with the hash algorithm
 SHA-256 is applied on a built string relying on the Seed data
-and the PAF Data.
+and the User Id and Preferences.
 
 Here is how to build the UTF-8 string for then generating the signature:
 
@@ -144,17 +145,11 @@ data.preferences.source.signature
 ```
 <!--partial-end-->
 
-### Step 4: Send Transmission Requests with Inventory
+### Step 4: Send User Id and Preferences and Transmission Requests
 
-<<<<<<< HEAD:mvp-spec/ad-server-implementation.md
-Once the Seeds are generated (one per Addressable Content), the Ad Server
-shares the PAF Data via Transmissions with placement data to 
-Contracting Parties. In the case of an existing custom communication 
-=======
 Once the Seeds are generated (one per ad slot), the Publisher
 shares the Seeds via Transmissions with placement data to 
 SSP. In the case of an existing custom communication 
->>>>>>> 2b572f0 (Update and rename ad-server-implementation.md to participants-publishers-requirements):mvp-spec/participants-publishers-requirements
 (a.k.a not OpenRTB), Transmission Requests must be included in the existing
 communication and bound structurally or by references to the data of the 
 impressions (also named Addressable Content). One Transmission Requests 
@@ -165,6 +160,10 @@ flowchart LR
     TR[Transmission Request]-- n-1 ---Supplier
     TR-- 1-1 ---Seed
 ```
+
+Publishers can send PAF User Id and Preferences in bid requests to SSP. Whenever they do so, a Transmission Request must be included and bound to the bid request.
+There must be one Transmission Requests per SSP and Seed.
+publishers-requirements.md
 
 A Transmission Request is composed as followed:
 
@@ -178,6 +177,7 @@ A Transmission Request is composed as followed:
 | source | Source object                   | The source object contains data for identifying the Sender of the Transmission.<br /><table><tr><th>Field</th><th>Type</th><th>Details</th></tr><tr><td>domain</td><td>String</td><td>The domain of the Sender.</td></tr><tr><td>timestamp</td><td>Integer</td><td>The timestamp of the signature.</td></tr><tr><td>signature</td><td>String</td><td>Encoded signature in UTF-8 of the Tranmission sender.</td></tr></table>|
 <!--partial-end-->
 
+<<<<<<< HEAD:mvp-spec/participants-publishers-requirements.md
 The Transmission Request list is always associated to PAF Data that has
 been used for generating the Seed. Here is a hypothetical structure of it that
 we name `data` in the following example: 
@@ -190,11 +190,10 @@ we name `data` in the following example:
 | identifiers            | Array of Pseudonymous-Identifier objects | The Pseudonymous-Identifiers of the user. For now, it only contains a Prebid ID.|
 <!--partial-end-->
 
+=======
+>>>>>>> 8f91279 (Update and rename participants-publishers-requirements.md to publishers-requirements.md):mvp-spec/publishers-requirements.md
 Similar to the Seed, each Transmission Request contains a signature for 
-audit purposes. It used the data of the Transaction Request and the domain
-name of the Receiver with the same cryptographic algorithm.
-
-Here is how to build the UTF-8 string:
+audit purposes, using the same cryptographic algorithm, and based on the UTF-8 encoded string below:
 
 <!--partial-begin { "files": [ "transmission-request-signature-string.txt" ], "block": "" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
@@ -204,6 +203,16 @@ transmission_request.source.domain          + '\u2063' +
 transmission_request.source.timestamp       + '\u2063' + 
 seed.source.signature
 ```
+<!--partial-end-->
+
+Here is a hypothetical structure of the associated User Id and Preferences, named `data` in the following example: 
+
+<!--partial-begin { "files": [ "data-id-and-preferences-table.md" ] } -->
+<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
+| Field                  | Type                                     | Details  |
+|------------------------|------------------------------------------|----------|
+| preferences            | Preferences object                       | The Preferences of the user.|
+| identifiers            | Array of Pseudonymous-Identifier objects | The Pseudonymous-Identifiers of the user. For now, it only contains a Prebid ID.|
 <!--partial-end-->
 
 In the communication, the Transmission Requests must be associated to the 
@@ -288,11 +297,8 @@ Here is an example that must be adapted to the existing API of the Ad Server:
 
 ### Step 5: Receive Transmission Responses
 
-The Receiver of the Transmission Requests answers back with Transmission 
-Responses. Those Transmission Responses are included in the usual response of
-an inventory offer. Each Transmission Response doesn't necessary have a 
-Transmission Response. Indeed, only the Transmission Response that participated
-in the generation of the Addressable Content is required.
+Whenever making use of the User Id and Preferences, the receiver of a Transmission Request must answer back with Transmission 
+Responses. Those Transmission Responses must be included and bound to the bid response.
 
 A Transmission Response is composed as followed:
 
@@ -552,9 +558,9 @@ an example:
 ```
 <!--partial-end-->
 
-### Step 7: Display the Addressable Content and make the Audit Log available
+### Step 7: Display the ad and make the Audit Log available
 
-Finally, the Addressable Content can be displayed to the user on the Publisher 
+Finally, the ad can be displayed to the user on the Publisher 
 page. An Audit Button (ideally per Addressable Content) is available for 
 displaying the Audit UI.
 
