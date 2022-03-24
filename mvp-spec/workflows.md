@@ -7,9 +7,31 @@ The workflows part of the Prebid Addressability Framework are:
 - Selling ad slots
 
 ## Id and User Preferences
+
+### Creation
+
+```mermaid
+sequenceDiagram
+participant U as User
+participant P as Participant website
+participant O as Operator
+
+    U ->> P: visit site
+    
+    P ->> O: Retrieve User Id and Preferences
+    O ->> P: No User Id and Preferences
+    
+    P ->> U: Display consent prompt
+    U ->> P: Give consent
+
+    P ->> O: Forward consent
+    O ->> O: Generate User Id and Preferences
+    O ->> P: Forward User Id and Preferences
+
+```
+
 ### Retrieval
 
-In this workflow, a Participant retrieves the Preferences and Id set by a User, if any.
 
 ```mermaid
 sequenceDiagram
@@ -54,7 +76,7 @@ sequenceDiagram
     participant DSP 1
     participant DSP 2
 
-    User->>Publisher: Visit a Publisher page
+    User->>Publisher: Visit site
     Publisher->>Publisher: Generate Seed for <br /> ad slot
     Publisher->>SSP: Send request<br />with Transmission Request
     SSP->>DSP 1: Send bid request<br />with Transmission Request
