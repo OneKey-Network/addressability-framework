@@ -64,34 +64,20 @@ sequenceDiagram
 
 # Glossary
 
-Audit Log means a log containing information received by a Party of each Transmission that has been Signed.
+**Audit Log** means a log identifying all participants (Publisher, SSP, DSP) part of a chain leading to an ad display.
 
-Contracting Party means any party bound to an agreement containing these Model Terms and “Parties” shall be construed accordingly.
+**Operator** means the entity responsible for adding, updating, deleting and controlling access to the User Id and Preferences.
 
-Operator means the Party or Parties responsible for adding, updating, deleting and controlling access to the Prebid Addressability Framework Data;
+**PAF** is short for Prebid Addressability Framework
 
-PAF is short for Prebid Addressability Framework
+**Root Party** means the entity initiating the originating Transmission in a particular chain of Transmissions.
 
-Prebid Addressability Framework Ecosystem means each and every Party.
+**Sign** means a cryptographic confirmation of generating, sending or receiving of PAF Data.
 
-Pseudo-Identifier or Pseudonymous-Identifier means a generated Identifiers for the User.
+**Transmission Request** and **Transmission Response** are envelops enabling the communication of User Id and Preferences between two entities, typically attached to bid requests and bid responses.
 
-Root Party means the Contracting Party initiating the originating Transmission in a particular chain of Transmissions.
+**Transmission Result** means the final statement of a Transmissions that is used in an Audit Log
 
-Sign means a cryptographic confirmation of generating, sending or receipt of PAF Data.
+**User Id and Preferences** means as set of user pseudonymous identifiers and preferences managed within the Prebid Addressability Framework.
 
-Transaction: the sending of PAF Data from the Root Party through the PAF ecosystem by consecutive Transmissions.
-
-Transaction ID is a generated identifier for a dedicated ad slot. 
-
-Transmission means the sending of PAF Data from the Sender to the Receiver. One Transaction can be composed of many Transmissions.
-
-Transmission Request means the communication of the PAF Data from a Sender to a Receiver.
-
-Transmission Response means the communication of the PAF Data from a Receiver to a Sender.
-
-Transmission Result means the final statement of a Transmission that is used in an Audit Log
-
-User Id and Preferences
-
-Vendor means a Contracting Party that participated via a Transaction to the generation of the Addressable Content to the user on the publisher website. The Publisher isn't a Vendor.
+**Vendor** means an entity, different from the Publisher, that participated to the generation of an ad display.
