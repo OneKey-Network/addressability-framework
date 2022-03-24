@@ -8,8 +8,8 @@ This document describes what is required for a Publisher to participate in the P
 
 The Prebid Addressability Framework enhances ad slots selling by instantiating an audit trail. This audit trail requires the following elements, that Publishers must implement:
 * a Seed, identifying an bid request for an ad slot for a given user
-* Transmission Requests, identifying the seed and the requester at each step of the bidding workflow
-* Transmission Responses, as answers to Transmission Request
+* Transmission Requests, identifying the Seed and the requester at each step of the bidding workflow
+* Transmission Responses, as answers to Transmission Requests
 * an Audit Log, identifying which entities have been involved in the display of an ad
 
 Seeds, Transmission Requests, and Transmissions Responses are signed.
