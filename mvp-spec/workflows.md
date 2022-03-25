@@ -21,13 +21,17 @@ participant O as Operator
     P ->> O: Read User Id and Preferences
     O ->> P: No User Id and Preferences
     
+    P ->> P: Generate Id
     P ->> U: Display consent prompt
     U ->> P: Give consent
 
     P ->> O: Write User Id and Preferences
-    O ->> O: Generate<br />User Id and Preferences
-    O ->> P: Forward User Id and Preferences
+    O ->> O: Save User Id and Preferences
+    O ->> P: Acknowledge saved User Id and Preferences
+    P ->> U: Acknowledge saved User Id and Preferences
 ```
+
+Note that the User Id and Preferences are not persisted in case the user does not consent.
 
 ### Retrieving User Id and Preferences
 
