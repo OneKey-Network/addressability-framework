@@ -69,16 +69,12 @@ participant O as Operator
     P ->> U: Acknowledge updated User Id and Preferences
 ```
 
-### When third-party cookies are supported
+### User Id and Preferences storage
 
-When third-party cookies are supported in the browser:
-- User Id and Preferences are stored on the Operator's domain and retrieved in third-party context from the participant's website.
+User Id and Preferences are only stored client-side, in browser cookies on both the Operator's domain and the participants' domain.
 
-### When third-party cookies are not supported
-
-When third-party cookies are not supported in the browser:
-- User Id and Preferences are stored on both the Operator's domain and the participant's domain.
-- The participant's website retrieves them by way of an HTTP redirect to the Operator website, and back to the participant's website.
+When access to cookies in a third-party context is enabled, cookies stored on the Operator's domain are directly accessed from a participant's site.
+When access to cookies in a third-party context is disabled, cookies stored on the Operator's domain are retrieved from a participant's site by way of an HTTP redirect to the Operator website, and back to the participant's website.
 
 See [operator-design.md](operator-design.md) for details. 
 
