@@ -7,7 +7,7 @@ This document describes what is required for a Publisher to participate in the P
 ## Overview
 
 The Prebid Addressability Framework enhances ad slots selling by instantiating an audit trail. This audit trail requires the following elements, that Publishers must implement:
-* a Seed, identifying an bid request for an ad slot for a given user
+* a Seed, identifying a bid request for an ad slot for a given user
 * Transmission Requests, identifying the Seed and the requester at each step of the bidding workflow
 * Transmission Responses, as answers to Transmission Requests
 * an Audit Log, identifying which entities have been involved in the display of an ad
@@ -17,34 +17,13 @@ Seeds, Transmission Requests, and Transmissions Responses are signed.
 Publishers are also required to:
 * Expose an Identity endpoint, so that participants can verify the the publisher's signature.
 
-Process overview:
-
-<!--partial-begin { "files": [ "ad-server-flow.mmd" ], "block": "mermaid" } -->
-<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
-```mermaid
-sequenceDiagram
-    participant User
-    participant Publisher
-    participant AdServer as Ad Server
-    participant DSP
-
-    User->>Publisher: Ask for a webpage
-    Publisher->>AdServer: Offer Inventory<br />with PAF Data
-    AdServer->>AdServer: Generate Seeds for <br /> the Addressable Contents
-    AdServer->>DSP: Generate and send a <br /> Transmission Request
-    DSP->>AdServer: Provide an Addressable Contents <br /> and a Transmission Response
-    AdServer->>Publisher: Provide the Addressable Contents
-    Publisher->>User: Display the Addressable Contents <br /> and their respective Audit Logs
-```
-<!--partial-end-->
-
 ## Selling ad slots with the Prebid Addressability Framework
 
 ### ad slots, Seeds, and Transmissions Requests
 
 The relationships between ad slots, Seeds, and Transmissions are:
 * A Publisher offers *multiple* ad slots per page
-* The Publisher must create *one* Seed for per ad slot
+* The Publisher must create *one* Seed per ad slot
 * The Publisher must send *one* Transmission Request per Seed and SSP
 * An SSP must generate *one* Transmission Response per Transmission Request
 
@@ -123,10 +102,7 @@ Here is a JSON example of the Seed:
 ```
 <!--partial-end-->
 
-The Publisher must sign the Seeds ("source"."signature"). The Elliptic Curve Digital Signature Algorithm
-(ECDSA) is used for this purpose. NIST P-256 coupled with the hash algorithm
-SHA-256 is applied on a built string relying on the Seed data
-and the User Id and Preferences.
+The Publisher must sign the Seeds ("source"."signature").
 
 Here is how to build the UTF-8 string for then generating the signature:
 
