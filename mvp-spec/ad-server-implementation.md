@@ -73,21 +73,21 @@ flowchart LR
     end
 ```
 
-### Step 1: Require the Prebid SSO Cookies
+### Step 1: Require the PAF Cookies
 
-The Ad Server API has to be extended to require the Prebid SSO cookies of 
+The Ad Server API has to be extended to require the PAF cookies of 
 the Publisher website for a given user in addition to the inventory information. 
-Those cookies contain the Prebid SSO Data. As a reminder, 
-Prebid SSO Data are Pseudonymous-Identifiers and Preferences of the user.
+Those cookies contain the PAF Data. As a reminder, 
+PAF Data are Pseudonymous-Identifiers and Preferences of the user.
 
 ```mermaid
 flowchart LR
-    Publisher-- Send Placements info <br /> with Prebid SSO Cookies -->AdServer[Ad Server]
+    Publisher-- Send Placements info <br /> with PAF Cookies -->AdServer[Ad Server]
 ```
 
-### Step 2: Deserialize the Prebid SSO Data
+### Step 2: Deserialize the PAF Data
 
-The Ad Server can then deserialize the cookie for having the Prebid SSO Data.
+The Ad Server can then deserialize the cookie for having the PAF Data.
 
 Here is the structure of a Pseudonymous-Identifier:
 
@@ -154,7 +154,7 @@ Here is a JSON example of the Seed:
 The Ad Server must sign the Seeds ("source"."signature"). The Elliptic Curve Digital Signature Algorithm
 (ECDSA) is used for this purpose. NIST P-256 coupled with the hash algorithm
 SHA-256 is applied on a built string relying on the Seed data
-and the Prebid SSO Data.
+and the PAF Data.
 
 Here is how to build the UTF-8 string for then generating the signature:
 
@@ -176,7 +176,7 @@ data.preferences.source.signature
 ### Step 4: Send Transmission Requests with Inventory
 
 Once the Seeds are generated (one per Addressable Content), the Ad Server
-shares the Prebid SSO Data via Transmissions with placement data to 
+shares the PAF Data via Transmissions with placement data to 
 Contracting Parties. In the case of an existing custom communication 
 (a.k.a not OpenRTB), Transmission Requests must be included in the existing
 communication and bound structurally or by references to the data of the 
@@ -201,7 +201,7 @@ A Transmission Request is composed as followed:
 | source | Source object                   | The source object contains data for identifying the Sender of the Transmission.<br /><table><tr><th>Field</th><th>Type</th><th>Details</th></tr><tr><td>domain</td><td>String</td><td>The domain of the Sender.</td></tr><tr><td>timestamp</td><td>Integer</td><td>The timestamp of the signature.</td></tr><tr><td>signature</td><td>String</td><td>Encoded signature in UTF-8 of the Tranmission sender.</td></tr></table>|
 <!--partial-end-->
 
-The Transmission Request list is always associated to Prebid SSO Data that has
+The Transmission Request list is always associated to PAF Data that has
 been used for generating the Seed. Here is a hypothetical structure of it that
 we name `data` in the following example: 
 
@@ -230,8 +230,8 @@ seed.source.signature
 <!--partial-end-->
 
 In the communication, the Transmission Requests must be associated to the 
-Prebid SSO Data. Depending on the existing structure of the communication,
-it makes sense to have a shared structure for the Prebid SSO Data and 
+PAF Data. Depending on the existing structure of the communication,
+it makes sense to have a shared structure for the PAF Data and 
 multiple Transmissions referring to it.
 
 Here is an example that must be adapted to the existing API of the Ad Server:
@@ -375,7 +375,7 @@ must be adapted to the existing API:
 
 Once the Ad Server has selected the supplier that will display the
 Addressable Content, it must generate the Audit Log based on the related
-Transmission Response and the Prebid SSO Data.
+Transmission Response and the PAF Data.
 
 The Audit Log has the following structure:
 
@@ -588,7 +588,7 @@ to respect the following for integrating PAF.
 
 #### The OpenRTB Bid Request
 
-In step **Step 4**, the Ad Server must share the Prebid SSO Data in the 
+In step **Step 4**, the Ad Server must share the PAF Data in the 
 extensions of the Bid Request:
 
 First, The Transmission Request object in an OpenRTB request keeps the same structure.
