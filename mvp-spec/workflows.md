@@ -4,11 +4,11 @@ The workflows part of the Prebid Addressability Framework are:
 - User Id and Preferences
 - Selling ad slots
 
-## Id and User Preferences
+## User Id and Preferences
 
-### Generic workflow
+### Creating User Id and Preferences
 
-This workflow illustrates retrieving and creating/setting User Id and Preferences.
+This workflow illustrates a user first visit on a site part of the PAF network.
 
 ```mermaid
 sequenceDiagram
@@ -16,7 +16,7 @@ participant U as User
 participant P as Participant's website
 participant O as Operator
 
-    U ->> P: visit site
+    U ->> P: Visit site
     
     P ->> O: Read User Id and Preferences
     O ->> P: No User Id and Preferences
@@ -28,6 +28,43 @@ participant O as Operator
     O ->> O: Generate<br />User Id and Preferences
     O ->> P: Forward User Id and Preferences
 ```
+
+### Retrieving User Id and Preferences
+
+This workflow illustrates a user who has already given his/her consent visiting a site part of the Prebid Addressability Framework network.
+
+```mermaid
+sequenceDiagram
+participant U as User
+participant P as Participant's website
+participant O as Operator
+
+    U ->> P: Visit site
+    
+    P ->> O: Read User Id and Preferences
+    O ->> P: Send User Id and Preferences
+```
+
+
+### Updating User Id and Preferences
+
+This workflow illustrates a user updating his/her User Id and Preferences on a site part of the PAF network.
+
+```mermaid
+sequenceDiagram
+participant U as User
+participant P as Participant's website
+participant O as Operator
+
+    U ->> P: Access User Id and Preferences dialog
+    P ->> U: Display User Id and Preferences dialog
+    
+    U ->> P: Update User Id and Preferences
+    P ->> O: Send updated User Id and Preferences
+    O ->> P: Acknowledge updated User Id and Preferences
+    P ->> U: Acknowledge updated User Id and Preferences
+```
+
 ### When third-party cookies are supported
 
 When third-party cookies are supported in the browser:
