@@ -5,41 +5,72 @@
     "$id": "openrtb-bid-response",
     "type": "object",
     "properties": {
+        "ext": {
+            "type": "object",
+            "description": "Placeholder for exchange-specific extensions to OpenRTB.",
+            "properties": {
+                "paf": {
+                    "type": "object",
+                    "description": "Dedicated object for PAF as an extension.",
+                    "properties": {
+                        "transmission": {
+                            "$ref": "transmission-response.json"
+                        }
+                    },
+                    "required": [
+                        "transmission"
+                    ]
+                }
+            },
+            "required": [
+                "paf"
+            ]
+        },
         "seatbid": {
             "type": "array",
             "description": "Represents a specific seat that provides at least one bid.",
             "items": {
                 "type": "object",
                 "properties": {
-                    "ext": {
-                        "type": "object",
-                        "description": "Placeholder for exchange-specific extensions to OpenRTB.",
-                        "properties": {
-                            "paf": {
-                                "type": "object",
-                                "description": "Dedicated object for PAF as an extension.",
-                                "properties": {
-                                    "transmission": {
-                                        "$ref": "transmission-response.json"
-                                    }
-                                },
-                                "required": [
-                                    "transmission"
-                                ]
-                            }
-                        },
-                        "required": [
-                            "paf"
-                        ]
+                    "bid": {
+                        "type": "array",
+                        "description": "A bid for an impression.",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "ext": {
+                                    "type": "object",
+                                    "description": "Placeholder for exchange-specific extensions to OpenRTB.",
+                                    "properties": {
+                                        "paf": {
+                                            "type": "object",
+                                            "description": "Dedicated object for PAF as an extension.",
+                                            "properties": {
+                                                "content_id": {
+                                                    "$ref": "transmission-content_id.json"
+                                                }
+                                            },
+                                            "required": [
+                                                "content_id"
+                                            ]
+                                        }
+                                    },
+                                    "required": [
+                                        "paf"
+                                    ]
+                                }
+                            },
+                            "required": [
+                                "ext"
+                            ]
+                        } 
                     }
-                },
-                "required": [
-                    "ext"
-                ]
+                }
             }
         }
     },
     "required": [
+        "ext",
         "seatbid"
     ]
 }

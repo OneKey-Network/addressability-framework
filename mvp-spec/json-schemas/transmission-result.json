@@ -1,6 +1,6 @@
 {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
-    "title": "Transmission Result",
+    "title": "Transmission Response",
     "description": "",
     "$id": "transmission-result",
     "type": "object",
@@ -11,21 +11,32 @@
         "receiver": {
             "$ref": "transmission-receiver.json"
         },
+        "contents": {
+            "type": "array",
+            "items": {
+                "description": "An association of Content-Id with a Transaction Id for building the Audit Log later",
+                "properties": {
+                    "transaction_id": {
+                        "$ref": "transaction_id.json"
+                    },
+                    "content_id": {
+                        "$ref": "transmission-content_id.json"
+                    } 
+                }
+            }
+        },
         "status": {
-            "$ref": "transmission-status.json"
+            "$ref": "transmission-status.json",
+            "description": "Equals \"success\". Transmission Responses with a different status from Suppliers must be dismissed.",
+            "enum": [
+                "success"
+            ]
         },
         "details": {
             "$ref": "transmission-details.json"
         },
-        "transaction_ids": {
-            "type": "array",
-            "items": {
-                "description": "The transaction-ids of the Addressable Contents for which the Receiver want to participate to",
-                "$ref": "transaction_id.json"
-            }
-        },
         "source": {
-            "description": "Signature based on input:\n```\nreceiver                + '\\u2063' +\nstatus                  + '\\u2063' \nsource.domain           + '\\u2063' +\nsource.timestamp        + '\\u2063' +\nseed.source.signature \n```",
+            "description": "Signature based on input:\n```\ntransmission_response.receiver                + '\\u2063' +\ntransmission_response.status                  + '\\u2063'\ntransmission_response.source.domain           + '\\u2063' +\ntransmission_response.source.timestamp        + '\\u2063' +\nseed.source.signature+ '\\u2063' +\ntransaction_ids[0] + '\\u2063' +\n... + '\\u2063' +\ntransaction_ids[n]\n```",
             "$ref": "source.json"
         }
     },

@@ -2,6 +2,28 @@
     "id": "1234567890",
     "bidid": "abc1123",
     "cur": "USD",
+    "ext": {
+        "paf": {
+            "transmission": {
+                "version": "0.1",
+                "contents": [
+                    {
+                        "transaction_id": "f55a401d-e8bb-4de1-a3d2-fa95619393e8",
+                        "content_id": "90141190-26fe-497c-acee-4d2b649c2112"
+                    }
+                ],
+                "status": "success",
+                "details": "",
+                "receiver": "dsp1.com",
+                "source": {
+                    "domain": "dsp1.com",
+                    "timestamp": 1639589531,
+                    "signature": "d01c6e83f14b4f057c2a2a86d320e2454fc0c60df4645518d993b5f40019d24c"
+                },
+                "children": []
+            }
+        }
+    },
     "seatbid": [
         {
             "seat": "512",
@@ -9,34 +31,20 @@
                 {
                     "id": "1",
                     "impid": "1",
-                    "price": 9.43,
+                    "price": 1,
                     "nurl": "http://adserver.com/winnotice?impid=102",
                     "iurl": "http://adserver.com/pathtosampleimage",
                     "adomain": [ "advertiserdomain.com" ],
                     "cid": "campaign111",
                     "crid": "creative112",
-                    "attr": [ 1, 2, 3, 4, 5, 6, 7, 12 ]
-                }
-            ],
-            "ext": {
-                "paf": {
-                    "transmission": {
-                        "version": "0.1",
-                        "transaction_ids": [
-                            "4640dc9f-385f-4e02-a0e5-abbf241af94d"
-                        ],
-                        "receiver": "dsp1.com",
-                        "status": "success",
-                        "details": "",
-                        "source": {
-                            "domain": "dsp1.com",
-                            "timestamp": 1639589531,
-                            "signature": "d01c6e83f14b4f057c2a2a86d320e2454fc0c60df4645518d993b5f40019d24c"
-                        },
-                        "children": []
+                    "attr": [ 1, 2, 3, 4, 5, 6, 7, 12 ],
+                    "ext": {
+                        "paf" : {
+                            "content_id": "90141190-26fe-497c-acee-4d2b649c2112"
+                        }
                     }
                 }
-            }
+            ]
         }
     ]
 }

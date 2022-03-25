@@ -7,6 +7,6 @@ The details of the status. It can be empty for "success" but it should detail th
 **Example:** 
 
 ```json
-"No signature in the Transaction Request."
+"No signature in the Transmission Request."
 ```
 

@@ -285,46 +285,42 @@ in their existing models.
 ```json
 {
     "version": "0.1",
-    "receiver": "ssp1.com",
+    "contents": [
+        {
+            "transaction_id": "f55a401d-e8bb-4de1-a3d2-fa95619393e8",
+            "content_id": "90141190-26fe-497c-acee-4d2b649c2112"
+        },
+        {
+            "transaction_id": "e538ff77-4746-4eb9-96c1-bda714dfb80a",
+            "content_id": "b3e79370-ecb8-468b-8afa-d227890ddca5"
+        }
+    ],
     "status": "success",
     "details": "",
-    "transaction_ids": [
-        "4640dc9f-385f-4e02-a0e5-abbf241af94d",
-        "7d71a23a-fafa-449a-8b85-63a634780107" 
-    ],
+    "receiver": "dsp1.com",
     "source": {
-        "domain": "ssp1.com",
+        "domain": "dsp1.com",
         "timestamp": 1639589531,
         "signature": "d01c6e83f14b4f057c2a2a86d320e2454fc0c60df4645518d993b5f40019d24c"
     },
     "children": [
         {
             "version": "0.1",
-            "receiver": "ssp2.com",
+            "contents": [
+                {
+                    "transaction_id": "f55a401d-e8bb-4de1-a3d2-fa95619393e8",
+                    "content_id": "b4a330e0-e41e-4c47-a1a7-00cdc5f627ed"
+                }
+            ],
             "status": "success",
             "details": "",
-            "transaction_ids": [
-                "4640dc9f-385f-4e02-a0e5-abbf241af94d"
-            ],
+            "receiver": "dsp1-partner.com",
             "source": {
-                "domain": "ssp2.com",
+                "domain": "dsp1-partner.com",
                 "timestamp": 1639589531,
-                "signature": "4ed0d811a96e424cdcbe8b85cd4e58bc75f3b6d701870fb4a2a620feee670d54"
-            }
-        },
-        {
-            "version": "0.1",
-            "receiver": "dsp.com",
-            "status": "success",
-            "details": "",
-            "transaction_ids": [
-                "4640dc9f-385f-4e02-a0e5-abbf241af94d"
-            ],
-            "source": {
-                "domain": "dsp.com",
-                "timestamp": 1639589531,
-                "signature": "b9d2918542e4a4155e5e404cf3d6e73449152c974da1e8f554282d7ed7c62278"
-            }
+                "signature": "d01c6e83f14b4f057c2a2a86d320e2454fc0c60df4645518d993b5f40019d24c"
+            },
+            "children": []
         }
     ]
 }
@@ -519,6 +515,28 @@ of this new object in the "ext" object is "prebid_sso_transmissions".
     "id": "1234567890",
     "bidid": "abc1123",
     "cur": "USD",
+    "ext": {
+        "paf": {
+            "transmission": {
+                "version": "0.1",
+                "contents": [
+                    {
+                        "transaction_id": "f55a401d-e8bb-4de1-a3d2-fa95619393e8",
+                        "content_id": "90141190-26fe-497c-acee-4d2b649c2112"
+                    }
+                ],
+                "status": "success",
+                "details": "",
+                "receiver": "dsp1.com",
+                "source": {
+                    "domain": "dsp1.com",
+                    "timestamp": 1639589531,
+                    "signature": "d01c6e83f14b4f057c2a2a86d320e2454fc0c60df4645518d993b5f40019d24c"
+                },
+                "children": []
+            }
+        }
+    },
     "seatbid": [
         {
             "seat": "512",
@@ -526,34 +544,20 @@ of this new object in the "ext" object is "prebid_sso_transmissions".
                 {
                     "id": "1",
                     "impid": "1",
-                    "price": 9.43,
+                    "price": 1,
                     "nurl": "http://adserver.com/winnotice?impid=102",
                     "iurl": "http://adserver.com/pathtosampleimage",
                     "adomain": [ "advertiserdomain.com" ],
                     "cid": "campaign111",
                     "crid": "creative112",
-                    "attr": [ 1, 2, 3, 4, 5, 6, 7, 12 ]
-                }
-            ],
-            "ext": {
-                "paf": {
-                    "transmission": {
-                        "version": "0.1",
-                        "transaction_ids": [
-                            "4640dc9f-385f-4e02-a0e5-abbf241af94d"
-                        ],
-                        "receiver": "dsp1.com",
-                        "status": "success",
-                        "details": "",
-                        "source": {
-                            "domain": "dsp1.com",
-                            "timestamp": 1639589531,
-                            "signature": "d01c6e83f14b4f057c2a2a86d320e2454fc0c60df4645518d993b5f40019d24c"
-                        },
-                        "children": []
+                    "attr": [ 1, 2, 3, 4, 5, 6, 7, 12 ],
+                    "ext": {
+                        "paf" : {
+                            "content_id": "90141190-26fe-497c-acee-4d2b649c2112"
+                        }
                     }
                 }
-            }
+            ]
         }
     ]
 }

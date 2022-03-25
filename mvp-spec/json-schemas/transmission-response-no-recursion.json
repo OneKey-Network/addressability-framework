@@ -2,7 +2,7 @@
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "title": "Transmission Response",
     "description": "",
-    "$id": "transmission-response.json",
+    "$id": "transmission-response-no-recursion.json",
     "type": "object",
     "properties": {
         "version": {
@@ -26,7 +26,11 @@
             }
         },
         "status": {
-            "$ref": "transmission-status.json"
+            "$ref": "transmission-status.json",
+            "description": "Equals \"success\". Transmission Responses with a different status from Suppliers must be dismissed.",
+            "enum": [
+                "success"
+            ]
         },
         "details": {
             "$ref": "transmission-details.json"
@@ -38,14 +42,14 @@
         "children": {
             "type": "array",
             "items": {
-                "$ref": "transmission-response-no-recursion.json"
+                "type": "object",
+                "description": "Transmission Responses of the direct suppliers."
             }
         }
     },
     "required": [
         "version",
         "receiver",
-        "contents",
         "status",
         "details",
         "source",
