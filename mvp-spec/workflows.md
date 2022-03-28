@@ -18,12 +18,12 @@ participant O as Operator
 
     U ->> P: Visit site
     
-    P ->> O: Read User Id and Preferences
+    P ->> O: Request User Id and Preferences
     O ->> P: No User Id and Preferences
     
-    P ->> O: Get new Id
+    P ->> O: Request new Id
     O ->> O: Generate Id
-    O ->> P: New Id
+    O ->> P: Return new Id
     
     P ->> U: Display consent prompt
     U ->> P: Give consent
@@ -48,8 +48,8 @@ participant O as Operator
 
     U ->> P: Visit site
     
-    P ->> O: Read User Id and Preferences
-    O ->> P: Send User Id and Preferences
+    P ->> O: Request User Id and Preferences
+    O ->> P: Return User Id and Preferences
 ```
 
 
@@ -66,8 +66,15 @@ participant O as Operator
     U ->> P: Access User Id and Preferences dialog
     P ->> U: Display User Id and Preferences dialog
     
+    U ->> P: Request new Id
+    P ->> O: Request new Id
+    O ->> O: Generate Id
+    O ->> P: Return new Id
+    P ->> U: Display new Id
+    
     U ->> P: Update User Id and Preferences
-    P ->> O: Send updated User Id and Preferences
+    P ->> O: Write updated User Id and Preferences
+    O ->> O: Save User Id and Preferences
     O ->> P: Acknowledge updated User Id and Preferences
     P ->> U: Acknowledge updated User Id and Preferences
 ```
