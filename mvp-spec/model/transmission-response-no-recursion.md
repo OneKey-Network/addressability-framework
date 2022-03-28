@@ -183,9 +183,11 @@ transmission_response.status                  + '\u2063'
 transmission_response.source.domain           + '\u2063' +
 transmission_response.source.timestamp        + '\u2063' +
 seed.source.signature+ '\u2063' +
-transaction_ids[0] + '\u2063' +
+contents[0].transaction_ids + '\u2063' +
+contents[0].content_id + '\u2063' +
 ... + '\u2063' +
-transaction_ids[n]
+contents[n].transaction_ids + '\u2063' +
+contents[n].content_id
 ```
 
 <details>

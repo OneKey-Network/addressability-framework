@@ -465,33 +465,54 @@ an example:
     "transmissions": [
         {
             "version": "0.1",
-            "receiver": "ssp1.com",
+            "receiver": "ssp2.com",
+            "contents": [],
             "status": "success",
             "details": "",
-            "transaction_ids": [
-                "4640dc9f-385f-4e02-a0e5-abbf241af94d",
-                "7d71a23a-fafa-449a-8b85-63a634780107" 
-            ],
             "source": {
-                "domain": "ssp1.com",
+                "domain": "ssp2.com",
                 "timestamp": 1639589531,
-                "signature": "30450221008546d33912bfd27ecc51a48a49d399bdadcc8795fb2b94ebda9aa6be902fb3ee02202cc41e980139c3f6e136088b9e01c2324ed3b6d522ba5e526869f36a7a931b1b"
+                "signature": "d01c6e83f14b4f057c2a2a86d320e2454fc0c60df4645518d993b5f40019d24c"
             }
         },
         {
             "version": "0.1",
-            "receiver": "dsp.com",
-            "status": "success",
-            "transaction_ids": [
-                "4640dc9f-385f-4e02-a0e5-abbf241af94d"
+            "contents": [
+                {
+                    "transaction_id": "f55a401d-e8bb-4de1-a3d2-fa95619393e8",
+                    "content_id": "90141190-26fe-497c-acee-4d2b649c2112"
+                },
+                {
+                    "transaction_id": "e538ff77-4746-4eb9-96c1-bda714dfb80a",
+                    "content_id": "b3e79370-ecb8-468b-8afa-d227890ddca5"
+                }
             ],
+            "receiver": "dsp1.com",
+            "status": "success",
             "details": "",
             "source": {
-                "domain": "dps.com",
+                "domain": "dsp1.com",
                 "timestamp": 1639589531,
-                "signature": "30440220340ecf9b0a430f02cf50689ce13af0bd39d79e7387fb6ca1a30be61cd845b7dd02200781e7e96aa64f18de516cc719fe08e6283a110d1ae70432d8e712db3a9f8b8b"
+                "signature": "d01c6e83f14b4f057c2a2a86d320e2454fc0c60df4645518d993b5f40019d24c"
             }
-        }
+        },
+        {
+            "version": "0.1",
+            "contents": [
+                {
+                    "transaction_id": "f55a401d-e8bb-4de1-a3d2-fa95619393e8",
+                    "content_id": "b4a330e0-e41e-4c47-a1a7-00cdc5f627ed"
+                }
+            ],
+            "receiver": "dsp1-partner.com",
+            "status": "success",
+            "details": "",
+            "source": {
+                "domain": "dsp1-partner.com",
+                "timestamp": 1639589531,
+                "signature": "d01c6e83f14b4f057c2a2a86d320e2454fc0c60df4645518d993b5f40019d24c"
+            }
+        }        
     ]
 }
 ```
