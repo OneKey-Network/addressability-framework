@@ -21,7 +21,10 @@ participant O as Operator
     P ->> O: Read User Id and Preferences
     O ->> P: No User Id and Preferences
     
-    P ->> P: Generate Id
+    P ->> O: Get new Id
+    O ->> O: Generate Id
+    O ->> P: New Id
+    
     P ->> U: Display consent prompt
     U ->> P: Give consent
 
