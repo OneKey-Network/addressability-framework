@@ -140,7 +140,8 @@ Signature based on input:
 
 **⚠️ Note that it uses data from identifiers**:
 
-```preferences.source.domain + '\u2063' +
+```
+preferences.source.domain + '\u2063' +
 preferences.source.timestamp + '\u2063' +
 identifiers[type="prebid_id"].source.signature + '\u2063' +
 preferences.data.key1 + '\u2063' + preferences.data[key1].value + '\u2063' +
@@ -353,7 +354,8 @@ object
 
 Signature based on input:
 
-```identifier.source.domain + '\u2063' + 
+```
+identifier.source.domain + '\u2063' + 
 identifier.source.timestamp + '\u2063' + 
 identifier.type + '\u2063'+
 identifier.value
@@ -557,7 +559,8 @@ object
 <td>
 
 Signature based on input:
-```seed.source.domain + '\u2063' +
+```
+seed.source.domain + '\u2063' +
 seed.source.timestamp + '\u2063' +
 seed.transaction_id + '\u2063' +
 seed.publisher + '\u2063' +

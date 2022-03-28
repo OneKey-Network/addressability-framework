@@ -397,11 +397,8 @@ correctly with her/his PAF Data.
 
 <!--partial-begin { "files": [ "transmissions-diagrams-and-details.md" ] } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
-Here is a workflow with detailed steps that explains how 
-Transmissions Request contain **parents** and Transmission Responses contains
-**children** (here, we loan the terminology of the Tree data structure). 
-**children** and **parents** are Transmission Results and they are helpful for
-the Publisher and the DSP for generating the Audit Log of an Addressable Content.
+Here is a workflow with detailed steps  how Transmission Requests contain
+ **parents** and Transmission Responses contains **children**. 
 
 ```mermaid
 sequenceDiagram

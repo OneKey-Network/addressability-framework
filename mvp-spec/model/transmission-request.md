@@ -142,7 +142,8 @@ object
 <td>
 
 Signature based on input:
-```seed.source.domain + '\u2063' +
+```
+seed.source.domain + '\u2063' +
 seed.source.timestamp + '\u2063' +
 seed.transaction_id + '\u2063' +
 seed.publisher + '\u2063' +

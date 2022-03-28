@@ -28,7 +28,7 @@
     },
     "source": {
       "$ref": "source.json",
-      "description": "Signature based on input:\n\n```identifier.source.domain + '\\u2063' + \nidentifier.source.timestamp + '\\u2063' + \nidentifier.type + '\\u2063'+\nidentifier.value\n```"
+      "description": "Signature based on input:\n\n```\nidentifier.source.domain + '\\u2063' + \nidentifier.source.timestamp + '\\u2063' + \nidentifier.type + '\\u2063'+\nidentifier.value\n```"
     }
   },
   "required": [
