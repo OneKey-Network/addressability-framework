@@ -226,7 +226,7 @@ Here is an example that must be adapted to the existing API of the Ad Server:
         }
     },
     "source": {
-        "domain": "dsp1.com",
+        "domain": "publisher.com",
         "timestamp": 1639581000,
         "signature": "5d0519da9c65feeae715dfcf380c7997ea9ee859e2636a498c43c1044dc20354"
     },
@@ -439,7 +439,7 @@ an example:
         "preferences": {
             "version": "0.1",
             "data": { 
-                "opt_in": true 
+                "use_browsing_for_personalization": true 
             },
             "source": {
                 "domain": "cmp1.com",
