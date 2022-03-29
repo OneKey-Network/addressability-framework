@@ -14,13 +14,13 @@ flowchart LR
     
     Participant("Participant website")
     
-    Participant -->|read user ids & preferences| O
+    Participant -->|read User Id & Preferences| O
     click Participant href "#publisher" "Participant"
     
-    Participant -- start transaction --> SSP
-    SSP -- send transmission --> DSP
-    DSP -- send transmission response --> SSP
-    SSP -- send transmission response --> Participant    
+    Participant -- send Transmission Request --> SSP
+    SSP -- send Transmission Request --> DSP
+    DSP -- send Transmission Response --> SSP
+    SSP -- send Transmission Response --> Participant    
 
     click SSP href "#ssp-supply-side-platform" "SSP"
     click DSP href "#dsp-demand-side-platform" "DSP"
