@@ -7,10 +7,10 @@ This document describes what is required for a Publisher to participate in the P
 ## Overview
 
 The Prebid Addressability Framework enhances ad slots selling by instantiating an Audit Log. This Audit Log requires the following elements, that Publishers must implement:
-* a Seed, identifying a bid request for an ad slot for a given user
-* Transmission Requests, identifying the Seed and the requester at each step of the bidding workflow
-* Transmission Responses, as answers to Transmission Requests
-* The Audit Log itself, identifying the entities have been involved in the display of an ad
+* a **Seed**, identifying a bid request for an ad slot for a given user
+* **Transmission Requests**, identifying the Seed and the requester at each step of the bidding workflow
+* **Transmission Responses**, as answers to Transmission Requests
+* The **Audit Log** itself, identifying the entities have been involved in the display of an ad
 
 Seeds, Transmission Requests, and Transmissions Responses are signed.
 
@@ -121,7 +121,7 @@ data.preferences.source.signature
 ```
 <!--partial-end-->
 
-### Step 4: Send User Id and Preferences and Transmission Requests
+### Step 4: Send User Id and Preferences in Transmission Requests
 
 Once the Seeds are generated (one per ad slot), the Publisher
 shares the Seeds via Transmissions with placement data to 
@@ -138,8 +138,12 @@ flowchart LR
 ```
 
 Publishers can send PAF User Id and Preferences in bid requests to SSP. Whenever they do so, a Transmission Request must be included and bound to the bid request.
+<<<<<<< HEAD
 There must be one Transmission Requests per SSP and Seed.
 publishers-requirements.md
+=======
+There must be one Transmission Request per SSP and Seed.
+>>>>>>> b3648c6 (Update publishers-requirements.md)
 
 A Transmission Request is composed as followed:
 
