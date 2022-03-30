@@ -225,6 +225,10 @@ Here is an example that must be adapted to the existing API of the Ad Server:
             }
         }
     },
+    "contents": [],
+    "status": "success",
+    "details": "",
+    "receiver": "dsp1.com",
     "source": {
         "domain": "publisher.com",
         "timestamp": 1639581000,

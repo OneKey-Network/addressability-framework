@@ -273,6 +273,10 @@ in their existing models.
             }
         }
     },
+    "contents": [],
+    "status": "success",
+    "details": "",
+    "receiver": "dsp1.com",
     "source": {
         "domain": "publisher.com",
         "timestamp": 1639581000,
