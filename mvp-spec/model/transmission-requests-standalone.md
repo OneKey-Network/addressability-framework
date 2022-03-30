@@ -353,7 +353,8 @@ object
 
 Signature based on input:
 
-```identifier.source.domain + '\u2063' + 
+```
+identifier.source.domain + '\u2063' + 
 identifier.source.timestamp + '\u2063' + 
 identifier.type + '\u2063'+
 identifier.value
@@ -1056,7 +1057,8 @@ object
 
 Signature based on input:
 
-```identifier.source.domain + '\u2063' + 
+```
+identifier.source.domain + '\u2063' + 
 identifier.source.timestamp + '\u2063' + 
 identifier.type + '\u2063'+
 identifier.value
@@ -1333,7 +1335,7 @@ The domain name of the receiver of the Transmission.
 
 <tr>
 <td>
-contents<br>(<i>optional</i>)
+<b>contents</b>
 </td>
 <td>
 array

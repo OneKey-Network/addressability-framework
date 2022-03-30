@@ -951,7 +951,7 @@ The domain name of the receiver of the Transmission.
 
 <tr>
 <td>
-contents<br>(<i>optional</i>)
+<b>contents</b>
 </td>
 <td>
 array
