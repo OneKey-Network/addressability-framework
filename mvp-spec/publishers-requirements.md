@@ -138,12 +138,7 @@ flowchart LR
 ```
 
 Publishers can send PAF User Id and Preferences in bid requests to SSP. Whenever they do so, a Transmission Request must be included and bound to the bid request.
-<<<<<<< HEAD
-There must be one Transmission Requests per SSP and Seed.
-publishers-requirements.md
-=======
 There must be one Transmission Request per SSP and Seed.
->>>>>>> b3648c6 (Update publishers-requirements.md)
 
 A Transmission Request is composed as followed:
 
@@ -157,21 +152,6 @@ A Transmission Request is composed as followed:
 | source | Source object                   | The source object contains data for identifying the Sender of the Transmission.<br /><table><tr><th>Field</th><th>Type</th><th>Details</th></tr><tr><td>domain</td><td>String</td><td>The domain of the Sender.</td></tr><tr><td>timestamp</td><td>Integer</td><td>The timestamp of the signature.</td></tr><tr><td>signature</td><td>String</td><td>Encoded signature in UTF-8 of the Tranmission sender.</td></tr></table>|
 <!--partial-end-->
 
-<<<<<<< HEAD:mvp-spec/participants-publishers-requirements.md
-The Transmission Request list is always associated to PAF Data that has
-been used for generating the Seed. Here is a hypothetical structure of it that
-we name `data` in the following example: 
-
-<!--partial-begin { "files": [ "data-id-and-preferences-table.md" ] } -->
-<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
-| Field                  | Type                                     | Details  |
-|------------------------|------------------------------------------|----------|
-| preferences            | Preferences object                       | The Preferences of the user.|
-| identifiers            | Array of Pseudonymous-Identifier objects | The Pseudonymous-Identifiers of the user. For now, it only contains a Prebid ID.|
-<!--partial-end-->
-
-=======
->>>>>>> 8f91279 (Update and rename participants-publishers-requirements.md to publishers-requirements.md):mvp-spec/publishers-requirements.md
 Similar to the Seed, each Transmission Request contains a signature for 
 audit purposes, using the same cryptographic algorithm, and based on the UTF-8 encoded string below:
 
