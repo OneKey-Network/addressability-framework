@@ -255,7 +255,7 @@ A Transmission Response is composed as followed:
 | source          | Source object                 | The source contains all the data for identifying the DSP and verifying the Transmission.                                                                                                                                                                                                                   |
 <!--partial-end-->
 
-Therefore, here is an example of Transmission Responses that
+Therefore, here is an example of Transmission Response that
 must be adapted to the existing API:
 
 <!--partial-begin { "files": [ "transmission-responses.json" ], "block": "json" } -->
