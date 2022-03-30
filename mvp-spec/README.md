@@ -34,8 +34,8 @@ The operator is responsible for:
 
 Key features of PAF include:
 
-- signing communication, transmissions and request with private keys
 - making available alongside the ad an Audit Log of entities involved
+- signing Seeds, Transmissions Requests, Transmissions Responses, User Id and Preferences, and all messages sent to or from the Operator
 
 ## Nodes
 
