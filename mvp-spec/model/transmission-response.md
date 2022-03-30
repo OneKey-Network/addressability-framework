@@ -65,7 +65,7 @@ The domain name of the receiver of the Transmission.
 <b>contents</b>
 </td>
 <td>
-array
+array of object
 </td>
 <td>
 
@@ -86,7 +86,7 @@ An association of Content-Id with a Transaction Id for building the Audit Log la
 
 <tr>
 <td>
-transaction_id<br>(<i>optional</i>)
+<b>transaction_id</b>
 </td>
 <td>
 string
@@ -106,7 +106,7 @@ A Generated Unique Identifier dedicated to a placement and an Addressable Conten
 
 <tr>
 <td>
-content_id<br>(<i>optional</i>)
+<b>content_id</b>
 </td>
 <td>
 string
@@ -179,11 +179,10 @@ object
 <td>
 
 Signature based on input:
-```
-transmission_response.receiver                + '\u2063' +
-transmission_response.status                  + '\u2063'
-transmission_response.source.domain           + '\u2063' +
-transmission_response.source.timestamp        + '\u2063' +
+```receiver                + '\u2063' +
+status                  + '\u2063'
+source.domain           + '\u2063' +
+source.timestamp        + '\u2063' +
 seed.source.signature+ '\u2063' +
 contents[0].transaction_ids + '\u2063' +
 contents[0].content_id + '\u2063' +
@@ -351,7 +350,7 @@ The domain name of the receiver of the Transmission.
 <b>contents</b>
 </td>
 <td>
-array
+array of object
 </td>
 <td>
 
@@ -372,7 +371,7 @@ An association of Content-Id with a Transaction Id for building the Audit Log la
 
 <tr>
 <td>
-transaction_id<br>(<i>optional</i>)
+<b>transaction_id</b>
 </td>
 <td>
 string
@@ -392,7 +391,7 @@ A Generated Unique Identifier dedicated to a placement and an Addressable Conten
 
 <tr>
 <td>
-content_id<br>(<i>optional</i>)
+<b>content_id</b>
 </td>
 <td>
 string
@@ -463,11 +462,10 @@ object
 <td>
 
 Signature based on input:
-```
-transmission_response.receiver                + '\u2063' +
-transmission_response.status                  + '\u2063'
-transmission_response.source.domain           + '\u2063' +
-transmission_response.source.timestamp        + '\u2063' +
+```receiver                + '\u2063' +
+status                  + '\u2063'
+source.domain           + '\u2063' +
+source.timestamp        + '\u2063' +
 seed.source.signature+ '\u2063' +
 contents[0].transaction_ids + '\u2063' +
 contents[0].content_id + '\u2063' +

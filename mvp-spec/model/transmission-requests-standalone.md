@@ -1162,6 +1162,135 @@ The base64 representation of a data signature
 
 <tr>
 <td>
+<b>receiver</b>
+</td>
+<td>
+string
+</td>
+<td>
+
+The domain name of the receiver of the Transmission.
+
+**Example:** 
+
+```json
+"receiver.com"
+```
+
+</td>
+</tr>
+
+<tr>
+<td>
+<b>status</b>
+</td>
+<td>
+enum (of string)
+</td>
+<td>
+
+Equals "success" if the DSP signed the Transmission and returns it to the sender.<br /> Equals "error_bad_request" if the receiver doesn't understand or see inconsistency in the Transmission Request.<br /> Equals "error_cannot_process" if the receiver failed to use the data of the Transmission Request properly.
+
+Can only take **one of these values**:
+* `"success"`
+* `"error_bad_request"`
+* `"error_cannot_process"`
+</td>
+</tr>
+
+<tr>
+<td>
+<b>details</b>
+</td>
+<td>
+string
+</td>
+<td>
+
+The details of the status. It can be empty for "success" but it should detail the reason(s) in case of an error.
+
+**Example:** 
+
+```json
+"No signature in the Transmission Request."
+```
+
+</td>
+</tr>
+
+<tr>
+<td>
+<b>contents</b>
+</td>
+<td>
+array of object
+</td>
+<td>
+
+Type of **each element in the array**:
+
+An association of Content-Id with a Transaction Id for building the Audit Log later
+
+<details>
+<summary>Object details</summary>
+
+<table>
+
+<tr>
+    <th> Property </th>
+    <th> Type </th>
+    <th> Description </th>
+</tr>
+
+<tr>
+<td>
+<b>transaction_id</b>
+</td>
+<td>
+string
+</td>
+<td>
+
+A Generated Unique Identifier dedicated to a placement and an Addressable Content
+
+**Example:** 
+
+```json
+"b0cffcd0-177e-46d5-8bcd-32ed52a414dc"
+```
+
+</td>
+</tr>
+
+<tr>
+<td>
+<b>content_id</b>
+</td>
+<td>
+string
+</td>
+<td>
+
+A GUID associated to a potential Addressable Content.
+
+**Example:** 
+
+```json
+"b0cffcd0-177e-46d5-8bcd-32ed52a414dc"
+```
+
+</td>
+</tr>
+
+</table>
+
+</details>
+
+</td>
+</tr>
+
+<tr>
+<td>
 <b>source</b>
 </td>
 <td>
@@ -1171,10 +1300,16 @@ object
 
 Signature based on input:
 ```
-transmission_request_receiver_domain        + '\u2063' +
-source.domain          + '\u2063' + 
-source.timestamp       + '\u2063' +
-seed.source.signature
+transmission_response.receiver                + '\u2063' +
+transmission_response.status                  + '\u2063'
+transmission_response.source.domain           + '\u2063' +
+transmission_response.source.timestamp        + '\u2063' +
+seed.source.signature+ '\u2063' +
+contents[0].transaction_ids + '\u2063' +
+contents[0].content_id + '\u2063' +
+... + '\u2063' +
+contents[n].transaction_ids + '\u2063' +
+contents[n].content_id
 ```
 
 <details>
@@ -1338,7 +1473,7 @@ The domain name of the receiver of the Transmission.
 <b>contents</b>
 </td>
 <td>
-array
+array of object
 </td>
 <td>
 
@@ -1359,7 +1494,7 @@ An association of Content-Id with a Transaction Id for building the Audit Log la
 
 <tr>
 <td>
-transaction_id<br>(<i>optional</i>)
+<b>transaction_id</b>
 </td>
 <td>
 string
@@ -1379,7 +1514,7 @@ A Generated Unique Identifier dedicated to a placement and an Addressable Conten
 
 <tr>
 <td>
-content_id<br>(<i>optional</i>)
+<b>content_id</b>
 </td>
 <td>
 string
@@ -1450,11 +1585,10 @@ object
 <td>
 
 Signature based on input:
-```
-transmission_response.receiver                + '\u2063' +
-transmission_response.status                  + '\u2063'
-transmission_response.source.domain           + '\u2063' +
-transmission_response.source.timestamp        + '\u2063' +
+```receiver                + '\u2063' +
+status                  + '\u2063'
+source.domain           + '\u2063' +
+source.timestamp        + '\u2063' +
 seed.source.signature+ '\u2063' +
 contents[0].transaction_ids + '\u2063' +
 contents[0].content_id + '\u2063' +

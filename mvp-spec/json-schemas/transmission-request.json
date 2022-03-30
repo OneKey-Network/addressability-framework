@@ -24,18 +24,7 @@
             "$ref": "transmission-details.json"
         },
         "contents": {
-            "type": "array",
-            "items": {
-                "description": "An association of Content-Id with a Transaction Id for building the Audit Log later",
-                "properties": {
-                    "transaction_id": {
-                        "$ref": "transaction_id.json"
-                    },
-                    "content_id": {
-                        "$ref": "transmission-content_id.json"
-                    } 
-                }
-            }
+            "$ref": "transmission-contents.json"
         },
         "source": {
             "description": "Signature based on input:\n```\ntransmission_response.receiver                + '\\u2063' +\ntransmission_response.status                  + '\\u2063'\ntransmission_response.source.domain           + '\\u2063' +\ntransmission_response.source.timestamp        + '\\u2063' +\nseed.source.signature+ '\\u2063' +\ncontents[0].transaction_ids + '\\u2063' +\ncontents[0].content_id + '\\u2063' +\n... + '\\u2063' +\ncontents[n].transaction_ids + '\\u2063' +\ncontents[n].content_id\n```",
