@@ -38,10 +38,12 @@ export const listMermaidAssets = (): Promise<string[]> => listFiles(partialsDir,
 export const listJsonSchemas = (): Promise<string[]> => listFiles(jsonSchemasDir, isJsonSchema);
 
 export const listJsonPartials = (): Promise<string[]> => listFiles(partialsDir, isJsonSchema);
+export const listPartials = (): Promise<string[]> => listFiles(partialsDir, isPartial);
 
 const isDocument = (file: string): boolean => documentExts.some(e => file.endsWith(e));
 const isMermaid = (file: string): boolean => mermaidExts.some(e => file.endsWith(e));
 const isJsonSchema = (file: string): boolean => file.endsWith(".json");
+const isPartial = (file: string): boolean => true;
 
 /** Rewrite a file */
 export function rewriteFile(fullPath: string, content: string): Promise<void> {
