@@ -34,8 +34,8 @@ The operator is responsible for:
 
 Key features of PAF include:
 
-- signing transmissions and request with private keys
-- making available alongside the ad an audit log of entities involved
+- making available alongside the ad an Audit Log of entities involved
+- signing Seeds, Transmissions Requests, Transmissions Responses, User Id and Preferences, and all messages sent to or from the Operator
 
 ## Nodes
 
@@ -53,7 +53,7 @@ A participant website is usually either an advertiser or publisher website. It c
 - Call the Operator to read the user id and preferences
 - Sell ad placements to other PAF participants. To do so it must create and sign a "seed" object and initialize an RTB transaction sent to an SSP.
 
-See [operator-client.md](operator-client.md) and [ad-server-implementation.md](ad-server-implementation.md).
+See [operator-client.md](operator-client.md) and [publishers-requirements.md](publishers-requirements.md).
 
 ### SSP (Supply Side Platform)
 
@@ -77,7 +77,7 @@ See d[dsp-implementation.md](dsp-implementation.md).
 | [signatures.md](signatures.md)                                             | General introduction on signatures and signature verification                                       |
 | [audit-log-requirements.md](audit-log-requirements.md)                     | Functional requirements related to the Audit Log and the Transmissions.                             |
 | [audit-log-design.md](audit-log-design.md)                                 | Design the technical solution for the Audit Log.                                                    |
-| [ad-server-implementation.md](ad-server-implementation.md)                 | Details PAF implementation in an Ad Server.                                                         |
+| [publishers-requirements.md](publishers-requirements.md)               | Details PAF implementation from a publisher's standpoint.                                                         |
 | [dsp-implementation.md](dsp-implementation.md)                             | Data exchange specification, from the point of view of a DSP implementer.                           |
 | [operator-api.md](operator-api.md)                                         | Operator API specification                                                                          |
 | [operator-design.md](operator-design.md)                                   | Design of the generation of Prebid SSO Data.                                                        |
