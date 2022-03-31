@@ -2,7 +2,7 @@
 
 The Prebid Addressability Framework (PAF) is a set of technical standards, UX requirements, and mandatory contractual terms designed to improve addressable advertising across the open internet.
 
-This directory contains functional and technical specifications for a minimum viable product (MVP).
+This directory contains technical specifications for a minimum viable product (MVP).
 
 ## Overview
 
@@ -26,16 +26,17 @@ flowchart LR
     click DSP href "#dsp-demand-side-platform" "DSP"
 ```
 
-PAF integrates in the existing digital marketing landscape and introduces a new actor: the "PAF operator".
+Framework-specific terms, with first letters in uppercase, are defined in the [glossary](workflows.md#glossary).
 
-The operator is responsible for:
-- generating unique pseudonymous user ids
-- storing these ids and their associated preferences
+PAF supports the following features:
+- User Id and Preferences management, based on mandatory user consent
+- an Audit Log, listing all entities that have been involved in an ad display
 
-Key features of PAF include:
+To deliver these features, PAF integrates in the existing digital marketing landscape and introduces a new actor: the "Operator".
 
-- making available alongside the ad an Audit Log of entities involved
-- signing Seeds, Transmissions Requests, Transmissions Responses, User Id and Preferences, and all messages sent to or from the Operator
+## Workflows
+
+Workflows are presented in [workflows](workflows.md).
 
 ## Nodes
 
@@ -47,27 +48,31 @@ The operator is responsible for:
 
 See [operator-api.md](operator-api.md)  for details.
 
-### Participant website
+### Participant 
+
+PAF participants are responsible for the creation of the Audit Log, based on Transmission Requests and Transmission Responses.
+
+#### Website
 
 A participant website is usually either an advertiser or publisher website. It can:
 - Call the Operator to read the user id and preferences
-- Sell ad placements to other PAF participants. To do so it must create and sign a "seed" object and initialize an RTB transaction sent to an SSP.
+- Sell ad placements to other PAF participants. To do so it must create and sign a Seed and initialize an RTB transaction sent to an SSP.
 
 See [operator-client.md](operator-client.md) and [publishers-requirements.md](publishers-requirements.md).
 
-### SSP (Supply Side Platform)
+#### SSP (Supply Side Platform)
 
-The SSP shares PAF Data to DSPs via Transmission Requests. Depending of the context, it can generate the Seed and emit the first Transmission of the Transaction or receive the Seed from a previous Transmission Request.
+The SSP shares PAF Data to DSPs via Transmission Requests. Depending of the context, it can generate the Seed and emit the first Transmission or receive the Seed from a previous Transmission Request.
 
-### DSP (Demand Side Platform)
+#### DSP (Demand Side Platform)
 
-DSPs receive transmissions that they must sign before they respond to the SSP
+DSP receive Transmission Requests and send back Transmission Responses to the SSP.
 
-See d[dsp-implementation.md](dsp-implementation.md).
+See [dsp-implementation.md](dsp-implementation.md).
 
 ### See also
 
-- Focus on signatures: [signatures.md](signatures.md)
+- Seeds, Transmissions Requests, Transmissions Responses, User Id and Preferences, and all messages sent to or from the Operator must be signed: [signatures.md](signatures.md)
 - Audit log design: [audit-log-design.md](audit-log-design.md)
 
 ## Documents
