@@ -1,34 +1,41 @@
 {
-    "version": 0,
-    "transaction_id": "a0651946-0f5b-482b-8cfc-eab3644d2743",
-    "receiver": "ssp1.com",
+    "version": "0.1",
+    "contents": [
+        {
+            "transaction_id": "f55a401d-e8bb-4de1-a3d2-fa95619393e8",
+            "content_id": "90141190-26fe-497c-acee-4d2b649c2112"
+        },
+        {
+            "transaction_id": "e538ff77-4746-4eb9-96c1-bda714dfb80a",
+            "content_id": "b3e79370-ecb8-468b-8afa-d227890ddca5"
+        }
+    ],
     "status": "success",
     "details": "",
+    "receiver": "dsp1.com",
     "source": {
-        "domain": "ssp1.com",
+        "domain": "dsp1.com",
         "timestamp": 1639589531,
-        "signature": "12345_signature"
+        "signature": "d01c6e83f14b4f057c2a2a86d320e2454fc0c60df4645518d993b5f40019d24c"
     },
     "children": [
         {
-            "receiver": "ssp2.com",
+            "version": "0.1",
+            "contents": [
+                {
+                    "transaction_id": "f55a401d-e8bb-4de1-a3d2-fa95619393e8",
+                    "content_id": "b4a330e0-e41e-4c47-a1a7-00cdc5f627ed"
+                }
+            ],
             "status": "success",
             "details": "",
+            "receiver": "dsp1-partner.com",
             "source": {
-                "domain": "ssp2.com",
+                "domain": "dsp1-partner.com",
                 "timestamp": 1639589531,
-                "signature": "12345_signature"
-            }
-        },
-        {
-            "receiver": "dsp.com",
-            "status": "success",
-            "details": "",
-            "source": {
-                "domain": "dsp.com",
-                "timestamp": 1639589531,
-                "signature": "12345_signature"
-            }
+                "signature": "d01c6e83f14b4f057c2a2a86d320e2454fc0c60df4645518d993b5f40019d24c"
+            },
+            "children": []
         }
     ]
 }

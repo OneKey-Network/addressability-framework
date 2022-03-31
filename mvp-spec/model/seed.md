@@ -44,12 +44,14 @@ To be detailed.
 
 <tr>
 <td>
-<b>transaction_id</b>
+<b>transaction_ids</b>
 </td>
 <td>
-string
+array
 </td>
 <td>
+
+Type of **each element in the array**:
 
 A Generated Unique Identifier dedicated to a placement and an Addressable Content
 
@@ -91,12 +93,13 @@ object
 </td>
 <td>
 
-Signature based on input:
-```
-seed.source.domain + '\u2063' +
-seed.source.timestamp + '\u2063' +
-seed.transaction_id + '\u2063' +
-seed.publisher + '\u2063' +
+Signature based on input including the PAF data associated to the Seed:
+```source.domain + '\u2063' +
+source.timestamp + '\u2063' +
+transaction_ids[0] + '\u2063' +
+... + '\u2063' +
+transaction_ids[n] + '\u2063' + 
+publisher + '\u2063' +
 data.identifiers[0].source.signature + '\u2063' +
 data.identifiers[1].source.signature + '\u2063' +
 ... + '\u2063' +

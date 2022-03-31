@@ -51,7 +51,7 @@ The structure of the User Id is:
 | Field   | Type          | Details                                            |
 |---------|---------------|----------------------------------------------------|
 | version | Number        | The version of PAF used.                                                                       |
-| type    | String        | The type of Pseudonymous-Identifier. For now, there is only one: "prebid_id".                                                    |
+| type    | String        | The type of Pseudonymous-Identifier. For now, there is only one: "paf_browser_id".                                                    |
 | value   | String        | The Pseudonymous-Identifier value in UTF-8.                                                                                      |
 | source  | Source object | The Source contains all the data for identifying and trusting the Operator that generated the Pseudonymous-Identifier. <br /> <table><tr><th>Field</th><th>Type</th><th>Details</th></tr><tr><td>domain</td><td>String</td><td>The domain of the Operator.</td></tr><tr><td>timestamp</td><td>Integer</td><td>The timestamp of the signature.</td></tr><tr><td>signature</td><td>String</td><td>Encoded signature in UTF-8 of the Operator.</td></tr></table>|
 <!--partial-end-->
@@ -90,7 +90,7 @@ Here is a JSON example of the Seed:
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```json
 {
-    "version": 0,
+    "version": "0.1",
     "transaction_id": "a0651946-0f5b-482b-8cfc-eab3644d2743",
     "publisher": "publisher.com",
     "source": {
@@ -176,81 +176,65 @@ Here is a hypothetical structure of the associated User Id and Preferences, name
 <!--partial-end-->
 
 In the communication, the Transmission Requests must be associated to the 
-PAF Data. Depending on the existing structure of the communication,
-it makes sense to have a shared structure for the PAF Data and 
+Prebid SSO Data. Depending on the existing structure of the communication,
+it makes sense to have a shared structure for the Prebid SSO Data and 
 multiple Transmissions referring to it.
 
 Here is an example that must be adapted to the existing API of the Ad Server:
 
-<!--partial-begin { "files": [ "transmission-requests.json" ], "block": "json" } -->
+<!--partial-begin { "files": [ "transmission-request.json" ], "block": "json" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```json
 {
+    "version": "0.1",
+    "seed": {
+        "version": "0.1",
+        "transaction_ids": [ 
+            "4640dc9f-385f-4e02-a0e5-abbf241af94d", 
+            "7d71a23a-fafa-449a-8b85-63a634780107" 
+        ],
+        "publisher": "publisher.com",
+        "source": {
+            "domain": "publisher.com",
+            "timestamp": 1639582000,
+            "signature": "f1f4871d48b825931c5016a433cb3b6388f989fac363af09b9ee3cd400d86b74"
+        }
+    },
     "data": {
         "identifiers": [
             {
-                "version": 0,
-                "type": "prebid_id",
+                "version": "0.1",
+                "type": "paf_browser_id",
                 "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
                 "source": {
                     "domain": "operator0.com",
                     "timestamp": 1639580000,
-                    "signature": "12345_signature"
+                    "signature": "868e7a6c27b7b7fe5fed219503894bf263f31bb6d8fd48336d283e77b512cda7"
                 }
             }
         ],
         "preferences": {
-            "version": 0,
+            "version": "0.1",
             "data": { 
-                "opt_in": true 
+                "use_browsing_for_personalization": true 
             },
             "source": {
                 "domain": "cmp1.com",
                 "timestamp": 1639581000,
-                "signature": "12345_signature"
+                "signature": "65acdcfdbdba8b17936f25a32b33b000393c866588d146cb62ec51ab8890c54f"
             }
         }
     },
-    "transmissions": [
-        {
-            "version": 0,
-            "seed": {
-                "version": 0,
-                "transaction_id": "a0651946-0f5b-482b-8cfc-eab3644d2743",
-                "publisher": "publisher.com",
-                "source": {
-                    "domain": "publisher.com",
-                    "timestamp": 1639582000,
-                    "signature": "12345_signature"
-                }
-            },
-            "source": {
-                "domain": "dsp1.com",
-                "timestamp": 1639581000,
-                "signature": "12345_signature"
-            },
-            "parents": []
-        },
-        {
-            "version": 0,
-            "seed": {
-                "version": 0,
-                "transaction_id": "a0651946-0f5b-482b-8cfc-eab3644d2743",
-                "publisher": "publisher.com",
-                "source": {
-                    "domain": "publisher.com",
-                    "timestamp": 1639582000,
-                    "signature": "12345_signature"
-                }
-            },
-            "source": {
-                "domain": "dps1.com",
-                "timestamp": 1639581000,
-                "signature": "12345_signature"
-            },
-            "parents": []
-        }
-    ]
+    "contents": [],
+    "status": "success",
+    "details": "",
+    "receiver": "dsp1.com",
+    "source": {
+        "domain": "publisher.com",
+        "timestamp": 1639581000,
+        "signature": "5d0519da9c65feeae715dfcf380c7997ea9ee859e2636a498c43c1044dc20354"
+    },
+    "parents": []
 }
 ```
 <!--partial-end-->
@@ -275,41 +259,33 @@ A Transmission Response is composed as followed:
 | source          | Source object                 | The source contains all the data for identifying the DSP and verifying the Transmission.                                                                                                                                                                                                                   |
 <!--partial-end-->
 
-Therefore, here is an example of Transmission Responses that
+Therefore, here is an example of Transmission Response that
 must be adapted to the existing API:
 
 <!--partial-begin { "files": [ "transmission-responses.json" ], "block": "json" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```json
 {
-    "transmissions": [
+    "version": "0.1",
+    "contents": [
         {
-            "version": 0,
-            "transaction_id": "a0651946-0f5b-482b-8cfc-eab3644d2743",
-            "receiver": "dsp1.com",
-            "status": "success",
-            "details": "",
-            "source": {
-                "domain": "dsp1.com",
-                "timestamp": 1639589531,
-                "signature": "12345_signature"
-            },
-            "children": []
+            "transaction_id": "f55a401d-e8bb-4de1-a3d2-fa95619393e8",
+            "content_id": "90141190-26fe-497c-acee-4d2b649c2112"
         },
         {
-            "version": 0,
-            "transaction_id": "a0651946-0f5b-482b-8cfc-eab3644d2743"8,
-            "receiver": "dsp1.com",
-            "status": "success",
-            "details": "",
-            "source": {
-                "domain": "dsp1.com",
-                "timestamp": 1639589531,
-                "signature": "12345_signature"
-            },
-            "children": []
+            "transaction_id": "e538ff77-4746-4eb9-96c1-bda714dfb80a",
+            "content_id": "b3e79370-ecb8-468b-8afa-d227890ddca5"
         }
-    ]
+    ],
+    "status": "success",
+    "details": "",
+    "receiver": "dsp1.com",
+    "source": {
+        "domain": "dsp1.com",
+        "timestamp": 1639589531,
+        "signature": "d01c6e83f14b4f057c2a2a86d320e2454fc0c60df4645518d993b5f40019d24c"
+    },
+    "children": []
 }
 ```
 <!--partial-end-->
@@ -318,7 +294,7 @@ must be adapted to the existing API:
 
 Once the Ad Server has selected the supplier that will display the
 Addressable Content, it must generate the Audit Log based on the related
-Transmission Response and the PAF Data.
+Transmission Response and the Prebid SSO Data.
 
 The Audit Log has the following structure:
 
@@ -356,36 +332,43 @@ Here is a received Transmission Response that helps to generate the Addressable 
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```json
 {
-    "version": 0,
-    "transaction_id": "a0651946-0f5b-482b-8cfc-eab3644d2743",
-    "receiver": "ssp1.com",
+    "version": "0.1",
+    "contents": [
+        {
+            "transaction_id": "f55a401d-e8bb-4de1-a3d2-fa95619393e8",
+            "content_id": "90141190-26fe-497c-acee-4d2b649c2112"
+        },
+        {
+            "transaction_id": "e538ff77-4746-4eb9-96c1-bda714dfb80a",
+            "content_id": "b3e79370-ecb8-468b-8afa-d227890ddca5"
+        }
+    ],
     "status": "success",
     "details": "",
+    "receiver": "dsp1.com",
     "source": {
-        "domain": "ssp1.com",
+        "domain": "dsp1.com",
         "timestamp": 1639589531,
-        "signature": "12345_signature"
+        "signature": "d01c6e83f14b4f057c2a2a86d320e2454fc0c60df4645518d993b5f40019d24c"
     },
     "children": [
         {
-            "receiver": "ssp2.com",
+            "version": "0.1",
+            "contents": [
+                {
+                    "transaction_id": "f55a401d-e8bb-4de1-a3d2-fa95619393e8",
+                    "content_id": "b4a330e0-e41e-4c47-a1a7-00cdc5f627ed"
+                }
+            ],
             "status": "success",
             "details": "",
+            "receiver": "dsp1-partner.com",
             "source": {
-                "domain": "ssp2.com",
+                "domain": "dsp1-partner.com",
                 "timestamp": 1639589531,
-                "signature": "12345_signature"
-            }
-        },
-        {
-            "receiver": "dsp.com",
-            "status": "success",
-            "details": "",
-            "source": {
-                "domain": "dsp.com",
-                "timestamp": 1639589531,
-                "signature": "12345_signature"
-            }
+                "signature": "d01c6e83f14b4f057c2a2a86d320e2454fc0c60df4645518d993b5f40019d24c"
+            },
+            "children": []
         }
     ]
 }
@@ -400,7 +383,7 @@ Here is the associated list of Transmission Results:
 {
     "transmissions": [
         {
-            "version": 0,
+            "version": "0.1",
             "receiver": "ssp1.com",
             "status": "success",
             "details": "",
@@ -411,7 +394,7 @@ Here is the associated list of Transmission Results:
             }
         },
         {
-            "version": 0,
+            "version": "0.1",
             "receiver": "ssp2.com",
             "status": "success",
             "details": "",
@@ -422,7 +405,7 @@ Here is the associated list of Transmission Results:
             }
         },
         {
-            "version": 0,
+            "version": "0.1",
             "receiver": "dsp.com",
             "status": "success",
             "details": "",
@@ -447,72 +430,93 @@ an example:
     "data": {
         "identifiers": [
             {
-                "version": 0,
-                "type": "prebid_id",
+                "version": "0.1",
+                "type": "paf_browser_id",
                 "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
                 "source": {
-                    "domain": "operotor0.com",
+                    "domain": "operator0.com",
                     "timestamp": 1639589531,
-                    "signature": "12345_signature"
+                    "signature": "3045022100aabf3ca5e4609990a1ff077c50aa52e3343005ead0d6f2ba1c05f71afe34b2f2022045fb8a98b154f8bcd66eb5774499d5fcb20e18274d67f14a43d5b45ec301d470"
                 }
             }
         ],
         "preferences": {
-            "version": 0,
+            "version": "0.1",
             "data": { 
-                "opt_in": true 
+                "use_browsing_for_personalization": true 
             },
             "source": {
                 "domain": "cmp1.com",
                 "timestamp": 1639589531,
-                "signature": "12345_signature"
+                "signature": "304502203be66cc4bfa525f20005bc0b921f756f6a1d016c49641bdf0133413fe2ee1e15022100d2a37aabdb3c58ca84dfbaccf59496087deb976e9b8aa18bc93c48f59853b587"
             }
         }
     },
     "seed": {
-        "version": 0,
-        "transaction_id": "a0651946-0f5b-482b-8cfc-eab3644d2743",
+        "version": "0.1",
+        "transaction_ids": [
+            "4640dc9f-385f-4e02-a0e5-abbf241af94d",
+            "7d71a23a-fafa-449a-8b85-63a634780107" 
+        ],
         "publisher": "publisher.com",
         "source": {
           "domain": "ad-server.com",
           "timestamp": 1639589531,
-          "signature": "12345_signature"
+          "signature": "3044022005aa77b713ef8fdac9d3031e450cfd9d66f22adb0636903c6eaa02f7b30a20780220331c7b3fed84c2a962d8ec6ca0f19795a79b799a99fd8f9589286049bd66a0da"
         }
     },
+    "transaction_id": "4640dc9f-385f-4e02-a0e5-abbf241af94d",
     "transmissions": [
         {
-            "version": 0,
-            "receiver": "ssp1.com",
-            "status": "success",
-            "details": "",
-            "source": {
-                "domain": "ssp1.com",
-                "timestamp": 1639589531,
-                "signature": "12345_signature"
-            }
-        },
-        {
-            "version": 0,
+            "version": "0.1",
             "receiver": "ssp2.com",
+            "contents": [],
             "status": "success",
             "details": "",
             "source": {
                 "domain": "ssp2.com",
                 "timestamp": 1639589531,
-                "signature": "12345_signature"
+                "signature": "d01c6e83f14b4f057c2a2a86d320e2454fc0c60df4645518d993b5f40019d24c"
             }
         },
         {
-            "version": 0,
-            "receiver": "dsp.com",
+            "version": "0.1",
+            "contents": [
+                {
+                    "transaction_id": "f55a401d-e8bb-4de1-a3d2-fa95619393e8",
+                    "content_id": "90141190-26fe-497c-acee-4d2b649c2112"
+                },
+                {
+                    "transaction_id": "e538ff77-4746-4eb9-96c1-bda714dfb80a",
+                    "content_id": "b3e79370-ecb8-468b-8afa-d227890ddca5"
+                }
+            ],
+            "receiver": "dsp1.com",
             "status": "success",
             "details": "",
             "source": {
-                "domain": "dps.com",
+                "domain": "dsp1.com",
                 "timestamp": 1639589531,
-                "signature": "12345_signature"
+                "signature": "d01c6e83f14b4f057c2a2a86d320e2454fc0c60df4645518d993b5f40019d24c"
             }
-        }
+        },
+        {
+            "version": "0.1",
+            "contents": [
+                {
+                    "transaction_id": "f55a401d-e8bb-4de1-a3d2-fa95619393e8",
+                    "content_id": "b4a330e0-e41e-4c47-a1a7-00cdc5f627ed"
+                }
+            ],
+            "receiver": "dsp1-partner.com",
+            "status": "success",
+            "details": "",
+            "source": {
+                "domain": "dsp1-partner.com",
+                "timestamp": 1639589531,
+                "signature": "d01c6e83f14b4f057c2a2a86d320e2454fc0c60df4645518d993b5f40019d24c"
+            }
+        }        
     ]
 }
 ```
@@ -531,7 +535,7 @@ to respect the following for integrating PAF.
 
 #### The OpenRTB Bid Request
 
-In step **Step 4**, the Ad Server must share the PAF Data in the 
+In step **Step 4**, the Ad Server must share the Prebid SSO Data in the 
 extensions of the Bid Request:
 
 First, The Transmission Request object in an OpenRTB request keeps the same structure.
@@ -553,7 +557,7 @@ for nom.
 
 #### Example of a OpenRTB Bid Request
 
-<!--partial-begin { "files": [ "openrtb-request-with-transmissions.json" ], "block": "json" } -->
+<!--partial-begin { "files": [ "openrtb-request-with-transmission.json" ], "block": "json" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```json
 {
@@ -571,18 +575,7 @@ for nom.
             },
             "ext": {
                 "paf": {
-                    "version": 0,
-                    "seed": {
-                        "version": 0,
-                        "transaction_id": "a0651946-0f5b-482b-8cfc-eab3644d2743",
-                        "publisher": "publisher.com",
-                        "source": {
-                            "domain": "publisher0.com",
-                            "timestamp": 1639589531,
-                            "signature": "12345_signature"
-                        }
-                    },
-                    "parents": []
+                    "transaction-id": "4640dc9f-385f-4e02-a0e5-abbf241af94d"
                 }
             }
         }
@@ -617,32 +610,55 @@ for nom.
                             "id": "7435313e-caee-4889-8ad7-0acd0114ae3c",
                             "ext": 
                             {
-                                "version": 0,
-                                "type": "prebid_id",
-                                "source": 
-                                {
-                                    "domain": "operotor0.com",
-                                    "timestamp": 1639589531,
-                                    "signature": "12345_signature"
+                                "version": "0.1",
+                                "type": "paf_browser_id",
+                                "source": {
+                                    "domain": "operator0.com",
+                                    "timestamp": 1639580000,
+                                    "signature": "868e7a6c27b7b7fe5fed219503894bf263f31bb6d8fd48336d283e77b512cda7"
                                 }
                             }
                         }
                     ],
                     "ext": {
                         "preferences": {
-                            "version": 0,
+                            "version": "0.1",
                             "data": { 
-                                "opt_in": true 
+                                "use_browsing_for_personalization": true 
                             },
                             "source": {
                                 "domain": "cmp1.com",
-                                "timestamp": 1639589531,
-                                "signature": "12345_signature"
+                                "timestamp": 1639581000,
+                                "signature": "65acdcfdbdba8b17936f25a32b33b000393c866588d146cb62ec51ab8890c54f"
                             }
                         }
                     }
                 }
-            ]
+            ],
+            "paf": {
+                "transmission": {
+                    "version": "0.1",
+                    "seed": {
+                        "version": "0.1",
+                        "transaction_ids": [ 
+                            "4640dc9f-385f-4e02-a0e5-abbf241af94d", 
+                            "7d71a23a-fafa-449a-8b85-63a634780107" 
+                        ],
+                        "publisher": "publisher.com",
+                        "source": {
+                            "domain": "publisher.com",
+                            "timestamp": 1639582000,
+                            "signature": "f1f4871d48b825931c5016a433cb3b6388f989fac363af09b9ee3cd400d86b74"
+                        }
+                    },
+                    "source": {
+                        "domain": "dsp1.com",
+                        "timestamp": 1639581000,
+                        "signature": "5d0519da9c65feeae715dfcf380c7997ea9ee859e2636a498c43c1044dc20354"
+                    },
+                    "parents": []
+                }
+            }
         }
     }
 }
@@ -658,13 +674,35 @@ the `ext` field of a `bid` (full path: `seatbid[].bid.ext.paf`).
 
 Here is an example:
 
-<!--partial-begin { "files": [ "openrtb-response-with-transmissions.json" ], "block": "json" } -->
+<!--partial-begin { "files": [ "openrtb-response-with-transmission.json" ], "block": "json" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```json
 {
     "id": "1234567890",
     "bidid": "abc1123",
     "cur": "USD",
+    "ext": {
+        "paf": {
+            "transmission": {
+                "version": "0.1",
+                "contents": [
+                    {
+                        "transaction_id": "f55a401d-e8bb-4de1-a3d2-fa95619393e8",
+                        "content_id": "90141190-26fe-497c-acee-4d2b649c2112"
+                    }
+                ],
+                "status": "success",
+                "details": "",
+                "receiver": "dsp1.com",
+                "source": {
+                    "domain": "dsp1.com",
+                    "timestamp": 1639589531,
+                    "signature": "d01c6e83f14b4f057c2a2a86d320e2454fc0c60df4645518d993b5f40019d24c"
+                },
+                "children": []
+            }
+        }
+    },
     "seatbid": [
         {
             "seat": "512",
@@ -672,7 +710,7 @@ Here is an example:
                 {
                     "id": "1",
                     "impid": "1",
-                    "price": 9.43,
+                    "price": 1,
                     "nurl": "http://adserver.com/winnotice?impid=102",
                     "iurl": "http://adserver.com/pathtosampleimage",
                     "adomain": [ "advertiserdomain.com" ],
@@ -680,17 +718,8 @@ Here is an example:
                     "crid": "creative112",
                     "attr": [ 1, 2, 3, 4, 5, 6, 7, 12 ],
                     "ext": {
-                        "paf": {
-                            "version": 0,
-                            "receiver": "dsp1.com",
-                            "status": "success",
-                            "details": "",
-                            "source": {
-                                "domain": "dsp1.com",
-                                "timestamp": 1639589531,
-                                "signature": "12345_signature"
-                            },
-                            "children": []
+                        "paf" : {
+                            "content_id": "90141190-26fe-497c-acee-4d2b649c2112"
                         }
                     }
                 }

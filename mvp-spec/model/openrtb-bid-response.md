@@ -1,6 +1,72 @@
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 
-# Transmission Response
+# OpenRTB Bid Response with a Transmission Response
+
+An Open RTB Bid Response according to the 2.5 OpenRTB specification. OpenRTB specifies fields unused in the integration of the Transmission Response. Therefore, they are omitted on purpose here.
+
+<table>
+
+<tr>
+    <th> Property </th>
+    <th> Type </th>
+    <th> Description </th>
+</tr>
+
+<tr>
+<td>
+<b>ext</b>
+</td>
+<td>
+object
+</td>
+<td>
+
+Placeholder for exchange-specific extensions to OpenRTB.
+
+<details>
+<summary>Object details</summary>
+
+<table>
+
+<tr>
+    <th> Property </th>
+    <th> Type </th>
+    <th> Description </th>
+</tr>
+
+<tr>
+<td>
+<b>paf</b>
+</td>
+<td>
+object
+</td>
+<td>
+
+Dedicated object for PAF as an extension.
+
+<details>
+<summary>Object details</summary>
+
+<table>
+
+<tr>
+    <th> Property </th>
+    <th> Type </th>
+    <th> Description </th>
+</tr>
+
+<tr>
+<td>
+<b>transmission</b>
+</td>
+<td>
+object
+</td>
+<td>
+
+<details>
+<summary>Object details</summary>
 
 <table>
 
@@ -578,6 +644,167 @@ Transmission Responses of the direct suppliers.
     <th> Property </th>
     <th> Type </th>
     <th> Description </th>
+</tr>
+
+</table>
+
+</details>
+
+</td>
+</tr>
+
+</table>
+
+</details>
+
+</td>
+</tr>
+
+</table>
+
+</details>
+
+</td>
+</tr>
+
+</table>
+
+</details>
+
+</td>
+</tr>
+
+</table>
+
+</details>
+
+</td>
+</tr>
+
+<tr>
+<td>
+<b>seatbid</b>
+</td>
+<td>
+array of object
+</td>
+<td>
+
+Represents a specific seat that provides at least one bid.
+
+Type of **each element in the array**:
+
+<details>
+<summary>Object details</summary>
+
+<table>
+
+<tr>
+    <th> Property </th>
+    <th> Type </th>
+    <th> Description </th>
+</tr>
+
+<tr>
+<td>
+bid<br>(<i>optional</i>)
+</td>
+<td>
+array of object
+</td>
+<td>
+
+A bid for an impression.
+
+Type of **each element in the array**:
+
+<details>
+<summary>Object details</summary>
+
+<table>
+
+<tr>
+    <th> Property </th>
+    <th> Type </th>
+    <th> Description </th>
+</tr>
+
+<tr>
+<td>
+<b>ext</b>
+</td>
+<td>
+object
+</td>
+<td>
+
+Placeholder for exchange-specific extensions to OpenRTB.
+
+<details>
+<summary>Object details</summary>
+
+<table>
+
+<tr>
+    <th> Property </th>
+    <th> Type </th>
+    <th> Description </th>
+</tr>
+
+<tr>
+<td>
+<b>paf</b>
+</td>
+<td>
+object
+</td>
+<td>
+
+Dedicated object for PAF as an extension.
+
+<details>
+<summary>Object details</summary>
+
+<table>
+
+<tr>
+    <th> Property </th>
+    <th> Type </th>
+    <th> Description </th>
+</tr>
+
+<tr>
+<td>
+<b>content_id</b>
+</td>
+<td>
+string
+</td>
+<td>
+
+A GUID associated to a potential Addressable Content.
+
+**Example:** 
+
+```json
+"b0cffcd0-177e-46d5-8bcd-32ed52a414dc"
+```
+
+</td>
+</tr>
+
+</table>
+
+</details>
+
+</td>
+</tr>
+
+</table>
+
+</details>
+
+</td>
 </tr>
 
 </table>

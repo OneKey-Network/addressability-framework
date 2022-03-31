@@ -8,8 +8,11 @@
         "version": {
             "$ref": "version.json"
         },
-        "transaction_id": {
-            "$ref": "transaction_id.json"
+        "transaction_ids": {
+            "type": "array",
+            "items": {
+                "$ref": "transaction_id.json"
+            }
         },
         "publisher": {
             "$ref": "domain.json",
@@ -19,13 +22,13 @@
             ]
         },
         "source": {
-            "description": "Signature based on input:\n```seed.source.domain + '\\u2063' +\nseed.source.timestamp + '\\u2063' +\nseed.transaction_id + '\\u2063' +\nseed.publisher + '\\u2063' +\ndata.identifiers[0].source.signature + '\\u2063' +\ndata.identifiers[1].source.signature + '\\u2063' +\n... + '\\u2063' +\ndata.identifiers[n].source.signature + '\\u2063' +\ndata.preferences.source.signature\n```",
+            "description": "Signature based on input including the PAF data associated to the Seed:\n```source.domain + '\\u2063' +\nsource.timestamp + '\\u2063' +\ntransaction_ids[0] + '\\u2063' +\n... + '\\u2063' +\ntransaction_ids[n] + '\\u2063' + \npublisher + '\\u2063' +\ndata.identifiers[0].source.signature + '\\u2063' +\ndata.identifiers[1].source.signature + '\\u2063' +\n... + '\\u2063' +\ndata.identifiers[n].source.signature + '\\u2063' +\ndata.preferences.source.signature\n```",
             "$ref": "source.json"
         }
     },
     "required": [
         "version",
-        "transaction_id",
+        "transaction_ids",
         "publisher",
         "source"
     ]

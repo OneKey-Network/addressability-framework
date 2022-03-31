@@ -11,6 +11,9 @@
         "seed": {
             "$ref": "seed.json"
         },
+        "transaction_id": {
+            "$ref": "transaction_id.json"
+        },
         "transmissions": {
             "type": "array",
             "items": {
@@ -21,6 +24,7 @@
     "required": [
         "data",
         "seed",
+        "transaction_id",
         "transmissions"
     ]
 }

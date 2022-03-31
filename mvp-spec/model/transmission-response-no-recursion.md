@@ -1,6 +1,6 @@
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 
-# Transmission Result
+# Transmission Response
 
 <table>
 
@@ -262,6 +262,37 @@ The base64 representation of a data signature
 ```
 
 </td>
+</tr>
+
+</table>
+
+</details>
+
+</td>
+</tr>
+
+<tr>
+<td>
+<b>children</b>
+</td>
+<td>
+array of object
+</td>
+<td>
+
+Type of **each element in the array**:
+
+Transmission Responses of the direct suppliers.
+
+<details>
+<summary>Object details</summary>
+
+<table>
+
+<tr>
+    <th> Property </th>
+    <th> Type </th>
+    <th> Description </th>
 </tr>
 
 </table>

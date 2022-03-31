@@ -1,8 +1,8 @@
 {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
-    "title": "Transmission",
-    "description": "",
+    "title": "Transmission Request",
     "$id": "transmission-request",
+    "description": "The request sent from a Sender to a Receiver for sharing PAF data for a set of Addressable Content",
     "type": "object",
     "properties": {
         "version": {
@@ -11,17 +11,41 @@
         "seed": {
             "$ref": "seed.json"
         },
+        "data": {
+            "$ref": "ids-and-preferences.json"
+        },
+        "receiver": {
+            "$ref": "transmission-receiver.json"
+        },
+        "status": {
+            "$ref": "transmission-status.json"
+        },
+        "details": {
+            "$ref": "transmission-details.json"
+        },
+        "contents": {
+            "$ref": "transmission-contents.json"
+        },
         "source": {
-            "description": "Signature based on input:\n```\ntransmission_request_receiver_domain        + '\\u2063' +\ntransmission_request.source.domain          + '\\u2063' + \ntransmission_request.source.timestamp       + '\\u2063' +\nseed.source.signature\n```",
+            "description": "Signature based on input:\n```\ntransmission_response.receiver                + '\\u2063' +\ntransmission_response.status                  + '\\u2063'\ntransmission_response.source.domain           + '\\u2063' +\ntransmission_response.source.timestamp        + '\\u2063' +\nseed.source.signature+ '\\u2063' +\ncontents[0].transaction_ids + '\\u2063' +\ncontents[0].content_id + '\\u2063' +\n... + '\\u2063' +\ncontents[n].transaction_ids + '\\u2063' +\ncontents[n].content_id\n```",
             "$ref": "source.json"
         },
         "parents": {
-            "$ref": "transmission-result.json"
+            "type": "array",
+            "description": "The list of Transmission Result before this Transmission Request for the given Seed.",
+            "items": { 
+                "$ref": "transmission-result.json"
+            }
         }
     },
     "required": [
         "version",
         "seed",
+        "data",
+        "receiver",
+        "status",
+        "details",
+        "contents",
         "source",
         "parents"
     ]

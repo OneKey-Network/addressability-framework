@@ -1,0 +1,110 @@
+{
+    "id": "1234567890",
+    "bidid": "abc1123",
+    "cur": "USD",
+    "ext": {
+        "paf": {
+            "transmission": {
+                "version": "0.1",
+                "contents": [
+                    {
+                        "transaction_id": "f55a401d-e8bb-4de1-a3d2-fa95619393e8",
+                        "content_id": "90141190-26fe-497c-acee-4d2b649c2112"
+                    },
+                    {
+                        "transaction_id": "e538ff77-4746-4eb9-96c1-bda714dfb80a",
+                        "content_id": "b3e79370-ecb8-468b-8afa-d227890ddca5"
+                    }
+                ],
+                "status": "success",
+                "details": "",
+                "receiver": "dsp1.com",
+                "source": {
+                    "domain": "dsp1.com",
+                    "timestamp": 1639589531,
+                    "signature": "d01c6e83f14b4f057c2a2a86d320e2454fc0c60df4645518d993b5f40019d24c"
+                },
+                "children": [
+                    {
+                        "version": "0.1",
+                        "contents": [
+                            {
+                                "transaction_id": "f55a401d-e8bb-4de1-a3d2-fa95619393e8",
+                                "content_id": "b4a330e0-e41e-4c47-a1a7-00cdc5f627ed"
+                            }
+                        ],
+                        "status": "success",
+                        "details": "",
+                        "receiver": "dsp1-partner.com",
+                        "source": {
+                            "domain": "dsp1-partner.com",
+                            "timestamp": 1639589531,
+                            "signature": "d01c6e83f14b4f057c2a2a86d320e2454fc0c60df4645518d993b5f40019d24c"
+                        },
+                        "children": []
+                    }
+                ]
+            }
+        }
+    },
+    "seatbid": [
+        {
+            "seat": "512",
+            "bid": [
+                {
+                    "id": "1",
+                    "impid": "1",
+                    "price": 1,
+                    "nurl": "http://adserver.com/winnotice?impid=102",
+                    "iurl": "http://adserver.com/pathtosampleimage",
+                    "adomain": [ "advertiserdomain.com" ],
+                    "cid": "campaign111",
+                    "crid": "creative112",
+                    "attr": [ 1, 2, 3, 4, 5, 6, 7, 12 ],
+                    "ext": {
+                        "paf" : {
+                            "content_id": "f55a401d-e8bb-4de1-a3d2-fa95619393e8"
+                        }
+                    }
+                },
+                {
+                    "id": "2",
+                    "impid": "2",
+                    "price": 2,
+                    "nurl": "http://adserver.com/winnotice?impid=102",
+                    "iurl": "http://adserver.com/pathtosampleimage",
+                    "adomain": [ "advertiserdomain.com" ],
+                    "cid": "campaign111",
+                    "crid": "creative112",
+                    "attr": [ 1, 2, 3, 4, 5, 6, 7, 12 ],
+                    "ext": {
+                        "paf" : {
+                            "content_id": "b3e79370-ecb8-468b-8afa-d227890ddca5"
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "seat": "513",
+            "bid": [
+                {
+                    "id": "3",
+                    "impid": "1",
+                    "price": 3,
+                    "nurl": "http://adserver.com/winnotice?impid=102",
+                    "iurl": "http://adserver.com/pathtosampleimage",
+                    "adomain": [ "advertiserdomain.com" ],
+                    "cid": "campaign111",
+                    "crid": "creative112",
+                    "attr": [ 1, 2, 3, 4, 5, 6, 7, 12 ],
+                    "ext": {
+                        "paf" : {
+                            "content_id": "b4a330e0-e41e-4c47-a1a7-00cdc5f627ed"
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+}

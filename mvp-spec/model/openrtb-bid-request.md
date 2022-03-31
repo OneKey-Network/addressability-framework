@@ -1,8 +1,8 @@
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 
-# Audit Log
+# OpenRTB Bid Request with a Transmission Request
 
-An Audit Log gathers the necessary data to audit a Transaction (via Transmission) for a given Addressable Content
+An Open RTB Bid Request according to the 2.5 OpenRTB specification. OpenRTB specifies fields unused for the integration of the Transmission Request. Therefore, they are omitted on purpose here.
 
 <table>
 
@@ -14,14 +14,260 @@ An Audit Log gathers the necessary data to audit a Transaction (via Transmission
 
 <tr>
 <td>
-<b>data</b>
+<b>imp</b>
+</td>
+<td>
+array of object
+</td>
+<td>
+
+Type of **each element in the array**:
+
+<details>
+<summary>Object details</summary>
+
+<table>
+
+<tr>
+    <th> Property </th>
+    <th> Type </th>
+    <th> Description </th>
+</tr>
+
+<tr>
+<td>
+<b>ext</b>
 </td>
 <td>
 object
 </td>
 <td>
 
-A list of identifiers and some preferences
+Placeholder for exchange-specific extensions to OpenRTB.
+
+<details>
+<summary>Object details</summary>
+
+<table>
+
+<tr>
+    <th> Property </th>
+    <th> Type </th>
+    <th> Description </th>
+</tr>
+
+<tr>
+<td>
+<b>paf</b>
+</td>
+<td>
+object
+</td>
+<td>
+
+Dedicated object for PAF as an extension.
+
+<details>
+<summary>Object details</summary>
+
+<table>
+
+<tr>
+    <th> Property </th>
+    <th> Type </th>
+    <th> Description </th>
+</tr>
+
+<tr>
+<td>
+<b>transaction-id</b>
+</td>
+<td>
+string
+</td>
+<td>
+
+The GUID associated to the Addressable Content (a.k.a impression)
+
+**Example:** 
+
+```json
+"b0cffcd0-177e-46d5-8bcd-32ed52a414dc"
+```
+
+</td>
+</tr>
+
+</table>
+
+</details>
+
+</td>
+</tr>
+
+</table>
+
+</details>
+
+</td>
+</tr>
+
+</table>
+
+</details>
+
+</td>
+</tr>
+
+<tr>
+<td>
+<b>user</b>
+</td>
+<td>
+object
+</td>
+<td>
+
+<details>
+<summary>Object details</summary>
+
+<table>
+
+<tr>
+    <th> Property </th>
+    <th> Type </th>
+    <th> Description </th>
+</tr>
+
+<tr>
+<td>
+<b>ext</b>
+</td>
+<td>
+object
+</td>
+<td>
+
+Placeholder for exchange-specific extensions to OpenRTB.
+
+<details>
+<summary>Object details</summary>
+
+<table>
+
+<tr>
+    <th> Property </th>
+    <th> Type </th>
+    <th> Description </th>
+</tr>
+
+<tr>
+<td>
+<b>eids</b>
+</td>
+<td>
+array of object
+</td>
+<td>
+
+Type of **each element in the array**:
+
+A list of Extended Identifiers containing one element for PAF data
+
+<details>
+<summary>Object details</summary>
+
+<table>
+
+<tr>
+    <th> Property </th>
+    <th> Type </th>
+    <th> Description </th>
+</tr>
+
+<tr>
+<td>
+<b>source</b>
+</td>
+<td>
+string
+</td>
+<td>
+
+</td>
+</tr>
+
+<tr>
+<td>
+<b>uids</b>
+</td>
+<td>
+array of object
+</td>
+<td>
+
+Type of **each element in the array**:
+
+Array of extended ID UID objects from the given source containing one element for the Prebid ID.
+
+<details>
+<summary>Object details</summary>
+
+<table>
+
+<tr>
+    <th> Property </th>
+    <th> Type </th>
+    <th> Description </th>
+</tr>
+
+<tr>
+<td>
+<b>atype</b>
+</td>
+<td>
+integer
+</td>
+<td>
+
+Equal to 1 for the element of PAF Data.
+Type of user agent the match is from. It is highly recommended to set this, as many DSPs separate app-native IDs from browser-based IDs and require a type value for ID resolution.
+
+</td>
+</tr>
+
+<tr>
+<td>
+<b>id</b>
+</td>
+<td>
+string
+</td>
+<td>
+
+Equal to the PAF Id for the element of the PAF Data.
+Cookie or platform-native identifier.
+
+</td>
+</tr>
+
+</table>
+
+</details>
+
+</td>
+</tr>
+
+<tr>
+<td>
+<b>ext</b>
+</td>
+<td>
+object
+</td>
+<td>
+
+Placeholder for exchange-specific extensions to OpenRTB.
 
 <details>
 <summary>Object details</summary>
@@ -238,18 +484,52 @@ The base64 representation of a data signature
 </td>
 </tr>
 
+</table>
+
+</details>
+
+</td>
+</tr>
+
+</table>
+
+</details>
+
+</td>
+</tr>
+
 <tr>
 <td>
-<b>identifiers</b>
+<b>paf</b>
 </td>
 <td>
-array
+object
 </td>
 <td>
 
-Type of **each element in the array**:
+Object dedicated to PAF
 
-A pseudonymous identifier generated for a web user
+<details>
+<summary>Object details</summary>
+
+<table>
+
+<tr>
+    <th> Property </th>
+    <th> Type </th>
+    <th> Description </th>
+</tr>
+
+<tr>
+<td>
+<b>transmission</b>
+</td>
+<td>
+object
+</td>
+<td>
+
+Object dedicated to PAF transmission
 
 <details>
 <summary>Object details</summary>
@@ -288,170 +568,6 @@ To be detailed.
 ```json
 "10.0"
 ```
-
-</td>
-</tr>
-
-<tr>
-<td>
-<b>type</b>
-</td>
-<td>
-enum (of string)
-</td>
-<td>
-
-The identifier type, identifier of type `paf_browser_id` is mandatory and is "pivot"
-
-Can only take **one of these values**:
-* `"paf_browser_id"`
-</td>
-</tr>
-
-<tr>
-<td>
-persisted<br>(<i>optional</i>)
-</td>
-<td>
-boolean
-</td>
-<td>
-
-If set to `false`, means the identifier has not yet been persisted as a cookie.<br>Otherwise, means this identifier is persisted as a PAF cookie<br>(default value = `true` meaning if the property is omitted the identifier *is* persisted)
-
-</td>
-</tr>
-
-<tr>
-<td>
-<b>value</b>
-</td>
-<td>
-string
-</td>
-<td>
-
-The identifier value
-
-**Example:** 
-
-```json
-"7435313e-caee-4889-8ad7-0acd0114ae3c"
-```
-
-</td>
-</tr>
-
-<tr>
-<td>
-<b>source</b>
-</td>
-<td>
-object
-</td>
-<td>
-
-Signature based on input:
-
-```
-identifier.source.domain + '\u2063' + 
-identifier.source.timestamp + '\u2063' + 
-identifier.type + '\u2063'+
-identifier.value
-```
-
-<details>
-<summary>Object details</summary>
-
-<table>
-
-<tr>
-    <th> Property </th>
-    <th> Type </th>
-    <th> Description </th>
-</tr>
-
-<tr>
-<td>
-<b>timestamp</b>
-</td>
-<td>
-integer
-</td>
-<td>
-
-Time when data was signed
-
-**Example:** 
-
-```json
-1643297316
-```
-
-</td>
-</tr>
-
-<tr>
-<td>
-<b>domain</b>
-</td>
-<td>
-string
-</td>
-<td>
-
-The domain name of the entity that signed this data
-
-**Examples:** 
-
-```json
-"a-domain-name.com"
-```
-
-```json
-"another.domain.co.uk"
-```
-
-</td>
-</tr>
-
-<tr>
-<td>
-<b>signature</b>
-</td>
-<td>
-string
-</td>
-<td>
-
-The base64 representation of a data signature
-
-**Example:** 
-
-```json
-"RYGHYsBUEwMgFgOJ9aUQl7ywl4xnqdmwWIgPbaIowbXbmZAFKLa7mcBJQuWh1wEskpu57SHn2mmCF6V5+cESgw=="
-```
-
-</td>
-</tr>
-
-</table>
-
-</details>
-
-</td>
-</tr>
-
-</table>
-
-</details>
-
-</td>
-</tr>
-
-</table>
-
-</details>
 
 </td>
 </tr>
@@ -664,19 +780,47 @@ The base64 representation of a data signature
 
 <tr>
 <td>
-<b>transaction_id</b>
+<b>source</b>
 </td>
 <td>
-string
+object
 </td>
 <td>
 
-A Generated Unique Identifier dedicated to a placement and an Addressable Content
+Signature based on input:
+```
+transmission_request_receiver_domain        + '\u2063' +
+source.domain          + '\u2063' + 
+source.timestamp       + '\u2063' +
+seed.source.signature
+```
+
+<details>
+<summary>Object details</summary>
+
+<table>
+
+<tr>
+    <th> Property </th>
+    <th> Type </th>
+    <th> Description </th>
+</tr>
+
+<tr>
+<td>
+<b>timestamp</b>
+</td>
+<td>
+integer
+</td>
+<td>
+
+Time when data was signed
 
 **Example:** 
 
 ```json
-"b0cffcd0-177e-46d5-8bcd-32ed52a414dc"
+1643297316
 ```
 
 </td>
@@ -684,7 +828,58 @@ A Generated Unique Identifier dedicated to a placement and an Addressable Conten
 
 <tr>
 <td>
-<b>transmissions</b>
+<b>domain</b>
+</td>
+<td>
+string
+</td>
+<td>
+
+The domain name of the entity that signed this data
+
+**Examples:** 
+
+```json
+"a-domain-name.com"
+```
+
+```json
+"another.domain.co.uk"
+```
+
+</td>
+</tr>
+
+<tr>
+<td>
+<b>signature</b>
+</td>
+<td>
+string
+</td>
+<td>
+
+The base64 representation of a data signature
+
+**Example:** 
+
+```json
+"RYGHYsBUEwMgFgOJ9aUQl7ywl4xnqdmwWIgPbaIowbXbmZAFKLa7mcBJQuWh1wEskpu57SHn2mmCF6V5+cESgw=="
+```
+
+</td>
+</tr>
+
+</table>
+
+</details>
+
+</td>
+</tr>
+
+<tr>
+<td>
+<b>parents</b>
 </td>
 <td>
 array
@@ -954,6 +1149,34 @@ The base64 representation of a data signature
 ```json
 "RYGHYsBUEwMgFgOJ9aUQl7ywl4xnqdmwWIgPbaIowbXbmZAFKLa7mcBJQuWh1wEskpu57SHn2mmCF6V5+cESgw=="
 ```
+
+</td>
+</tr>
+
+</table>
+
+</details>
+
+</td>
+</tr>
+
+</table>
+
+</details>
+
+</td>
+</tr>
+
+</table>
+
+</details>
+
+</td>
+</tr>
+
+</table>
+
+</details>
 
 </td>
 </tr>
