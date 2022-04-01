@@ -85,7 +85,7 @@ See [dsp-implementation.md](dsp-implementation.md).
 | [publishers-requirements.md](publishers-requirements.md)               | Details PAF implementation from a publisher's standpoint.                                                         |
 | [dsp-implementation.md](dsp-implementation.md)                             | Data exchange specification, from the point of view of a DSP implementer.                           |
 | [operator-api.md](operator-api.md)                                         | Operator API specification                                                                          |
-| [operator-design.md](operator-design.md)                                   | Design of the generation of Prebid SSO Data.                                                        |
+| [operator-design.md](operator-design.md)                                   | Design of the generation of PAF Data.                                                        |
 | [operator-design-alternative-swan.md](operator-design-alternative-swan.md) | Summary of the SWAN solution for generating PAF Data.                                               |
 | [operator-requirements.md](operator-requirements.md)                       | Requirements for the generation of the PAF Data.                                                    |
 | [operator-client.md](operator-client.md)                                   | Modules needed to connect to the operator                                                           |
