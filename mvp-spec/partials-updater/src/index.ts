@@ -53,12 +53,12 @@ async function updateModifiedMermaids() {
 async function checkUnusedPartials() {
     const partials = await listPartials()
     const docs = await listDocuments()
-    let usedPartials = new Array<string>()
+    const usedPartials = new Array<string>()
     for (const doc of docs) {
         const document = await loadDocument(doc)
         const tokens = lex(document)
         const partialsFromToken = await listUsedPartials(tokens)
-        usedPartials = usedPartials.concat(partialsFromToken)
+        usedPartials.push(...partialsFromToken)
     }
     for (const p of partials) {
         if (usedPartials.indexOf(p) == -1) {
