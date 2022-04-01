@@ -21,9 +21,9 @@ the Audit UI.
 ```html
 <div class="ad_container">
     <div>This is an ad.</div>
-    <form action="https://vendor.com/prebidsso/v1/audit_ui" method="post"> 
+    <form action="https://vendor.com/paf/v1/audit_ui" method="post"> 
         <input type="hidden" id="audit_log" value="eyJPV0lEIjoiQTI1....C8iLC" />
-        <button type="submit" class="prebid_sso_audit_button">Audit Log</button>
+        <button type="submit" class="paf_audit_button">Audit Log</button>
     </form>
 </div>
 ```
