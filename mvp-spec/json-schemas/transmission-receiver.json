@@ -1,5 +1,6 @@
 {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "transmission-receiver",
     "$ref": "domain.json",
     "description": "The domain name of the receiver of the Transmission.",
     "examples": [

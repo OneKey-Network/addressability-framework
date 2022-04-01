@@ -10,6 +10,7 @@ import {lex} from "./lexer";
 import {interpret} from "./interpretor"
 import path from "path";
 import {updateMermaids} from "./mermaid";
+import { validateJsonFormats, validateJsonSchemas } from "./validate";
 
 async function update() {
     await updateModifiedMermaids();
@@ -32,6 +33,8 @@ async function update() {
 (async () => {
     try {
         await update();
+        await validateJsonFormats()
+        await validateJsonSchemas()
     } catch (error) {
         console.error(error);
     }

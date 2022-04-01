@@ -2,7 +2,7 @@
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "title": "OpenRTB Bid Request with a Transmission Request",
     "description": "An Open RTB Bid Request according to the 2.5 OpenRTB specification. OpenRTB specifies fields unused for the integration of the Transmission Request. Therefore, they are omitted on purpose here.",
-    "$id": "opnertb-bid-request",
+    "$id": "openrtb-bid-request",
     "type": "object",
     "properties": {
         "imp": {
