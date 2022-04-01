@@ -960,8 +960,6 @@ array of object
 
 Type of **each element in the array**:
 
-An association of Content-Id with a Transaction Id for building the Audit Log later
-
 <details>
 <summary>Object details</summary>
 
@@ -975,14 +973,14 @@ An association of Content-Id with a Transaction Id for building the Audit Log la
 
 <tr>
 <td>
-<b>transaction_id</b>
+<b>content_id</b>
 </td>
 <td>
 string
 </td>
 <td>
 
-A Generated Unique Identifier dedicated to a placement and an Addressable Content
+A GUID associated to a potential Addressable Content.
 
 **Example:** 
 
@@ -995,14 +993,14 @@ A Generated Unique Identifier dedicated to a placement and an Addressable Conten
 
 <tr>
 <td>
-<b>content_id</b>
+<b>transaction_id</b>
 </td>
 <td>
 string
 </td>
 <td>
 
-A GUID associated to a potential Addressable Content.
+A Generated Unique Identifier dedicated to a placement and an Addressable Content
 
 **Example:** 
 
