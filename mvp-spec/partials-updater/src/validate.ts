@@ -90,8 +90,7 @@ async function buildAjv(): Promise<Ajv> {
             schema["$id"] = `${schema["$id"]}.json`
         }
         delete schema["$schema"]
-        if (schema["format"] !== undefined &&  
-            (schema["format"] === "hostname" || schema["format"] === "GUID")) {
+        if (schema["format"] === "hostname" || schema["format"] === "GUID") {
             delete schema["format"]
         }
     }
