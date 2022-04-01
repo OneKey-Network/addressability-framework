@@ -393,7 +393,7 @@ Transmission Response and it is an acceptable scenario.
 
 Each Transmission Response must be expressed in the "ext" objects of the root 
 Bid Response paired with the impression ids provided in the request. The name 
-of this new object in the "ext" object is "prebid_sso_transmissions".
+of this new object in the "ext" object is "paf".
 
 | Message                          | Format|
 |----------------------------------|-------|

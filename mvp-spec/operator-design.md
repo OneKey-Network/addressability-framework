@@ -83,14 +83,14 @@ sequenceDiagram
 
         activate B
             B ->> B: JS: no Prebid SSO ID 🍪 found
-            B -->> C: JS call: GET prebidURL?returnURL=publisherP.com/pageP.html
+            B -->> C: JS call: GET pafURL?returnURL=publisherP.com/pageP.html
         deactivate B
 
         activate C
             C ->> C: clear data = (timestamp<br>+ returnUrl=publisherP.com/pageP.html<br>+ sender=cmp.com)
-            C ->> C: SIGN (clear data + receiver=operatorO.prebidsso.com)<br/> with own private key
+            C ->> C: SIGN (clear data + receiver=operatorO.onekey.network)<br/> with own private key
             note over C: receiver is not part of the clear data
-            C -->> B: "read prebid SSO" URL = ...
+            C -->> B: "operator read" URL = ...
         deactivate C
 
         activate B
@@ -108,8 +108,8 @@ sequenceDiagram
             O ->> O: no 🍪 found
             O ->> O: create ID
             O ->> O: SIGN ID<br/>with own private key
-            note over O: ID has been signed by operatorO.prebidsso.com<br/>it can be trusted
-            O ->> O: clear data = (id + sign[id]<br>+ timestamp<br>+ sender=operatorO.prebidsso.com)
+            note over O: ID has been signed by operatorO.onekey.network<br/>it can be trusted
+            O ->> O: clear data = (id + sign[id]<br>+ timestamp<br>+ sender=operatorO.onekey.network)
             O ->> O: SIGN (clear data + receiver=publisherP.com)<br/> with own private key
             O -->> B: REDIRECT
         deactivate O
@@ -123,12 +123,12 @@ sequenceDiagram
         deactivate P
 
         activate B
-            note over B: sender == operatorO.prebidsso.com<br>key == operatorO.prebidsso.com public key
-            B ->> B: VERIFY full data signature<br/>with operatorO.prebidsso.com public key
-            note over B: operatorO.prebidsso.com is authenticated<br/>and timestamp can be trusted
+            note over B: sender == operatorO.onekey.network<br>key == operatorO.onekey.network public key
+            B ->> B: VERIFY full data signature<br/>with operatorO.onekey.network public key
+            note over B: operatorO.onekey.network is authenticated<br/>and timestamp can be trusted
             B ->> B: check timestamp is still valid
             note over B: ok: this is a valid request
-            B ->> B: [optional] VERIFY sign[id]<br/>with operatorO.prebidsso.com public key
+            B ->> B: [optional] VERIFY sign[id]<br/>with operatorO.onekey.network public key
             B ->> B: JS: show id in form<br>or store in hidden input
             note over B: Note: don't write 🍪 yet, wait for user consent
              B -->> U: 
@@ -148,8 +148,8 @@ sequenceDiagram
             C ->> C: SIGN (preferences + id)<br/>with own private key => sign[pref & id]
             note over C: signature includes id to ensure<br>these preferences are for this user.<br>It can be trusted
             C ->> C: clear data = (preferences + sign[pref & id]<br>+ timestamp<br>+ redirectUrl=publisherP.com/pageP.html + sender=cmp.com)
-            C ->> C: SIGN (clear data + receiver=operatorO.prebidsso.com)<br/> with own private key
-            C -->> B: "prebid SSO write URL" = ...
+            C ->> C: SIGN (clear data + receiver=operatorO.onekey.network)<br/> with own private key
+            C -->> B: "operator write URL" = ...
         deactivate C
 
         activate B
@@ -168,8 +168,8 @@ sequenceDiagram
             O ->> O: VERIFY sign[pref & id]<br/>with cmp.com public key
             note over O: ok: these preferences are valid<br>and they are associated with the id
             O ->> O: write 1P 🍪:<br/>preferences & sign[pref & id]
-            note over O: preferences have been signed by cmp<br/>ID has been signed by operatorO.prebidsso.com<br/>both can be trusted
-            O ->> O: clear data = (id + sign[id]<br>+ preferences + sign[pref & id]<br>+ timestamp<br>+ sender=operatorO.prebidsso.com)
+            note over O: preferences have been signed by cmp<br/>ID has been signed by operatorO.onekey.network<br/>both can be trusted
+            O ->> O: clear data = (id + sign[id]<br>+ preferences + sign[pref & id]<br>+ timestamp<br>+ sender=operatorO.onekey.network)
             O ->> O: SIGN (clear data + receiver=publisherP.com)<br/> with own private key
             O -->> B: REDIRECT
         deactivate O
@@ -183,12 +183,12 @@ sequenceDiagram
         deactivate P
 
         activate B
-            note over B: sender == operatorO.prebidsso.com<br>key == operatorO.prebidsso.com public key
-            B ->> B: VERIFY full data signature<br/>with operatorO.prebidsso.com public key
-            note over B: operatorO.prebidsso.com is authenticated<br/>and timestamp can be trusted
+            note over B: sender == operatorO.onekey.network<br>key == operatorO.onekey.network public key
+            B ->> B: VERIFY full data signature<br/>with operatorO.onekey.network public key
+            note over B: operatorO.onekey.network is authenticated<br/>and timestamp can be trusted
             B ->> B: check timestamp is in timeframe
             note over B: ok: this is a valid request
-            B ->> B: VERIFY sign[id] with operatorO.prebidsso.com public key
+            B ->> B: VERIFY sign[id] with operatorO.onekey.network public key
             B ->> B: VERIFY sign[pref & id] with cmp.com public key
             B ->> B: write 1P 🍪:<br/>id & sign[id]<br>preferences & sign[pref & id]
         deactivate B
@@ -226,7 +226,7 @@ participant O as Operator server
     activate A
     A ->> A: no 🍪 found
     A ->> A: clear data = (timestamp<br>+ sender=advertiserA.com<br>+ returnUrl=advertiserA.com/pageA.html)
-    A ->> A: SIGN (clear data + receiver=operatorO.prebidsso.com)<br/> with own private key
+    A ->> A: SIGN (clear data + receiver=operatorO.onekey.network)<br/> with own private key
     A -->> B: REDIRECT
     deactivate A
 
@@ -242,7 +242,7 @@ participant O as Operator server
     O ->> O: check timestamp is still valid
     note over O: ok: this is a valid request
     O ->> O: read 1P 🍪:<br/>id & sign[id]<br>preferences & sign[pref & id]
-    O ->> O: clear data = (id + sign[id]<br>+ preferences + sign[pref & id]<br>+ timestamp + sender=operatorO.prebidsso.com)
+    O ->> O: clear data = (id + sign[id]<br>+ preferences + sign[pref & id]<br>+ timestamp + sender=operatorO.onekey.network)
     O ->> O: SIGN (clear data + receiver=advertiserA.com)<br/> with own private key
     O -->> B: REDIRECT
     deactivate O 
@@ -252,12 +252,12 @@ participant O as Operator server
     deactivate B
 
     activate A
-    note over A: sender == operatorO.prebidsso.com<br>key == operatorO.prebidsso.com public key
-    A ->> A: VERIFY full data signature<br/>with operatorO.prebidsso.com public key
-    note over A: operatorO.prebidsso.com is authenticated<br/>and timestamp can be trusted
+    note over A: sender == operatorO.onekey.network<br>key == operatorO.onekey.network public key
+    A ->> A: VERIFY full data signature<br/>with operatorO.onekey.network public key
+    note over A: operatorO.onekey.network is authenticated<br/>and timestamp can be trusted
     A ->> A: check timestamp is in timeframe
     note over A: ok: this is a valid request
-    A ->> A: VERIFY sign[id] with operatorO.prebidsso.com public key
+    A ->> A: VERIFY sign[id] with operatorO.onekey.network public key
     A ->> A: VERIFY sign[pref & id] with cmp.com public key
     A ->> A: write 1P 🍪:<br/>id & sign[id]<br>preferences & sign[pref & id]
     A -->> B: display page

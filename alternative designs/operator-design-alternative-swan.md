@@ -68,8 +68,8 @@ note right of U: Time T1<br>"WRITE" scenario: user visits publisher<br>and sets 
               note over AN: keyP == publisherP.com
               AN ->> AN: check publisherP.com is allowed to read
               note over AN: keyP is secret and communicated S2S.<br>ok: this is a valid request
-              AN ->> AN: ENCRYPT URL<br>with operator0.prebidsso.com private key
-              AN -->> P: "read prebid SSO" URL = ...
+              AN ->> AN: ENCRYPT URL<br>with operator0.onekey.network private key
+              AN -->> P: "operator read" URL = ...
           deactivate AN
 
             P -->> B: REDIRECT
@@ -86,7 +86,7 @@ note right of U: Time T1<br>"WRITE" scenario: user visits publisher<br>and sets 
             O ->> AN: (S2S) POST /encrypt<br>url=xxx
 
           activate AN
-              AN ->> AN: ENCRYPT URL<br>with operator0.prebidsso.com private key
+              AN ->> AN: ENCRYPT URL<br>with operator0.onekey.network private key
               AN -->> O: "ENCRYPTED_URL" = ...
           deactivate AN
 
@@ -104,7 +104,7 @@ note right of U: Time T1<br>"WRITE" scenario: user visits publisher<br>and sets 
           activate AN
               note over AN: keyP == publisherP.com
               AN ->> AN: check publisherP.com is allowed to read
-              AN ->> AN: DECRYPT data<br>with operator0.prebidsso.com private key
+              AN ->> AN: DECRYPT data<br>with operator0.onekey.network private key
               AN -->> P: decrypted data = ...
           deactivate AN
 
@@ -131,8 +131,8 @@ note right of U: Time T1<br>"WRITE" scenario: user visits publisher<br>and sets 
           activate AN
               note over AN: keyC == cmp.com
               AN ->> AN: check cmp.com is allowed to read
-              AN ->> AN: ENCRYPT URL<br>with operator0.prebidsso.com private key
-              AN -->> C: "read prebid SSO" URL = ...
+              AN ->> AN: ENCRYPT URL<br>with operator0.onekey.network private key
+              AN -->> C: "operator read" URL = ...
           deactivate AN
 
             C -->> B: REDIRECT
@@ -148,7 +148,7 @@ note right of U: Time T1<br>"WRITE" scenario: user visits publisher<br>and sets 
             O ->> AN: (S2S) POST /encrypt<br>url=xxx
 
           activate AN
-              AN ->> AN: ENCRYPT URL<br>with operator0.prebidsso.com private key
+              AN ->> AN: ENCRYPT URL<br>with operator0.onekey.network private key
               AN -->> O: "ENCRYPTED_URL" = ...
           deactivate AN
 
@@ -168,8 +168,8 @@ note right of U: Time T1<br>"WRITE" scenario: user visits publisher<br>and sets 
               AN ->> AN: check publisherP.com is allowed to read
               AN ->> AN: create ID
               AN ->> AN: SIGN ID<br/>with own private key
-              note over AN: ID has been signed by operatorO.prebidsso.com<br/>it can be trusted
-              AN ->> AN: DECRYPT data<br>with operator0.prebidsso.com private key
+              note over AN: ID has been signed by operatorO.onekey.network<br/>it can be trusted
+              AN ->> AN: DECRYPT data<br>with operator0.onekey.network private key
               AN -->> C: decrypted data = ...
           deactivate AN
 
@@ -201,10 +201,10 @@ note right of U: Time T1<br>"WRITE" scenario: user visits publisher<br>and sets 
             activate AN
                 note over AN: keyC == cmp.com
                 AN ->> AN: check cmp.com is allowed to write
-                AN ->> AN: VERIFY sign[id] with operatorO.prebidsso.com public key
+                AN ->> AN: VERIFY sign[id] with operatorO.onekey.network public key
                 AN ->> AN: VERIFY sign[pref & id] with cmp.com public key
                 note over AN: ok: these preferences are valid<br>and they are associated with the id
-                AN ->> AN: ENCRYPT URL<br>with operator0.prebidsso.com private key
+                AN ->> AN: ENCRYPT URL<br>with operator0.onekey.network private key
                 AN -->> C: update URL = ...
             deactivate AN
 
@@ -217,8 +217,8 @@ note right of U: Time T1<br>"WRITE" scenario: user visits publisher<br>and sets 
 
         activate O
             O ->> O: write 1P 🍪:<br/>preferences & sign[pref & id]
-            note over O: preferences have been signed by cmp<br/>ID has been signed by operatorO.prebidsso.com<br/>both can be trusted
-            O ->> O: ENCRYPT URL<br>with operator0.prebidsso.com private key
+            note over O: preferences have been signed by cmp<br/>ID has been signed by operatorO.onekey.network<br/>both can be trusted
+            O ->> O: ENCRYPT URL<br>with operator0.onekey.network private key
             O -->> B: REDIRECT
         deactivate O
 
@@ -233,7 +233,7 @@ note right of U: Time T1<br>"WRITE" scenario: user visits publisher<br>and sets 
             activate AN
                 note over AN: keyP == publisherP.com
                 AN ->> AN: check publisherP.com is allowed to read
-                AN ->> AN: DECRYPT data<br>with operator0.prebidsso.com private key
+                AN ->> AN: DECRYPT data<br>with operator0.onekey.network private key
                 AN -->> P: decrypted data = ...
             deactivate AN
 
@@ -273,8 +273,8 @@ note right of U: Time T2<br>"READ" scenario: user visits a "new" advertiser
                 note over AN: keyA == advertiserA.com
                 AN ->> AN: check advertiserA.com is allowed to read
                 note over AN: keyA is secret and communicated S2S.<br>ok: this is a valid request
-                AN ->> AN: ENCRYPT URL<br>with operator0.prebidsso.com private key
-                AN -->> A: "read prebid SSO" URL = ...
+                AN ->> AN: ENCRYPT URL<br>with operator0.onekey.network private key
+                AN -->> A: "operator read" URL = ...
             deactivate AN
 
             A -->> B: REDIRECT
@@ -291,7 +291,7 @@ note right of U: Time T2<br>"READ" scenario: user visits a "new" advertiser
             O ->> AN: (S2S) POST /encrypt<br>url=xxx
 
             activate AN
-                AN ->> AN: ENCRYPT URL<br>with operator0.prebidsso.com private key
+                AN ->> AN: ENCRYPT URL<br>with operator0.onekey.network private key
                 AN -->> O: "ENCRYPTED_URL" = ...
             deactivate AN
 
@@ -309,7 +309,7 @@ note right of U: Time T2<br>"READ" scenario: user visits a "new" advertiser
             activate AN
                 note over AN: keyA == advertiserA.com
                 AN ->> AN: check advertiserA.com is allowed to read
-                AN ->> AN: DECRYPT data<br>with operator0.prebidsso.com private key
+                AN ->> AN: DECRYPT data<br>with operator0.onekey.network private key
                 AN -->> A: decrypted data = ...
             deactivate AN
 

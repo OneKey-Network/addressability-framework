@@ -12,7 +12,7 @@ In this context,
   - **Preferences** are user-set preferences regarding online tracking that is _captured by a CMP UI_ or a website (
     such as a publisher).
     - In the MVP, only one "preference" is supported: optin status.
-- **storing** means in the form of **cookies** stored on Prebid Addressability Framework top level domain +1 (TLD+1, ex: `prebid-a-f.net`)
+- **storing** means in the form of **cookies** stored on Prebid Addressability Framework top level domain +1 (TLD+1, ex: `onekey.network`)
 - **controlling access** means to offer ways for contracting parties to read and write this data and help them store a
   copy ("cache") of these cookies on their own domain.
 - ***in a secured way*** has different meanings that are discussed below

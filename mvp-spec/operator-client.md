@@ -454,7 +454,7 @@ To test if third party cookies are supported and trigger redirect otherwise, the
     - based on user agent, if the browser is known to **not** support 3PC (ex: Safari) ➡️ consider no 3PC and
       immediately **javascript redirect**
 3. otherwise, attempt to call REST endpoint and read existing (3PC) Prebid ID
-    - at the same time, the operator attempts to write a "test" cookie on .prebidsso.com (ie. attempt to write a 3PC)
+    - at the same time, the operator attempts to write a "test" cookie on .onekey.network (ie. attempt to write a 3PC)
 4. if Prebid ID is retrieved, of course it means 3PC **are** supported
 5. if no Prebid ID retrieved, it means either that the user is not known, or that 3PC are not supported
     - call operator to attempt to read "test" cookie that was just written
