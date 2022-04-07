@@ -741,12 +741,6 @@ string
 
 The details of the status. It can be empty for "success" but it should detail the reason(s) in case of an error.
 
-**Example:** 
-
-```json
-"No signature in the Transmission Request."
-```
-
 </td>
 </tr>
 
@@ -1093,12 +1087,6 @@ string
 <td>
 
 The details of the status. It can be empty for "success" but it should detail the reason(s) in case of an error.
-
-**Example:** 
-
-```json
-"No signature in the Transmission Request."
-```
 
 </td>
 </tr>

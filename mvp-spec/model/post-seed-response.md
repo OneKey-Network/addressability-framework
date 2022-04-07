@@ -1,6 +1,8 @@
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 
-# Transmission Result
+# POST /v1/seed request
+
+The Seed gathers data related to the Addressable Content and sign them.
 
 <table>
 
@@ -42,74 +44,14 @@ To be detailed.
 
 <tr>
 <td>
-<b>receiver</b>
+<b>transaction_ids</b>
 </td>
 <td>
-string
-</td>
-<td>
-
-The domain name of the receiver of the Transmission.
-
-**Example:** 
-
-```json
-"receiver.com"
-```
-
-</td>
-</tr>
-
-<tr>
-<td>
-<b>contents</b>
-</td>
-<td>
-array of object
+array
 </td>
 <td>
 
 Type of **each element in the array**:
-
-<details>
-<summary>Object details</summary>
-
-<table>
-
-<tr>
-    <th> Property </th>
-    <th> Type </th>
-    <th> Description </th>
-</tr>
-
-<tr>
-<td>
-<b>content_id</b>
-</td>
-<td>
-string
-</td>
-<td>
-
-A GUID associated to a potential Addressable Content.
-
-**Example:** 
-
-```json
-"b0cffcd0-177e-46d5-8bcd-32ed52a414dc"
-```
-
-</td>
-</tr>
-
-<tr>
-<td>
-<b>transaction_id</b>
-</td>
-<td>
-string
-</td>
-<td>
 
 A Generated Unique Identifier dedicated to a placement and an Addressable Content
 
@@ -122,39 +64,22 @@ A Generated Unique Identifier dedicated to a placement and an Addressable Conten
 </td>
 </tr>
 
-</table>
-
-</details>
-
-</td>
-</tr>
-
 <tr>
 <td>
-<b>status</b>
-</td>
-<td>
-enum (of string)
-</td>
-<td>
-
-Equals "success". Transmission Responses with a different status from Suppliers must be dismissed.
-
-Can only take **one of these values**:
-* `"success"`
-</td>
-</tr>
-
-<tr>
-<td>
-<b>details</b>
+<b>publisher</b>
 </td>
 <td>
 string
 </td>
 <td>
 
-The details of the status. It can be empty for "success" but it should detail the reason(s) in case of an error.
+The domain name of the Publisher that displays the Addressable Content
+
+**Example:** 
+
+```json
+"publisher.com"
+```
 
 </td>
 </tr>
@@ -168,17 +93,18 @@ object
 </td>
 <td>
 
-Signature based on input:
-```receiver                + '\u2063' +
-status                  + '\u2063'
-source.domain           + '\u2063' +
-source.timestamp        + '\u2063' +
-seed.source.signature+ '\u2063' +
-contents[0].transaction_ids + '\u2063' +
-contents[0].content_id + '\u2063' +
+Signature based on input including the PAF data associated to the Seed:
+```source.domain + '\u2063' +
+source.timestamp + '\u2063' +
+transaction_ids[0] + '\u2063' +
 ... + '\u2063' +
-contents[n].transaction_ids + '\u2063' +
-contents[n].content_id
+transaction_ids[n] + '\u2063' + 
+publisher + '\u2063' +
+data.identifiers[0].source.signature + '\u2063' +
+data.identifiers[1].source.signature + '\u2063' +
+... + '\u2063' +
+data.identifiers[n].source.signature + '\u2063' +
+data.preferences.source.signature
 ```
 
 <details>

@@ -4,6 +4,7 @@
     "$id": "transmission-request",
     "description": "The request sent from a Sender to a Receiver for sharing PAF data for a set of Addressable Content",
     "type": "object",
+    "additionalProperties": false,
     "properties": {
         "version": {
             "$ref": "version.json"
