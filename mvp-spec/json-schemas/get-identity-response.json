@@ -19,6 +19,18 @@
       "$ref": "version.json",
       "description": "The type of contracting party in the PAF ecosystem"
     },
+    "contact_email": {
+      "type": "string",
+      "format": "idn-email",
+      "description": "Email address to contact the company",
+      "examples": ["privacy@criteo.com"]
+    },
+    "data_processing_notice_url": {
+      "type": "string",
+      "format": "uri-template",
+      "description": "URL of a data processing notice web page",
+      "examples": ["https://www.criteo.com/privacy/"]
+    },
     "keys": {
       "type": "array",
       "description": "List of public keys the contracting party used or is using for signing data and messages",
@@ -53,6 +65,8 @@
     "name",
     "type",
     "version",
+    "contact_email",
+    "data_processing_notice_url",
     "keys"
   ]
 }
