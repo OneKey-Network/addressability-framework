@@ -77,7 +77,7 @@ The type of contracting party in the PAF ecosystem
 
 <tr>
 <td>
-<b>contact_email</b>
+<b>dpo_email</b>
 </td>
 <td>
 string
@@ -97,14 +97,14 @@ Email address to contact the company
 
 <tr>
 <td>
-<b>data_processing_notice_url</b>
+<b>privacy_policy_url</b>
 </td>
 <td>
 string
 </td>
 <td>
 
-URL of a data processing notice web page
+URL of the recipient's privacy policy
 
 **Example:** 
 
