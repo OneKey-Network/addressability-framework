@@ -77,6 +77,46 @@ The type of contracting party in the PAF ecosystem
 
 <tr>
 <td>
+<b>dpo_email</b>
+</td>
+<td>
+string
+</td>
+<td>
+
+Email address to contact the company
+
+**Example:** 
+
+```json
+"privacy@criteo.com"
+```
+
+</td>
+</tr>
+
+<tr>
+<td>
+<b>privacy_policy_url</b>
+</td>
+<td>
+string
+</td>
+<td>
+
+URL of the recipient's privacy policy
+
+**Example:** 
+
+```json
+"https://www.criteo.com/privacy/"
+```
+
+</td>
+</tr>
+
+<tr>
+<td>
 <b>keys</b>
 </td>
 <td>
