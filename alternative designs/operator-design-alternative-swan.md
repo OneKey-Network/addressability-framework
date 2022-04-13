@@ -61,7 +61,7 @@ note right of U: Time T1<br>"WRITE" scenario: user visits publisher<br>and sets 
         deactivate B
 
         activate P
-            P ->> P: no Prebid SSO ID 🍪 found
+            P ->> P: no PAF ID 🍪 found
             P ->> AN: (S2S) POST /fetch<br>APIkey=keyP<br>redirectUrl=publisherP.com/pageP.html
 
           activate AN
@@ -266,7 +266,7 @@ note right of U: Time T2<br>"READ" scenario: user visits a "new" advertiser
         deactivate B
 
         activate A
-            A ->> A: no Prebid SSO ID 🍪 found
+            A ->> A: no PAF ID 🍪 found
             A ->> AN: (S2S) POST /fetch<br>APIkey=keyA<br>redirectUrl=publisherP.com/pageP.html
 
             activate AN
