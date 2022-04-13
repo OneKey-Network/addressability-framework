@@ -152,7 +152,7 @@ of the Addressable Content.
 
 Once the user has clicked on the Audit Button, she/he is redirected to the
 Audit UI. The Contracting Party generates the UI based on the validations 
-of the Prebid SSO Data and the Transmission Results. The following elements must
+of the User Id and Preferences and the Transmission Results. The following elements must
 appear in the page:
 
 | Element                          | Details                                   |
