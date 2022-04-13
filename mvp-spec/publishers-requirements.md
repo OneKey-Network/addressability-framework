@@ -176,8 +176,8 @@ Here is a hypothetical structure of the associated User Id and Preferences, name
 <!--partial-end-->
 
 In the communication, the Transmission Requests must be associated to the 
-PAF Data. Depending on the existing structure of the communication,
-it makes sense to have a shared structure for the PAF Data and 
+User Id and Preferences. Depending on the existing structure of the communication,
+it makes sense to have a shared structure for the User Id and Preferences and 
 multiple Transmissions referring to it.
 
 Here is an example that must be adapted to the existing API of the Ad Server:
@@ -294,7 +294,7 @@ must be adapted to the existing API:
 
 Once the Ad Server has selected the supplier that will display the
 Addressable Content, it must generate the Audit Log based on the related
-Transmission Response and the PAF Data.
+Transmission Response and the User Id and Preferences.
 
 The Audit Log has the following structure:
 
@@ -535,7 +535,7 @@ to respect the following for integrating PAF.
 
 #### The OpenRTB Bid Request
 
-In step **Step 4**, the Ad Server must share the PAF Data in the 
+In step **Step 4**, the Ad Server must share the User Id and Preferences in the 
 extensions of the Bid Request:
 
 First, The Transmission Request object in an OpenRTB request keeps the same structure.
