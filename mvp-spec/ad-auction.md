@@ -1,25 +1,28 @@
-# Publishers requirements
+# Ad auction
 
 ## Goal of the document
 
-This document describes what is required for a Publisher to participate in the Prebid Addressability Framework (PAF).
+This document describes the Prebid Addressability Framework (PAF) requirements related to an ad auction.
 
 ## Overview
 
-The Prebid Addressability Framework enhances ad slots selling by instantiating an Audit Log. This Audit Log requires the following elements, that Publishers must implement:
+The Prebid Addressability Framework enhances ad auctions by instantiating an Audit Log, based on the following elements:
 * a **Seed**, identifying a bid request for an ad slot for a given user
 * **Transmission Requests**, identifying the Seed and the requester at each step of the bidding workflow
 * **Transmission Responses**, as answers to Transmission Requests
-* The **Audit Log** itself, identifying the entities have been involved in the display of an ad
+* The **Audit Log** itself, identifying the entities which have been involved in the display of an ad
 
-Seeds, Transmission Requests, and Transmissions Responses are signed.
+### Signatures
 
-Publishers are also required to:
-* Expose an Identity endpoint, so that participants can verify the the publisher's signature.
+Seeds, Transmission Requests, and Transmissions Responses are signed. Signature mechanisms are detailed in [signatures.md](signatures.md)
 
-## Selling ad slots with the Prebid Addressability Framework
+### Audit Log display
 
-### ad slots, Seeds, and Transmissions Requests
+Audit Log display is detailed in [audit-log-design.md](audit-log-design.md).
+
+## Ad auctions with the Prebid Addressability Framework
+
+### Ad slots, Seeds, and Transmissions Requests
 
 The relationships between ad slots, Seeds, and Transmissions are:
 * A Publisher offers *multiple* ad slots per page
@@ -28,21 +31,22 @@ The relationships between ad slots, Seeds, and Transmissions are:
 * An SSP must generate *one* Transmission Response per Transmission Request
 
 ```mermaid
-flowchart LR
-    
+flowchart LR   
     Page-- 1-n -->AD[Ad Slot]
-    AD[Ad Slot]-- 1-1 -->Seed
-    Seed-- 1-n -->TR[Transmission Request]
-    TR[Transmission Request]-- 1-1 -->TRp[Transmission Response]
-    
+    AD[Ad Slot]-- 1-1 -->Seed 
 ```
 
-### Step 1: Access PAF User Id and Preferences
+```mermaid
+flowchart LR
+    \(Seed, SSP)-- 1-1 -->TR[Transmission Request]
+    TR[Transmission Request]-- 1-1 -->TRp[Transmission Response]
+```
 
-*To be added.*
+ TR[Transmission Request]-- 1-1 -->TRp[Transmission Response]
 
+### Step 1: Deserialize the User Id and Preferences
 
-### Step 2: Deserialize the User Id and Preferences
+The publisher must deserialize User Id and Preferences.
 
 The structure of the User Id is:
 
@@ -67,9 +71,9 @@ The structure of the Preferences is:
 | source  | Source object          | The source contains the data for identifying and trusting the CMP that signed lastly the Preferences.<br /> <table><tr><th>Field</th><th>Type</th><th>Details</th></tr><tr><td>domain</td><td>String</td><td>The domain of the CMP.</td></tr><tr><td>timestamp</td><td>Integer</td><td>The timestamp of the signature.</td></tr><tr><td>signature</td><td>String</td><td>Encoded signature in UTF-8 of the CMP.</td></tr></table>|
 <!--partial-end-->
 
-### Step 3: Generate the Seed
+### Step 2: Generate the Seed
 
-The Seed is the association of the User Id and Preferences with an ad slot. The Publisher must
+The Seed is the association of the User Id and Preferences with an ad slot. The publisher must
 generate the Seed and sign it.
 
 The composition of a Seed is:
@@ -102,7 +106,7 @@ Here is a JSON example of the Seed:
 ```
 <!--partial-end-->
 
-The Publisher must sign the Seeds ("source"."signature").
+The publisher must sign the Seeds ("source"."signature").
 
 Here is how to build the UTF-8 string for then generating the signature:
 
@@ -121,24 +125,14 @@ data.preferences.source.signature
 ```
 <!--partial-end-->
 
-### Step 4: Send User Id and Preferences in Transmission Requests
+### Step 3: Send User Id and Preferences in Transmission Requests
 
-Once the Seeds are generated (one per ad slot), the Publisher
-shares the Seeds via Transmissions with placement data to 
-SSP. In the case of an existing custom communication 
-(a.k.a not OpenRTB), Transmission Requests must be included in the existing
+Once the Seeds are generated (one per ad slot), the publisher
+shares the Seeds via Transmissions Requests with auction data to the
+SSP. 
+Transmission Requests must be included in the existing
 communication and bound structurally or by references to the data of the 
-impressions (also named Addressable Content). One Transmission Requests 
-per Supplier and Seed.
-
-```mermaid
-flowchart LR
-    TR[Transmission Request]-- n-1 ---Supplier
-    TR-- 1-1 ---Seed
-```
-
-Publishers can send PAF User Id and Preferences in bid requests to SSP. Whenever they do so, a Transmission Request must be included and bound to the bid request.
-There must be one Transmission Request per SSP and Seed.
+impressions (also named Addressable Content). The OpenRTB case is detailed later in this document.
 
 A Transmission Request is composed as followed:
 
@@ -239,7 +233,7 @@ Here is an example that must be adapted to the existing API of the Ad Server:
 ```
 <!--partial-end-->
 
-### Step 5: Receive Transmission Responses
+### Step 4: Receive Transmission Responses
 
 Whenever making use of the User Id and Preferences, the receiver of a Transmission Request must answer back with Transmission 
 Responses. Those Transmission Responses must be included and bound to the bid response.
@@ -290,9 +284,9 @@ must be adapted to the existing API:
 ```
 <!--partial-end-->
 
-### Step 6: Generate the Audit Log
+### Step 5: Generate the Audit Log
 
-Once the Ad Server has selected the supplier that will display the
+Once the publisher has selected the DSP that will display the
 Addressable Content, it must generate the Audit Log based on the related
 Transmission Response and the User Id and Preferences.
 
@@ -309,7 +303,7 @@ The Audit Log has the following structure:
 
 As described, the Audit Log contains a list of Transmission Results. The 
 Transmission Results are built thanks to the data within the received 
-Transmission Response that participates in the Addressable Content. The required
+Transmission Response that are part of chain of participants leading to the ad displayed. The required
 data are the status and the signature of the Transmission Response and its 
 children.
 
@@ -326,7 +320,7 @@ Here is the structure of a Transmission Result:
 <!--partial-end-->
 
 Let's take an example of a transformation to Transmission Results.
-Here is a received Transmission Response that helps to generate the Addressable Content:
+Here is a Transmission Response:
 
 <!--partial-begin { "files": [ "transmission-response-with-children.json" ], "block": "json" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
@@ -522,21 +516,20 @@ an example:
 ```
 <!--partial-end-->
 
-### Step 7: Display the ad and make the Audit Log available
+### Step 6: Display the ad and make the Audit Log available
 
-Finally, the ad can be displayed to the user on the Publisher 
+Finally, the ad can be displayed to the user on the publisher 
 page. An Audit Button (ideally per Addressable Content) is available for 
 displaying the Audit UI.
 
 ### Transmissions with OpenRTB
 
-If the used protocol for offering the inventory is OpenRTB, the Ad Server needs
-to respect the following for integrating PAF.
+If the ad auction protocol is OpenRTB, integration with PAF is as described below.
 
 #### The OpenRTB Bid Request
 
-In step **Step 4**, the Ad Server must share the User Id and Preferences in the 
-extensions of the Bid Request:
+In step **Step 3**, the publisher must share the User Id and Preferences in the 
+extensions of the bid request:
 
 First, The Transmission Request object in an OpenRTB request keeps the same structure.
 It is embedded in the `ext` field of each impression. It is 
@@ -669,9 +662,9 @@ for nom.
 
 #### The OpenRTB Bid Response
 
-In step 5, the bidder (named Receiver in PAF Transmission) send back a 
+In **step 4**, the bidder sends back a 
 OpenRTB Bid Response. Each `bid` is associated with a Transaction Response. The 
-Transaction has the same structure explained in **Step 5** and is reachable in
+Transaction has the same structure as explained in **Step 4** and is reachable in
 the `ext` field of a `bid` (full path: `seatbid[].bid.ext.paf`).
 
 Here is an example:
