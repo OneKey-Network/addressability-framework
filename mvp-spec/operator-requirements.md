@@ -83,7 +83,7 @@ rect rgba(224, 224, 224, .55)
                 note over B,O: make sure this URL cannot be "replayed" by hackers to read central cookies
                 note over O: make sure<br/>CMP is authorized to read
                 O ->> O: create and sign ID
-                O -->> B: User Id and Preferences
+                O -->> B: User Id
             deactivate O
 
             B ->> B: show User Id
