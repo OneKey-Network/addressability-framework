@@ -4,6 +4,7 @@
     "description": "A request of a custom communication for generating transmissions between two Contracting Parties for many Addressable Contents",
     "$id": "transmission-requests-standalone",
     "type": "object",
+    "additionalProperties": false,
     "properties": {
         "data": {
             "$ref": "ids-and-preferences.json"

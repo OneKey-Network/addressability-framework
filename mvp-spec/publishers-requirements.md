@@ -557,7 +557,7 @@ for nom.
 
 #### Example of a OpenRTB Bid Request
 
-<!--partial-begin { "files": [ "openrtb-request-with-transmission.json" ], "block": "json" } -->
+<!--partial-begin { "files": [ "open-rtb-request-with-transmission.json" ], "block": "json" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```json
 {
@@ -674,7 +674,7 @@ the `ext` field of a `bid` (full path: `seatbid[].bid.ext.paf`).
 
 Here is an example:
 
-<!--partial-begin { "files": [ "openrtb-response-with-transmission.json" ], "block": "json" } -->
+<!--partial-begin { "files": [ "open-rtb-response-with-transmission.json" ], "block": "json" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```json
 {

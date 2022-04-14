@@ -6,6 +6,7 @@
     "type": "array",
     "items": {
         "type": "object",
+        "additionalProperties": false,
         "properties": {
             "content_id": {
                 "$ref": "transmission-content_id.json"

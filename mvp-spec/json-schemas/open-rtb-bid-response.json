@@ -2,15 +2,18 @@
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "title": "OpenRTB Bid Response with a Transmission Response",
     "description": "An Open RTB Bid Response according to the 2.5 OpenRTB specification. OpenRTB specifies fields unused in the integration of the Transmission Response. Therefore, they are omitted on purpose here.",
-    "$id": "openrtb-bid-response",
+    "$id": "open-rtb-bid-response",
     "type": "object",
+    "additionalProperties": false,
     "properties": {
         "ext": {
             "type": "object",
+            "additionalProperties": false,
             "description": "Placeholder for exchange-specific extensions to OpenRTB.",
             "properties": {
                 "paf": {
                     "type": "object",
+                    "additionalProperties": false,
                     "description": "Dedicated object for PAF as an extension.",
                     "properties": {
                         "transmission": {
@@ -31,19 +34,23 @@
             "description": "Represents a specific seat that provides at least one bid.",
             "items": {
                 "type": "object",
+                "additionalProperties": false,
                 "properties": {
                     "bid": {
                         "type": "array",
                         "description": "A bid for an impression.",
                         "items": {
                             "type": "object",
+                            "additionalProperties": false,
                             "properties": {
                                 "ext": {
                                     "type": "object",
+                                    "additionalProperties": false,
                                     "description": "Placeholder for exchange-specific extensions to OpenRTB.",
                                     "properties": {
                                         "paf": {
                                             "type": "object",
+                                            "additionalProperties": false,
                                             "description": "Dedicated object for PAF as an extension.",
                                             "properties": {
                                                 "content_id": {

@@ -4,6 +4,7 @@
     "description": "",
     "$id": "transmission-result",
     "type": "object",
+    "additionalProperties": false,
     "properties": {
         "version": {
             "$ref": "version.json"

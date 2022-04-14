@@ -395,15 +395,15 @@ Each Transmission Response must be expressed in the "ext" objects of the root
 Bid Response paired with the impression ids provided in the request. The name 
 of this new object in the "ext" object is "paf".
 
-| Message                          | Format|
-|----------------------------------|-------|
-| OpenRTB Bid Request with Transmission Request  | [openrtb-bid-request.md](./model/openrtb-bid-request.md)  |
-| OpenRTB Bid Request with Transmission Response | [openrtb-bid-response.md](./model/openrtb-bid-response.md) |
+| Message                                        | Format                                                       |
+|------------------------------------------------|--------------------------------------------------------------|
+| OpenRTB Bid Request with Transmission Request  | [open-rtb-bid-request.md](./model/open-rtb-bid-request.md)   |
+| OpenRTB Bid Request with Transmission Response | [open-rtb-bid-response.md](./model/open-rtb-bid-response.md) |
 
 <details>
 <summary>OpenRTB Request Example</summary>
 
-<!--partial-begin { "files": [ "openrtb-request-with-transmission.json" ], "block": "json" } -->
+<!--partial-begin { "files": [ "open-rtb-request-with-transmission.json" ], "block": "json" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```json
 {
@@ -515,7 +515,7 @@ of this new object in the "ext" object is "paf".
 <details>
 <summary>OpenRTB Request Example</summary>
 
-<!--partial-begin { "files": [ "openrtb-response-with-transmission.json" ], "block": "json" } -->
+<!--partial-begin { "files": [ "open-rtb-response-with-transmission.json" ], "block": "json" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```json
 {
