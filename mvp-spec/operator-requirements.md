@@ -76,17 +76,17 @@ rect rgba(224, 224, 224, .55)
         deactivate P
 
         activate B
-            B ->> B: no Prebid SSO ID 🍪 found
+            B ->> B: no PAF ID 🍪 found
             B ->> O: JS call "read or init" endpoint
 
             activate O
                 note over B,O: make sure this URL cannot be "replayed" by hackers to read central cookies
                 note over O: make sure<br/>CMP is authorized to read
                 O ->> O: create and sign ID
-                O -->> B: Prebid SSO ID
+                O -->> B: PAF ID
             deactivate O
 
-            B ->> B: show Prebid SSO ID
+            B ->> B: show PAF ID
 
             B --> U: 
         deactivate B
@@ -138,7 +138,7 @@ rect rgba(255, 255, 255, .55)
 
         activate B
 
-            B ->> B: no Prebid SSO ID 🍪 found
+            B ->> B: no PAF ID 🍪 found
             B ->> O: JS call "read" endpoint
 
             activate O
@@ -161,32 +161,32 @@ end
 
 Without 3d party cookies,
 
-- **a full page load** on Prebid SSO domain is needed to read or write cookies stored on Prebid SSO TLD+1
-- **a full page load** on the website domain is needed to write cookies based on values read from Prebid SSO
+- **a full page load** on PAF domain is needed to read or write cookies stored on PAF TLD+1
+- **a full page load** on the website domain is needed to write cookies based on values read from PAF
 
-So the only way to interact with Prebid SSO cookies is through  **full page "redirects"**.
+So the only way to interact with PAF cookies is through  **full page "redirects"**.
 
-- When visiting a publisher and meeting Prebid SSO for the first time:
+- When visiting a publisher and meeting PAF for the first time:
   - the publisher's page is called. Here,  **two options are possible**:
-    - either the publisher's _backend_ checks the existence of Prebid SSO cookie, and redirect the user to Prebid
+    - either the publisher's _backend_ checks the existence of PAF cookie, and redirect the user to Prebid
       SSO operator
     - or, the publisher's backend serves the requested page, and it includes a JS library that does exactly the same
       thing
-  - in both cases the browser is  **redirected**  to Prebid SSO operator to read any existing cookie or to create an
+  - in both cases the browser is  **redirected**  to PAF operator to read any existing cookie or to create an
     ID if needed
-  - the operator  **redirects**  back to the original page, this time with a Prebid SSO ID as part of the URL
+  - the operator  **redirects**  back to the original page, this time with a PAF ID as part of the URL
   - the CMP is displayed
   - the ID can be displayed in the CMP UI if needed
   - when the user submits their preferences:
     - a JS call is made to the CMP to "prepare" the values to write
-    - via JS, a  **redirect**  is triggered to the operator to write these values (saved under Prebid SSO domain)
-    - the operator  **redirects**  back to the original page, this time with a Prebid SSO ID & preferences as part
+    - via JS, a  **redirect**  is triggered to the operator to write these values (saved under PAF domain)
+    - the operator  **redirects**  back to the original page, this time with a PAF ID & preferences as part
       of the URL
     - finally, these values are saved as cookies on the publisher's domain
       - Note that this, again, can be done on the publisher's backend side or via JS
 - When a participating user visits an advertiser:
-  - on the advertiser backend, a  **redirect**  is triggered to the operator to get the Prebid SSO ID and preferences
-  - the operator  **redirects**  back to the original page, this time with a Prebid SSO ID & preferences as part of
+  - on the advertiser backend, a  **redirect**  is triggered to the operator to get the PAF ID and preferences
+  - the operator  **redirects**  back to the original page, this time with a PAF ID & preferences as part of
     the URL
   - the values are saved on the advertiser's domain
 
@@ -214,7 +214,7 @@ rect rgba(224, 224, 224, .55)
         deactivate P
 
         activate B
-            B ->> B: no Prebid SSO ID 🍪 found
+            B ->> B: no PAF ID 🍪 found
             B -->> B: REDIRECT
             B ->> O: call "read or init" endpoint<br/>redirectUrl = publisherP.com/pageP.html
         deactivate B
@@ -235,7 +235,7 @@ rect rgba(224, 224, 224, .55)
         deactivate P
 
         activate B
-            B ->> B: show Prebid SSO ID
+            B ->> B: show PAF ID
             B -->> U:  
         deactivate B
 
@@ -291,7 +291,7 @@ rect rgba(255, 255, 255, .55)
         deactivate B
 
         activate A
-            A ->> A: no Prebid SSO ID 🍪 found
+            A ->> A: no PAF ID 🍪 found
             A ->> A: build redirect URL
             A -->> B: REDIRECT
         deactivate A
