@@ -1,7 +1,7 @@
 {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "$id": "post-seed-response",
-    "title": "POST /v1/seed request",
+    "title": "POST /paf-proxy/v1/seed response",
     "type": "object",
     "additionalProperties": false,
     "$ref": "seed.json"
