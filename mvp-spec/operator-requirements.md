@@ -86,7 +86,7 @@ rect rgba(224, 224, 224, .55)
                 O -->> B: User Id and Preferences
             deactivate O
 
-            B ->> B: show User Id and Preferences
+            B ->> B: show User Id
 
             B --> U: 
         deactivate B
@@ -234,7 +234,7 @@ rect rgba(224, 224, 224, .55)
         deactivate P
 
         activate B
-            B ->> B: show User Id and Preferences
+            B ->> B: show User Id
             B -->> U:  
         deactivate B
 
