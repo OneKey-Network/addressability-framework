@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "post-seed-request",
+  "title": "POST /paf-proxy/v1/seed request",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "data": {
+      "$ref": "ids-and-preferences.json"
+    },
+    "transaction_ids": {
+      "type": "array",
+      "items": {
+        "$ref": "transaction_id.json"
+      }
+    }
+  },
+  "required": [
+    "data",
+    "transaction_ids"
+  ]
+}
