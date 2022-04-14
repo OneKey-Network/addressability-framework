@@ -2,7 +2,7 @@
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "title": "Transmission Response",
     "description": "",
-    "$id": "transmission-response.json",
+    "$id": "transmission-response",
     "type": "object",
     "properties": {
         "version": {
