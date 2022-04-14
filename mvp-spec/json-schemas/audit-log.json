@@ -6,6 +6,9 @@
     "type": "object",
     "additionalProperties": false,
     "properties": {
+        "version": {
+            "$ref": "version.json"
+        },
         "data": {
             "$ref": "ids-and-preferences.json"
         },
