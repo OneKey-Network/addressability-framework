@@ -20,7 +20,29 @@ Seeds, Transmission Requests, and Transmissions Responses are signed. Signature 
 
 Audit Log display is detailed in [audit-log-design.md](audit-log-design.md).
 
-## Ad auctions with the Prebid Addressability Framework
+## Ad auction with the Prebid Addressability Framework
+
+### Workflow
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant Publisher
+    participant SSP
+    participant DSP 1
+    participant DSP 2
+
+    User->>Publisher: Visit site
+    Publisher->>Publisher: Generate Seed for <br /> ad slot
+    Publisher->>SSP: Send request<br />with Transmission Request
+    SSP->>DSP 1: Send bid request<br />with Transmission Request
+    DSP 1->>SSP: Send bid response<br />with Transmission Response
+    SSP->>DSP 2: Send bid request<br />with Transmission Request
+    DSP 2->>SSP: Send bid response<br />with Transmission Response
+    SSP->>SSP: Select winning bid
+    SSP->>Publisher: Return data to display the ad
+    Publisher->>User: Display the ad <br />Make Audit Logs available next to the ad
+```
 
 ### Ad slots, Seeds, and Transmissions Requests
 
