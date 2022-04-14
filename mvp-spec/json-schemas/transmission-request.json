@@ -4,6 +4,7 @@
     "$id": "transmission-request",
     "description": "The request sent from a Sender to a Receiver for sharing PAF data for a set of Addressable Content",
     "type": "object",
+    "additionalProperties": false,
     "properties": {
         "version": {
             "$ref": "version.json"
@@ -27,7 +28,7 @@
             "$ref": "transmission-contents.json"
         },
         "source": {
-            "description": "Signature based on input:\n```\ntransmission_response.receiver                + '\\u2063' +\ntransmission_response.status                  + '\\u2063'\ntransmission_response.source.domain           + '\\u2063' +\ntransmission_response.source.timestamp        + '\\u2063' +\nseed.source.signature+ '\\u2063' +\ncontents[0].transaction_ids + '\\u2063' +\ncontents[0].content_id + '\\u2063' +\n... + '\\u2063' +\ncontents[n].transaction_ids + '\\u2063' +\ncontents[n].content_id\n```",
+            "description": "Required except when there is no parent. Signature based on input:\n```\nreceiver + '\\u2063' +\nstatus + '\\u2063'\nsource.domain + '\\u2063' +\nsource.timestamp  + '\\u2063' +\nseed.source.signature+ '\\u2063' +\ncontents[0].transaction_ids + '\\u2063' +\ncontents[0].content_id + '\\u2063' +\n... + '\\u2063' +\ncontents[n].transaction_ids + '\\u2063' +\ncontents[n].content_id\n```",
             "$ref": "source.json"
         },
         "parents": {
@@ -41,12 +42,6 @@
     "required": [
         "version",
         "seed",
-        "data",
-        "receiver",
-        "status",
-        "details",
-        "contents",
-        "source",
-        "parents"
+        "data"
     ]
 }

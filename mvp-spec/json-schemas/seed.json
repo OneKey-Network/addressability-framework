@@ -4,6 +4,7 @@
     "description": "The Seed gathers data related to the Addressable Content and sign them.",
     "$id": "seed",
     "type": "object",
+    "additionalProperties": false,
     "properties": {
         "version": {
             "$ref": "version.json"
