@@ -203,10 +203,10 @@ Note that this whole block can be done in the http server OR in the front end of
 
 ## Read Scenario: The user visits an Advertiser for the first time
 
-After visiting a Publisher and generating her/his User Id and Preferences, the user
+After visiting a Publisher and generating their User Id and Preferences, the user
 goes to an Advertiser website. 
 
-In this case, the Advertiser website want to *read* the User Id and Preferences of the 
+In this case, the Advertiser website wants to *read* the User Id and Preferences of the 
 user. Therefore, this scenario is named the **"READ" scenario**.
 
 ```mermaid
