@@ -21,7 +21,7 @@ array of object
 </td>
 <td>
 
-Type of **each element in the array**:
+**Array of**:
 
 <details>
 <summary>Object details</summary>
@@ -170,7 +170,7 @@ array of object
 </td>
 <td>
 
-Type of **each element in the array**:
+**Array of**:
 
 A list of Extended Identifiers containing one element for PAF data
 
@@ -206,7 +206,7 @@ array of object
 </td>
 <td>
 
-Type of **each element in the array**:
+**Array of**:
 
 Array of extended ID UID objects from the given source containing one element for the Prebid ID.
 
@@ -633,7 +633,7 @@ array
 </td>
 <td>
 
-Type of **each element in the array**:
+**Array of**:
 
 A Generated Unique Identifier dedicated to a placement and an Addressable Content
 
@@ -886,7 +886,7 @@ array
 </td>
 <td>
 
-Type of **each element in the array**:
+**Array of**:
 
 <details>
 <summary>Object details</summary>
@@ -958,7 +958,7 @@ array of object
 </td>
 <td>
 
-Type of **each element in the array**:
+**Array of**:
 
 <details>
 <summary>Object details</summary>

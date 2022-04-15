@@ -14,6 +14,36 @@ An Audit Log gathers the necessary data to audit a Transaction (via Transmission
 
 <tr>
 <td>
+version<br>(<i>optional</i>)
+</td>
+<td>
+string
+</td>
+<td>
+
+A version number made of a "major" and a "minor" version numbers.
+
+To be detailed.
+
+**Examples:** 
+
+```json
+"0.1"
+```
+
+```json
+"0.407"
+```
+
+```json
+"10.0"
+```
+
+</td>
+</tr>
+
+<tr>
+<td>
 <b>data</b>
 </td>
 <td>
@@ -247,7 +277,7 @@ array
 </td>
 <td>
 
-Type of **each element in the array**:
+**Array of**:
 
 A pseudonymous identifier generated for a web user
 
@@ -517,7 +547,7 @@ array
 </td>
 <td>
 
-Type of **each element in the array**:
+**Array of**:
 
 A Generated Unique Identifier dedicated to a placement and an Addressable Content
 
@@ -691,7 +721,7 @@ array
 </td>
 <td>
 
-Type of **each element in the array**:
+**Array of**:
 
 <details>
 <summary>Object details</summary>
@@ -763,7 +793,7 @@ array of object
 </td>
 <td>
 
-Type of **each element in the array**:
+**Array of**:
 
 <details>
 <summary>Object details</summary>

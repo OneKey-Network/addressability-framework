@@ -1,6 +1,6 @@
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 
-# POST /v1/seed request
+# POST /paf-proxy/v1/seed request
 
 <table>
 
@@ -245,7 +245,7 @@ array
 </td>
 <td>
 
-Type of **each element in the array**:
+**Array of**:
 
 A pseudonymous identifier generated for a web user
 
@@ -463,7 +463,7 @@ array
 </td>
 <td>
 
-Type of **each element in the array**:
+**Array of**:
 
 A Generated Unique Identifier dedicated to a placement and an Addressable Content
 

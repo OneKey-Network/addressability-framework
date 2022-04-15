@@ -103,7 +103,7 @@ array
 </td>
 <td>
 
-Type of **each element in the array**:
+**Array of**:
 
 A Generated Unique Identifier dedicated to a placement and an Addressable Content
 
@@ -483,7 +483,7 @@ array
 </td>
 <td>
 
-Type of **each element in the array**:
+**Array of**:
 
 A pseudonymous identifier generated for a web user
 
@@ -694,7 +694,7 @@ The base64 representation of a data signature
 
 <tr>
 <td>
-<b>receiver</b>
+receiver<br>(<i>optional</i>)
 </td>
 <td>
 string
@@ -714,7 +714,7 @@ The domain name of the receiver of the Transmission.
 
 <tr>
 <td>
-<b>status</b>
+status<br>(<i>optional</i>)
 </td>
 <td>
 enum (of string)
@@ -732,7 +732,7 @@ Can only take **one of these values**:
 
 <tr>
 <td>
-<b>details</b>
+details<br>(<i>optional</i>)
 </td>
 <td>
 string
@@ -746,14 +746,14 @@ The details of the status. It can be empty for "success" but it should detail th
 
 <tr>
 <td>
-<b>contents</b>
+contents<br>(<i>optional</i>)
 </td>
 <td>
 array of object
 </td>
 <td>
 
-Type of **each element in the array**:
+**Array of**:
 
 <details>
 <summary>Object details</summary>
@@ -815,14 +815,14 @@ A Generated Unique Identifier dedicated to a placement and an Addressable Conten
 
 <tr>
 <td>
-<b>source</b>
+source<br>(<i>optional</i>)
 </td>
 <td>
 object
 </td>
 <td>
 
-Signature based on input:
+Required except when there is no parent. Signature based on input:
 ```
 receiver + '\u2063' +
 status + '\u2063'
@@ -920,7 +920,7 @@ The base64 representation of a data signature
 
 <tr>
 <td>
-<b>parents</b>
+parents<br>(<i>optional</i>)
 </td>
 <td>
 array
@@ -929,7 +929,7 @@ array
 
 The list of Transmission Result before this Transmission Request for the given Seed.
 
-Type of **each element in the array**:
+**Array of**:
 
 <details>
 <summary>Object details</summary>
@@ -1001,7 +1001,7 @@ array of object
 </td>
 <td>
 
-Type of **each element in the array**:
+**Array of**:
 
 <details>
 <summary>Object details</summary>

@@ -2,7 +2,7 @@
 
 # List of identifiers
 
-Type of **each element in the array**:
+**Array of**:
 
 A pseudonymous identifier generated for a web user
 
