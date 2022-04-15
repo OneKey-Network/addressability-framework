@@ -4,6 +4,7 @@
     "description": "A response in an custom communication for acknowledging the use (or not) of PAF data between two Contracting Parties for many Addressable Contents",
     "$id": "transmission-response-standalone",
     "type": "object",
+    "additionalProperties": false,
     "transmissions": {
         "type": "array",
         "items": {

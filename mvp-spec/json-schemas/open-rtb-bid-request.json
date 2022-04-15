@@ -2,20 +2,24 @@
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "title": "OpenRTB Bid Request with a Transmission Request",
     "description": "An Open RTB Bid Request according to the 2.5 OpenRTB specification. OpenRTB specifies fields unused for the integration of the Transmission Request. Therefore, they are omitted on purpose here.",
-    "$id": "openrtb-bid-request",
+    "$id": "open-rtb-bid-request",
     "type": "object",
+    "additionalProperties": false,
     "properties": {
         "imp": {
             "type": "array",
             "items": {
                 "type": "object",
+                "additionalProperties": false,
                 "properties": {
                     "ext": {
                         "type": "object",
+                        "additionalProperties": false,
                         "description": "Placeholder for exchange-specific extensions to OpenRTB.",
                         "properties": {
                             "paf": {
                                 "type": "object",
+                                "additionalProperties": false,
                                 "description": "Dedicated object for PAF as an extension.",
                                 "properties": {
                                     "transaction-id": {
@@ -40,16 +44,19 @@
         },
         "user": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
                 "ext": {
                     "type": "object",
+                    "additionalProperties": false,
                     "description": "Placeholder for exchange-specific extensions to OpenRTB.",
                     "properties": {
                         "eids": {
                             "type": "array",
                             "items": {
                                 "description": "A list of Extended Identifiers containing one element for PAF data",
-                                "type": "object",    
+                                "type": "object",
+                                "additionalProperties": false,
                                 "properties": {
                                     "source": {
                                         "type": "string",
@@ -59,7 +66,8 @@
                                         "type": "array",
                                         "items": {
                                             "description": "Array of extended ID UID objects from the given source containing one element for the Prebid ID.",
-                                            "type": "object",    
+                                            "type": "object",
+                                            "additionalProperties": false,
                                             "properties": {
                                                 "atype": {
                                                     "type": "integer",
@@ -78,6 +86,7 @@
                                     },
                                     "ext": {
                                         "type": "object",
+                                        "additionalProperties": false,
                                         "description": "Placeholder for exchange-specific extensions to OpenRTB.",
                                         "properties": {
                                             "preferences" : {
@@ -98,10 +107,12 @@
                         },
                         "paf": {
                             "type": "object",
+                            "additionalProperties": false,
                             "description": "Object dedicated to PAF",
                             "properties": {
                                 "transmission": {
                                     "type": "object",
+                                    "additionalProperties": false,
                                     "description": "Object dedicated to PAF transmission",
                                     "properties": {
                                         "version": {

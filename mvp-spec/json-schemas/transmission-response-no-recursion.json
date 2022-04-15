@@ -4,6 +4,7 @@
     "description": "",
     "$id": "transmission-response-no-recursion",
     "type": "object",
+    "additionalProperties": false,
     "properties": {
         "version": {
             "$ref": "version.json"
@@ -32,6 +33,7 @@
             "type": "array",
             "items": {
                 "type": "object",
+                "additionalProperties": false,
                 "description": "Transmission Responses of the direct suppliers."
             }
         }

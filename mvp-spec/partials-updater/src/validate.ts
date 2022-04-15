@@ -26,12 +26,12 @@ const configs : SchemaConfiguration[] = [
         schemaIdentifier: "audit-log.json"
     },
     { 
-        jsonPartial: "openrtb-request-with-transmission.json", 
-        schemaIdentifier: "openrtb-bid-request.json"
+        jsonPartial: "open-rtb-request-with-transmission.json",
+        schemaIdentifier: "open-rtb-bid-request.json"
     },
     { 
-        jsonPartial: "openrtb-response-with-transmission.json", 
-        schemaIdentifier: "openrtb-bid-response.json"
+        jsonPartial: "open-rtb-response-with-transmission.json",
+        schemaIdentifier: "open-rtb-bid-response.json"
     },
 ]
 
