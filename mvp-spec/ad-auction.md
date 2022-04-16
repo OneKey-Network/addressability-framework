@@ -6,27 +6,39 @@ This document describes the Prebid Addressability Framework (PAF) requirements r
 
 ## Overview
 
-The Prebid Addressability Framework enhances ad auctions by instantiating an Audit Log, based on the following elements:
+The Prebid Addressability Framework enhances ad auctions by instantiating an **Audit Log**, built upon the following elements:
 * **Seed**
 * **Transmission Requests**
-* **Transmission Responses**
 * **Transmission Results**
-* **Audit Log**
+* **Transmission Responses**
 
 ### Seed
 
-A Seed links together the publisher site identity, and a transaction id - one per ad slot. 
+A Seed links together the publisher site identity, and a transaction id. 
 
 ### Transmission Requests
 
-A Transmission Request links together a Seed, an array of Transmission Results (see below), and a sender identity. 
-Each time the User Id and Preferences are sent to a participant (through a bid request for instance), there must be a Transmission Request associated.
+A Transmission Request links together a Seed, a sender identity, and an array of Transmission Results (see below). 
 
-### Transmission Responses
+Each time the User Id and Preferences are sent to a participant (through a bid request for instance), a Transmission Request must be included.
 
-Transmission Responses are answers to Transmission Requests.
+### Transmission Results 
 
-A Transmission Response is mandatory only if the Receiver uses the PAF User Id and Preferences in its participation to the ad auction.
+A Transmission Result links together the receiver identity, content id, transaction id, and a status. 
+
+A Transmission Response links together a Transmission Result and children Transmission Results (see below).
+
+If a recipient of User Id and Preferences make use of this data, that recipient must send a Transmission Response to the entity that sent the User Id and Preferences.
+
+### Audit Log and Transmission Responses
+
+The Audit Log of a transaction is the audit of all its Transmissions and their associated
+User Id and Preferences. The audit is accomplished thanks to the digital signatures of the Transmissions, the
+Seed, and the User Id and Preferences.
+
+To build for the Audit Log, Transmission Requests include their "parents" which are 
+all the Transaction Requests that were necessary to create the current 
+Transmission. This structure is an array to represent a single path.
 
 To build for the Audit Log, Transmission Responses contain "children" which are all the 
 Transmission Responses that have been generated thanks to the current Transmission
@@ -36,16 +48,6 @@ respective children are also filtred out from the Transmission. This structure
 is a tree to represent the multiplicity of the suppliers.
 
 A participant in the ad auction must  wait for the reception of Transmission Reponses, or acknowledgment if PAF User Id and Prefereences were not used, to its own Transmission Requests before sending back its own Transmission Response. 
-
-### Audit Log and Transaction Results
-
-The Audit Log of a Transaction is the audit of all its Transmissions and their associated
-User Id and Preferences. The audit is accomplished thanks to the digital signatures of the Transmissions, the
-Seed and the User Id and Preferences.
-
-To build for the Audit Log, Transmission Requests include their "parents" which are 
-all the Transaction Requests that were necessary to create the current 
-Transmission. This structure is an array to represent a single path.
 
 ### Signatures
 
