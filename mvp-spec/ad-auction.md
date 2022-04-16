@@ -9,8 +9,8 @@ This document describes the Prebid Addressability Framework (PAF) requirements r
 The Prebid Addressability Framework enhances ad auctions by instantiating an **Audit Log**, built upon the following elements:
 * **Seed**
 * **Transmission Requests**
-* **Transmission Results**
 * **Transmission Responses**
+* **Transmission Results**
 
 ### Seed
 
@@ -18,36 +18,34 @@ A Seed links together the publisher site identity, and a transaction id.
 
 ### Transmission Requests
 
+Participants who send User Id and Preferences with bid requests must include a Transmission Request alongside that communication.
+
 A Transmission Request links together a Seed, a sender identity, and an array of Transmission Results (see below). 
 
-Each time the User Id and Preferences are sent to a participant (through a bid request for instance), a Transmission Request must be included.
+### Transmission Responses
+
+Participants which have made use of User Id and Preferences must send a Transmission Response alongside their bid response, to the entity that sent them the User Id and Preferences.
+
+A Transmission Response links together a receiver identity, one or several transaction id, one or several content id, and a tree of Transmission Resulsts (see below). 
 
 ### Transmission Results 
 
-A Transmission Result links together the receiver identity, content id, transaction id, and a status. 
+A Transmission Result is the acknowledgement by a participant of the reception of a Transmission Request or a Transmission Response. 
 
-A Transmission Response links together a Transmission Result and children Transmission Results (see below).
+### Audit Log chain
 
-If a recipient of User Id and Preferences make use of this data, that recipient must send a Transmission Response to the entity that sent the User Id and Preferences.
+Transmission Results are chained through the Transmission Requests and Transmission Responses.
 
-### Audit Log and Transmission Responses
+Each participant sending a Transmission Request must include their own Transmission Result in the communication (except for the participant sending the first Transmission Request), and all the Transmission Results they have received as part of the Transmission Request chain, which are referred to as "parents" Transmission Results. This structure is an array to represent a single path.
+
+Each participant sending a Transmission Response must include their own Transmission Result in the communication, and all the Transmission Results they have received as part of the Transmission Response chain, which are referred to as "children" Transmission Results. This structure is a tree to represent the multiplicity of the suppliers.
+
+A participant's content may be filtered out at some point of the bid response chain (e.g. a bid response being excluded). In that case the corresponding Transmission Results are also filter out of the list of Transmission Results. 
+In the generic case where an ad is being provided by one DSP only, the Transmission Result list of the final Transmission Response is an array.
 
 The Audit Log of a transaction is the audit of all its Transmissions and their associated
 User Id and Preferences. The audit is accomplished thanks to the digital signatures of the Transmissions, the
 Seed, and the User Id and Preferences.
-
-To build for the Audit Log, Transmission Requests include their "parents" which are 
-all the Transaction Requests that were necessary to create the current 
-Transmission. This structure is an array to represent a single path.
-
-To build for the Audit Log, Transmission Responses contain "children" which are all the 
-Transmission Responses that have been generated thanks to the current Transmission
-*and participate or can participate to the ad display*. It means that if
-an intermediary filters some potential participant, the
-respective children are also filtred out from the Transmission. This structure
-is a tree to represent the multiplicity of the suppliers.
-
-A participant in the ad auction must  wait for the reception of Transmission Reponses, or acknowledgment if PAF User Id and Prefereences were not used, to its own Transmission Requests before sending back its own Transmission Response. 
 
 ### Signatures
 
