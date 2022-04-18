@@ -81,7 +81,7 @@ sequenceDiagram
     Publisher->>User: Display the ad <br />Make Audit Log available next to the ad
 ```
 
-Example workflow including "parent" Transmission Requests and "children" Transmission Responses:
+Example workflow including "parent" and "children" Transmission Results:
 
 ```mermaid
 sequenceDiagram
@@ -89,16 +89,26 @@ sequenceDiagram
     participant Publisher
     participant SSP 1
     participant SSP 2
-    participant DSP
+    participant DSP 1
+    participant DSP 2
 
     User->>Publisher: Visit site
     Publisher->>Publisher: Generate Seed for <br /> ad slot
-    Publisher->>SSP 1: Send request<br />with Transmission Request TR1
-    SSP 1->>SSP 2: Send bid request<br />with Transmission Request TR2<br/>inc. TR1 as parent
-    SSP 2->>DSP: Send bid request<br />with Transmission Request TR3<br/>inc. TR1 and TR2 as parent
-    DSP->>SSP 2: Send bid response<br />with Transmission Response TRp1
-    SSP 2->>SSP 1: Send bid response<br />with Transmission Request TRp2<br />inc. TRp1 as children
-    SSP 1->>Publisher: Return Transmission Reponse TRp3<br />inc. TRp1 and TRp2 as children
+    Publisher->>SSP 1: Send request<br />with Transmission Request
+    SSP 1->>SSP 1: Generate<br />Transmission Result TR1
+    SSP 1->>SSP 2: Send bid request<br />with Transmission Request<br/>inc. TR1 as parent
+    SSP 2->>SSP 2: Generate<br />Transmission Result TR2
+    SSP 2->>DSP 1: Send bid request<br />with Transmission Request<br/>inc. TR1 and TR2 as parent
+    SSP 2->>DSP 2: Send bid request<br />with Transmission Request<br/>inc. TR1 and TR2 as parent
+    DSP 1->>DSP 1: Generate<br />Transmission Result TR3 
+    DSP 1->>SSP 2: Send bid response<br />with Transmission Response<br />inc. TR3 as children
+    DSP 2->>DSP 2: Generate<br />Transmission Result TR4 
+    DSP 2->>SSP 2: Send bid response<br />with Transmission Response<br />inc. TR4 as children 
+    SSP 2->>SSP 2: Generate<br />Transmission Result TR5
+    SSP 2->>SSP 1: Send bid response<br />with Transmission Response<br />inc. TR3, TR4, TR5 as children
+    SSP 1->>SSP 1: Generate<br />Transmission Result TR6
+    SSP 1->>SSP 1: Select DSP1 bid response as winning bid
+    SSP 1->>Publisher: Return Transmission Reponse<br />inc. TR3, TR5, TR6 as children<br />(TR4 has been dropped)
     Publisher->>User: Display the ad <br />Make Audit Log available next to the ad
 ```
 
