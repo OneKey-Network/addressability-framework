@@ -14,19 +14,19 @@ The Prebid Addressability Framework enhances ad auctions by instantiating an **A
 
 ### Seed
 
-A Seed links together the publisher site identity, and a transaction id. 
+A Seed links together the publisher site identity and a transaction id. 
 
 ### Transmission Requests
 
-Participants who send User Id and Preferences with bid requests must include a Transmission Request alongside that communication.
-
 A Transmission Request links together a Seed, a sender identity, and an array of Transmission Results (see below). 
+
+Participants sending User Id and Preferences with bid requests must include a Transmission Request alongside that communication.
 
 ### Transmission Responses
 
-Participants which have made use of User Id and Preferences must send a Transmission Response alongside their bid response, to the entity that sent them the User Id and Preferences.
-
 A Transmission Response links together a receiver identity, one or several transaction id, one or several content id, and a tree of Transmission Resulsts (see below). 
+
+Participants which have made use of User Id and Preferences must send a Transmission Response alongside their bid response, to the entity that sent them the User Id and Preferences.
 
 ### Transmission Results 
 
@@ -34,22 +34,21 @@ A Transmission Result is the acknowledgement by a participant of the reception o
 
 ### Audit Log chain
 
-Transmission Results are chained through the Transmission Requests and Transmission Responses.
+Transmission Results are chained through Transmission Requests and Transmission Responses.
 
-Each participant sending a Transmission Request must include their own Transmission Result in the communication (except for the participant sending the first Transmission Request), and all the Transmission Results they have received as part of the Transmission Request chain, which are referred to as "parents" Transmission Results. This structure is an array to represent a single path.
+Each participant sending a Transmission Request must include their own Transmission Result in the communication (except for the participant sending the first Transmission Request) and all the Transmission Results they have received as part of the Transmission Request chain, which are referred to as "parent" Transmission Results. This structure is an array to represent a single path.
 
-Each participant sending a Transmission Response must include their own Transmission Result in the communication, and all the Transmission Results they have received as part of the Transmission Response chain, which are referred to as "children" Transmission Results. This structure is a tree to represent the multiplicity of the suppliers.
+Each participant sending a Transmission Response must include their own Transmission Result in the communication and all the Transmission Results they have received as part of the Transmission Response chain, which are referred to as "children" Transmission Results. This structure is a tree to represent the multiplicity of the suppliers.
 
 A participant's content may be filtered out at some point of the bid response chain (e.g. a bid response being excluded). In that case the corresponding Transmission Results are also filter out of the list of Transmission Results. 
 In the generic case where an ad is being provided by one DSP only, the Transmission Result list of the final Transmission Response is an array.
 
-The Audit Log of a transaction is the audit of all its Transmissions and their associated
-User Id and Preferences. The audit is accomplished thanks to the digital signatures of the Transmissions, the
-Seed, and the User Id and Preferences.
+The Audit Log of a transaction is the list of all the Transmission Results part of the final Transmission Response and the associated
+User Id and Preferences. 
 
 ### Signatures
 
-Seeds, Transmission Requests, and Transmissions Responses are signed. Signature mechanisms are detailed in [signatures.md](signatures.md)
+Seeds, Transmission Requests, Transmission Responses, and Transmission Results are signed. Signature mechanisms are detailed in [signatures.md](signatures.md)
 
 ### Audit Log display
 
@@ -132,6 +131,10 @@ flowchart LR
     TR[Transmission Request]-- 1-1 -->TRp[Transmission Response]
 ```
 
+#### Ad auction step by step
+
+The following is a step by step of Prebid Addressability Framework integration in an ad auction.
+
 ### Step 1: Deserialize the User Id and Preferences
 
 The publisher must deserialize User Id and Preferences.
@@ -213,7 +216,7 @@ data.preferences.source.signature
 ```
 <!--partial-end-->
 
-### Step 3: Send User Id and Preferences in Transmission Requests
+### Step 3: Send User Id and Preferences with Transmission Requests
 
 Once the Seeds are generated (one per ad slot), the publisher
 shares the Seeds via Transmissions Requests with auction data to the
@@ -321,7 +324,7 @@ Here is an example that must be adapted to the existing API of the Ad Server:
 ```
 <!--partial-end-->
 
-### Step 4: Receive Transmission Responses
+### Step 4: Send Transmission Responses
 
 Whenever making use of the User Id and Preferences, the receiver of a Transmission Request must answer back with Transmission 
 Responses. Those Transmission Responses must be included and bound to the bid response.
