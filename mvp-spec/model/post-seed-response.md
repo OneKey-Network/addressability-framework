@@ -1,6 +1,6 @@
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 
-# POST /v1/seed request
+# POST /paf-proxy/v1/seed response
 
 The Seed gathers data related to the Addressable Content and sign them.
 
@@ -51,7 +51,7 @@ array
 </td>
 <td>
 
-Type of **each element in the array**:
+**Array of**:
 
 A Generated Unique Identifier dedicated to a placement and an Addressable Content
 

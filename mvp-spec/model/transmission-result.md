@@ -69,7 +69,7 @@ array of object
 </td>
 <td>
 
-Type of **each element in the array**:
+**Array of**:
 
 <details>
 <summary>Object details</summary>

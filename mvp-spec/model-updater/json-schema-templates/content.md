@@ -1,15 +1,31 @@
-{% if schema.refers_to -%}
-{% set schema=schema.refers_to_merged %}
+{% if (schema.refers_to.file in schemaTree and depth > 0) %}
+{% set recursion = true %}
+{{ schemaTree[schema.refers_to.file] }} (recursive)
+
+{% else %}
+{% set recursion = recursion or false %}
 {% endif %}
 
+{% if (recursion == false) %}
+
 {% set depth = depth or 0 %}
+{% set schemaTree = schemaTree or {} %}
+
+{% if schema.refers_to %}
+{% set schema = schema.refers_to_merged %}
+{% endif %}
+
+{% if (schema.file not in schemaTree and schemaTree[schema.refers_to.file] == Undefined) %}
+{% if schemaTree.update({schema.file: schema.keywords.get("title").literal}) %}
+{% endif %}
+{% endif %}
 
 {# Need to investigate how to handle "allOf" (inheritance)
 {% if schema.kw_all_of %}
 {% with current_node=schema.kw_all_of %}
 
 {% for node in current_node.array_items %}
-{% with schema=node, skip_headers=False, depth=depth+1 %}
+{% with schema=node, skip_headers=False, schemaTree=schemaTree.copy(), depth=depth+1 %}
 {% include "content.md" %}
 {% endwith %}
 {% endfor %}
@@ -24,9 +40,9 @@
 
 {% if schema.type_name.startswith("array") -%}
 
-Type of **each element in the array**:
+**Array of**:
 
-{% with schema=schema.array_items_def %}
+{% with schema=schema.array_items_def, schemaTree=schemaTree.copy() %}
 {% include "content.md" %}
 {% endwith %}
 
@@ -59,7 +75,7 @@ Type of **each element in the array**:
 {{ sub_property.type_name }}
 </td>
 <td>
-{% with schema=sub_property, depth=depth+1 %}
+{% with schema=sub_property, depth=depth+1, schemaTree=schemaTree.copy() %}
 {% include "content.md" %}
 {% endwith %}
 </td>
@@ -88,4 +104,5 @@ Specific value: `{{ schema.kw_const.raw | python_to_json }}`
 {% set examples = schema.examples %}
 {% if examples %}
 {% include "section_examples.md" %}
+{% endif %}
 {% endif %}

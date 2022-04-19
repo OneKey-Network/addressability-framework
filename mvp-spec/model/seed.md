@@ -51,7 +51,7 @@ array
 </td>
 <td>
 
-Type of **each element in the array**:
+**Array of**:
 
 A Generated Unique Identifier dedicated to a placement and an Addressable Content
 

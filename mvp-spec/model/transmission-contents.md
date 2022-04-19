@@ -2,7 +2,7 @@
 
 # Transmission Contents
 
-Type of **each element in the array**:
+**Array of**:
 
 <table>
 

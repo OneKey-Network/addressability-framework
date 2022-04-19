@@ -126,7 +126,7 @@ array of object
 
 List of public keys the contracting party used or is using for signing data and messages
 
-Type of **each element in the array**:
+**Array of**:
 
 <details>
 <summary>Object details</summary>

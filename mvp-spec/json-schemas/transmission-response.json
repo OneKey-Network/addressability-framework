@@ -28,7 +28,7 @@
         "children": {
             "type": "array",
             "items": {
-                "$ref": "transmission-response-no-recursion.json"
+                "$ref": "transmission-response.json"
             }
         }
     },
