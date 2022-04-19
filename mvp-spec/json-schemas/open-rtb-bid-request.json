@@ -17,23 +17,33 @@
                         "additionalProperties": false,
                         "description": "Placeholder for exchange-specific extensions to OpenRTB.",
                         "properties": {
-                            "paf": {
+                            "data": {
                                 "type": "object",
                                 "additionalProperties": false,
-                                "description": "Dedicated object for PAF as an extension.",
+                                "description": "Ext field accessible for PrebidJS RTD",
                                 "properties": {
-                                    "transaction-id": {
-                                        "description": "The GUID associated to the Addressable Content (a.k.a impression)",
-                                        "$ref": "transaction_id.json"
+                                    "paf": {
+                                        "type": "object",
+                                        "additionalProperties": false,
+                                        "description": "Dedicated object for PAF as an extension.",
+                                        "properties": {
+                                            "transaction-id": {
+                                                "description": "The GUID associated to the Addressable Content (a.k.a impression)",
+                                                "$ref": "transaction_id.json"
+                                            }
+                                        },
+                                        "required": [
+                                            "transaction-id"
+                                        ]
                                     }
                                 },
                                 "required": [
-                                    "transaction-id"
+                                    "paf"
                                 ]
                             }
                         },
                         "required": [
-                            "paf"
+                            "data"
                         ]
                     }
                 },
