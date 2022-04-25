@@ -102,7 +102,7 @@ Dedicated object for PAF as an extension.
 
 <tr>
 <td>
-<b>transaction-id</b>
+<b>transaction_id</b>
 </td>
 <td>
 string

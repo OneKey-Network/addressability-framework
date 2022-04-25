@@ -27,13 +27,13 @@
                                         "additionalProperties": false,
                                         "description": "Dedicated object for PAF as an extension.",
                                         "properties": {
-                                            "transaction-id": {
+                                            "transaction_id": {
                                                 "description": "The GUID associated to the Addressable Content (a.k.a impression)",
                                                 "$ref": "transaction_id.json"
                                             }
                                         },
                                         "required": [
-                                            "transaction-id"
+                                            "transaction_id"
                                         ]
                                     }
                                 },

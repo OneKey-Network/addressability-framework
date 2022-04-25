@@ -422,7 +422,7 @@ of this new object in the "ext" object is "paf".
             "ext": {
                 "data": {
                     "paf": {
-                        "transaction-id": "4640dc9f-385f-4e02-a0e5-abbf241af94d"
+                        "transaction_id": "4640dc9f-385f-4e02-a0e5-abbf241af94d"
                     }
                 }
             }
