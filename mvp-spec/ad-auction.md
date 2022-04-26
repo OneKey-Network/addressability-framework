@@ -14,7 +14,7 @@ The Prebid Addressability Framework enhances ad auctions by instantiating an **A
 
 ### Seed
 
-A Seed links together the publisher site identity and a transaction id. 
+A Seed links together the publisher site identity and one to many transaction id. 
 
 ### Transmission Requests
 
@@ -24,7 +24,7 @@ Participants sending User Id and Preferences with bid requests must include a Tr
 
 ### Transmission Responses
 
-A Transmission Response links together a receiver identity, one or several transaction id, one or several content id, and a tree of Transmission Resulsts (see below). 
+A Transmission Response links together a receiver identity, one to many transaction id, associated to zero to many content id, and a tree of Transmission Results (see below). 
 
 Participants which have made use of User Id and Preferences must send a Transmission Response alongside their bid response, to the entity that sent them the User Id and Preferences.
 
