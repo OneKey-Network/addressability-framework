@@ -14,7 +14,11 @@ The Prebid Addressability Framework enhances ad auctions by instantiating an **A
 
 ### Seed
 
-A Seed is a unique identifier, linking together the publisher site identity and one to many transaction id. 
+A Seed is data that expresses the commitment of the publisher to respect the User Id and Preferences of the user for a set of ad placements on a page. 
+
+A Seed is a unique identifier and links together:
+- the publisher identity
+- a set of Transaction id (one for each ad placement)
 
 ### Transmission Requests
 
