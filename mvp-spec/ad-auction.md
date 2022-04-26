@@ -14,17 +14,28 @@ The Prebid Addressability Framework enhances ad auctions by instantiating an **A
 
 ### Seed
 
-A Seed links together the publisher site identity and one to many transaction id. 
+A Seed is a unique identifier, linking together the publisher site identity and one to many transaction id. 
 
 ### Transmission Requests
 
-A Transmission Request links together a Seed, a sender identity, and an array of Transmission Results (see below). 
+A Transmission Request is a request sent by a participant sharing the User Id and Preferences to another participant, for this receiver to commit to respect the preferences of the user.
+
+A Transmission Request links together:
+- a Seed 
+- a sender identity 
+- an array of Transmission Results (see below)
 
 Participants sending User Id and Preferences with bid requests must include a Transmission Request alongside that communication.
 
 ### Transmission Responses
 
-A Transmission Response links together a receiver identity, one to many transaction id, associated to zero to many content id, and a tree of Transmission Results (see below). 
+A Transmission Response is a response of a receiver to a sender for User Id and Preferences. It expresses the commitment of the receiver to respect the preferences of the user.
+
+A Transmission Response links together:
+- the receiver identity 
+- the status of the Transmission
+- zero to many associations between a Transaction Id and Content Id depending if the receiver offers potential ad content itself
+- a tree of Transmission Results (see below)
 
 Participants which have made use of User Id and Preferences must send a Transmission Response alongside their bid response, to the entity that sent them the User Id and Preferences.
 
