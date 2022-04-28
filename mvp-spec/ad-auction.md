@@ -195,26 +195,9 @@ Transmission Requests must be included in the existing
 communication and bound structurally or by references to the data of the 
 impressions (also named Addressable Content). The OpenRTB case is detailed later in this document.
 
-<<<<<<< HEAD
-A Transmission Request is composed as followed:
-
-<!--partial-begin { "files": [ "transmission-request-table.md" ] } -->
-<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
-| Field  | Type                            | Details                           |
-|--------|---------------------------------|-----------------------------------|
-| version| Number                          | The PAF version used.               |
-| seed   | Seed object                     | A Seed object contains all the PAF Data gathered and signed by the Publisher concerning the user. |
-| parents| Array of Transmission Results   | A list of Transmission Results that participate to a chain of Transmissions and make this Transmission possible. |  
-| source | Source object                   | The source object contains data for identifying the Sender of the Transmission.<br /><table><tr><th>Field</th><th>Type</th><th>Details</th></tr><tr><td>domain</td><td>String</td><td>The domain of the Sender.</td></tr><tr><td>timestamp</td><td>Integer</td><td>The timestamp of the signature.</td></tr><tr><td>signature</td><td>String</td><td>Encoded signature in UTF-8 of the Tranmission sender.</td></tr></table>|
-<!--partial-end-->
-
-Similar to the Seed, each Transmission Request contains a signature for 
-audit purposes, using the same cryptographic algorithm, and based on the UTF-8 encoded string below:
-=======
 | Entity  | Format|
 |----------|-------|
 | Transmission Request  | [transmission-request.md](./model/transmission-request.md) |
->>>>>>> 87904bf (Switch to the new specification: one Seed to many Ad Slots)
 
 
 Here is a hypothetical structure of the associated User Id and Preferences, named `data` in the following example: 
@@ -295,24 +278,9 @@ Whenever making use of the User Id and Preferences, the receiver of a Transmissi
 must answer back with Transmission Responses. Those Transmission Responses must be included
 and bound to the bid response.
 
-<<<<<<< HEAD
-<!--partial-begin { "files": [ "transmission-response-table.md" ] } -->
-<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
-| Field           | Type                          | Details                           |
-|-----------------|-------------------------------|-----------------------------------|
-| version         | Number                        | The version of the PAF used.                                                                                                                                                                                                                               |
-| transaction_id  | String                        | A GUID dedicated to the Addressable Content. It allows associating the Transmission Responses to Transmission Request                                                                                                                     |
-| receiver        | String                        | The domain name of the DSP.                                                                                                                                                                                                                                                                                |
-| status          | String                        | Equals "success" if the DSP signed the Transmission and returns it to the sender.<br /> Equals "error_bad_request" if the receiver doesn't understand or see inconsistency in the Transmission Request.<br /> Equals "error_cannot_process" if the receiver cannot handle the Transmission Request properly. |
-| details         | String                        | In case of an error status, the DSP can provide details concerning the error.                                                                                                                                                                                                                              |
-| children        | Array of Transmission Results | An empty array as we consider that the DSP doesn't share the PAF Data to its suppliers via new transmissions.                                                                                                                                                                                       |
-| source          | Source object                 | The source contains all the data for identifying the DSP and verifying the Transmission.                                                                                                                                                                                                                   |
-<!--partial-end-->
-=======
 | Entity  | Format|
 |----------|-------|
 | Transmission Response  | [transmission-response.md](./model/transmission-response.md) |
->>>>>>> 87904bf (Switch to the new specification: one Seed to many Ad Slots)
 
 <details>
 <summary>Transmission Response - JSON Example</summary>
@@ -357,17 +325,6 @@ Transmission Response and the User Id and Preferences.
 |----------|-------|
 | Audit Log  | [audit-log.md](./model/audit-log.md) |
 
-<<<<<<< HEAD
-<!--partial-begin { "files": [ "audit-log-table.md" ] } -->
-<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
-| Field         | Type                         | Detail                        |
-|---------------|------------------------------|-------------------------------|
-| data          | PAF Data Object       | List the Pseudonymous-Identifiers and the Preferences of the user. |
-| seed          | Seed Object                  | The Seed object is the association of an Addressable Content to the PAF Data. |
-| transmissions | List of Transmission Results | A list of Transmission Results |
-<!--partial-end-->
-=======
->>>>>>> 87904bf (Switch to the new specification: one Seed to many Ad Slots)
 
 As described, the Audit Log contains a list of Transmission Results. The 
 Transmission Results are built thanks to the data within the received 
