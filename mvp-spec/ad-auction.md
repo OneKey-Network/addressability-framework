@@ -18,7 +18,7 @@ A Seed is data that expresses the commitment of the publisher to respect the Use
 
 A Seed is a unique identifier and links together:
 - the publisher identity
-- a set of Transaction id (one for each ad placement)
+- a set of Transaction ids (one for each ad placement)
 
 ### Transmission Requests
 
@@ -129,15 +129,15 @@ sequenceDiagram
 ### Ad slots, Seeds, and Transmissions Requests
 
 The relationships between ad slots, Seeds, and Transmissions are:
-* A Publisher offers *multiple* ad slots per page
-* The Publisher must create *one* Seed per ad slot
+* A Publisher offers *one or many* ad slots per page
+* The Publisher creates *one* Seed for many ad slots (usually in the same page)
 * The Publisher must send *one* Transmission Request per Seed and SSP
 * An SSP must generate *one* Transmission Response per Transmission Request
 
 ```mermaid
 flowchart LR   
     Page-- 1-n -->AD[Ad Slot]
-    AD[Ad Slot]-- 1-1 -->Seed 
+    AD[Ad Slot]-- n-1 -->Seed 
 ```
 
 ```mermaid
@@ -154,54 +154,28 @@ The following is a step by step of Prebid Addressability Framework integration i
 
 The publisher must deserialize User Id and Preferences.
 
-The structure of the User Id is:
-
-<!--partial-begin { "files": [ "identifier-table.md" ] } -->
-<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
-| Field   | Type          | Details                                            |
-|---------|---------------|----------------------------------------------------|
-| version | Number        | The version of PAF used.                                                                       |
-| type    | String        | The type of Pseudonymous-Identifier. For now, there is only one: "paf_browser_id".                                                    |
-| value   | String        | The Pseudonymous-Identifier value in UTF-8.                                                                                      |
-| source  | Source object | The Source contains all the data for identifying and trusting the Operator that generated the Pseudonymous-Identifier. <br /> <table><tr><th>Field</th><th>Type</th><th>Details</th></tr><tr><td>domain</td><td>String</td><td>The domain of the Operator.</td></tr><tr><td>timestamp</td><td>Integer</td><td>The timestamp of the signature.</td></tr><tr><td>signature</td><td>String</td><td>Encoded signature in UTF-8 of the Operator.</td></tr></table>|
-<!--partial-end-->
-
-The structure of the Preferences is:
-
-<!--partial-begin { "files": [ "preferences-table.md" ] } -->
-<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
-| Field   | Type                   | Details                                   |
-|---------|------------------------|-------------------------------------------|
-| version | Number                 | The PAF version used.     |
-| data    | Dictionary             | The keys are strings and represent the name of the preferences. <br /> The values represent the value of the preference. <br /> For now there is only one preference named "optin" and its value is a boolean.|
-| source  | Source object          | The source contains the data for identifying and trusting the CMP that signed lastly the Preferences.<br /> <table><tr><th>Field</th><th>Type</th><th>Details</th></tr><tr><td>domain</td><td>String</td><td>The domain of the CMP.</td></tr><tr><td>timestamp</td><td>Integer</td><td>The timestamp of the signature.</td></tr><tr><td>signature</td><td>String</td><td>Encoded signature in UTF-8 of the CMP.</td></tr></table>|
-<!--partial-end-->
+| Entity  | Format|
+|----------|-------|
+| Identifier  | [identifier.md](./model/identifier.md) |
+| Preferences | [preferences.md](./model/preferences.md) |
 
 ### Step 2: Generate the Seed
 
-The Seed is the association of the User Id and Preferences with an ad slot. The publisher must
+The Seed is the association of the User Id and Preferences with a set of ad slot. The publisher must
 generate the Seed and sign it.
 
-The composition of a Seed is:
+| Entity  | Format|
+|----------|-------|
+| Seed  | [seed.md](./model/seed.md) |
 
-<!--partial-begin { "files": [ "seed-optimized-table.md" ] } -->
-<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
-| Field                  | Type                                     | Details  |
-|------------------------|------------------------------------------|----------|
-| version                | Number                                   | The PAF version used.|
-| transaction_id         | String                                   | A GUID in a String format dedicated to the share of the PAF data for one Addressable Content.|
-| publisher              | String                                   | The domain name of the Publisher that displays the Addressable Content|
-| source                 | Source object                            | The source contains data for identifying and trusting the Publisher.<br /><table><tr><th>Field</th><th>Type</th><th>Details</th></tr><tr><td>domain</td><td>String</td><td>The domain of the Root Party (Publisher in most of the cases).</td></tr><tr><td>timestamp</td><td>Integer</td><td>The timestamp of the signature.</td></tr><tr><td>signature</td><td>String</td><td>Encoded signature in UTF-8 of the Root Party/Publisher.</td></tr></table>|
-<!--partial-end-->
-
-Here is a JSON example of the Seed:
-
-<!--partial-begin { "files": [ "seed-optimized.json" ], "block": "json" } -->
+<details>
+<summary>Seed - JSON Example</summary>
+<!--partial-begin { "files": [ "seed.json" ], "block": "json" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```json
 {
     "version": "0.1",
-    "transaction_id": "a0651946-0f5b-482b-8cfc-eab3644d2743",
+    "transaction_ids": [ "a0651946-0f5b-482b-8cfc-eab3644d2743" ],
     "publisher": "publisher.com",
     "source": {
         "domain": "adserver-company.com",
@@ -211,35 +185,17 @@ Here is a JSON example of the Seed:
 }
 ```
 <!--partial-end-->
-
-The publisher must sign the Seeds ("source"."signature").
-
-Here is how to build the UTF-8 string for then generating the signature:
-
-<!--partial-begin { "files": [ "seed-signature-string.txt" ], "block": "" } -->
-<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
-```
-seed.source.domain + '\u2063' + 
-seed.source.timestamp + '\u2063' + 
-seed.transaction_id + '\u2063' + 
-seed.publisher + '\u2063' + 
-data.identifiers[0].source.signature + '\u2063' +
-data.identifiers[1].source.signature + '\u2063' +
-... + '\u2063' + 
-data.identifiers[n].source.signature + '\u2063' +
-data.preferences.source.signature
-```
-<!--partial-end-->
+</details>
 
 ### Step 3: Send User Id and Preferences with Transmission Requests
 
-Once the Seeds are generated (one per ad slot), the publisher
-shares the Seeds via Transmissions Requests with auction data to the
-SSP. 
+Once the Seed is generated, the publisher shares the Seed via
+Transmissions Requests with auction data to the SSP. 
 Transmission Requests must be included in the existing
 communication and bound structurally or by references to the data of the 
 impressions (also named Addressable Content). The OpenRTB case is detailed later in this document.
 
+<<<<<<< HEAD
 A Transmission Request is composed as followed:
 
 <!--partial-begin { "files": [ "transmission-request-table.md" ] } -->
@@ -254,33 +210,26 @@ A Transmission Request is composed as followed:
 
 Similar to the Seed, each Transmission Request contains a signature for 
 audit purposes, using the same cryptographic algorithm, and based on the UTF-8 encoded string below:
+=======
+| Entity  | Format|
+|----------|-------|
+| Transmission Request  | [transmission-request.md](./model/transmission-request.md) |
+>>>>>>> 87904bf (Switch to the new specification: one Seed to many Ad Slots)
 
-<!--partial-begin { "files": [ "transmission-request-signature-string.txt" ], "block": "" } -->
-<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
-```
-transmission_request_receiver_domain        + '\u2063' +
-transmission_request.source.domain          + '\u2063' + 
-transmission_request.source.timestamp       + '\u2063' + 
-seed.source.signature
-```
-<!--partial-end-->
 
 Here is a hypothetical structure of the associated User Id and Preferences, named `data` in the following example: 
 
-<!--partial-begin { "files": [ "data-id-and-preferences-table.md" ] } -->
-<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
-| Field                  | Type                                     | Details  |
-|------------------------|------------------------------------------|----------|
-| preferences            | Preferences object                       | The Preferences of the user.|
-| identifiers            | Array of Pseudonymous-Identifier objects | The Pseudonymous-Identifiers of the user. For now, it only contains a Prebid ID.|
-<!--partial-end-->
+| Entity  | Format|
+|----------|-------|
+| Ids and Preferences  | [ids-and-preferences.md](./model/ids-and-preferences.md) |
 
 In the communication, the Transmission Requests must be associated to the 
 User Id and Preferences. Depending on the existing structure of the communication,
 it makes sense to have a shared structure for the User Id and Preferences and 
 multiple Transmissions referring to it.
 
-Here is an example that must be adapted to the existing API of the Ad Server:
+<details>
+<summary>Transmission Request - JSON Example</summary>
 
 <!--partial-begin { "files": [ "transmission-request.json" ], "block": "json" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
@@ -338,14 +287,15 @@ Here is an example that must be adapted to the existing API of the Ad Server:
 }
 ```
 <!--partial-end-->
+</details>
 
 ### Step 4: Send Transmission Responses
 
-Whenever making use of the User Id and Preferences, the receiver of a Transmission Request must answer back with Transmission 
-Responses. Those Transmission Responses must be included and bound to the bid response.
+Whenever making use of the User Id and Preferences, the receiver of a Transmission Request
+must answer back with Transmission Responses. Those Transmission Responses must be included
+and bound to the bid response.
 
-A Transmission Response is composed as followed:
-
+<<<<<<< HEAD
 <!--partial-begin { "files": [ "transmission-response-table.md" ] } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 | Field           | Type                          | Details                           |
@@ -358,9 +308,14 @@ A Transmission Response is composed as followed:
 | children        | Array of Transmission Results | An empty array as we consider that the DSP doesn't share the PAF Data to its suppliers via new transmissions.                                                                                                                                                                                       |
 | source          | Source object                 | The source contains all the data for identifying the DSP and verifying the Transmission.                                                                                                                                                                                                                   |
 <!--partial-end-->
+=======
+| Entity  | Format|
+|----------|-------|
+| Transmission Response  | [transmission-response.md](./model/transmission-response.md) |
+>>>>>>> 87904bf (Switch to the new specification: one Seed to many Ad Slots)
 
-Therefore, here is an example of Transmission Response that
-must be adapted to the existing API:
+<details>
+<summary>Transmission Response - JSON Example</summary>
 
 <!--partial-begin { "files": [ "transmission-responses.json" ], "block": "json" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
@@ -390,14 +345,19 @@ must be adapted to the existing API:
 ```
 <!--partial-end-->
 
+</details>
+
 ### Step 5: Generate the Audit Log
 
 Once the publisher has selected the DSP that will display the
 Addressable Content, it must generate the Audit Log based on the related
 Transmission Response and the User Id and Preferences.
 
-The Audit Log has the following structure:
+| Entity  | Format|
+|----------|-------|
+| Audit Log  | [audit-log.md](./model/audit-log.md) |
 
+<<<<<<< HEAD
 <!--partial-begin { "files": [ "audit-log-table.md" ] } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 | Field         | Type                         | Detail                        |
@@ -406,6 +366,8 @@ The Audit Log has the following structure:
 | seed          | Seed Object                  | The Seed object is the association of an Addressable Content to the PAF Data. |
 | transmissions | List of Transmission Results | A list of Transmission Results |
 <!--partial-end-->
+=======
+>>>>>>> 87904bf (Switch to the new specification: one Seed to many Ad Slots)
 
 As described, the Audit Log contains a list of Transmission Results. The 
 Transmission Results are built thanks to the data within the received 
@@ -413,17 +375,13 @@ Transmission Response that are part of chain of participants leading to the ad d
 data are the status and the signature of the Transmission Response and its 
 children.
 
-Here is the structure of a Transmission Result:
-<!--partial-begin { "files": [ "transmission-result-table.md" ] } -->
-<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
-| Field           | Type                          | Details                           |
-|-----------------|-------------------------------|-----------------------------------|
-| version         | Number                        | The version of the PAF used.                                                                                                                                                                                                                               |
-| receiver        | String                        | The domain name of the DSP.                                                                                                                                                                                                                                                                                |
-| status          | String                        | Equals "success" if the DSP signed the Transmission and returns it to the sender.<br /> Equals "error_bad_request" if the receiver doesn't understand or see inconsistency in the Transmission Request.<br /> Equals "error_cannot_process" if the receiver failed to use the data of the Transmission Request properly. |
-| details         | String                        | In case of an error status, the DSP can provide details concerning the error.                                                                                                                                                                                                                              |
-| source          | Source object                 | The source contains all the data for identifying the DSP and verifying the Transmission.                                                                                                                                                                                                                   |
-<!--partial-end-->
+| Entity  | Format|
+|----------|-------|
+| Transmission Result (sub-element of the Audit Log)  | [transmission-result.md](./model/transmission-result.md) |
+
+
+<details>
+<summary>Transformation details to Transmission Results</summary>
 
 Let's take an example of a transformation to Transmission Results.
 Here is a Transmission Response:
@@ -520,8 +478,10 @@ Here is the associated list of Transmission Results:
 ```
 <!--partial-end-->
 
-After this transformation, it is possible to generate the Audit Log. Here is
-an example:
+</details>
+
+<details>
+<summary>Audit Log - JSON Example</summary>
 
 <!--partial-begin { "files": [ "audit-log.json" ], "block": "json" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
@@ -621,6 +581,7 @@ an example:
 }
 ```
 <!--partial-end-->
+</details>
 
 ### Step 6: Display the ad and make the Audit Log available
 
@@ -639,7 +600,7 @@ extensions of the bid request:
 
 First, The Transmission Request object in an OpenRTB request keeps the same structure.
 It is embedded in the `ext` field of each impression. It is 
-reachable at `imp`.`ext`.`paf`.
+reachable at `imp`.`ext`.`data`.`paf`.
 
 Second, the Pseudonymous-Identifiers and the Preferences structures change 
 in the OpenRTB request to take the advantage of the 
@@ -654,7 +615,12 @@ for nom.
 3. The `version`, `type`, and `source` fields are gathered in an extension of the `eid`: `eids`.`ext`.`paf`.
 4. The Preferences are attached as an extention of the `eid`.
 
-#### Example of a OpenRTB Bid Request
+| Entity  | Format|
+|----------|-------|
+| OpenRTB Bid Request with PAF  | [openrtb-bid-request.md](./model/openrtb-bid-request.md) |
+
+<details>
+<summary>OpenRTB Bid Request - JSON Example</summary>
 
 <!--partial-begin { "files": [ "open-rtb-request-with-transmission.json" ], "block": "json" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
@@ -765,6 +731,7 @@ for nom.
 }
 ```
 <!--partial-end-->
+</details>
 
 #### The OpenRTB Bid Response
 
@@ -773,7 +740,12 @@ OpenRTB Bid Response. Each `bid` is associated with a Transaction Response. The
 Transaction has the same structure as explained in **Step 4** and is reachable in
 the `ext` field of a `bid` (full path: `seatbid[].bid.ext.paf`).
 
-Here is an example:
+| Entity  | Format|
+|----------|-------|
+| OpenRTB Bid Response with PAF  | [openrtb-bid-response.md](./model/openrtb-bid-response.md) |
+
+<details>
+<summary>OpenRTB Bid Response - JSON Example</summary>
 
 <!--partial-begin { "files": [ "open-rtb-response-with-transmission.json" ], "block": "json" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
@@ -830,3 +802,4 @@ Here is an example:
 }
 ```
 <!--partial-end-->
+</details>
