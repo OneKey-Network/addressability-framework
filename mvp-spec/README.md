@@ -10,12 +10,11 @@ This directory contains technical specifications for a minimum viable product (M
 flowchart LR
     
     O(PAF Operator)
-    click O href "#operator" "Operator API"
     
     Participant("Participant website")
     
-    Participant -->|read User Id & Preferences| O
-    click Participant href "#publisher" "Participant"
+    Participant -->|set User Id & Preferences| O
+    O -->|read User Id & Preferences| Participant
     
     Participant -- send Transmission Request --> SSP
     SSP -- send Transmission Request --> DSP
@@ -26,49 +25,62 @@ flowchart LR
     click DSP href "#dsp-demand-side-platform" "DSP"
 ```
 
-Framework-specific terms, with first letters in uppercase, are defined in the [glossary](workflows.md#glossary).
-
 PAF supports the following features:
 - User Id and Preferences management, based on mandatory user consent
 - an Audit Log, listing all entities that have been involved in an ad display
 
-To deliver these features, PAF integrates in the existing digital marketing landscape and introduces a new actor: the "Operator".
+To deliver these features, PAF integrates in the existing digital marketing landscape and introduces a new actor: the Operator.
+
+## Glossary
+
+Framework-specific terms, with first letters in uppercase, are defined in this glossary.
+
+**Audit Log** means a log identifying all participants (Publisher, SSP, DSP) part of a chain leading to an ad display.
+
+**PAF** is short for Prebid Addressability Framework
+
+**Operator** means the entity responsible for creating, updating, deleting and controlling access to the User Id and Preferences.
+
+**Root Party** means the entity initiating the originating Transmission in a particular chain of Transmissions.
+
+**Transmission Request** and **Transmission Response** are signed statements that must be attached to the communication of User Id and Preferences between two entities (typically done through bid requests and bid responses).
+
+**Transmission Result** means the final statement of a Transmissions that is used in an Audit Log
+
+**User Id and Preferences** means a set of user pseudonymous identifiers and preferences managed within the Prebid Addressability Framework.
+
+**Vendor** means an entity, different from the Publisher, participating to the generation of an ad display.
 
 ## Workflows
 
-Workflows are presented in [workflows](workflows.md).
+The Prebid Addressability Framework supports:
+- User Id and Preferences management
+- extension of ad auction mechanisms with signed Transmissions
+- display of an Audit Log to the user upon request 
 
-## Nodes
 
-### Operator
+### User Id and Prefrences management
 
-The operator is responsible for:
-- generating unique user ids
-- storing these ids and their associated preferences
+The User Id and Preferences management involves:
+- The Operator
+- The advertiser or publisher web site
 
-See [operator-api.md](operator-api.md)  for details.
+See [workflows](workflows.md), [operator-api.md](operator-api.md), and [operator-client.md](operator-client.md). 
 
-### Participant 
+### Ad auction
 
-PAF participants are responsible for the creation of the Audit Log, based on Transmission Requests and Transmission Responses.
+Prebid Addressability Framework integration with an ad auction involves:
+- The seller site
+- SSP and DSP
 
-#### Website
+See [ad-auction](ad-auction.md).
 
-A participant website is usually either an advertiser or publisher website. It can:
-- Call the Operator to read the user id and preferences
-- Sell ad placements to other PAF participants. To do so it must create and sign a Seed and initialize an RTB transaction sent to an SSP.
+### Audit Log display
 
-See [operator-client.md](operator-client.md) and [publishers-requirements.md](publishers-requirements.md).
+Audit Log display involves:
+- The seller site
 
-#### SSP (Supply Side Platform)
-
-The SSP shares PAF Data to DSPs via Transmission Requests. Depending of the context, it can generate the Seed and emit the first Transmission or receive the Seed from a previous Transmission Request.
-
-#### DSP (Demand Side Platform)
-
-DSP receive Transmission Requests and send back Transmission Responses to the SSP.
-
-See [dsp-implementation.md](dsp-implementation.md).
+See [audit-log-design.md](audit-log-design.md) and [audit-log-requirements.md](audit-log-requirements.md).
 
 ### See also
 
@@ -82,7 +94,7 @@ See [dsp-implementation.md](dsp-implementation.md).
 | [signatures.md](signatures.md)                                             | General introduction on signatures and signature verification                                       |
 | [audit-log-requirements.md](audit-log-requirements.md)                     | Functional requirements related to the Audit Log and the Transmissions.                             |
 | [audit-log-design.md](audit-log-design.md)                                 | Design the technical solution for the Audit Log.                                                    |
-| [publishers-requirements.md](publishers-requirements.md)               | Details PAF implementation from a publisher's standpoint.                                                         |
+| [ad-auction](ad-auction.md)               | Details PAF integration in an ad auction.                                                         |
 | [dsp-implementation.md](dsp-implementation.md)                             | Data exchange specification, from the point of view of a DSP implementer.                           |
 | [operator-api.md](operator-api.md)                                         | Operator API specification                                                                          |
 | [operator-design.md](operator-design.md)                                   | Design of the generation of PAF Data.                                                        |

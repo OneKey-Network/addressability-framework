@@ -1,4 +1,5 @@
 import Ajv, { ErrorObject } from "ajv";
+import { config } from "process";
 import { listJsonPartials, listJsonSchemas, loadJsonSchema, loadPartial } from "./files";
 
 interface SchemaConfiguration {
@@ -33,6 +34,10 @@ const configs : SchemaConfiguration[] = [
         jsonPartial: "open-rtb-response-with-transmission.json",
         schemaIdentifier: "open-rtb-bid-response.json"
     },
+    { 
+        jsonPartial: "seed.json", 
+        schemaIdentifier: "seed.json"
+    },
 ]
 
 export async function validateJsonFormats() {
@@ -54,6 +59,9 @@ export async function validateJsonSchemas() {
     const logs = unvalids.map(u => `Unvalid json "${u.config.jsonPartial}" for schema "${u.config.schemaIdentifier}": ${JSON.stringify(u.errors)}`)
     for (const log of logs) {
         console.error(log)
+    }
+    if (logs.length == 0) {
+        console.log(`Partials validated against schemas:\n- ${configs.map(c => c.jsonPartial).join('\n- ')}.`)
     }
 }
 
