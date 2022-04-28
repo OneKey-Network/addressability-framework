@@ -58,6 +58,28 @@ Placeholder for exchange-specific extensions to OpenRTB.
 
 <tr>
 <td>
+<b>data</b>
+</td>
+<td>
+object
+</td>
+<td>
+
+Ext field accessible for PrebidJS RTD
+
+<details>
+<summary>Object details</summary>
+
+<table>
+
+<tr>
+    <th> Property </th>
+    <th> Type </th>
+    <th> Description </th>
+</tr>
+
+<tr>
+<td>
 <b>paf</b>
 </td>
 <td>
@@ -80,7 +102,7 @@ Dedicated object for PAF as an extension.
 
 <tr>
 <td>
-<b>transaction-id</b>
+<b>transaction_id</b>
 </td>
 <td>
 string
@@ -94,6 +116,13 @@ The GUID associated to the Addressable Content (a.k.a impression)
 ```json
 "b0cffcd0-177e-46d5-8bcd-32ed52a414dc"
 ```
+
+</td>
+</tr>
+
+</table>
+
+</details>
 
 </td>
 </tr>
