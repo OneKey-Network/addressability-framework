@@ -19,14 +19,12 @@ In order to integrate PAF, a Website needs:
 ## Roles
 
 
-```markdown
 | **Role<br>**    	| **Description<br>**                                                                                                                                                                                                                                       	|
 |-----------------	|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------	|
 | Website Owner   	| Self explanatory                                                                                                                                                                                                                                          	|
 | CMP             	| Consent Management Platform<br>Provides the UX to let users express their data processing preferences<br>Example partners: Sourcepoint, OneTrust, Quantcast …                                                                                             	|
 | PAF Client Node 	| Provides key PAF functions for the Website Owners:<br>Key Management and Identity Endpoint<br>Sign communications with the PAF Operator (acts as an operator proxy)<br>Generate Seeds to initiate PAF Transactions<br>Collate the Audit Log for each Ads  	|
 | PAF Operator    	| Manages the storage and synchronization of ids and Preferences across the PAF network.    
-```
 
 The Website Owner and PAF Operator roles need to be filled by separate entities.
 
@@ -40,12 +38,9 @@ No CMP currently supports PAF, we’ll have to get yours onboard.
 
 ### PAF Client Node Partners
 
-
-```markdown
 | **Vendor<br>** 	| **IP or Domain Name<br>**                                	| **Comments<br>**                                                                             	|
 |----------------	|----------------------------------------------------------	|----------------------------------------------------------------------------------------------	|
 | Criteo         	| Sub  domain of the client, paf.website.com for instance. 	| We will need to sync with the client so that they accept the client node domain in their DNS 	|
-```
 
 Alternatives:
 
@@ -59,12 +54,11 @@ Alternatives:
 ### PAF Operator Partners
 
 
-```markdown
 | **Vendor<br>** 	| **Domain<br>**      	| **Comments<br>** 	|
 |----------------	|---------------------	|------------------	|
 | Criteo         	| crto.onekey.network 	|                  	|
 | IPONWEB        	| TBD                 	| Coming in Q2     	|
-```
+
 
 ## Incorporating the Model Terms
 
@@ -193,7 +187,7 @@ The underlined words must be a link to open the CMP dialog for the user to edit 
 
 #### Initial PAF id & preferences retrieval
 
-Before prompting the user for their PAF preferences, the CMP MUST check whether the user has already defined PAF preferences. See [Retrieving and Refreshing Id and Preferences](https://criteo.atlassian.net/wiki/spaces/USRF/pages/1725270776/PAF+Integration+Guide+OneKey+but+many+locks#Retrieving-and-Refreshing-Id-and-Preferences "#Retrieving-and-Refreshing-Id-and-Preferences") for how to do this.
+Before prompting the user for their PAF preferences, the CMP MUST check whether the user has already defined PAF preferences. See [Retrieving and refreshing id and preferences](#retrieving-and-refreshing-id-and-preferences) for how to do this.
 
 #### Prompting the user
 
@@ -265,7 +259,7 @@ This last option can simply be a “close button”, or be the option that resul
 
 ##### Change notification
 
-If the user selected one of the options to participate in PAF, the CMP must confirm by displaying the change notification (see [Change Notifications](https://criteo.atlassian.net/wiki/spaces/USRF/pages/1725270776/PAF+Integration+Guide+OneKey+but+many+locks#Change-notifications "#Change-notifications") above)
+If the user selected one of the options to participate in PAF, the CMP must confirm by displaying the change notification (see [Change Notifications](#change-notifications) above)
 
 ### Editing Preferences
 
@@ -283,7 +277,7 @@ The CMP can then use `getNewId` to get a new one, as for the initial prompt.
 
 The new id and preferences can then be stored using `updateIdsAndPreferences`.
 
-The CMP must also notify the user when the change is made (see [Change Notifications](https://criteo.atlassian.net/wiki/spaces/USRF/pages/1725270776/PAF+Integration+Guide+OneKey+but+many+locks#Change-notifications "#Change-notifications") above).
+The CMP must also notify the user when the change is made (see  [Change Notifications](#change-notifications) above).
 
 If the user chose to stop participating in PAF, the CMP must delete the ids and preferences:
 
@@ -380,10 +374,10 @@ The PAF client node is currently hosted by Criteo, but could be hosted by someon
     
     -   Configure **the server** to accept connections on the vhost of the subdomain the Website Owner allocated (e.g. `paf.example-website.com`)
         
-        -   ![:warning:](https://pf-emoji-service--cdn.us-east-1.prod.public.atl-paas.net/atlassian/warning_64.png) the TLD+1 must be the same as the Website (ex: `www.example-website.com` and `some-sub-site.example-website.com` must use a PAF with domain `.example-website.com`)
+        -   ⚠️ the TLD+1 must be the same as the Website (ex: `www.example-website.com` and `some-sub-site.example-website.com` must use a PAF with domain `.example-website.com`)
             
  **Configure** this new client. For example, using [the NodeJS implementation](https://github.com/prebid/paf-mvp-implementation/tree/main/paf-mvp-operator-client-express "https://github.com/prebid/paf-mvp-implementation/tree/main/paf-mvp-operator-client-express"):
-
+```javascript
        // This is just an example of a basic client node configuration
     addClientNodeEndpoints(
       express(),
@@ -419,10 +413,7 @@ The PAF client node is currently hosted by Criteo, but could be hosted by someon
       // The PAF operator host
       'example.onekey.network'
     );
-
-
-
-
+```
 
 
 ## PAF Operator Tasks
@@ -447,8 +438,8 @@ A PAF operator must implement the Operator API defined in [https://github.com/pr
 A NodeJS implementation is available at [https://github.com/prebid/paf-mvp-implementation/tree/main/paf-mvp-operator-express](https://github.com/prebid/paf-mvp-implementation/tree/main/paf-mvp-operator-express)
 
 For example:
-
-    ``// This is just an example of a basic operator node configuration
+```javascript
+    // This is just an example of a basic operator node configuration
     addOperatorApi(
       express(),
       // Identity information: mandatory for any PAF interaction
@@ -484,7 +475,8 @@ For example:
         'paf.example-websiteB.com': [Permission.READ, Permission.WRITE],
         'paf.example-websiteC.com': [Permission.READ, Permission.WRITE]
       }
-    );``
+    );
+```
 
 #### Authorize a new PAF client
 
@@ -636,7 +628,7 @@ Make sure prebid.js is wired with Google Publisher Tag in a way that ensures tha
             
     -   Define the **end date** of the current private / public keys pair,
         
--   ![:warning:](https://pf-emoji-service--cdn.us-east-1.prod.public.atl-paas.net/atlassian/warning_64.png) the TLD+1 must be the same as the Website (ex: `www.example-website.com` and `some-sub-site.example-website.com` must use a PAF with domain `.example-website.com`), so you need to add the client node to your DNS
+-   ⚠️ the TLD+1 must be the same as the Website (ex: `www.example-website.com` and `some-sub-site.example-website.com` must use a PAF with domain `.example-website.com`), so you need to add the client node to your DNS
     
 
 ## PAF Client Node Tasks
