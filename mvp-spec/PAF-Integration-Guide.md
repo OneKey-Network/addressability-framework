@@ -382,13 +382,9 @@ The PAF client node is currently hosted by Criteo, but could be hosted by someon
         
         -   ![:warning:](https://pf-emoji-service--cdn.us-east-1.prod.public.atl-paas.net/atlassian/warning_64.png) the TLD+1 must be the same as the Website (ex: `www.example-website.com` and `some-sub-site.example-website.com` must use a PAF with domain `.example-website.com`)
             
-    -   **Configure** this new client. For example, using [the NodeJS implementation](https://github.com/prebid/paf-mvp-implementation/tree/main/paf-mvp-operator-client-express "https://github.com/prebid/paf-mvp-implementation/tree/main/paf-mvp-operator-client-express"):
-        
-  
+ **Configure** this new client. For example, using [the NodeJS implementation](https://github.com/prebid/paf-mvp-implementation/tree/main/paf-mvp-operator-client-express "https://github.com/prebid/paf-mvp-implementation/tree/main/paf-mvp-operator-client-express"):
 
-   
-
-     // This is just an example of a basic client node configuration
+       // This is just an example of a basic client node configuration
     addClientNodeEndpoints(
       express(),
       // Identity information: mandatory for any PAF interaction
@@ -426,6 +422,9 @@ The PAF client node is currently hosted by Criteo, but could be hosted by someon
 
 
 
+
+
+
 ## PAF Operator Tasks
 
 For a new **PAF client node** to be authorized by an operator, the **operator** configuration must be updated.
@@ -449,43 +448,43 @@ A NodeJS implementation is available at [https://github.com/prebid/paf-mvp-imple
 
 For example:
 
-``// This is just an example of a basic operator node configuration
-addOperatorApi(
-  express(),
-  // Identity information: mandatory for any PAF interaction
-  {
-    // Name of the PAF participant
-    name: 'Example operator',
-    // Current public key
-    currentPublicKey: {
-      // Timestamps are expressed in seconds
-      startTimestampInSec: getTimeStampInSec(new Date('2022-01-01T10:50:00.000Z')),
-      endTimestampInSec: getTimeStampInSec(new Date('2022-12-31T12:00:00.000Z')),
-      publicKey: `-----BEGIN PUBLIC KEY-----
-MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEEiZIRhGxNdfG4l6LuY2Qfjyf60R0
-jmcW7W3x9wvlX4YXqJUQKR2c0lveqVDj4hwO0kTZDuNRUhgxk4irwV3fzw==
------END PUBLIC KEY-----`
-    },
-    // Email address of DPO
-    dpoEmailAddress: 'contact@example.onekey.network',
-    // URL of a privacy page
-    privacyPolicyUrl: new URL('https://example.onekey.network/privacy')
-  },
-  // The operator host name to receive requests
-  'example.onekey.network',
-  // Current private key
-  `-----BEGIN PRIVATE KEY-----
-MIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQgxK7RQm5KP1g62SQn
-oyeE+rrDPJzpZxIyCCTHDvd1TRShRANCAAQSJkhGEbE118biXou5jZB+PJ/rRHSO
-ZxbtbfH3C+VfhheolRApHZzSW96pUOPiHA7SRNkO41FSGDGTiKvBXd/P
------END PRIVATE KEY-----`,
-  // List of PAF client node host names and their corresponding permissions
-  {
-    'paf.example-websiteA.com': [Permission.READ, Permission.WRITE],
-    'paf.example-websiteB.com': [Permission.READ, Permission.WRITE],
-    'paf.example-websiteC.com': [Permission.READ, Permission.WRITE]
-  }
-);``
+    ``// This is just an example of a basic operator node configuration
+    addOperatorApi(
+      express(),
+      // Identity information: mandatory for any PAF interaction
+      {
+        // Name of the PAF participant
+        name: 'Example operator',
+        // Current public key
+        currentPublicKey: {
+          // Timestamps are expressed in seconds
+          startTimestampInSec: getTimeStampInSec(new Date('2022-01-01T10:50:00.000Z')),
+          endTimestampInSec: getTimeStampInSec(new Date('2022-12-31T12:00:00.000Z')),
+          publicKey: `-----BEGIN PUBLIC KEY-----
+    MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEEiZIRhGxNdfG4l6LuY2Qfjyf60R0
+    jmcW7W3x9wvlX4YXqJUQKR2c0lveqVDj4hwO0kTZDuNRUhgxk4irwV3fzw==
+    -----END PUBLIC KEY-----`
+        },
+        // Email address of DPO
+        dpoEmailAddress: 'contact@example.onekey.network',
+        // URL of a privacy page
+        privacyPolicyUrl: new URL('https://example.onekey.network/privacy')
+      },
+      // The operator host name to receive requests
+      'example.onekey.network',
+      // Current private key
+      `-----BEGIN PRIVATE KEY-----
+    MIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQgxK7RQm5KP1g62SQn
+    oyeE+rrDPJzpZxIyCCTHDvd1TRShRANCAAQSJkhGEbE118biXou5jZB+PJ/rRHSO
+    ZxbtbfH3C+VfhheolRApHZzSW96pUOPiHA7SRNkO41FSGDGTiKvBXd/P
+    -----END PRIVATE KEY-----`,
+      // List of PAF client node host names and their corresponding permissions
+      {
+        'paf.example-websiteA.com': [Permission.READ, Permission.WRITE],
+        'paf.example-websiteB.com': [Permission.READ, Permission.WRITE],
+        'paf.example-websiteC.com': [Permission.READ, Permission.WRITE]
+      }
+    );``
 
 #### Authorize a new PAF client
 
@@ -660,4 +659,5 @@ Not immediate: This needs to be updated but currently Criteo’s adapter and DSP
     
     1.  to use the id and preferences for personalization
         
-    2.  to allocate content-id for each ad, include them in the transmissions, and sign the transmissionsThere is a confluence bug that causes the table of content to disappear:
+    2.  to allocate content-id for each ad, include them in the transmissions, and sign the transmissions.
+
