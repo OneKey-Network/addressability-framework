@@ -606,7 +606,7 @@ To be confirmed: On May 2nd 2022 the method to make the audit log available is n
 
 Make sure prebid.js is wired with Google Publisher Tag in a way that ensures that Prebid’s AdUnitCodes matches Google Publisher Tag DivIds as shown in the screenshot below
 
-![](blob:https://criteo.atlassian.net/a50ef199-e626-45ee-a0ed-2507ea7299f0)
+![adunit_to_div_id](https://github.com/prebid/addressability-framework/blob/main/mvp-spec/assets/adunit_to_divid.png)
 
 ### Set up the client node:
 
@@ -630,10 +630,6 @@ Make sure prebid.js is wired with Google Publisher Tag in a way that ensures tha
         
 -   ⚠️ the TLD+1 must be the same as the Website (ex: `www.example-website.com` and `some-sub-site.example-website.com` must use a PAF with domain `.example-website.com`), so you need to add the client node to your DNS
     
-
-## PAF Client Node Tasks
-
-No additional tasks.
 
 ## Direct SSPs and DSPs Tasks
 
