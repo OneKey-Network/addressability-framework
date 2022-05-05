@@ -75,7 +75,7 @@ Alternatives:
 
      mkdir paf-from-source
      cd paf-from-source
-     git clone git@github.com:prebid/paf-mvp-implementation.git
+     git clone https://github.com/prebid/paf-mvp-implementation.git
      cd paf-mvp-implementation
      npm i
      npm run build-front
