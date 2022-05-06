@@ -59,13 +59,13 @@ The Prebid Addressability Framework supports:
 - display of an Audit Log to the user upon request 
 
 
-### User Id and Prefrences management
+### User Id and Preferences management
 
 The User Id and Preferences management involves:
 - The Operator
 - The advertiser or publisher web site
 
-See [workflows](workflows.md), [operator-api.md](operator-api.md), and [operator-client.md](operator-client.md). 
+See [workflows](workflows.md), [operator-api.md](operator-api.md), and [paf-client-node.md](paf-client-node.md). 
 
 ### Ad auction
 
@@ -94,13 +94,13 @@ See [audit-log-design.md](audit-log-design.md) and [audit-log-requirements.md](a
 | [signatures.md](signatures.md)                                             | General introduction on signatures and signature verification                                       |
 | [audit-log-requirements.md](audit-log-requirements.md)                     | Functional requirements related to the Audit Log and the Transmissions.                             |
 | [audit-log-design.md](audit-log-design.md)                                 | Design the technical solution for the Audit Log.                                                    |
-| [ad-auction](ad-auction.md)               | Details PAF integration in an ad auction.                                                         |
+| [ad-auction](ad-auction.md)                                                | Details PAF integration in an ad auction.                                                           |
 | [dsp-implementation.md](dsp-implementation.md)                             | Data exchange specification, from the point of view of a DSP implementer.                           |
 | [operator-api.md](operator-api.md)                                         | Operator API specification                                                                          |
-| [operator-design.md](operator-design.md)                                   | Design of the generation of PAF Data.                                                        |
+| [operator-design.md](operator-design.md)                                   | Design of the generation of PAF Data.                                                               |
 | [operator-design-alternative-swan.md](operator-design-alternative-swan.md) | Summary of the SWAN solution for generating PAF Data.                                               |
 | [operator-requirements.md](operator-requirements.md)                       | Requirements for the generation of the PAF Data.                                                    |
-| [operator-client.md](operator-client.md)                                   | Modules needed to connect to the operator                                                           |
+| [paf-client-node.md](paf-client-node.md)                                   | Website integration: frontend library, PAF client node, operator backend                            |
 | [model/](model)                                                            | Data and messages model                                                                             |
 | [json-schemas/](json-schemas)                                              | Data and messages model in [JSON schema](https://json-schema.org/understanding-json-schema/) format |
 | `assets/` `model-updater/` `partials/` `partials-updater/`                 | Technical dependencies, please ignore                                                               |
