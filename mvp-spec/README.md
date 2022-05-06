@@ -84,14 +84,14 @@ See [audit-log-design.md](audit-log-design.md) and [audit-log-requirements.md](a
 
 ### See also
 
-- Seeds, Transmissions Requests, Transmissions Responses, User Id and Preferences, and all messages sent to or from the Operator must be signed: [signatures.md](signatures.md)
+- Seeds, Transmissions Requests, Transmissions Responses, User Id and Preferences, and all messages sent to or from the Operator must be signed: [security-signatures.md](security-security-signatures.md)
 - Audit log design: [audit-log-design.md](audit-log-design.md)
 
 ## Documents
 
 | Document                                                                   | Description                                                                                         |
 |----------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------|
-| [signatures.md](signatures.md)                                             | General introduction on signatures and signature verification                                       |
+| [security-signatures.md](security-security-signatures.md)                                             | General introduction on signatures and signature verification                                       |
 | [audit-log-requirements.md](audit-log-requirements.md)                     | Functional requirements related to the Audit Log and the Transmissions.                             |
 | [audit-log-design.md](audit-log-design.md)                                 | Design the technical solution for the Audit Log.                                                    |
 | [ad-auction](ad-auction.md)                                                | Details PAF integration in an ad auction.                                                           |

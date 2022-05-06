@@ -63,7 +63,7 @@ User Id and Preferences.
 
 ### Signatures
 
-Seeds, Transmission Requests, Transmission Responses, and Transmission Results are signed. Signature mechanisms are detailed in [signatures.md](signatures.md)
+Seeds, Transmission Requests, Transmission Responses, and Transmission Results are signed. Signature mechanisms are detailed in [security-signatures.md](security-security-signatures.md)
 
 ### Audit Log display
 

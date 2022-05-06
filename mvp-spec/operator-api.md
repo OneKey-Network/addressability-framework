@@ -9,7 +9,7 @@ The operator maintains two cookies in PAF top level domain + 1:
 
 Both these cookies have a `source` attribute that contains the **signature** and some common metadata.
 
-For details on how to calculate or verify signatures, see [signatures.md](signatures.md).
+For details on how to calculate or verify signatures, see [security-signatures.md](security-security-signatures.md).
 
 An extra cookie, with a very short lifetime, can be created to test the support of 3d party cookies (see below for details)
 
@@ -157,7 +157,7 @@ The following signature verifications are optional:
   - this is not mandatory as the website controls who it calls (the operator) it can be trusted thanks to its SSL certificate
 - it is _recommended_ that any cookie written by a website is verified before writing
 
-For details on how to calculate or verify signatures, see [signatures.md](signatures.md).
+For details on how to calculate or verify signatures, see [security-signatures.md](security-security-signatures.md).
 
 #### Systematic checks
 
