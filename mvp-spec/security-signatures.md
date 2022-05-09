@@ -8,6 +8,8 @@ Concerning the operator:
    - protocol version ⚠️ not implemented yet ⚠️
    - the "sender" domain that links to the public key
    - the value of either the `origin` or the `referer` HTTP header
+     - note: it is mandatory for client websites to support the `referer` HTTP header.
+Websites that use a `Referrer-Policy` that prevent the `referer` header to be present would not work with PAF client.
    - most of the request body, including the return URL ⚠️ not implemented yet ⚠️
 - all **responses** are signed with:
    - current timestamp
@@ -68,12 +70,22 @@ Here is a list of ☢️ security threats that have been identified, and the �
 - ☢️ **illegitimate** but valid signed requests to the operator
   - 🛡 signatures are only made server-side by the PAF client node (see [AJAX Security - OWASP Cheat Sheet Series](https://cheatsheetseries.owasp.org/cheatsheets/AJAX_Security_Cheat_Sheet.html#never-transmit-secrets-to-the-client))
   - 🛡 the pairs of private / public keys rotate regularly
+  - 🛡 the PAF client node uses **CORS** to only authorize JS calls from known websites
   - 🛡 the signature includes:
     - the value of the `origin` HTTP header when building a "REST" request
     - the value of the `referer` HTTP header when building a "redirect" request
     - the same HTTP header is then read **by the operator** when verifying the request signature
     - ⚠️ not implemented yet ⚠️
-    
+
+- ☢️ **script (S2S) calls** to the PAF client node or operator:
+  calls to the PAF client node and operator rely on the `origin` or `referer` HTTP headers.
+  These headers can be "faked" when using scripts with `curl` or `wget`.
+  - 🛡 reminder: PAF data are cookies stored on the web browser. A S2S fraudulent call (= outside the web browser) to the operator is useless as **no data can be read or written**. 
+  - ☢️ S2S call to the PAF client node with fake `origin` HTTP header: the call would be accepted by the PAF client node and a valid operator request can be built.
+    - 🛡 the following call to the operator would need to have the same `origin`, or be refused. The request cannot be used outside a legitimate website.
+  - ☢️ S2S call to the operator with fake `origin` HTTP header
+    - 🛡 no impact of a S2S call to the operator 
+
 - ☢️ taking advantage of an **unsafe version** of the protocol
   - 🛡 all data and all requests are signed with the version of the protocol
     - ⚠️ not implemented yet ⚠️
