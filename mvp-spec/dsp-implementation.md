@@ -21,7 +21,7 @@ the rotations.
 
 ### Digital signature and Audit Log
 
-For details on how to calculate or verify signatures, see [signatures.md](signatures.md).
+For details on how to calculate or verify signatures, see [security-signatures.md](security-security-signatures.md).
 
 The Audit Log of a **Transaction** is the audit of all its **Transmissions** and their associated
 **PAF Data**. The audit is accomplished thanks to the digital signatures of the Transmissions, the
