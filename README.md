@@ -8,6 +8,9 @@ This github is for:
 
 This repository is intended to share this work with the Prebid community, get feedback and reviews.
 
+## PAF MVP implementation
+Another github repo contains the code for the PAF MVP. It can be found here: [PAF MVP implementation](https://github.com/prebid/paf-mvp-implementation)
+
 # Providing feedback
 
 The minimum friction way to provide feedback is to use Github's
