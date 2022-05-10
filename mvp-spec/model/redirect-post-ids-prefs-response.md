@@ -286,7 +286,7 @@ Signature based on input:
 
 **⚠️ Note that it uses data from identifiers**:
 
-This way a `preferences` object cannot be reused for another id by a fraudulous actor
+By signing both inputs together, a `preferences` object cannot be reused for another id by a fraudulent actor
 
 ```preferences.source.domain + '\u2063' +
 preferences.source.timestamp + '\u2063' +
