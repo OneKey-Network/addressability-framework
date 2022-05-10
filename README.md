@@ -1,8 +1,8 @@
 # Addressable Network Proposals
 
-At Criteo Engineering we are working on:
+This github is for:
 
-- Clarifying and documenting our understanding of the Prebid Addressability Framework (PAF) project requirements.
+- Clarifying and documenting the Prebid Addressability Framework (PAF) project requirements.
 - Drafting specification and demonstrable prototypes that answer those
 - Delivering an MVP of the necessary components
 
