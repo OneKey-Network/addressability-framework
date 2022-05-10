@@ -101,6 +101,7 @@ See [audit-log-design.md](audit-log-design.md) and [audit-log-requirements.md](a
 | [operator-design-alternative-swan.md](operator-design-alternative-swan.md) | Summary of the SWAN solution for generating PAF Data.                                               |
 | [operator-requirements.md](operator-requirements.md)                       | Requirements for the generation of the PAF Data.                                                    |
 | [paf-client-node.md](paf-client-node.md)                                   | Website integration: frontend library, PAF client node, operator backend                            |
+| [Integration Guide.md](PAF-Integration-Guide.md)                           | Guide to integrate into current PAF MVP |
 | [model/](model)                                                            | Data and messages model                                                                             |
 | [json-schemas/](json-schemas)                                              | Data and messages model in [JSON schema](https://json-schema.org/understanding-json-schema/) format |
 | `assets/` `model-updater/` `partials/` `partials-updater/`                 | Technical dependencies, please ignore                                                               |
