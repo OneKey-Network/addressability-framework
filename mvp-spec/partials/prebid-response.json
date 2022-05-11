@@ -1,0 +1,21 @@
+{
+  "content_id": "90141190-26fe-497c-acee-4d2b649c2112",
+  "transmission": {
+    "version": "0.1",
+    "contents": [
+      {
+        "transaction_id": "f55a401d-e8bb-4de1-a3d2-fa95619393e8",
+        "content_id": "90141190-26fe-497c-acee-4d2b649c2112"
+      }
+    ],
+    "status": "success",
+    "details": "",
+    "receiver": "dsp1.com",
+    "source": {
+      "domain": "dsp1.com",
+      "timestamp": 1639589531,
+      "signature": "d01c6e83f14b4f057c2a2a86d320e2454fc0c60df4645518d993b5f40019d24c"
+    },
+    "children": []
+  }
+}
