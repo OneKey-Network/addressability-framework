@@ -1,8 +1,10 @@
-# Operator client
+# PAF client node
 
-## Operator client: frontend, proxy and backend
+⚠️ TO BE UPDATED: missing documentation about **signing seeds**.
 
-An operator client is an actor that needs to interact with a PAF operator, to either:
+## Interacting with the operator: frontend, client node and backend
+
+**Websites** that need to get access to PAF data:
 
 - read user ids and preferences
 - write user preferences
@@ -10,20 +12,18 @@ An operator client is an actor that needs to interact with a PAF operator, to ei
 
 Ids and preferences are stored as **1st party cookies on the PAF top level +1 domain** (aka TLD+1).
 
-Operator clients are **websites** that need to get access to this data. As a reminder, the content of these websites
+As a reminder, the content of these websites
 is _served by a http server_ and it can then use Javascript _in the browser_.
 
-- PAF provides a "**frontend operator client**" in the form of a Javascript library, to call the operator on REST or "
-  redirect" endpoints (see [operator-api.md](operator-api.md) for details).
+- PAF provides a "**frontend library**" to call the operator on REST or "redirect" endpoints (see [operator-api.md](operator-api.md) for details).
     - But only **signed** requests can be sent to the operator and these requests are signed using a **private key**,
       which must never be sent to the browser.
 
-- Thus, PAF also provides a "**backend operator proxy**" which the frontend operator client uses to sign the requests on
+- Thus, PAF also provides a "**PAF client node**" backend component which the frontend library uses to sign the requests on
   its behalf.
-    - this proxy can be hosted by the website's owner or by a tech vendor
+    - this node can be hosted by the website's owner or by a tech vendor
 
-- Finally, clients of the PAF operators can use an optional "**backend operator client**" that will sign requests and
-  redirect to the operator if needed.
+- Finally, clients of the PAF operators can use an optional "**backend operator client**" that will trigger HTTP redirects upfront, before it would be done in JS via the frontend library. 
     - this is part of the website's http server
     - this can be interesting to trigger HTTP redirects before any web page is served
 
@@ -32,14 +32,16 @@ flowchart LR
     
     subgraph Operator client
         subgraph browser
-            frontend("frontend operator client")
+            frontend("frontend library")
         end
         
         subgraph http server
         
-            frontend -->|send unsigned requests| proxy
-            proxy("backend operator proxy")
-            proxy -.->|sign requests| proxy
+            frontend -->|get signed requests| proxy
+            frontend -->|generate seed| proxy
+            
+            proxy("PAF client node")
+            proxy -.->|sign requests, sign seeds| proxy
             
             backend("backend operator client<br>(optional)")
             backend -.->|sign requests| backend
@@ -47,20 +49,19 @@ flowchart LR
         end
     end
     
-    proxy --->|"forward (via a redirect to the browser) signed requests"| O
     backend --->|send signed requests| O
+    frontend --->|"send signed requests"| O
     
     O("(backend) PAF Operator")
     click O href "operator-api.md" "Operator API"
 ```
 
-## Backend operator proxy
+## PAF client node
 
-The "backend operator **proxy**", owned by any operator client (publisher, advertiser) and hosted by them or by a tech
-vendor, is an API called by the frontend operator client to sign and verify requests sent and received to / from the
+The **PAF client node** is an API called by the frontend library to sign and verify requests sent and received to / from the
 operator.
 
-As the name suggests, it is a proxy that transforms unsigned requests into signed ones.
+It acts as a proxy that transforms unsigned requests into signed ones.
 
 To do so, it exposes:
 
@@ -74,11 +75,11 @@ To do so, it exposes:
 | **Sign** user preferences | Sign preferences                                                                                       | Signed ids and **unsigned** preferences                                                    | Signed ids and preferences                                       | `POST /paf-proxy/v1/sign/prefs` | N/A                                         |
 | **Sign** "write" request  | Sign a "write" request so it can be sent to the operator                                               | **Unsigned** "write" message                                                               | Signed "write" request                                           | `POST /paf-proxy/v1/sign/write` | N/A                                         |
 | Write ids & prefs         | Redirect to [write](operator-api.md#write-ids-&-preferences) operator endpoint                         | Signed "write" request<br>(see [operator API](operator-api.md#write-ids-&-preferences))    | redirect to operator                                             | `POST /paf-proxy/v1/ids-prefs`  | `GET /paf-proxy/v1/redirect/post-ids-prefs` |
-| **Verify** read           | Verify the signature of response received from the operator                                            | Signed "read" **response**<br>(see [operator API](operator-api.md#read-ids-&-preferences)) | Same as input if verification succeeded, error message otherwise | `POST /paf-proxy/verify/read`   | N/A                                         |
+| **Verify** read           | Verify the response received from the operator                                                         | Signed "read" **response**<br>(see [operator API](operator-api.md#read-ids-&-preferences)) | Same as input if verification succeeded, error message otherwise | `POST /paf-proxy/verify/read`   | N/A                                         |
 
-ℹ️ An example implementation (for NodeJS) of a backend operator proxy is available in [the implementation project](https://github.com/criteo/paf-mvp-implementation/tree/main/paf-mvp-operator-client-express)
+ℹ️ An example implementation (for NodeJS) of a PAF client node is available in [the implementation project](https://github.com/criteo/paf-mvp-implementation/tree/main/paf-mvp-operator-client-express)
 
-⚠️ Note that in the following examples, the operator proxy is supposed to be hosted on the `cmp.com` domain.
+⚠️ Note that in the following examples, the PAF client node is supposed to be hosted on the `cmp.com` domain.
 
 ### Read ids & preferences
 
@@ -162,7 +163,7 @@ Host: cmp.com
   "source": {
     "domain": "cmp.com",
     "timestamp": 1642504560,
-    "signature": "QE/7TpxT5nDZH0VO2WcJLdO09IBgZ0gtTKqvQY2Ck8Afy/diGmFN71SV6KjkdAItXH3rCM97oLMewTyAccxq+w=="
+    "signature": "JYXJjM04I1WuANplc+RZgHfD7bVDhmf7kg8+kd8DLDfJKDkNp+/3ldWe0O1wFQKT9g5KxwvmF96i3pvI+Wtbvw=="
   }
 }
 ```
@@ -212,7 +213,7 @@ Host: cmp.com
     "source": {
       "domain": "cmp.com",
       "timestamp": 1642504560,
-      "signature": "QE/7TpxT5nDZH0VO2WcJLdO09IBgZ0gtTKqvQY2Ck8Afy/diGmFN71SV6KjkdAItXH3rCM97oLMewTyAccxq+w=="
+      "signature": "JYXJjM04I1WuANplc+RZgHfD7bVDhmf7kg8+kd8DLDfJKDkNp+/3ldWe0O1wFQKT9g5KxwvmF96i3pvI+Wtbvw=="
     }
   }
 }
@@ -256,14 +257,14 @@ Host: cmp.com
       "source": {
         "domain": "cmp.com",
         "timestamp": 1642504560,
-        "signature": "QE/7TpxT5nDZH0VO2WcJLdO09IBgZ0gtTKqvQY2Ck8Afy/diGmFN71SV6KjkdAItXH3rCM97oLMewTyAccxq+w=="
+        "signature": "JYXJjM04I1WuANplc+RZgHfD7bVDhmf7kg8+kd8DLDfJKDkNp+/3ldWe0O1wFQKT9g5KxwvmF96i3pvI+Wtbvw=="
       }
     }
   },
   "sender": "cmp.com",
   "receiver": "operator.paf-operation-domain.io",
   "timestamp": 1643097660,
-  "signature": "uVJjcDT8XRO7Ct5RXXJMIRG+zKDbCzJPXcQtstwBpAn0xt/xwFCSZBTZdqKjKaF3WkDJj/ypYeqBYFb4amj+bw=="
+  "signature": "PB0jUkET0EvbWgtCc7ltGUU81qvd1ypeY/UXCi2RDiP5HWbEcS34wlsqEHbhiJ5uN14fZdg+6M1/MiMUSEPE/Q=="
 }
 ```
 <!--partial-end-->
@@ -293,10 +294,18 @@ Host: cmp.com
 
 - take a read response message received from the operator, and verify it
 
-The data received by a website as part of a query string, after a "boomerang" redirect to the operator must be verified:
-- any malicious could have called the website's URL with query string data that does not originate from the operator
+The data received by a website as part of a query string, after a "boomerang" redirect to the operator must be verified
+because a malicious actor could have called the website's URL with query string data that does not originate from the operator,
+or that was meant to be sent to another website.
 
-The purpose of this proxy endpoint is to take such a message and verify that the signature is accurate (proving that the operator sent it)
+To verify a response message from the operator, this endpoint will make sure that:
+- the signature of the response is verified with the sender (the operator) public key
+- the operator domain should be the expected one
+- the receiver domain should be the one from the current client
+- the timestamp is compared to the current date and should not be out of the allowed window
+
+Only when these four checks have successfully passed, the request is considered legit.
+
 
 #### REST sign user preferences: `POST /paf-proxy/v1/verify/read`
 
@@ -335,14 +344,14 @@ The purpose of this proxy endpoint is to take such a message and verify that the
       "source": {
         "domain": "cmp.com",
         "timestamp": 1642504560,
-        "signature": "QE/7TpxT5nDZH0VO2WcJLdO09IBgZ0gtTKqvQY2Ck8Afy/diGmFN71SV6KjkdAItXH3rCM97oLMewTyAccxq+w=="
+        "signature": "JYXJjM04I1WuANplc+RZgHfD7bVDhmf7kg8+kd8DLDfJKDkNp+/3ldWe0O1wFQKT9g5KxwvmF96i3pvI+Wtbvw=="
       }
     }
   },
   "sender": "operator.paf-operation-domain.io",
   "receiver": "advertiser.com",
   "timestamp": 1643041150,
-  "signature": "57j7i9oyM3TXzPobJ1OcSorkUisHC4QYWzoXoQGUnlIJGOyun6OYNi4epM4YwmDnH9kA5wG6m3+9aQ56kKRB8w=="
+  "signature": "lDCuZbsj88K3vmicWuyZlT9DOYrujZ8l8+D7eutOW5XQOVF12CaoEaiN5VxiBi30PhrRFmIMCOkduYwKKxvLcw=="
 }
 ```
 <!--partial-end-->
@@ -384,14 +393,14 @@ Host: cmp.com
       "source": {
         "domain": "cmp.com",
         "timestamp": 1642504560,
-        "signature": "QE/7TpxT5nDZH0VO2WcJLdO09IBgZ0gtTKqvQY2Ck8Afy/diGmFN71SV6KjkdAItXH3rCM97oLMewTyAccxq+w=="
+        "signature": "JYXJjM04I1WuANplc+RZgHfD7bVDhmf7kg8+kd8DLDfJKDkNp+/3ldWe0O1wFQKT9g5KxwvmF96i3pvI+Wtbvw=="
       }
     }
   },
   "sender": "operator.paf-operation-domain.io",
   "receiver": "advertiser.com",
   "timestamp": 1643041150,
-  "signature": "57j7i9oyM3TXzPobJ1OcSorkUisHC4QYWzoXoQGUnlIJGOyun6OYNi4epM4YwmDnH9kA5wG6m3+9aQ56kKRB8w=="
+  "signature": "lDCuZbsj88K3vmicWuyZlT9DOYrujZ8l8+D7eutOW5XQOVF12CaoEaiN5VxiBi30PhrRFmIMCOkduYwKKxvLcw=="
 }
 ```
 <!--partial-end-->
@@ -409,11 +418,11 @@ Host: cmp.com
 
 </details>
 
-## Frontend operator client
+## Frontend library
 
-The "frontend operator client" is implemented via a Javascript script provided by PAF and available on [the implementation project](https://github.com/criteo/paf-mvp-implementation/tree/main/paf-mvp-frontend).
+The "frontend library" is implemented via a Javascript script provided by PAF and available on [the implementation project](https://github.com/criteo/paf-mvp-implementation/tree/main/paf-mvp-frontend).
 
-This library is a static file that can be added to any website, but requires **the host name of the operator backend proxy** as configuration input.
+This library is a static file that can be added to any website, but requires **the host name of the PAF client node** as configuration input.
 
 ## Backend operator client
 
@@ -433,7 +442,7 @@ The following diagram details the steps needed to read existing cookies from PAF
   needed
 - at browser level the **frontend operator client** (a Javascript library) is used
     - depending on the context, the JS library calls a REST or "redirect" endpoint on the operator
-    - it relies on the **backend operator proxy**, a component responsible for building operator URLs to call.
+    - it relies on the **PAF client node**, a component responsible for building operator URLs to call.
 
 ### Test support of 3rd party cookies
 
@@ -446,7 +455,7 @@ To test if third party cookies are supported and trigger redirect otherwise, the
     - based on user agent, if the browser is known to **not** support 3PC (ex: Safari) ➡️ consider no 3PC and
       immediately **javascript redirect**
 3. otherwise, attempt to call REST endpoint and read existing (3PC) Prebid ID
-    - at the same time, the operator attempts to write a "test" cookie on .prebidsso.com (ie. attempt to write a 3PC)
+    - at the same time, the operator attempts to write a "test" cookie on .onekey.network (ie. attempt to write a 3PC)
 4. if Prebid ID is retrieved, of course it means 3PC **are** supported
 5. if no Prebid ID retrieved, it means either that the user is not known, or that 3PC are not supported
     - call operator to attempt to read "test" cookie that was just written
@@ -517,7 +526,7 @@ flowchart TD
         
     end
     
-    subgraph "backend operator proxy"
+    subgraph "PAF client node"
         ClientJsRedirect[redirect read]
         ClientCallJson["read"]
         ClientCallTest3PC["test3PC"]

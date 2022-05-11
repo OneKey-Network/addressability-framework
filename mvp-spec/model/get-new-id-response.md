@@ -134,7 +134,7 @@ array
 </td>
 <td>
 
-Type of **each element in the array**:
+**Array of**:
 
 A pseudonymous identifier generated for a web user
 
@@ -240,7 +240,8 @@ object
 
 Signature based on input:
 
-```identifier.source.domain + '\u2063' + 
+```
+identifier.source.domain + '\u2063' + 
 identifier.source.timestamp + '\u2063' + 
 identifier.type + '\u2063'+
 identifier.value

@@ -14,6 +14,36 @@ An Audit Log gathers the necessary data to audit a Transaction (via Transmission
 
 <tr>
 <td>
+version<br>(<i>optional</i>)
+</td>
+<td>
+string
+</td>
+<td>
+
+A version number made of a "major" and a "minor" version numbers.
+
+To be detailed.
+
+**Examples:** 
+
+```json
+"0.1"
+```
+
+```json
+"0.407"
+```
+
+```json
+"10.0"
+```
+
+</td>
+</tr>
+
+<tr>
+<td>
 <b>data</b>
 </td>
 <td>
@@ -140,9 +170,11 @@ Signature based on input:
 
 **⚠️ Note that it uses data from identifiers**:
 
+By signing both inputs together, a `preferences` object cannot be reused for another id by a fraudulent actor
+
 ```preferences.source.domain + '\u2063' +
 preferences.source.timestamp + '\u2063' +
-identifiers[type="prebid_id"].source.signature + '\u2063' +
+identifiers[type="paf_browser_id"].source.signature + '\u2063' +
 preferences.data.key1 + '\u2063' + preferences.data[key1].value + '\u2063' +
 preferences.data.key2 + '\u2063' + preferences.data[key2].value + '\u2063' +
 ...
@@ -247,7 +279,7 @@ array
 </td>
 <td>
 
-Type of **each element in the array**:
+**Array of**:
 
 A pseudonymous identifier generated for a web user
 
@@ -353,7 +385,8 @@ object
 
 Signature based on input:
 
-```identifier.source.domain + '\u2063' + 
+```
+identifier.source.domain + '\u2063' + 
 identifier.source.timestamp + '\u2063' + 
 identifier.type + '\u2063'+
 identifier.value
@@ -509,12 +542,14 @@ To be detailed.
 
 <tr>
 <td>
-<b>transaction_id</b>
+<b>transaction_ids</b>
 </td>
 <td>
-string
+array
 </td>
 <td>
+
+**Array of**:
 
 A Generated Unique Identifier dedicated to a placement and an Addressable Content
 
@@ -556,11 +591,13 @@ object
 </td>
 <td>
 
-Signature based on input:
-```seed.source.domain + '\u2063' +
-seed.source.timestamp + '\u2063' +
-seed.transaction_id + '\u2063' +
-seed.publisher + '\u2063' +
+Signature based on input including the PAF data associated to the Seed:
+```source.domain + '\u2063' +
+source.timestamp + '\u2063' +
+transaction_ids[0] + '\u2063' +
+... + '\u2063' +
+transaction_ids[n] + '\u2063' + 
+publisher + '\u2063' +
 data.identifiers[0].source.signature + '\u2063' +
 data.identifiers[1].source.signature + '\u2063' +
 ... + '\u2063' +
@@ -659,6 +696,26 @@ The base64 representation of a data signature
 
 <tr>
 <td>
+<b>transaction_id</b>
+</td>
+<td>
+string
+</td>
+<td>
+
+A Generated Unique Identifier dedicated to a placement and an Addressable Content
+
+**Example:** 
+
+```json
+"b0cffcd0-177e-46d5-8bcd-32ed52a414dc"
+```
+
+</td>
+</tr>
+
+<tr>
+<td>
 <b>transmissions</b>
 </td>
 <td>
@@ -666,7 +723,7 @@ array
 </td>
 <td>
 
-Type of **each element in the array**:
+**Array of**:
 
 <details>
 <summary>Object details</summary>
@@ -731,6 +788,75 @@ The domain name of the receiver of the Transmission.
 
 <tr>
 <td>
+<b>contents</b>
+</td>
+<td>
+array of object
+</td>
+<td>
+
+**Array of**:
+
+<details>
+<summary>Object details</summary>
+
+<table>
+
+<tr>
+    <th> Property </th>
+    <th> Type </th>
+    <th> Description </th>
+</tr>
+
+<tr>
+<td>
+<b>content_id</b>
+</td>
+<td>
+string
+</td>
+<td>
+
+A GUID associated to a potential Addressable Content.
+
+**Example:** 
+
+```json
+"b0cffcd0-177e-46d5-8bcd-32ed52a414dc"
+```
+
+</td>
+</tr>
+
+<tr>
+<td>
+<b>transaction_id</b>
+</td>
+<td>
+string
+</td>
+<td>
+
+A Generated Unique Identifier dedicated to a placement and an Addressable Content
+
+**Example:** 
+
+```json
+"b0cffcd0-177e-46d5-8bcd-32ed52a414dc"
+```
+
+</td>
+</tr>
+
+</table>
+
+</details>
+
+</td>
+</tr>
+
+<tr>
+<td>
 <b>status</b>
 </td>
 <td>
@@ -738,12 +864,10 @@ enum (of string)
 </td>
 <td>
 
-Equals "success" if the DSP signed the Transmission and returns it to the sender.<br /> Equals "error_bad_request" if the receiver doesn't understand or see inconsistency in the Transmission Request.<br /> Equals "error_cannot_process" if the receiver failed to use the data of the Transmission Request properly.
+Equals "success". Transmission Responses with a different status from Suppliers must be dismissed.
 
 Can only take **one of these values**:
 * `"success"`
-* `"error_bad_request"`
-* `"error_cannot_process"`
 </td>
 </tr>
 
@@ -758,12 +882,6 @@ string
 
 The details of the status. It can be empty for "success" but it should detail the reason(s) in case of an error.
 
-**Example:** 
-
-```json
-"No signature in the Transaction Request."
-```
-
 </td>
 </tr>
 
@@ -777,12 +895,16 @@ object
 <td>
 
 Signature based on input:
-```
-transmission_result.receiver                + '\u2063' +
-transmission_result.status                  + '\u2063' 
-transmission_result.source.domain           + '\u2063' +
-transmission_result.source.timestamp        + '\u2063' +
-seed.source.signature      // -> The Seed associated to the given Transaction Result
+```receiver                + '\u2063' +
+status                  + '\u2063'
+source.domain           + '\u2063' +
+source.timestamp        + '\u2063' +
+seed.source.signature+ '\u2063' +
+contents[0].transaction_ids + '\u2063' +
+contents[0].content_id + '\u2063' +
+... + '\u2063' +
+contents[n].transaction_ids + '\u2063' +
+contents[n].content_id
 ```
 
 <details>

@@ -1,111 +1,107 @@
-# Prebid Addressability Framework MVP specs
+# Prebid Addressability Framework
 
-This directory contains functional and technical specifications for PAF minimum viable product (MVP). 
+The Prebid Addressability Framework (PAF) is a set of technical standards, UX requirements, and mandatory contractual terms designed to improve addressable advertising across the open internet.
 
-## Documents
+This directory contains technical specifications for a minimum viable product (MVP).
 
-| Document                                                                   | Description                                                                                         |
-|----------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------|
-| [signatures.md](signatures.md)                                             | General introduction on signatures and signature verification                                       |
-| [audit-log-requirements.md](audit-log-requirements.md)                     | Functional requirements related to the Audit Log and the Transmissions.                             |
-| [audit-log-design.md](audit-log-design.md)                                 | Design the technical solution for the Audit Log.                                                    |
-| [ad-server-implementation.md](ad-server-implementation.md)                 | Details PAF implementation in an Ad Server.                                                         |
-| [dsp-implementation.md](dsp-implementation.md)                             | Data exchange specification, from the point of view of a DSP implementer.                           |
-| [operator-api.md](operator-api.md)                                         | Operator API specification                                                                          |
-| [operator-design.md](operator-design.md)                                   | Design of the generation of Prebid SSO Data.                                                        |
-| [operator-design-alternative-swan.md](operator-design-alternative-swan.md) | Summary of the SWAN solution for generating PAF Data.                                               |
-| [operator-requirements.md](operator-requirements.md)                       | Requirements for the generation of the PAF Data.                                                    |
-| [operator-client.md](operator-client.md)                                   | Modules needed to connect to the operator                                                           |
-| [model/](model)                                                            | Data and messages model                                                                             |
-| [json-schemas/](json-schemas)                                              | Data and messages model in [JSON schema](https://json-schema.org/understanding-json-schema/) format |
-| `assets/` `model-updater/` `partials/` `partials-updater/`                 | Technical dependencies, please ignore                                                               |
-
-## Architecture
-
-PAF integrates in the existing digital marketing landscape and introduces a new actor: the "PAF operator".
+## Overview
 
 ```mermaid
 flowchart LR
     
     O(PAF Operator)
-    click O href "#operator" "Operator API"
     
-    Ad(Ad server)
-    click Ad href "#ad-server" "Ad server"
+    Participant("Participant website")
     
-    Advertiser("Advertiser website")
-    Advertiser --->|read user ids & preferences| O
-    click Advertiser href "#advertiser" "Advertiser"
+    Participant -->|set User Id & Preferences| O
+    O -->|read User Id & Preferences| Participant
     
-    Publisher("Publisher website")
-    
-    Publisher -->|read user ids & preferences| O
-    click Publisher href "#publisher" "Publisher"
-    
-    Publisher -.->|include| UI
-    Publisher -- start transaction --> SSP
-    Publisher -- get ad & audit logs --> Ad
-    
-    SSP -- send transmission --> DSP
+    Participant -- send Transmission Request --> SSP
+    SSP -- send Transmission Request --> DSP
+    DSP -- send Transmission Response --> SSP
+    SSP -- send Transmission Response --> Participant    
+
     click SSP href "#ssp-supply-side-platform" "SSP"
     click DSP href "#dsp-demand-side-platform" "DSP"
-    
-    UI("User Interface Provider") -->|write user preferences| O
-    click UI href "#user-interface-provider" "UI provider"
 ```
 
-## Nodes
+PAF supports the following features:
+- User Id and Preferences management, based on mandatory user consent
+- an Audit Log, listing all entities that have been involved in an ad display
 
-### Advertiser website
+To deliver these features, PAF integrates in the existing digital marketing landscape and introduces a new actor: the Operator.
 
-An advertiser is a client of the operator to read ids and preferences from the visiting user.
+## Glossary
 
-See [operator-client.md](operator-client.md) for instructions on implementing the operator client.
+Framework-specific terms, with first letters in uppercase, are defined in this glossary.
 
-### User Interface Provider
+**Audit Log** means a log identifying all participants (Publisher, SSP, DSP) part of a chain leading to an ad display.
 
-User Interface Providers are responsible for gathering **user preferences**.
+**PAF** is short for Prebid Addressability Framework
 
-A clear User Interface must be provided to users and the UI Provider must **sign** preferences before they are **saved**
-by the operator.
+**Operator** means the entity responsible for creating, updating, deleting and controlling access to the User Id and Preferences.
 
-Signing and writing preferences is explained in [operator-client.md](operator-client.md).
+**Root Party** means the entity initiating the originating Transmission in a particular chain of Transmissions.
 
-### Publisher website
+**Transmission Request** and **Transmission Response** are signed statements that must be attached to the communication of User Id and Preferences between two entities (typically done through bid requests and bid responses).
 
-The publisher has multiple roles
+**Transmission Result** means the final statement of a Transmissions that is used in an Audit Log
 
-1. Just like the advertiser, it needs to read id and preferences from the operator
-2. It is also selling inventory to contracting parties and must create and sign a "seed" object and initialize an RTB transaction sent to an SSP
-   1. this is done through the ad server
+**User Id and Preferences** means a set of user pseudonymous identifiers and preferences managed within the Prebid Addressability Framework.
 
-A publisher is a client of the operator to read ids and preferences from the visiting user.
+**Vendor** means an entity, different from the Publisher, participating to the generation of an ad display.
 
-See [operator-client.md](operator-client.md) for instructions on implementing the operator client.
+## Workflows
 
-### Ad server
+The Prebid Addressability Framework supports:
+- User Id and Preferences management
+- extension of ad auction mechanisms with signed Transmissions
+- display of an Audit Log to the user upon request 
 
-See [ad-server-implementation.md](ad-server-implementation.md).
 
-### SSP (Supply Side Platform)
+### User Id and Preferences management
 
-The SSP shares PAF Data to DSPs via Transmission Requests. Depending of the context, it can generate the Seed and emit the first Transmission of the Transaction or receive the Seed from a previous Transmission Request.
+The User Id and Preferences management involves:
+- The Operator
+- The advertiser or publisher web site
 
-### DSP (Demand Side Platform)
+See [workflows](workflows.md), [operator-api.md](operator-api.md), and [paf-client-node.md](paf-client-node.md). 
 
-DSPs receive transmissions that they must sign before they respond to the SSP
+### Ad auction
 
-See [dsp-implementation.md](dsp-implementation.md).
+Prebid Addressability Framework integration with an ad auction involves:
+- The seller site
+- SSP and DSP
 
-### Operator
+See [ad-auction](ad-auction.md).
 
-The operator is responsible for:
-- generating unique user ids
-- storing these ids and their associated preferences
+### Audit Log display
 
-See [operator-api.md](operator-api.md) for details.
+Audit Log display involves:
+- The seller site
+
+See [audit-log-design.md](audit-log-design.md) and [audit-log-requirements.md](audit-log-requirements.md).
 
 ### See also
 
-- Focus on [signatures](signatures.md)
-- Audit log [design](audit-log-design.md)
+- Seeds, Transmissions Requests, Transmissions Responses, User Id and Preferences, and all messages sent to or from the Operator must be signed: [security-signatures.md](security-security-signatures.md)
+- Audit log design: [audit-log-design.md](audit-log-design.md)
+
+## Documents
+
+| Document                                                                   | Description                                                                                         |
+|----------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------|
+| [security-signatures.md](security-security-signatures.md)                                             | General introduction on signatures and signature verification                                       |
+| [audit-log-requirements.md](audit-log-requirements.md)                     | Functional requirements related to the Audit Log and the Transmissions.                             |
+| [audit-log-design.md](audit-log-design.md)                                 | Design the technical solution for the Audit Log.                                                    |
+| [ad-auction](ad-auction.md)                                                | Details PAF integration in an ad auction.                                                           |
+| [dsp-implementation.md](dsp-implementation.md)                             | Data exchange specification, from the point of view of a DSP implementer.                           |
+| [operator-api.md](operator-api.md)                                         | Operator API specification                                                                          |
+| [operator-design.md](operator-design.md)                                   | Design of the generation of PAF Data.                                                               |
+| [operator-design-alternative-swan.md](operator-design-alternative-swan.md) | Summary of the SWAN solution for generating PAF Data.                                               |
+| [operator-requirements.md](operator-requirements.md)                       | Requirements for the generation of the PAF Data.                                                    |
+| [paf-client-node.md](paf-client-node.md)                                   | Website integration: frontend library, PAF client node, operator backend                            |
+| [Integration Guide.md](PAF-Integration-Guide.md)                           | Guide to integrate into current PAF MVP |
+| [model/](model)                                                            | Data and messages model                                                                             |
+| [json-schemas/](json-schemas)                                              | Data and messages model in [JSON schema](https://json-schema.org/understanding-json-schema/) format |
+| `assets/` `model-updater/` `partials/` `partials-updater/`                 | Technical dependencies, please ignore                                                               |

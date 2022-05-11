@@ -9,6 +9,7 @@ const assetsDir = path.join(RootPath.path, "..", "assets");
 const assetPathForDocuments = path.join(".", "assets");
 const partialsDir = path.join(RootPath.path, "..", "partials");
 const documentsDir = path.join(RootPath.path, "..");
+const jsonSchemasDir = path.join(RootPath.path, "..", "json-schemas");
 const documentExts = [".md"]
 const mermaidExts = [".mmd"]
 
@@ -26,13 +27,23 @@ export const loadPartial = (file: string): Promise<Document> => loadFile(path.jo
 /** Load a document based on its name. */
 export const loadDocument = (file: string): Promise<Document> => loadFile(path.join(documentsDir, file));
 
+/** Load a json-schema based on its name. */
+export const loadJsonSchema = (file: string): Promise<Document> => loadFile(path.join(jsonSchemasDir, file));
+
 /** List the documents by names. */
 export const listDocuments = (): Promise<string[]> => listFiles(documentsDir, isDocument);
 
 export const listMermaidAssets = (): Promise<string[]> => listFiles(partialsDir, isMermaid);
 
+export const listJsonSchemas = (): Promise<string[]> => listFiles(jsonSchemasDir, isJsonSchema);
+
+export const listJsonPartials = (): Promise<string[]> => listFiles(partialsDir, isJsonSchema);
+export const listPartials = (): Promise<string[]> => listFiles(partialsDir, allFiles);
+
 const isDocument = (file: string): boolean => documentExts.some(e => file.endsWith(e));
 const isMermaid = (file: string): boolean => mermaidExts.some(e => file.endsWith(e));
+const isJsonSchema = (file: string): boolean => file.endsWith(".json");
+const allFiles = (file: string): boolean => true;
 
 /** Rewrite a file */
 export function rewriteFile(fullPath: string, content: string): Promise<void> {

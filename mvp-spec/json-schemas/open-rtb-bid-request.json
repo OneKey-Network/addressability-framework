@@ -1,0 +1,173 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "title": "OpenRTB Bid Request with a Transmission Request",
+    "description": "An Open RTB Bid Request according to the 2.5 OpenRTB specification. OpenRTB specifies fields unused for the integration of the Transmission Request. Therefore, they are omitted on purpose here.",
+    "$id": "open-rtb-bid-request",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "imp": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                    "ext": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "description": "Placeholder for exchange-specific extensions to OpenRTB.",
+                        "properties": {
+                            "data": {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "description": "Ext field accessible for PrebidJS RTD",
+                                "properties": {
+                                    "paf": {
+                                        "type": "object",
+                                        "additionalProperties": false,
+                                        "description": "Dedicated object for PAF as an extension.",
+                                        "properties": {
+                                            "transaction_id": {
+                                                "description": "The GUID associated to the Addressable Content (a.k.a impression)",
+                                                "$ref": "transaction_id.json"
+                                            }
+                                        },
+                                        "required": [
+                                            "transaction_id"
+                                        ]
+                                    }
+                                },
+                                "required": [
+                                    "paf"
+                                ]
+                            }
+                        },
+                        "required": [
+                            "data"
+                        ]
+                    }
+                },
+                "required": [
+                    "ext"
+                ]
+            }
+        },
+        "user": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "ext": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "description": "Placeholder for exchange-specific extensions to OpenRTB.",
+                    "properties": {
+                        "eids": {
+                            "type": "array",
+                            "items": {
+                                "description": "A list of Extended Identifiers containing one element for PAF data",
+                                "type": "object",
+                                "additionalProperties": false,
+                                "properties": {
+                                    "source": {
+                                        "type": "string",
+                                        "details": ""
+                                    },
+                                    "uids": {
+                                        "type": "array",
+                                        "items": {
+                                            "description": "Array of extended ID UID objects from the given source containing one element for the Prebid ID.",
+                                            "type": "object",
+                                            "additionalProperties": false,
+                                            "properties": {
+                                                "atype": {
+                                                    "type": "integer",
+                                                    "description": "Equal to 1 for the element of PAF Data.\nType of user agent the match is from. It is highly recommended to set this, as many DSPs separate app-native IDs from browser-based IDs and require a type value for ID resolution."
+                                                },
+                                                "id": {
+                                                    "type": "string",
+                                                    "description": "Equal to the PAF Id for the element of the PAF Data.\nCookie or platform-native identifier."
+                                                }
+                                            },
+                                            "required": [
+                                                "atype",
+                                                "id"
+                                            ]
+                                        }
+                                    },
+                                    "ext": {
+                                        "type": "object",
+                                        "additionalProperties": false,
+                                        "description": "Placeholder for exchange-specific extensions to OpenRTB.",
+                                        "properties": {
+                                            "preferences" : {
+                                                "$ref": "preferences.json"
+                                            }
+                                        },
+                                        "required": [
+                                            "preferences"
+                                        ]
+                                    }
+                                },
+                                "required": [
+                                    "source",
+                                    "uids",
+                                    "ext"
+                                ]
+                            }
+                        },
+                        "paf": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "description": "Object dedicated to PAF",
+                            "properties": {
+                                "transmission": {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "description": "Object dedicated to PAF transmission",
+                                    "properties": {
+                                        "version": {
+                                            "$ref": "version.json"
+                                        },
+                                        "seed": {
+                                            "$ref": "seed.json"
+                                        },
+                                        "source": {
+                                            "description": "Signature based on input:\n```\ntransmission_request_receiver_domain        + '\\u2063' +\nsource.domain          + '\\u2063' + \nsource.timestamp       + '\\u2063' +\nseed.source.signature\n```",
+                                            "$ref": "source.json"
+                                        },
+                                        "parents": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "transmission-result.json"
+                                            }
+                                        }
+                                    },
+                                    "required": [
+                                        "version",
+                                        "seed",
+                                        "source",
+                                        "parents"
+                                    ]                
+                                }
+                            },
+                            "required": [
+                                "transmission"
+                            ]  
+                        }
+                    },
+                    "required": [
+                        "eids",
+                        "paf"
+                    ]
+                }
+            },
+            "required": [
+                "ext"
+            ]
+        }
+    },
+    "required": [
+        "imp",
+        "user"
+    ]
+}

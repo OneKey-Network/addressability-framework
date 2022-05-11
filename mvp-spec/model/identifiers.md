@@ -2,15 +2,9 @@
 
 # List of identifiers
 
-Type of **each element in the array**:
+**Array of**:
 
-Signature based on input **that depends on the identifiers**:
-
-```identifier.source.domain + '\u2063' + 
-identifier.source.timestamp + '\u2063' + 
-identifier.type + '\u2063'+
-identifier.value
-```
+A pseudonymous identifier generated for a web user
 
 <table>
 
@@ -111,7 +105,8 @@ object
 
 Signature based on input:
 
-```identifier.source.domain + '\u2063' + 
+```
+identifier.source.domain + '\u2063' + 
 identifier.source.timestamp + '\u2063' + 
 identifier.type + '\u2063'+
 identifier.value

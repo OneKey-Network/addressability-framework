@@ -2,4 +2,4 @@ transmission_result.receiver                + '\u2063' +
 transmission_result.status                  + '\u2063' 
 transmission_result.source.domain           + '\u2063' + 
 transmission_result.source.timestamp        + '\u2063' + 
-seed.source.signature      // -> The Seed associated to the given Transaction Result
+seed.source.signature      // -> The Seed associated to the given Transmission Result

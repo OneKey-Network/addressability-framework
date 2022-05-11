@@ -1,0 +1,24 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "transmission-contents",
+    "title": "Transmission Contents",
+    "additionalProperties": false,
+    "type": "array",
+    "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+            "content_id": {
+                "$ref": "transmission-content_id.json"
+            },
+            "transaction_id": {
+                "$ref": "transaction_id.json"
+            }
+        },
+        "required": [
+            "content_id", 
+            "transaction_id"
+        ]
+    }
+}
+  

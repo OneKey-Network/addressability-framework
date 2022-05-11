@@ -62,6 +62,75 @@ The domain name of the receiver of the Transmission.
 
 <tr>
 <td>
+<b>contents</b>
+</td>
+<td>
+array of object
+</td>
+<td>
+
+**Array of**:
+
+<details>
+<summary>Object details</summary>
+
+<table>
+
+<tr>
+    <th> Property </th>
+    <th> Type </th>
+    <th> Description </th>
+</tr>
+
+<tr>
+<td>
+<b>content_id</b>
+</td>
+<td>
+string
+</td>
+<td>
+
+A GUID associated to a potential Addressable Content.
+
+**Example:** 
+
+```json
+"b0cffcd0-177e-46d5-8bcd-32ed52a414dc"
+```
+
+</td>
+</tr>
+
+<tr>
+<td>
+<b>transaction_id</b>
+</td>
+<td>
+string
+</td>
+<td>
+
+A Generated Unique Identifier dedicated to a placement and an Addressable Content
+
+**Example:** 
+
+```json
+"b0cffcd0-177e-46d5-8bcd-32ed52a414dc"
+```
+
+</td>
+</tr>
+
+</table>
+
+</details>
+
+</td>
+</tr>
+
+<tr>
+<td>
 <b>status</b>
 </td>
 <td>
@@ -69,12 +138,10 @@ enum (of string)
 </td>
 <td>
 
-Equals "success" if the DSP signed the Transmission and returns it to the sender.<br /> Equals "error_bad_request" if the receiver doesn't understand or see inconsistency in the Transmission Request.<br /> Equals "error_cannot_process" if the receiver failed to use the data of the Transmission Request properly.
+Equals "success". Transmission Responses with a different status from Suppliers must be dismissed.
 
 Can only take **one of these values**:
 * `"success"`
-* `"error_bad_request"`
-* `"error_cannot_process"`
 </td>
 </tr>
 
@@ -89,12 +156,6 @@ string
 
 The details of the status. It can be empty for "success" but it should detail the reason(s) in case of an error.
 
-**Example:** 
-
-```json
-"No signature in the Transaction Request."
-```
-
 </td>
 </tr>
 
@@ -108,12 +169,16 @@ object
 <td>
 
 Signature based on input:
-```
-transmission_result.receiver                + '\u2063' +
-transmission_result.status                  + '\u2063' 
-transmission_result.source.domain           + '\u2063' +
-transmission_result.source.timestamp        + '\u2063' +
-seed.source.signature      // -> The Seed associated to the given Transaction Result
+```receiver                + '\u2063' +
+status                  + '\u2063'
+source.domain           + '\u2063' +
+source.timestamp        + '\u2063' +
+seed.source.signature+ '\u2063' +
+contents[0].transaction_ids + '\u2063' +
+contents[0].content_id + '\u2063' +
+... + '\u2063' +
+contents[n].transaction_ids + '\u2063' +
+contents[n].content_id
 ```
 
 <details>

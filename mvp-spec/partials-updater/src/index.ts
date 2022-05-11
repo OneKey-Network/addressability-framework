@@ -3,13 +3,15 @@ import {
     getPartialPath,
     listDocuments,
     listMermaidAssets,
+    listPartials,
     loadDocument,
     rewriteDocument
 } from "./files";
 import {lex} from "./lexer";
-import {interpret} from "./interpretor"
+import {interpret, listUsedPartials} from "./interpretor"
 import path from "path";
 import {updateMermaids} from "./mermaid";
+import { validateJsonFormats, validateJsonSchemas } from "./validate";
 
 async function update() {
     await updateModifiedMermaids();
@@ -32,6 +34,9 @@ async function update() {
 (async () => {
     try {
         await update();
+        await validateJsonFormats()
+        await validateJsonSchemas()
+        await checkUnusedPartials()
     } catch (error) {
         console.error(error);
     }
@@ -43,4 +48,21 @@ async function updateModifiedMermaids() {
 
     const modifiedMermaidFiles = mermaidFiles.filter(f => changedFiles.includes(f))
     await updateMermaids(modifiedMermaidFiles)
+}
+
+async function checkUnusedPartials() {
+    const partials = await listPartials()
+    const docs = await listDocuments()
+    const usedPartials = new Array<string>()
+    for (const doc of docs) {
+        const document = await loadDocument(doc)
+        const tokens = lex(document)
+        const partialsFromToken = await listUsedPartials(tokens)
+        usedPartials.push(...partialsFromToken)
+    }
+    for (const p of partials) {
+        if (usedPartials.indexOf(p) == -1) {
+           console.log(`Partial unused: ${p}`)
+        }
+    }
 }

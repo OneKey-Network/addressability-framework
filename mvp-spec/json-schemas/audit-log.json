@@ -4,12 +4,19 @@
     "description": "An Audit Log gathers the necessary data to audit a Transaction (via Transmission) for a given Addressable Content",
     "$id": "audit-log",
     "type": "object",
+    "additionalProperties": false,
     "properties": {
+        "version": {
+            "$ref": "version.json"
+        },
         "data": {
             "$ref": "ids-and-preferences.json"
         },
         "seed": {
             "$ref": "seed.json"
+        },
+        "transaction_id": {
+            "$ref": "transaction_id.json"
         },
         "transmissions": {
             "type": "array",
@@ -21,6 +28,7 @@
     "required": [
         "data",
         "seed",
+        "transaction_id",
         "transmissions"
     ]
 }

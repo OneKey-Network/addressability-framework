@@ -281,9 +281,11 @@ Signature based on input:
 
 **⚠️ Note that it uses data from identifiers**:
 
+By signing both inputs together, a `preferences` object cannot be reused for another id by a fraudulent actor
+
 ```preferences.source.domain + '\u2063' +
 preferences.source.timestamp + '\u2063' +
-identifiers[type="prebid_id"].source.signature + '\u2063' +
+identifiers[type="paf_browser_id"].source.signature + '\u2063' +
 preferences.data.key1 + '\u2063' + preferences.data[key1].value + '\u2063' +
 preferences.data.key2 + '\u2063' + preferences.data[key2].value + '\u2063' +
 ...
@@ -388,7 +390,7 @@ array
 </td>
 <td>
 
-Type of **each element in the array**:
+**Array of**:
 
 A pseudonymous identifier generated for a web user
 
@@ -494,7 +496,8 @@ object
 
 Signature based on input:
 
-```identifier.source.domain + '\u2063' + 
+```
+identifier.source.domain + '\u2063' + 
 identifier.source.timestamp + '\u2063' + 
 identifier.type + '\u2063'+
 identifier.value

@@ -16,6 +16,13 @@ export class ConfigException extends Error {
     }
 }
 
+export async function listUsedPartials(tokens: LexerToken[]) {
+    const begins = tokens.filter(t => t.type == LexerTokenType.PartialBegin)
+    const configs = begins.map(t => getPartialConfig(t))
+    const partials = configs.flatMap(c => c.files)
+    return partials
+}
+
 /** Interpret the token to generate the content. */
 export async function interpret(tokens: LexerToken[], lineBreak: string): Promise<string> {
     let doc = '';
@@ -65,25 +72,8 @@ const getInBlock = (block: string, partialText: string, lineBreak: string) =>
     ].join(lineBreak);
 
 async function interpretPartialBeginToken(token: LexerToken, lineBreak: string): Promise<string> {
-    const text = token.text;
-
-    const match = text.match(PartialBegin);
-    if (match?.length < 2) {
-        throw new ConfigException(text, 'invalid syntax')
-    }
-
-    const jsonStr = match[1];
-    let config: PartialConfig;
-
-    try {
-        config = JSON.parse(jsonStr);
-    } catch (e) {
-        throw new ConfigException(jsonStr, e)
-    }
-
-    if (config.files?.length < 1) {
-        throw new ConfigException(jsonStr, 'You must configure at least one file')
-    }
+    const jsonStr = extractPartialConfig(token)
+    const config = deserializePartialConfig(jsonStr)
 
     let partialText: string;
 
@@ -108,5 +98,40 @@ async function interpretPartialBeginToken(token: LexerToken, lineBreak: string):
     } else {
         return partialText
     }
+}
+
+function extractPartialConfig(token: LexerToken): string {
+    const text = token.text;
+
+    const match = text.match(PartialBegin)
+    if (match?.length < 2) {
+        throw new ConfigException(text, 'invalid syntax')
+    }
+
+    const json = match[1];
+    return json
+}
+
+function deserializePartialConfig(json: string) : PartialConfig {
+    
+    let config: PartialConfig;
+
+    try {
+        config = JSON.parse(json);
+    } catch (e) {
+        throw new ConfigException(json, e)
+    }
+
+    if (config.files?.length < 1) {
+        throw new ConfigException(json, 'You must configure at least one file')
+    }
+
+    return config;
+}
+
+function getPartialConfig(token: LexerToken) : PartialConfig {
+    const jsonStr = extractPartialConfig(token)
+    const config = deserializePartialConfig(jsonStr)
+    return config;
 }
 

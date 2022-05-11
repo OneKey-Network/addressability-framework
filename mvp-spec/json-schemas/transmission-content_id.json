@@ -1,0 +1,11 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "title": "Content Id",
+    "description": "A GUID associated to a potential Addressable Content.",
+    "$id": "transmission-content_id",
+    "type": "string",
+    "additionalProperties": false,
+    "examples": [
+        "b0cffcd0-177e-46d5-8bcd-32ed52a414dc"
+    ]
+}
