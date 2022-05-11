@@ -16,7 +16,7 @@ In order to integrate PAF, a Website needs:
 
 # Remodeling the Consent UI
 
-The remodeling of the consent UI is explained in this document: [CMP-remodeling-guide](./Integration-Guides/CMP-remodeling-guide.md)
+The remodeling of the consent UI is explained in this document: [CMP-remodeling-guide](./CMP-remodeling-guide.md)
 ## PAF Client Node Tasks
 
 For a new website to become a PAF participant, a **PAF client node** must be running.
