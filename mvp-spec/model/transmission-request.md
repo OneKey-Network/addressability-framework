@@ -753,6 +753,8 @@ array of object
 </td>
 <td>
 
+List of pairs of one content_id and one transaction_id. It is possible to have one content-id (i.e same content) for N transaction_ids (i.e N placements). In this case, there would be N pairs of 'contents'.
+
 **Array of**:
 
 <details>
@@ -1000,6 +1002,8 @@ The domain name of the receiver of the Transmission.
 array of object
 </td>
 <td>
+
+List of pairs of one content_id and one transaction_id. It is possible to have one content-id (i.e same content) for N transaction_ids (i.e N placements). In this case, there would be N pairs of 'contents'.
 
 **Array of**:
 
