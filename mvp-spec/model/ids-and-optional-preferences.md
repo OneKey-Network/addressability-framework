@@ -118,6 +118,8 @@ Signature based on input:
 
 **⚠️ Note that it uses data from identifiers**:
 
+By signing both inputs together, a `preferences` object cannot be reused for another id by a fraudulent actor
+
 ```preferences.source.domain + '\u2063' +
 preferences.source.timestamp + '\u2063' +
 identifiers[type="paf_browser_id"].source.signature + '\u2063' +

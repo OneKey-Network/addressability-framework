@@ -14,7 +14,7 @@
     },
     "source": {
       "$ref": "source.json",
-      "description": "Signature based on input:\n\n**⚠️ Note that it uses data from identifiers**:\n\n```preferences.source.domain + '\\u2063' +\npreferences.source.timestamp + '\\u2063' +\nidentifiers[type=\"paf_browser_id\"].source.signature + '\\u2063' +\npreferences.data.key1 + '\\u2063' + preferences.data[key1].value + '\\u2063' +\npreferences.data.key2 + '\\u2063' + preferences.data[key2].value + '\\u2063' +\n...\npreferences.data.keyN + '\\u2063' + preferences.data[keyN].value\n```"
+      "description": "Signature based on input:\n\n**⚠️ Note that it uses data from identifiers**:\n\nBy signing both inputs together, a `preferences` object cannot be reused for another id by a fraudulent actor\n\n```preferences.source.domain + '\\u2063' +\npreferences.source.timestamp + '\\u2063' +\nidentifiers[type=\"paf_browser_id\"].source.signature + '\\u2063' +\npreferences.data.key1 + '\\u2063' + preferences.data[key1].value + '\\u2063' +\npreferences.data.key2 + '\\u2063' + preferences.data[key2].value + '\\u2063' +\n...\npreferences.data.keyN + '\\u2063' + preferences.data[keyN].value\n```"
     }
   },
   "required": [
