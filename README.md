@@ -80,11 +80,11 @@ This repo is for documenting technical specifications. It contains:
 
 ### Network DNS zone
 
-In the current design, PAF Operator have the constraint to run services on subdomains of a common domain name. This is because the synchronization of PAF IDs and Preferences across PAF Operators relies on the cookie jar for the common domain.
+In the current design, PAF Operator have the constraint to run services on subdomains of a common domain name (e.g. `onekey.network`). This is because the synchronization of PAF IDs and Preferences across PAF Operators relies on the cookie jar of the common domain.
 
 To achieve this, each Operator is responsible for inserting the right information for the subdomain that they use in the network’s DNS zone.
 
-For example for the `onekey.network` network, the `operator_a.onekey.network` is mapped to the DNS server of Operator A through a NS/SOA records.
+For example, for an *Operator A* of the `onekey.network` network, the `operator_a.onekey.network` subdomain should be mapped to the DNS server of *Operator A* through a NS/SOA records.
 
 
 ## 4. The Role of the Model Terms
