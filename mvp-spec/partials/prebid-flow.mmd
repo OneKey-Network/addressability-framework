@@ -1,0 +1,21 @@
+sequenceDiagram
+    participant User
+    participant Browser
+    participant Publisher
+    participant SSP
+    participant DSP
+    participant AdServer
+
+    User->>Browser: Ask for a webpage
+    Browser->>Browser: Generate or Fetch<br /> PAF Data & Pref
+    Browser->>Publisher: Request Transmission Seed
+    Publisher->>Browser: Return Seed
+    Browser->>Browser: Prebid.js enriches<br /> PAF Data for SSP
+    Browser->>SSP: Generate and send an <br /> AdRequest + Transmission
+    SSP->>SSP: Sign Transmission
+    SSP->>DSP: Send AdRequest + Transmission
+    DSP->>SSP: Provide Addressable Content <br /> and a Transmission Response
+    SSP->>Browser: Provide the Addressable Contents<br />and Transmission Responses
+    Browser->>AdServer: AdRequest with Prebid.js key values
+    AdServer->>Browser: Return Prebid.js callback
+    Browser->>User: Render Prebid.js ad and provide audit log

@@ -1,0 +1,26 @@
+sequenceDiagram
+    participant Webpage
+    participant Prebid.js
+    participant PAF.js
+    participant PublisherServer
+    participant SSPs
+    participant AdServer
+
+    PAF.js->>Prebid.js: window.pbjs.onEvent("bidWon") -><br />PAF.registerTransmissionResponse()
+    Prebid.js->>Prebid.js: pbjs.setConfig(userId and rtd config)
+    Prebid.js->>PAF.js: PAF.getIdsAndPreferences()
+    PAF.js->>Prebid.js: ids and preferences
+    Prebid.js->>Prebid.js: initiate RTD module
+    Prebid.js->>PAF.js: PAF.generateSeeds()
+    PAF.js->>PublisherServer: Transmission Request
+    PublisherServer->>PAF.js: Seed(s)
+    PAF.js->>Prebid.js: Seed(s)
+    Prebid.js->>SSPs: AdRequest with PAF data<br /> and Transmissions
+    SSPs->>Prebid.js: Addressable Content(s) <br />and Transmission Response(s)
+    Prebid.js->>Prebid.js: bidResponse.meta.paf = Transmission Response
+    Prebid.js->>AdServer: AdRequest with Prebid.js key values
+    AdServer->>Prebid.js: Return Prebid.js callback
+    Prebid.js->>Prebid.js: bidWon event
+    Prebid.js->>PAF.js: PAF.registerTransmissionResponse
+    PAF.js->>PAF.js: compute and store audit log
+    Webpage->PAF.js: PAF.getAuditLogByTransaction(transactionId)

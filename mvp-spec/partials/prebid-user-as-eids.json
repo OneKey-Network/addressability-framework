@@ -1,0 +1,31 @@
+{
+  "source": "paf",
+  "uids": [
+    {
+      "atype": 1,
+      "id": "7435313e-caee-4889-8ad7-0acd0114ae3c",
+      "ext": {
+        "version": "0.1",
+        "type": "paf_browser_id",
+        "source": {
+          "domain": "operator0.com",
+          "timestamp": 1639580000,
+          "signature": "868e7a6c27b7b7fe5fed219503894bf263f31bb6d8fd48336d283e77b512cda7"
+        }
+      }
+    }
+  ],
+  "ext": {
+    "preferences": {
+      "version": "0.1",
+      "data": {
+        "use_browsing_for_personalization": true
+      },
+      "source": {
+        "domain": "cmp1.com",
+        "timestamp": 1639581000,
+        "signature": "65acdcfdbdba8b17936f25a32b33b000393c866588d146cb62ec51ab8890c54f"
+      }
+    }
+  }
+}
