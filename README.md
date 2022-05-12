@@ -66,6 +66,10 @@ This repo is for documenting technical specifications. It contains:
 -   A demo website with the PAF MVP implementation is currently available for all to see here: [https://www.pafdemopublisher.com/](https://www.pafdemopublisher.com/)
 
 # 3. Components and roles as part of the Prebid Addressability Framework
+
+![PAF Diagram](https://github.com/prebid/addressability-framework/blob/BasileLeparmentier-patch-1-1/mvp-spec/assets/PAF%20roles.png)
+
+
 | **Component<br>**                     	| **Description<br>**                                                                                 	| **Role / Functions<br>**                                                                                                                                                                                                                                                         	| **Example(s)<br>**                                                                                   	|
 |---------------------------------------	|-----------------------------------------------------------------------------------------------------	|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------	|------------------------------------------------------------------------------------------------------	|
 | **Website**                          	| A Publisher or Marketer Web Property.<br>                                                           	| <ul><li>Offers PAF choices to its users through a CMP component</il><li>Reads PAF IDs and Preferences from a PAF Operator of his choice<br>Generates ad or content using PAF IDs and Preferences through a digital supply chain</il><li>Provides the Audit Log to the user for such ads or content</li></ul> 	| **A Publisher:** <br>www.my-news-site.com<br>**A Marketer:**<br>www.brand-name.com                         	|
