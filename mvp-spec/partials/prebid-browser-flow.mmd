@@ -11,10 +11,10 @@ sequenceDiagram
     Prebid.js->>PAF.js: PAF.getIdsAndPreferences()
     PAF.js->>Prebid.js: ids and preferences
     Prebid.js->>Prebid.js: initiate RTD module
-    Prebid.js->>PAF.js: PAF.generateSeeds()
+    Prebid.js->>PAF.js: PAF.generateSeed()
     PAF.js->>PublisherServer: Transmission Request
-    PublisherServer->>PAF.js: Seed(s)
-    PAF.js->>Prebid.js: Seed(s)
+    PublisherServer->>PAF.js: Seed
+    PAF.js->>Prebid.js: Seed
     Prebid.js->>SSPs: AdRequest with PAF data<br /> and Transmissions
     SSPs->>Prebid.js: Addressable Content(s) <br />and Transmission Response(s)
     Prebid.js->>Prebid.js: bidResponse.meta.paf = Transmission Response
