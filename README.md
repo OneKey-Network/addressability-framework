@@ -67,7 +67,7 @@ This repo is for documenting technical specifications. It contains:
 
 # 3. Components and roles as part of the Prebid Addressability Framework
 
-![PAF Diagram](https://github.com/prebid/addressability-framework/blob/BasileLeparmentier-patch-1-1/mvp-spec/assets/PAF%20roles.png)
+![PAF Diagram](/mvp-spec/assets/PAF%20roles.png)
 
 
 | **Component<br>**                     	| **Description<br>**                                                                                 	| **Role / Functions<br>**                                                                                                                                                                                                                                                         	| **Example(s)<br>**                                                                                   	|
