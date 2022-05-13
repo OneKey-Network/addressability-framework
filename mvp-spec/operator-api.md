@@ -866,6 +866,8 @@ Host: operator.paf-operation-domain.io
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```json
 {
+  "dpo_email": "contact@crto-poc-1.onekey.network",
+  "privacy_policy_url": "https://crto-poc-1.onekey.network/privacy",
   "name": "Some PAF operator",
   "keys": [
     {
