@@ -69,6 +69,8 @@ array of object
 </td>
 <td>
 
+List of pairs of one content_id and one transaction_id. It is possible to have one content_id (i.e same content) for N transaction_ids (i.e N placements). In this case, there would be N pairs of 'contents'.
+
 **Array of**:
 
 <details>
@@ -175,7 +177,9 @@ Signature based on input:
 status                  + '\u2063'
 source.domain           + '\u2063' +
 source.timestamp        + '\u2063' +
-seed.source.signature+ '\u2063' +
+seed.source.signature
+// if contents is not empty then
++ '\u2063' +
 contents[0].transaction_ids + '\u2063' +
 contents[0].content_id + '\u2063' +
 ... + '\u2063' +

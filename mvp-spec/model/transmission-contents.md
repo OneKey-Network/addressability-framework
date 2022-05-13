@@ -2,6 +2,8 @@
 
 # Transmission Contents
 
+List of pairs of one content_id and one transaction_id. It is possible to have one content_id (i.e same content) for N transaction_ids (i.e N placements). In this case, there would be N pairs of 'contents'.
+
 **Array of**:
 
 <table>
