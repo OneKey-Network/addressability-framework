@@ -56,22 +56,22 @@ sequenceDiagram
 ## Implementation Details
 
 PAF doesn't standardize the way of offering inventory because 
-there are already mechanisms sush as OpenRTB for these cases.
-However to offer PAF the Publisher must implement additional features.
+there are already mechanisms such as OpenRTB for these cases.
+However, to offer PAF the Publisher must implement additional features.
 
 To understand the steps, it is important to overview how to generate the data and
 the relationships between them:
 * A Publisher offers *multiple* placements - one for each for 
 Addressable Contents - via Prebid.js.
 * A Publisher Server generates a Seed for the set of transactions
-* Prebid.js sends a Request for opportunites including a Transaction Request for each
-* A Supplier generates and sends *one* Transaction Response per Impression Opportunity
+* Prebid.js sends a Request for opportunities including a Transmission Request
+* A Supplier generates and sends *one* Transmission Response for all Impression Opportunity
 
 
 ### Prebid.js userId module
 
 Prebid.js already offers identity submodules and a PAF sub module will be added.
-This module will be very straight-forward and will simply fetch the PAF data from the
+This module will be very straightforward and will simply fetch the PAF data from the
 window using the [PAF frontend](https://github.com/criteo/paf-mvp-implementation/tree/main/paf-mvp-frontend). The module will call
 `PAF.getIdsAndPreferences()` to get the PAF Data. These data will be offered to all
 configured bidders in the format:
@@ -165,9 +165,9 @@ pbjs.setConfig(
 
 #### Prebid.js RTD Module
 
-Prebid.js already offers real-time-data submodules and a PAF sub module will be added.
-This module will be responsible for retreiving a seeds from the paf-lib for each auction.
-A pulisher will add the module in the configuration along with the domain to retreive the seed.
+Prebid.js already offers real-time-data submodules and a PAF sub-module will be added.
+This module will be responsible for retrieving a seed from the paf-lib for each auction.
+A publisher will add the module in the configuration along with the domain to retrieve the seed.
 If desired the publisher can limit the data to specific bidders by including a list under params.
 
 ```javascript
@@ -282,14 +282,14 @@ of what should be appended.
 
 These values will now be exposed to the DOM where a Publisher
 CPM or PAF lib can construct audit logs for any of the
-Addressible Contents.
+Addressable Contents.
 
 ### Audit Log
 
 The PAF lib will collect transmission responses
 and construct audit logs. Depending on the terms,
-this can done for all transmissions, or only for transmissions
-that result in a rendered Addressible Content. This will require
+this can be done for all transmissions, or only for transmissions
+that result in a rendered Addressable Content. This will require
 PAF lib to store all generated seeds to match with transmission responses.
 
 PAF will register a trigger to retrieve transmission responses explained below.
@@ -298,7 +298,7 @@ response. This callback will be of the form:
 ```javascript
     PAF.registerTransmissionResponse({
         prebidTransactionId: bid.transactionId,
-        adUnitCode: bid.adUnitCode
+        adUnitCode: bid.adUnitCode,
         contentId: pafObj.content_id
     },
     pafObj.transmission);
@@ -316,7 +316,7 @@ PAF.getAuditLogByTransaction(prebidTransactionId)
 PAF.getAuditLogByAdUnitCode(adUnitCode)
 ```
 
-This iteration is only focused on audit logs for winner. This results in a simplified trigger
+This iteration is only focused on audit logs for the winner. This results in a simplified trigger
 which can be implemented in paf-lib as follows:
 
 ```javascript
@@ -342,7 +342,7 @@ window.pbjs.que.push(function () {
 
 #### Note: All Audit Log support
 
-In order to support audit logs for every bid, not just the winner, there are 2 changes.
+To support audit logs for every bid, not just the winner, there are 2 changes.
 The trigger is now tied to `onBidResponse` and the transmission registration 
 also now utilizes `contentId` in order to store multiple audit logs per slot.
 
@@ -382,10 +382,10 @@ sequenceDiagram
     Prebid.js->>PAF.js: PAF.getIdsAndPreferences()
     PAF.js->>Prebid.js: ids and preferences
     Prebid.js->>Prebid.js: initiate RTD module
-    Prebid.js->>PAF.js: PAF.generateSeeds()
+    Prebid.js->>PAF.js: PAF.generateSeed()
     PAF.js->>PublisherServer: Transmission Request
-    PublisherServer->>PAF.js: Seed(s)
-    PAF.js->>Prebid.js: Seed(s)
+    PublisherServer->>PAF.js: Seed
+    PAF.js->>Prebid.js: Seed
     Prebid.js->>SSPs: AdRequest with PAF data<br /> and Transmissions
     SSPs->>Prebid.js: Addressable Content(s) <br />and Transmission Response(s)
     Prebid.js->>Prebid.js: bidResponse.meta.paf = Transmission Response
@@ -418,7 +418,7 @@ Comparing to the solution without OpenRTB:
 2. The `eids`.`atype` is set to `1` because the ID is tied to a specific browser
 for nom.
 3. The `version`, `type`, and `source` fields are gathered in an extension of the `eid`: `eids`.`ext`.`paf`.
-4. The Preferences are attached as an extention of the `eid`.
+4. The Preferences are attached as an extension of the `eid`.
 
 #### Example of a OpenRTB Bid Request
 
@@ -534,9 +534,9 @@ for nom.
 
 #### The OpenRTB Bid Response
 
-The bidder (named Receiver in PAF Transmission) send back a 
-OpenRTB Bid Response. Each `bid` is associated with a Transaction Response. The 
-Transaction has the same structure explained in **Step 5** and is reachable in
+The bidder (named Receiver in PAF Transmission) sends back a 
+OpenRTB Bid Response. Each `bid` is associated with a Transmission Response. The 
+Transmission has the same structure explained in **Step 5** and is reachable in
 the `ext` field of a `bid` (full path: `seatbid[].bid.ext.paf`).
 
 Here is an example:
