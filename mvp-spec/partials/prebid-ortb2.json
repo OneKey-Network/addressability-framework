@@ -1,27 +1,29 @@
 {
   "user": {
-    "paf": {
-      "transmission": {
-        "version": "0.1",
-        "seed": {
+    "ext": {
+      "paf": {
+        "transmission": {
           "version": "0.1",
-          "transaction_ids": [
-            "4640dc9f-385f-4e02-a0e5-abbf241af94d",
-            "7d71a23a-fafa-449a-8b85-63a634780107"
-          ],
-          "publisher": "publisher.com",
+          "seed": {
+            "version": "0.1",
+            "transaction_ids": [
+              "4640dc9f-385f-4e02-a0e5-abbf241af94d",
+              "7d71a23a-fafa-449a-8b85-63a634780107"
+            ],
+            "publisher": "publisher.com",
+            "source": {
+              "domain": "publisher.com",
+              "timestamp": 1639582000,
+              "signature": "f1f4871d48b825931c5016a433cb3b6388f989fac363af09b9ee3cd400d86b74"
+            }
+          },
           "source": {
-            "domain": "publisher.com",
-            "timestamp": 1639582000,
-            "signature": "f1f4871d48b825931c5016a433cb3b6388f989fac363af09b9ee3cd400d86b74"
-          }
-        },
-        "source": {
-          "domain": "dsp1.com",
-          "timestamp": 1639581000,
-          "signature": "5d0519da9c65feeae715dfcf380c7997ea9ee859e2636a498c43c1044dc20354"
-        },
-        "parents": []
+            "domain": "dsp1.com",
+            "timestamp": 1639581000,
+            "signature": "5d0519da9c65feeae715dfcf380c7997ea9ee859e2636a498c43c1044dc20354"
+          },
+          "parents": []
+        }
       }
     }
   }
