@@ -293,13 +293,13 @@ The CMP may offer the possibility for the user to further customize their select
 
 In this case,
 
--   if the user turns off TCF purposes from the blue list, then the CMP must switch the PAF user preferences to “Standard Marketing”.
+-   if the user turns off TCF purposes from the 'Included in Personalized Marketing' list in the table below, then the CMP must switch the PAF user preferences to “Standard Marketing”.
 
--   if the user turns off TCF purposes from the green or yellow list, then the CMP must switch off PAF for the user
+-   if the user turns off TCF purposes from either 'Included in Standard Marketing' or 'Legimate interest, can’t be turned off', then the CMP must switch off PAF for the user
 
--   if the user selected “Standard Marketing”, but then turns on all blue TCF purposes, then the CMP may switch the user preferences to “Personalized Marketing”
+-   if the user selected “Standard Marketing”, but then turns on all 'Included in Personalized Marketing' TCF purposes, then the CMP may switch the user preferences to “Personalized Marketing”
 
--   if the user selected “Standard Marketing”, but then turns on some but not all blue TCF purposes, then the CMP must highlight to the user that this extra selection of TCF purposes will only apply on the current website, and not across all websites using the PAF network.
+-   if the user selected “Standard Marketing”, but then turns on some but not all 'Included in Personalized Marketing'  TCF purposes, then the CMP must highlight to the user that this extra selection of TCF purposes will only apply on the current website, and not across all websites using the PAF network.
 
 
 #### Mapping between PAF preferences and TCF purposes
