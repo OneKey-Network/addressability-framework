@@ -574,7 +574,7 @@ for nom.
 
 | Entity  | Format|
 |----------|-------|
-| OpenRTB Bid Request with PAF  | [openrtb-bid-request.md](./model/openrtb-bid-request.md) |
+| OpenRTB Bid Request with PAF  | [open-rtb-bid-request.md](./model/open-rtb-bid-request.md) |
 
 <details>
 <summary>OpenRTB Bid Request - JSON Example</summary>
@@ -699,7 +699,7 @@ the `ext` field of a `bid` (full path: `seatbid[].bid.ext.paf`).
 
 | Entity  | Format|
 |----------|-------|
-| OpenRTB Bid Response with PAF  | [openrtb-bid-response.md](./model/openrtb-bid-response.md) |
+| OpenRTB Bid Response with PAF  | [open-rtb-bid-response.md](./model/open-rtb-bid-response.md) |
 
 <details>
 <summary>OpenRTB Bid Response - JSON Example</summary>
