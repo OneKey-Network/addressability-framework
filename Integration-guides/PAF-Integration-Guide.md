@@ -169,7 +169,7 @@ Provide marketing content on request from the Website in compliance with Model T
 
 Use the temporary fork of prebid.js which provides the PAF id module and the PAF RTD module: [https://github.com/openx/Prebid.js](https://github.com/openx/Prebid.js)
 
-Build [prebid.j](http://prebid.je/ "http://prebid.je")s with the 2 additional PAF modules
+Build `prebid.js` with the 2 additional PAF modules
 
     git clone https://github.com/openx/Prebid.js.git
      cd Prebid.js
