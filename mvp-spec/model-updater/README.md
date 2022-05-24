@@ -3,14 +3,25 @@
 
 ## Setup
 
-- Make sure you have Python and `pip` installed on your machine.
-- install the JSON to markdown generator
+- Make sure you have [Python](https://www.python.org/downloads/) and [pip](https://pip.pypa.io/en/stable/installation/) installed on your machine.
+- Install the script dependencies (JSON to markdown generator):
+  - Use a [virtualenv](https://docs.python.org/3/library/venv.html) (recommended)
 
-```shell
-pip install json-schema-for-humans
-```
+    ```shell
+    # Create and use the virtualenv
+    python -m venv venv
+    source venv/bin/activate
+    # Install the dependency
+    pip install json-schema-for-humans
+    ```
 
-## Update model
+  - Or, install the dependency for your user
+
+    ```shell
+    pip install --user json-schema-for-humans
+    ```
+
+## Update the models from the schemas
 
 ```shell
 ./generate-model-markdown.sh

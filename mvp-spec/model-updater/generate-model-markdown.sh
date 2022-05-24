@@ -1,4 +1,4 @@
-#sh
+#!/bin/sh
 
 BASEDIR=$(dirname "$0")
 
@@ -14,5 +14,3 @@ generate-schema-doc \
   --config show_heading_numbers=false \
   "../json-schemas/" \
   "../model/"
-
-rm -Rf ${TMP_DIR};
