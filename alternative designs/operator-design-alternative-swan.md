@@ -1,6 +1,6 @@
 # SWAN
 
-Although not implementing the same [Operator Design](operator-design.md), [SWAN]([swan/apis.md at main · SWAN-community/swan · GitHub](https://github.com/SWAN-community/swan/blob/main/apis.md)) provides a solution that can be used for all workflows.
+Although not implementing the same [Operator Design](../mvp-spec/operator-design.md), [SWAN]([swan/apis.md at main · SWAN-community/swan · GitHub](https://github.com/SWAN-community/swan/blob/main/apis.md)) provides a solution that can be used for all workflows.
 
 Some core principles of SWAN are:
 

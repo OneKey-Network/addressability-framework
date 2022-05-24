@@ -84,24 +84,24 @@ See [audit-log-design.md](audit-log-design.md) and [audit-log-requirements.md](a
 
 ### See also
 
-- Seeds, Transmissions Requests, Transmissions Responses, User Id and Preferences, and all messages sent to or from the Operator must be signed: [security-signatures.md](security-security-signatures.md)
+- Seeds, Transmissions Requests, Transmissions Responses, User Id and Preferences, and all messages sent to or from the Operator must be signed: [security-signatures.md](security-signatures.md)
 - Audit log design: [audit-log-design.md](audit-log-design.md)
 
 ## Documents
 
-| Document                                                                   | Description                                                                                         |
-|----------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------|
-| [security-signatures.md](security-security-signatures.md)                                             | General introduction on signatures and signature verification                                       |
-| [audit-log-requirements.md](audit-log-requirements.md)                     | Functional requirements related to the Audit Log and the Transmissions.                             |
-| [audit-log-design.md](audit-log-design.md)                                 | Design the technical solution for the Audit Log.                                                    |
-| [ad-auction](ad-auction.md)                                                | Details PAF integration in an ad auction.                                                           |
-| [dsp-implementation.md](dsp-implementation.md)                             | Data exchange specification, from the point of view of a DSP implementer.                           |
-| [operator-api.md](operator-api.md)                                         | Operator API specification                                                                          |
-| [operator-design.md](operator-design.md)                                   | Design of the generation of PAF Data.                                                               |
-| [operator-design-alternative-swan.md](operator-design-alternative-swan.md) | Summary of the SWAN solution for generating PAF Data.                                               |
-| [operator-requirements.md](operator-requirements.md)                       | Requirements for the generation of the PAF Data.                                                    |
-| [paf-client-node.md](paf-client-node.md)                                   | Website integration: frontend library, PAF client node, operator backend                            |
-| [Integration Guide.md](PAF-Integration-Guide.md)                           | Guide to integrate into current PAF MVP |
-| [model/](model)                                                            | Data and messages model                                                                             |
-| [json-schemas/](json-schemas)                                              | Data and messages model in [JSON schema](https://json-schema.org/understanding-json-schema/) format |
-| `assets/` `model-updater/` `partials/` `partials-updater/`                 | Technical dependencies, please ignore                                                               |
+| Document                                                                                            | Description                                                                                         |
+|-----------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------|
+| [security-signatures.md](security-signatures.md)                                                    | General introduction on signatures and signature verification                                       |
+| [audit-log-requirements.md](audit-log-requirements.md)                                              | Functional requirements related to the Audit Log and the Transmissions.                             |
+| [audit-log-design.md](audit-log-design.md)                                                          | Design the technical solution for the Audit Log.                                                    |
+| [ad-auction](ad-auction.md)                                                                         | Details PAF integration in an ad auction.                                                           |
+| [dsp-implementation.md](dsp-implementation.md)                                                      | Data exchange specification, from the point of view of a DSP implementer.                           |
+| [operator-api.md](operator-api.md)                                                                  | Operator API specification                                                                          |
+| [operator-design.md](operator-design.md)                                                            | Design of the generation of PAF Data.                                                               |
+| [operator-design-alternative-swan.md](../alternative%20designs/operator-design-alternative-swan.md) | Summary of the SWAN solution for generating PAF Data.                                               |
+| [operator-requirements.md](operator-requirements.md)                                                | Requirements for the generation of the PAF Data.                                                    |
+| [paf-client-node.md](paf-client-node.md)                                                            | Website integration: frontend library, PAF client node, operator backend                            |
+| [Integration Guide.md](../Integration-guides/PAF-Integration-Guide.md)                              | Guide to integrate into current PAF MVP                                                             |
+| [model/](model)                                                                                     | Data and messages model                                                                             |
+| [json-schemas/](json-schemas)                                                                       | Data and messages model in [JSON schema](https://json-schema.org/understanding-json-schema/) format |
+| `assets/` `model-updater/` `partials/` `partials-updater/`                                          | Technical dependencies, please ignore                                                               |
