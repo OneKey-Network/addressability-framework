@@ -19,6 +19,7 @@
             "$ref": "transaction_id.json"
         },
         "transmissions": {
+            "description": "The list of Transmission Results that participated to the generation of the content. This list is chronologically ordered.",
             "type": "array",
             "items": {
                 "$ref": "transmission-result.json"

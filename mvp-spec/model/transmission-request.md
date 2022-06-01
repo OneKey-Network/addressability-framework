@@ -931,7 +931,7 @@ array
 </td>
 <td>
 
-The list of Transmission Result before this Transmission Request for the given Seed.
+The list of Transmission Results representing the path of in-progress Transmissions for generating this Transmission Request. This list is chronologically ordered.
 
 **Array of**:
 

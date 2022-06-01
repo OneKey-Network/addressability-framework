@@ -127,16 +127,14 @@ even if they participate in the Addressable Content.
 The Audit Log shows the Contracting Parties who collaborate on the 
 Addressable Content that relies on the PAF data. The Audit Log UI lets
 the user pinpoints the Contracting Parties. There is no requirement to show
-Transmission that didn't have an impact on the Addressable Content.
+Transmissions that didn't have an impact on the Addressable Content.
 
 ![Transmission Flow Explanation](./assets/transmission-flow-explanation.png)
 
 The Audit Log helps the user to know who received her/his PAF Data. In
 other words, the user doesn't need to know who was the Sender of a 
-Transmission, only the Receiver. She/he doesn't even need to know the order of
-the Transmissions. So it is acceptable to see the Audit Log as an unordered 
-list to simplify the display and the concepts to the users. We will use this 
-approach for the rest of the requirement.
+Transmission, only the Receiver. However the list of Transmission 
+is chronologically ordered.
 
 # Heterogeneous systems
 

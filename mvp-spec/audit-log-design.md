@@ -33,7 +33,7 @@ the Audit UI.
 The Contracting Party responsible for the Audit Log must build a valid Audit Log. 
 For this purpose, it must:
 
-1. Extract the **Transmission Results** from the parents and the children of its Transmission
+1. Extract the list of **Transmission Results** from the parents and the children of its Transmission. The chronological order must be keeped for this final list.
 1. Take the Prebid Addressability Framework data, the Seed and the Transmission Results 
 of the Addressable Content.
 1. Build the Audit Log by following the specification below.

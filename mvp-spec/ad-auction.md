@@ -27,7 +27,7 @@ A Transmission Request is a request sent by a participant sharing the User Id an
 A Transmission Request links together:
 - a Seed 
 - a sender identity 
-- an array of Transmission Results (see below)
+- an array of Transmission Results that is chronogically ordered - from the oldest ancestor to the most recent. See details of Transmission Result below.
 
 Participants sending User Id and Preferences with bid requests must include a Transmission Request alongside that communication.
 
@@ -51,11 +51,11 @@ A Transmission Result is the acknowledgement by a participant of the reception o
 
 Transmission Results are chained through Transmission Requests and Transmission Responses.
 
-Each participant sending a Transmission Request must include their own Transmission Result in the communication (except for the participant sending the first Transmission Request) and all the Transmission Results they have received as part of the Transmission Request chain, which are referred to as "parent" Transmission Results. This structure is an array to represent a single path.
+Each participant sending a Transmission Request must include their own Transmission Result in the communication (except for the participant sending the first Transmission Request) and all the Transmission Results they have received as part of the Transmission Request chain, which are referred to as "parent" Transmission Results. This structure is an array to represent a single path and it is ordered chronologicaly.
 
 Each participant sending a Transmission Response must include their own Transmission Result in the communication and all the Transmission Results they have received as part of the Transmission Response chain, which are referred to as "children" Transmission Results. This structure is a tree to represent the multiplicity of the suppliers.
 
-A participant's content may be filtered out at some point of the bid response chain (e.g. a bid response being excluded). In that case the corresponding Transmission Results are also filter out of the list of Transmission Results. 
+A participant's content may be filtered out at some point of the bid response chain (e.g. a bid response being excluded). In that case the corresponding Transmission Results are also filter out of the list of Transmission Results and keep the chronological order. 
 In the generic case where an ad is being provided by one DSP only, the Transmission Result list of the final Transmission Response is an array.
 
 The Audit Log of a transaction is the list of all the Transmission Results part of the final Transmission Response and the associated
