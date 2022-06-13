@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "redirect-delete-ids-prefs-response",
+  "title": "GET /v1/redirect/delete-ids-prefs response",
+  "additionalProperties": false,
+  "properties": {
+    "code": {
+      "$ref": "response-code.json"
+    },
+    "response": {
+      "$ref": "delete-ids-prefs-response.json",
+      "description": "Sent if code is `204`"
+    },
+    "error": {
+      "$ref": "error.json",
+      "description": "Sent if code is different from `204`"
+    }
+  },
+  "required": [
+    "code"
+  ]
+}
