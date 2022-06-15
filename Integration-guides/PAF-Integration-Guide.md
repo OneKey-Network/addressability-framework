@@ -31,7 +31,7 @@ The PAF client node is currently hosted by Criteo, but could be hosted by someon
         
         -   ⚠️ the TLD+1 must be the same as the Website (ex: `www.example-website.com` and `some-sub-site.example-website.com` must use a PAF with domain `.example-website.com`)
             
- **Configure** this new client. For example, using [the NodeJS implementation](https://github.com/prebid/paf-mvp-implementation/tree/main/paf-mvp-operator-client-express "https://github.com/prebid/paf-mvp-implementation/tree/main/paf-mvp-operator-client-express"):
+ **Configure** this new client. For example, using [the NodeJS implementation](https://github.com/prebid/paf-mvp-implementation/tree/main/paf-mvp-client-express "https://github.com/prebid/paf-mvp-implementation/tree/main/paf-mvp-client-express"):
 ```javascript
        // This is just an example of a basic client node configuration
     addClientNodeEndpoints(

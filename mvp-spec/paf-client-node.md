@@ -23,9 +23,9 @@ is _served by a http server_ and it can then use Javascript _in the browser_.
   its behalf.
     - this node can be hosted by the website's owner or by a tech vendor
 
-- Finally, clients of the PAF operators can use an optional "**backend operator client**" that will trigger HTTP redirects upfront, before it would be done in JS via the frontend library. 
-    - this is part of the website's http server
-    - this can be interesting to trigger HTTP redirects before any web page is served
+- Note: clients of the PAF operators _can_ decide to use an operator client that is part of their website's HTTP server
+  and intercepts all requests made to display the web pages to trigger **HTTP** redirects (not Javascript).
+  - This special kind of integration (a "**backend operator client**") is not detailed here but can be investigated further if needed.
 
 ```mermaid
 flowchart LR
@@ -77,7 +77,7 @@ To do so, it exposes:
 | Write ids & prefs         | Redirect to [write](operator-api.md#write-ids-&-preferences) operator endpoint                         | Signed "write" request<br>(see [operator API](operator-api.md#write-ids-&-preferences))    | redirect to operator                                             | `POST /paf-proxy/v1/ids-prefs`  | `GET /paf-proxy/v1/redirect/post-ids-prefs` |
 | **Verify** read           | Verify the response received from the operator                                                         | Signed "read" **response**<br>(see [operator API](operator-api.md#read-ids-&-preferences)) | Same as input if verification succeeded, error message otherwise | `POST /paf-proxy/verify/read`   | N/A                                         |
 
-ℹ️ An example implementation (for NodeJS) of a PAF client node is available in [the implementation project](https://github.com/criteo/paf-mvp-implementation/tree/main/paf-mvp-operator-client-express)
+ℹ️ An example implementation (for NodeJS) of a PAF client node is available in [the implementation project](https://github.com/criteo/paf-mvp-implementation/tree/main/paf-mvp-client-express)
 
 ⚠️ Note that in the following examples, the PAF client node is supposed to be hosted on the `cmp.com` domain.
 
@@ -424,13 +424,6 @@ The "frontend library" is implemented via a Javascript script provided by PAF an
 
 This library is a static file that can be added to any website, but requires **the host name of the PAF client node** as configuration input.
 
-## Backend operator client
-
-The backend operator client is an **optional** component that website owners can use if they want to trigger redirect
-at the HTTP level rather than via Javascript, in case the browser doesn't support 3PC.
-
-ℹ️ An example implementation (for NodeJS) of a backend operator client is available in [the implementation project](https://github.com/criteo/paf-mvp-implementation/tree/main/paf-mvp-operator-client-express).
-
 ## Implementation details
 
 <details>
@@ -438,8 +431,6 @@ at the HTTP level rather than via Javascript, in case the browser doesn't suppor
 
 The following diagram details the steps needed to read existing cookies from PAF
 
-- at server level, _if the website decides to use a **backend operator client**_, HTTP redirects can be triggered when
-  needed
 - at browser level the **frontend operator client** (a Javascript library) is used
     - depending on the context, the JS library calls a REST or "redirect" endpoint on the operator
     - it relies on the **PAF client node**, a component responsible for building operator URLs to call.
@@ -448,9 +439,6 @@ The following diagram details the steps needed to read existing cookies from PAF
 
 To test if third party cookies are supported and trigger redirect otherwise, the following logic is used:
 
-1. if a backend client is used, then
-    - based on user agent, if the browser is known to **not** support 3PC (ex: Safari) ➡️ consider no 3PC and
-      immediately **HTTP redirect**
 2. in Javascript,
     - based on user agent, if the browser is known to **not** support 3PC (ex: Safari) ➡️ consider no 3PC and
       immediately **javascript redirect**
@@ -462,54 +450,9 @@ To test if third party cookies are supported and trigger redirect otherwise, the
     - if success ➡️ 3PC **are** supported, it's just that the user is not known
     - if failure ➡️ 3PC are **not** supported, **javascript redirect**
 
-### Actual cookies writing
-
-Note: cookies set by Javascript can be read by the http server when it receives a successive call, and vice-versa.
-
-In other words, after a redirect by the operator back to the website,
-
-- when using a **backend operator client**:
-    - the backend operator client will set 1st party cookies (either a value or "unknown")
-    - these cookies will be visible by the JS
-    - so in the JS part of the diagram below, the answer to the question "Any Prebid 1st party 🍪?" is: **yes** and the
-      cookies won't be written twice
-- when not using a backend operator client, these cookies will be written by JS
-
 ```mermaid
 flowchart TD
-    subgraph noMiddleware [HTTP server without backend operator client]
-        NoMiddlewareServe[serve HTML page]
-    end
-    
-    subgraph middleware[HTTP server with backend operator client]
-        MiddlewareCookies{"Any Prebid 1st party 🍪?"}
-        MiddlewareAfterRedirect{Redirected from operator?}
-        MiddlewareNonEmptyData{Received data?}
-        MiddlewareVerifyRead["verify signature"]
-        Middleware3PC{Browser known to support 3PC?}
-        MiddlewareServe[serve HTML page]
-        MiddlewareRedirect[HTTP redirect]
-        MiddlewareSave["Set 1st party Prebid 🍪 = data"]
-        style MiddlewareSave stroke:red,stroke-width:4px
-        MiddlewareSaveNothing["Set 1st party Prebid 🍪 = 'unknown'"]
-        style MiddlewareSaveNothing stroke:red,stroke-width:4px
-        
-        Middleware3PC -->|No| MiddlewareRedirect
-        Middleware3PC -->|Yes| MiddlewareServe
-        
-        MiddlewareCookies -->|No| MiddlewareAfterRedirect
-        
-        MiddlewareAfterRedirect -->|No| Middleware3PC
-        MiddlewareAfterRedirect -->|Yes| MiddlewareNonEmptyData
-        
-        MiddlewareNonEmptyData -->|No| MiddlewareSaveNothing --> MiddlewareServe
-        MiddlewareNonEmptyData -->|Yes| MiddlewareVerifyRead
-        MiddlewareVerifyRead --> MiddlewareSave --> MiddlewareServe
-        
-        MiddlewareCookies -->|Yes| MiddlewareServe
-    end
-
-    subgraph "HTML page (with frontend operator client JS library)"
+    subgraph "HTML page (with frontend JS library)"
         HtmlLoad[Page load]
         HtmlAfterRedirect{Redirected from operator?}
         HtmlCookies{"Any Prebid 1st party 🍪?"}
@@ -539,16 +482,9 @@ flowchart TD
         OperatorVerify3PC["json/verify3PC endpoint"]
     end
     
-    User[User visit] -------> Get
+    User[User visit] -------> HtmlLoad
     style User stroke:#333,stroke-width:4px
     
-    Get[GET web page]
-    Get --> noMiddleware
-    Get --> middleware
-    
-    MiddlewareServe --> HtmlLoad
-    MiddlewareRedirect -- HTTP 303 operator/redirect/read --> OperatorRedirect
-    NoMiddlewareServe ------> HtmlLoad
     HtmlLoad --> HtmlCookies
     
     HtmlAnyData -->|No| HtmlSaveNothing --> HtmlDone  
