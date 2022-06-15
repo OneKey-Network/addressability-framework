@@ -83,7 +83,3 @@ Users can download the content of the audit, which they can use to contact the a
     <figcaption><i>Download data</i></figcaption>
 </figure>
 <br>
-
-## About the authors
-
-[Dot Creative](https://dotcreative.hu) is a Digital Agency. Our main profile is UI and UX design, we also design and implement social and media campaigns.
