@@ -1,15 +1,15 @@
 
-# PAF Integration Guide
+# OneKey Integration Guide
 
 # Tech Stack Requirements and Expectations
 
-In order to integrate PAF, a Website needs:
+In order to use the OneKey protocols, a Website needs:
 
 1.  Prebid.js
     
 2.  At least one participating SSP or DSP (e.g Criteo CDB, or another SSP/DSP interested)
     
-3.  A CMP provider, or a “homemade” CMP, which will need to be significantly changed to support PAF
+3.  A CMP provider, or a “homemade” CMP, which will need to be significantly changed to support OneKey
     
 4.  Google Publisher Tag
     
@@ -23,20 +23,20 @@ In order to integrate PAF, a Website needs:
 |-----------------	|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------	|
 | Website Owner   	| Self explanatory                                                                                                                                                                                                                                          	|
 | CMP             	| Consent Management Platform<br>Provides the UX to let users express their data processing preferences<br>Example partners: Sourcepoint, OneTrust, Quantcast …                                                                                             	|
-| PAF Client Node 	| Provides key PAF functions for the Website Owners:<br>Key Management and Identity Endpoint<br>Sign communications with the PAF Operator (acts as an operator proxy)<br>Generate Seeds to initiate PAF Transactions<br>Collate the Audit Log for each Ads  	|
-| PAF Operator    	| Manages the storage and synchronization of ids and Preferences across the PAF network.    
+| Client Node 	| Provides key functions for the Website Owners:<br>Key Management and Identity Endpoint<br>Sign communications with the Operator (acts as an operator proxy)<br>Generate Seeds to initiate Transactions<br>Collate the Audit Log for each Ads  	|
+| Operator    	| Manages the storage and synchronization of ids and Preferences across the OneKey network.    
 
-The Website Owner and PAF Operator roles need to be filled by separate entities.
+The Website Owner and Operator roles need to be filled by separate entities.
 
-The CMP and the PAF Client Node roles can be taken by separate entities, or by either the Website Owner or by the partner providing the PAF Operator.
+The CMP and the Client Node roles can be taken by separate entities, or by either the Website Owner or by the partner providing the Operator.
 
 ## Available Partners
 
 ### CMP Partners
 
-No CMP currently supports PAF, we’ll have to get yours onboard.
+No CMP currently supports OneKey, we’ll have to get yours onboard.
 
-### PAF Client Node Partners
+### Client Node Partners
 
 | **Vendor<br>** 	| **IP or Domain Name<br>**                                	| **Comments<br>**                                                                             	|
 |----------------	|----------------------------------------------------------	|----------------------------------------------------------------------------------------------	|
@@ -48,10 +48,10 @@ Alternatives:
 
 -   Ask your CMP partner to provide this service
 
--   Ask your PAF Operator to provide this service
+-   Ask your Operator to provide this service
 
 
-### PAF Operator Partners
+### Operator Partners
 
 
 | **Vendor<br>** 	| **Domain<br>**      	| **Comments<br>** 	|
@@ -62,16 +62,16 @@ Alternatives:
 
 ## Incorporating the Model Terms
 
--   The Model Terms must be incorporated in the Main Agreement between the Website Owner and the PAF Operator.
+-   The Model Terms must be incorporated in the Main Agreement between the Website Owner and the Operator.
 
 -   If the CMP is provided by a 3rd party partner, the Main Agreement between the Website and the CMP partner must also include the Model Terms.
 
--   Same applies if the PAF Client Node is provided to the Website by a 3rd party partner.
+-   Same applies if the Client Node is provided to the Website by a 3rd party partner.
 
 
 ## Website Owner Tasks
 
-### Build the PAF components from sources (if needed)
+### Build the Front-End Library from sources (if needed)
 
      mkdir paf-from-source
      cd paf-from-source
@@ -81,7 +81,7 @@ Alternatives:
      npm run build-front
      ls paf-mvp-demo-express/public/assets/paf-lib.js
 
-### Setup the PAF Client Node
+### Setup the Client Node
 
 #### Create DNS records for the Client Node back-end
 
@@ -125,31 +125,31 @@ Add the CMP frontend JavaScript in the head section of your website pages
 ## CMP Tasks
 
 If you're operating your own consent UI, guidelines for remodeling the consent UI are provided in this document: [CMP-remodeling-guide](./CMP-remodeling-guide.md).
-If you're using a CMP that doesn't yet support PAF, the same guidelines should be followed byt the CMP provider.
+If you're using a CMP that doesn't yet support OneKey, the same guidelines should be followed byt the CMP provider.
 
-## PAF Client Node Tasks
+## Client Node Tasks
 
-If you wish to operate your own PAF Client Node, this section instruct on how to deploy and run one.
+If you wish to operate your own Client Node, this section instruct on how to deploy and run one.
 This section also explains the configuration that is required at the Client Node level to serve a new website.
 
-The PAF Client Node front end will be used by the prebid modules and the callback to get the id and preferences, generate seeds, and collate the transmissions into audit logs for each ad.
+The Client Node front end will be used by the prebid modules and the callback to get the id and preferences, generate seeds, and collate the transmissions into audit logs for each ad.
 
-The PAF client node is currently hosted by Criteo, but could be hosted by someone else.
+The Client Node is currently hosted by Criteo, but could be hosted by someone else.
 
 -   _[Ask Client node provider to]_ Add a new instance for the publisher website
     
     -   Configure **the server** to accept connections on the vhost of the subdomain the Website Owner allocated (e.g. `paf.example-website.com`)
         
-        -   ⚠️ the TLD+1 must be the same as the Website (ex: `www.example-website.com` and `some-sub-site.example-website.com` must use a PAF with domain `.example-website.com`)
+        -   ⚠️ the TLD+1 must be the same as the Website (ex: `www.example-website.com` and `some-sub-site.example-website.com` must use a Client Node on a subdomain of `.example-website.com`)
             
  **Configure** this new client. For example, using [the NodeJS implementation](https://github.com/prebid/paf-mvp-implementation/tree/main/paf-mvp-operator-client-express "https://github.com/prebid/paf-mvp-implementation/tree/main/paf-mvp-operator-client-express"):
 ```javascript
        // This is just an example of a basic client node configuration
     addClientNodeEndpoints(
       express(),
-      // Identity information: mandatory for any PAF interaction
+      // Information to identify the participant to the users, to the operator and to other participants
       {
-        // Name of the PAF participant
+        // Name of the participant
         name: 'Example Website',
         // Current public key
         currentPublicKey: {
@@ -167,7 +167,7 @@ The PAF client node is currently hosted by Criteo, but could be hosted by someon
         privacyPolicyUrl: new URL('https://www.example-website/privacy'),
       },
       {
-        // The PAF node host name to receive requests
+        // The Client Node host name to receive requests
         hostName: 'paf.example-website.com',
         // Current private key
         privateKey: `-----BEGIN PRIVATE KEY-----
@@ -176,20 +176,20 @@ The PAF client node is currently hosted by Criteo, but could be hosted by someon
     Ts8lo0jba/6zuFHUeRvvUN7o63lngkuhntqPXFiEVxAmxiQWVfFwFZ9F
     -----END PRIVATE KEY-----`,
       },
-      // The PAF operator host
+      // The Operator host
       'example.onekey.network'
     );
 ```
 
 
-## PAF Operator Tasks
+## Operator Tasks
 
 This next section is only needed for a publisher (or any actor) wanting to set up another operator.
 This section also explains the configuration that is required at the Operator level to serve a new website through its client node.
 
-For a new **PAF client node** to be authorized by an operator, the **operator** configuration must be updated.
+For a new **Client Node** to be authorized by an Operator, the **Operator** configuration must be updated.
 
-A PAF operator is currently hosted by Criteo.
+An Operator is currently hosted by Criteo.
 
 Website owners can decide to:
 
@@ -197,9 +197,9 @@ Website owners can decide to:
     
 -   set up their own operator
 
-#### Set up a PAF operator
+#### Set up an Operator
 
-A PAF operator must implement the Operator API defined in [https://github.com/prebid/addressability-framework/blob/main/mvp-spec/operator-api.md](https://github.com/prebid/addressability-framework/blob/main/mvp-spec/operator-api.md)
+An Operator must implement the Operator API defined in [https://github.com/prebid/addressability-framework/blob/main/mvp-spec/operator-api.md](https://github.com/prebid/addressability-framework/blob/main/mvp-spec/operator-api.md)
 
 A NodeJS implementation is available at [https://github.com/prebid/paf-mvp-implementation/tree/main/paf-mvp-operator-express](https://github.com/prebid/paf-mvp-implementation/tree/main/paf-mvp-operator-express)
 
@@ -208,9 +208,9 @@ For example:
     // This is just an example of a basic operator node configuration
     addOperatorApi(
       express(),
-      // Identity information: mandatory for any PAF interaction
+      // Information to identify the operator to other operators and participants
       {
-        // Name of the PAF participant
+        // Name of the participant
         name: 'Example operator',
         // Current public key
         currentPublicKey: {
@@ -235,7 +235,7 @@ For example:
     oyeE+rrDPJzpZxIyCCTHDvd1TRShRANCAAQSJkhGEbE118biXou5jZB+PJ/rRHSO
     ZxbtbfH3C+VfhheolRApHZzSW96pUOPiHA7SRNkO41FSGDGTiKvBXd/P
     -----END PRIVATE KEY-----`,
-      // List of PAF client node host names and their corresponding permissions
+      // List of Client Node host names and their corresponding permissions
       {
         'paf.example-websiteA.com': [Permission.READ, Permission.WRITE],
         'paf.example-websiteB.com': [Permission.READ, Permission.WRITE],
@@ -244,9 +244,9 @@ For example:
     );
 ```
 
-#### Authorize a new PAF client
+#### Authorize a new Client Node
 
-To authorize a new PAF client on the operator, simply add the corresponding PAF client node hostname to the list of authorized clients, like, in the above example:
+To authorize a new Client Node on the operator, simply add the corresponding Client Node hostname to the list of authorized clients, like, in the above example:
 
 `'paf.example-websiteB.com': [Permission.READ, Permission.WRITE],`
 
@@ -258,7 +258,7 @@ To authorize a new PAF client on the operator, simply add the corresponding PAF 
 | **Role<br>**       	|                                                                                                                                                                                                                                                           	|
 |--------------------	|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------	|
 | Website Owner      	| Self explanatory                                                                                                                                                                                                                                          	|
-| PAF Client Node    	| Provides key PAF functions for the Website Owners:<br>Key Management and Identity Endpoint<br>Sign communications with the PAF Operator (acts as an operator proxy)<br>Generate Seeds to initiate PAF Transactions<br>Collate the Audit Log for each Ads  	|
+| Client Node    	| Provides key functions for the Website Owners:<br>Key Management and Identity Endpoint<br>Sign communications with the Operator (acts as an operator proxy)<br>Generate Seeds to initiate Transactions<br>Collate the Audit Log for each Ads  	|
 | Direct SSPs & DSPs 	| Provide marketing content on request from the Website in compliance with Model Terms.                                                                                                                                                                     	|
 
 Direct SSPs & DSPs
@@ -278,9 +278,9 @@ Provide marketing content on request from the Website in compliance with Model T
 
 ### Build a Modified Prebid.js
 
-Use the temporary fork of prebid.js which provides the PAF id module and the PAF RTD module: [https://github.com/openx/Prebid.js](https://github.com/openx/Prebid.js)
+Use the temporary fork of prebid.js which provides the necessary OneKey id module and the OneKey RTD module: [https://github.com/openx/Prebid.js](https://github.com/openx/Prebid.js)
 
-Build `prebid.js` with the 2 additional PAF modules
+Build `prebid.js` with the 2 additional modules
 
     git clone https://github.com/openx/Prebid.js.git
      cd Prebid.js
@@ -293,9 +293,9 @@ Don’t forget to add the adapters that you need as modules in the build command
 
 1.  Configure the 2 modules
     
-    1.  PAF id module: allow the bidder adapters of the PAF-ready direct SSPs and DSPs to access the id
+    1.  OneKey id module: allow the bidder adapters of the OneKey-ready direct SSPs and DSPs to access the id
         
-    2.  PAF RTB module: whitelist the same bidder adapters so they get access to the PAF seeds
+    2.  OneKey RTD module: whitelist the same bidder adapters so they get access to the seeds
         
 
 The prebid Js can be configured as follow (from this file [https://github.com/prebid/paf-mvp-implementation/blob/main/paf-mvp-demo-express/src/views/publisher/index.hbs#L82](https://github.com/prebid/paf-mvp-implementation/blob/main/paf-mvp-demo-express/src/views/publisher/index.hbs#L82) ) :  
@@ -350,11 +350,11 @@ The prebid Js can be configured as follow (from this file [https://github.com/pr
 
 Warning, `params: {proxyHostName: "cmp.pafdemopublisher.com"}` should lead to the Client Node
 
-To be developed: On May 2nd 2022 the method to whitelist PAF-members bid adapter is not available yet. It means non member could get and use PAF ids without pledging to follow its principle.
+To be developed: On May 2nd 2022 the method to whitelist bid adapter is not available yet. It means non member could get and use a user id and preference without pledging to follow the OneKey principles.
 
-### Add a Prebid.js “bidWon” Callback to Retrieve PAF Transmissions
+### Add a Prebid.js “bidWon” Callback to Retrieve Transmissions
 
-The callback retrieves the PAF transmissions from the winning bid responses and makes the audit log available for the CMP’s Audit Log Viewer
+The callback retrieves the Transmissions from the winning bid responses and makes the audit log available for the CMP’s Audit Log Viewer
 
 To be confirmed: On May 2nd 2022 the method to make the audit log available is not fully finalized
 
@@ -394,7 +394,7 @@ Make sure prebid.js is wired with Google Publisher Tag in a way that ensures tha
             
     -   Define the **end date** of the current private / public keys pair,
         
--   ⚠️ the TLD+1 must be the same as the Website (ex: `www.example-website.com` and `some-sub-site.example-website.com` must use a PAF with domain `.example-website.com`), so you need to add the client node to your DNS
+-   ⚠️ the TLD+1 must be the same as the Website (ex: `www.example-website.com` and `some-sub-site.example-website.com` must use a Client Node on a subdomain of `.example-website.com`), so you need to add the Client Node to your DNS zone.
     
 
 ## Direct SSPs and DSPs Tasks
@@ -407,7 +407,7 @@ Not immediate: This needs to be updated but currently Criteo’s adapter and DSP
         
     2.  add the transmission response to the Prebid’s bid response objects
         
-2.  Adapt your SSP server to sign transmissions, and forward them to PAF ready Exchanges and DSPs
+2.  Adapt your SSP server to sign transmissions, and forward them to OneKey-ready Exchanges and DSPs
     
 3.  Adapt your DSP server
     
