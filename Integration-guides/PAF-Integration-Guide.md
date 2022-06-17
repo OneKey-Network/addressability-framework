@@ -268,6 +268,16 @@ Make sure prebid.js is wired with Google Publisher Tag in a way that ensures tha
 
 ![adunit_to_div_id](https://github.com/prebid/addressability-framework/blob/main/mvp-spec/assets/adunit_to_divid.png)
 
+### Add the Audit Log UI tag
+
+This tag will add a visible button next to your ad placements (as detected from GPT) to let the user see the Audit Log for ads generated using the OneKey id and preference. You should just need to add the tag to your `<head>` section.
+
+```html
+<script src="https://my-cdn.example-website.com/assets/ok-audit.min.js" data-brand-name="Demo Publisher"></script>
+```
+
+> ⚠️ TODO:  The tag and the instruction to add it to a page have yet to be confirmed. 
+
 ### Set up the client node:
 
 This was already described [here](#setup-the-client-node)
