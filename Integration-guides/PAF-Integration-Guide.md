@@ -129,126 +129,14 @@ If you're using a CMP that doesn't yet support OneKey, the same guidelines shoul
 
 ## Client Node Tasks
 
-If you wish to operate your own Client Node, this section instruct on how to deploy and run one.
-This section also explains the configuration that is required at the Client Node level to serve a new website.
-
-The Client Node front end will be used by the prebid modules and the callback to get the id and preferences, generate seeds, and collate the transmissions into audit logs for each ad.
-
-The Client Node is currently hosted by Criteo, but could be hosted by someone else.
-
--   _[Ask Client node provider to]_ Add a new instance for the publisher website
-    
-    -   Configure **the server** to accept connections on the vhost of the subdomain the Website Owner allocated (e.g. `paf.example-website.com`)
-        
-        -   ⚠️ the TLD+1 must be the same as the Website (ex: `www.example-website.com` and `some-sub-site.example-website.com` must use a Client Node on a subdomain of `.example-website.com`)
-            
- **Configure** this new client. For example, using [the NodeJS implementation](https://github.com/prebid/paf-mvp-implementation/tree/main/paf-mvp-operator-client-express "https://github.com/prebid/paf-mvp-implementation/tree/main/paf-mvp-operator-client-express"):
-```javascript
-       // This is just an example of a basic client node configuration
-    addClientNodeEndpoints(
-      express(),
-      // Information to identify the participant to the users, to the operator and to other participants
-      {
-        // Name of the participant
-        name: 'Example Website',
-        // Current public key
-        currentPublicKey: {
-          // Timestamps are expressed in seconds
-          startTimestampInSec: getTimeStampInSec(new Date('2022-01-01T12:00:00.000Z')),
-          endTimestampInSec: getTimeStampInSec(new Date('2022-12-31T12:00:00.000Z')),
-          publicKey: `-----BEGIN PUBLIC KEY-----
-    MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEl0278pcupaxUfiqHJ9AG9gVMyIO+
-    n07PJaNI22v+s7hR1Hkb71De6Ot5Z4JLoZ7aj1xYhFcQJsYkFlXxcBWfRQ==
-    -----END PUBLIC KEY-----`,
-        },
-        // Email address of DPO
-        dpoEmailAddress: 'dpo@example-website.com',
-        // URL of a privacy page
-        privacyPolicyUrl: new URL('https://www.example-website/privacy'),
-      },
-      {
-        // The Client Node host name to receive requests
-        hostName: 'paf.example-website.com',
-        // Current private key
-        privateKey: `-----BEGIN PRIVATE KEY-----
-    MIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQg0X8r0PYAm3mq206o
-    CdMHwZ948ONyVJToeFbLqBDKi7OhRANCAASXTbvyly6lrFR+Kocn0Ab2BUzIg76f
-    Ts8lo0jba/6zuFHUeRvvUN7o63lngkuhntqPXFiEVxAmxiQWVfFwFZ9F
-    -----END PRIVATE KEY-----`,
-      },
-      // The Operator host
-      'example.onekey.network'
-    );
-```
+If you wish to operate your own Client Node, an Admin guide is provided is this document: [Client-Node-admin-guide](./Client-Node-admin-guide.md).
+It also explains the configuration that is required at the Client Node level to serve a new website.
 
 
 ## Operator Tasks
 
-This next section is only needed for a publisher (or any actor) wanting to set up another operator.
-This section also explains the configuration that is required at the Operator level to serve a new website through its client node.
-
-For a new **Client Node** to be authorized by an Operator, the **Operator** configuration must be updated.
-
-An Operator is currently hosted by Criteo.
-
-Website owners can decide to:
-
--   use the Criteo operator
-    
--   set up their own operator
-
-#### Set up an Operator
-
-An Operator must implement the Operator API defined in [https://github.com/prebid/addressability-framework/blob/main/mvp-spec/operator-api.md](https://github.com/prebid/addressability-framework/blob/main/mvp-spec/operator-api.md)
-
-A NodeJS implementation is available at [https://github.com/prebid/paf-mvp-implementation/tree/main/paf-mvp-operator-express](https://github.com/prebid/paf-mvp-implementation/tree/main/paf-mvp-operator-express)
-
-For example:
-```javascript
-    // This is just an example of a basic operator node configuration
-    addOperatorApi(
-      express(),
-      // Information to identify the operator to other operators and participants
-      {
-        // Name of the participant
-        name: 'Example operator',
-        // Current public key
-        currentPublicKey: {
-          // Timestamps are expressed in seconds
-          startTimestampInSec: getTimeStampInSec(new Date('2022-01-01T10:50:00.000Z')),
-          endTimestampInSec: getTimeStampInSec(new Date('2022-12-31T12:00:00.000Z')),
-          publicKey: `-----BEGIN PUBLIC KEY-----
-    MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEEiZIRhGxNdfG4l6LuY2Qfjyf60R0
-    jmcW7W3x9wvlX4YXqJUQKR2c0lveqVDj4hwO0kTZDuNRUhgxk4irwV3fzw==
-    -----END PUBLIC KEY-----`
-        },
-        // Email address of DPO
-        dpoEmailAddress: 'contact@example.onekey.network',
-        // URL of a privacy page
-        privacyPolicyUrl: new URL('https://example.onekey.network/privacy')
-      },
-      // The operator host name to receive requests
-      'example.onekey.network',
-      // Current private key
-      `-----BEGIN PRIVATE KEY-----
-    MIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQgxK7RQm5KP1g62SQn
-    oyeE+rrDPJzpZxIyCCTHDvd1TRShRANCAAQSJkhGEbE118biXou5jZB+PJ/rRHSO
-    ZxbtbfH3C+VfhheolRApHZzSW96pUOPiHA7SRNkO41FSGDGTiKvBXd/P
-    -----END PRIVATE KEY-----`,
-      // List of Client Node host names and their corresponding permissions
-      {
-        'paf.example-websiteA.com': [Permission.READ, Permission.WRITE],
-        'paf.example-websiteB.com': [Permission.READ, Permission.WRITE],
-        'paf.example-websiteC.com': [Permission.READ, Permission.WRITE]
-      }
-    );
-```
-
-#### Authorize a new Client Node
-
-To authorize a new Client Node on the operator, simply add the corresponding Client Node hostname to the list of authorized clients, like, in the above example:
-
-`'paf.example-websiteB.com': [Permission.READ, Permission.WRITE],`
+For actors wanting to set up another operator, an Admin guide is provided in this document:  [Operator-admin-guide](./Operator-admin-guide.md).
+It also explains the configuration that is required at the Operator level to serve a new website through its client node.
 
 # Configuring the Ad Supply Chain
 
