@@ -192,55 +192,88 @@ Don’t forget to add the adapters that you need as modules in the build command
     2.  OneKey RTD module: whitelist the same bidder adapters so they get access to the seeds
         
 
-The prebid Js can be configured as follow (from this file [https://github.com/prebid/paf-mvp-implementation/blob/main/paf-mvp-demo-express/src/views/publisher/index.hbs#L82](https://github.com/prebid/paf-mvp-implementation/blob/main/paf-mvp-demo-express/src/views/publisher/index.hbs#L82) ) :  
+The prebid Js can be configured as follow (from this file [paf-mvp-demo-express/src/views/publisher/index.hbs](https://github.com/prebid/paf-mvp-implementation/blob/main/paf-mvp-demo-express/src/views/publisher/index.hbs#L93) ) :  
   
-
-    var pbjs = pbjs || {};
-    pbjs.que = pbjs.que || [];
-
-    pbjs.que.push(function() {
-        pbjs.addAdUnits(adUnits);
-        pbjs.setConfig({
-            debug: true,
-            realTimeData: {
-                auctionDelay: 1000,
-                dataProviders: [
-                        {
-                        name: "paf",
-                        waitForIt: true,
-                        params: {proxyHostName: "cmp.pafdemopublisher.com"}
+```javascript
+        var pbjs = pbjs || {};
+        pbjs.que = pbjs.que || [];
+        var PAF = PAF || {};
+        PAF.queue = PAF.queue || [];
+        pbjs.que.push(function() {
+            pbjs.addAdUnits(adUnits);
+            pbjs.setConfig({
+                consentManagement: {
+                cmpApi: "static",
+                consentData: {
+                    getTCData: {
+                        tcString: "CO-HDlqO-HDlqAKAXCENBDCsAP_AAH_AACiQHKNd_X_fb39j-_59_9t0eY1f9_7_v20zjgeds-8Nyd_X_L8X42M7vF36pq4KuR4Eu3LBIQFlHOHcTUmw6IkVqTPsak2Mr7NKJ7PEinMbe2dYGHtfn9VTuZKYr97s___z__-__v__75f_r-3_3_vp9V---_fA5QAkw1L4CLMSxwJJo0qhRAhCuJDoAQAUUIwtE1hASuCnZXAR-ggYAIDUBGBECDEFGLIIAAAAAkoiAkAPBAIgCIBAACAFSAhAARoAgsAJAwCAAUA0LACKAIQJCDI4KjlMCAiRaKCeSMASi72MMIQyigBoFH4AAAAA.cAAAAAAAAAAA",
+                        cmpId: 10,
+                        cmpVersion: 23,
+                        tcfPolicyVersion: 2,
+                        gdprApplies: false,
+                        cmpStatus: "loaded",
+                        eventStatus: "tcloaded"
+                        }
                     }
-                ]
-            },
-            userSync: {
-                userIds: [{
-                    name: "pafData",
-                    params: {}
-                }],
-                auctionDelay: 1000,
-                syncDelay: 3000
-            }
-        });
-        pbjs.requestBids({
-            bidsBackHandler: initAdserver,
-            timeout: PREBID_TIMEOUT
-        });
-    });
-
-    function initAdserver() {
-        if (pbjs.initAdserverSet) return;
-        pbjs.initAdserverSet = true;
-        googletag.cmd.push(function() {
-            pbjs.que.push(function() {
-                pbjs.setTargetingForGPTAsync();
-                googletag.pubads().refresh();
+                },
+                debug: true,
+                realTimeData: {
+                    auctionDelay: 1000,
+                    dataProviders: [
+                            {
+                            name: "paf",
+                            waitForIt: true,
+                            params: {proxyHostName: "{{pafNodeHost}}" }
+                        }
+                    ]
+                },
+                userSync: {
+                    userIds: [{
+                        name: "pafData",
+                        params: {}
+                    }],
+                    auctionDelay: 1000,
+                    syncDelay: 3000
+                }
+            });
+            // Generate and store the PAF Audit Log
+            // once the winner is elected.
+            pbjs.onEvent("bidWon", bid => {
+                let pafObj = bid.meta.paf;
+                if (pafObj === undefined) {
+                    return;
+                }
+                PAF.queue.push(() => {
+                    PAF.registerTransmissionResponse({
+                        prebidTransactionId: bid.transactionId,
+                        adUnitCode: bid.adUnitCode,
+                        contentId: pafObj.contentId
+                    }, pafObj.transmission);
+                });
+            });
+            PAF.queue.push(() => {
+                // PrebidJS calls internally PAF without the queue
+                pbjs.requestBids({
+                    bidsBackHandler: initAdserver,
+                    timeout: PREBID_TIMEOUT
+                });
             });
         });
-    }
-    // in case PBJS doesn't load
-    setTimeout(function() {
-        initAdserver();
-    }, FAILSAFE_TIMEOUT);
+        function initAdserver() {
+            if (pbjs.initAdserverSet) return;
+            pbjs.initAdserverSet = true;
+            googletag.cmd.push(function() {
+                pbjs.que.push(function() {
+                    pbjs.setTargetingForGPTAsync();
+                    googletag.pubads().refresh();
+                });
+            });
+        }
+        // in case PBJS doesn't load
+        setTimeout(function() {
+            initAdserver();
+        }, FAILSAFE_TIMEOUT);
+```
 
 Warning, `params: {proxyHostName: "cmp.pafdemopublisher.com"}` should lead to the Client Node
 
