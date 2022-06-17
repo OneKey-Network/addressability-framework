@@ -85,20 +85,29 @@ Alternatives:
 
 #### Create DNS records for the Client Node back-end
 
-Pick a subdomain name for each website’s registrable domain (e.g. `www.example-website.com` => `paf.example-website.com`).
+Pick a subdomain name for each website’s registrable domain (e.g. `www.example-website.com` => `client-node.example-website.com`).
 
-If the Client Node partner gave you IP addresses, then create A/AAAA DNS records:
+⚠️ the TLD+1 (registrable domain) must be the same as the Website (ex: `www.example-website.com` and `some-sub-site.example-website.com` must use a Client Node on a subdomain of `.example-website.com`).
 
-    paf.example-website.com   A       12.34.56.78
-    paf.example-website.com   AAAA    4001:41d0:2:80c4::
+If the Client Node partner gave you IP addresses, then create A/AAAA DNS records in your DNS zone:
+
+    client-node.example-website.com   A       12.34.56.78
+    client-node.example-website.com   AAAA    4001:41d0:2:80c4::
 
 If the Client Node partner gave you a domain name, then create an ALIAS DNS record
 
-    paf.example-website.com   ALIAS   pafoperatorclient.vendor.com
+    client-node.example-website.com   ALIAS   clientnodeservice.vendor.com
 
 #### Configure the Client Node backend
 
--   See below
+-   Prepare the **mandatory attributes** :
+    -   Name
+    -   DPO email address
+    -   Privacy page URL
+    -   Subdomain defined at the previous step
+    -   Hostname of your Operator
+        
+-   Communicate those to the Client Node provider for him to configure your instance.
 
 
 #### Add the Client Node front-end to your website
@@ -112,6 +121,7 @@ Add it in the <head> section:
       src="https://my-cdn.domain/assets/paf-lib.js"
     ></script>
     </head>
+
 ### Setup the CMP
 
 Add the CMP frontend JavaScript in the head section of your website pages
@@ -260,26 +270,7 @@ Make sure prebid.js is wired with Google Publisher Tag in a way that ensures tha
 
 ### Set up the client node:
 
--   Prepare some **mandatory attributes** such as:
-    
-    -   Name
-        
-    -   DPO email address
-        
-    -   Privacy page URL
-        
--   Generate and configure the pair of **cryptographic keys** for the website
-    
-    -   This can be done with openssl binaries:
-        
-        -   private key: `openssl ecparam -name prime256v1 -genkey -noout -out private-key.pem`
-            
-        -   public key: `openssl ec -in private-key.pem -pubout -out public-key.pem`
-            
-    -   Define the **end date** of the current private / public keys pair,
-        
--   ⚠️ the TLD+1 must be the same as the Website (ex: `www.example-website.com` and `some-sub-site.example-website.com` must use a Client Node on a subdomain of `.example-website.com`), so you need to add the Client Node to your DNS zone.
-    
+This was already described [here](#setup-the-client-node)
 
 ## Direct SSPs and DSPs Tasks
 

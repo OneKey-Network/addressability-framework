@@ -1,18 +1,35 @@
 # Client Node Admin Guide
 
-The Client Node front end will be used by the prebid modules and the callback to get the id and preferences, generate seeds, and collate the transmissions into audit logs for each ad.
+A Client Node Service is provided by Criteo.
+This guide explain how to host an independent Client Node.
 
-The Client Node is currently hosted by Criteo, but could be hosted by someone else.
+## Deploying the Client Node Service
 
--   _[Ask Client node provider to]_ Add a new instance for the publisher website
-    
-    -   Configure **the server** to accept connections on the vhost of the subdomain the Website Owner allocated (e.g. `paf.example-website.com`)
-        
-        -   ⚠️ the TLD+1 must be the same as the Website (ex: `www.example-website.com` and `some-sub-site.example-website.com` must use a Client Node on a subdomain of `.example-website.com`)
-            
- **Configure** this new client. For example, using [the NodeJS implementation](https://github.com/prebid/paf-mvp-implementation/tree/main/paf-mvp-operator-client-express "https://github.com/prebid/paf-mvp-implementation/tree/main/paf-mvp-operator-client-express"):
+A Client Node implementation in NodeJS is available [here](https://github.com/prebid/paf-mvp-implementation/tree/main/paf-mvp-operator-client-express).
+
+It can be deployed on any hosting service of your choice.
+
+## Configuring a Client Node for a specific website
+
+The Website owner must decide on which subdomain he wishes to access the Client Node.
+As provider, you must provide the IP adress or domain name ALIAS that the Website Owner must set up in his DNS zone.
+
+The Website Owner must then provide:
+- The subdomain which he has set up
+- His Legal Name   
+- His DPO email address
+- His Privacy page URL
+- The hostname of the Operator he wishes to use
+
+Admin actions:
+- Configure the server to accept connections on the vhost of the subdomain (e.g. `client-node.example-website.com`)
+- Generate and configure the pair of **cryptographic keys** for the website
+    -   This can be done with openssl binaries:
+        -   private key: `openssl ecparam -name prime256v1 -genkey -noout -out private-key.pem`  
+        -   public key: `openssl ec -in private-key.pem -pubout -out public-key.pem`
+- Decide the **expiration date** for this private / public keys pair
+- Configure this new service instance using the above information:
 ```javascript
-       // This is just an example of a basic client node configuration
     addClientNodeEndpoints(
       express(),
       // Information to identify the participant to the users, to the operator and to other participants
@@ -21,6 +38,7 @@ The Client Node is currently hosted by Criteo, but could be hosted by someone el
         name: 'Example Website',
         // Current public key
         currentPublicKey: {
+          // Validity period for the key
           // Timestamps are expressed in seconds
           startTimestampInSec: getTimeStampInSec(new Date('2022-01-01T12:00:00.000Z')),
           endTimestampInSec: getTimeStampInSec(new Date('2022-12-31T12:00:00.000Z')),
@@ -36,7 +54,7 @@ The Client Node is currently hosted by Criteo, but could be hosted by someone el
       },
       {
         // The Client Node host name to receive requests
-        hostName: 'paf.example-website.com',
+        hostName: 'client-node.example-website.com',
         // Current private key
         privateKey: `-----BEGIN PRIVATE KEY-----
     MIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQg0X8r0PYAm3mq206o
