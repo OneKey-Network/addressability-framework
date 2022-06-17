@@ -261,10 +261,6 @@ To authorize a new Client Node on the operator, simply add the corresponding Cli
 | Client Node    	| Provides key functions for the Website Owners:<br>Key Management and Identity Endpoint<br>Sign communications with the Operator (acts as an operator proxy)<br>Generate Seeds to initiate Transactions<br>Collate the Audit Log for each Ads  	|
 | Direct SSPs & DSPs 	| Provide marketing content on request from the Website in compliance with Model Terms.                                                                                                                                                                     	|
 
-Direct SSPs & DSPs
-
-Provide marketing content on request from the Website in compliance with Model Terms.
-
 ## Incorporating the Model Terms
 
 -   The Model Terms must be incorporated:
