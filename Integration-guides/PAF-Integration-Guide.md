@@ -71,16 +71,6 @@ Alternatives:
 
 ## Website Owner Tasks
 
-### Build the Front-End Library from sources (if needed)
-
-     mkdir paf-from-source
-     cd paf-from-source
-     git clone https://github.com/prebid/paf-mvp-implementation.git
-     cd paf-mvp-implementation
-     npm i
-     npm run build-front
-     ls paf-mvp-demo-express/public/assets/paf-lib.js
-
 ### Setup the Client Node
 
 #### Create DNS records for the Client Node back-end
@@ -112,15 +102,27 @@ If the Client Node partner gave you a domain name, then create an ALIAS DNS reco
 
 #### Add the Client Node front-end to your website
 
-Get the front-end Javascript from [https://github.com/prebid/paf-mvp-implementation/tree/main/paf-mvp-frontend](https://github.com/prebid/paf-mvp-implementation/tree/main/paf-mvp-frontend "https://github.com/prebid/paf-mvp-implementation/tree/main/paf-mvp-frontend").
+Build the Front-End Library from sources (if needed)
+
+```shell
+     mkdir paf-from-source
+     cd paf-from-source
+     git clone https://github.com/prebid/paf-mvp-implementation.git
+     cd paf-mvp-implementation
+     npm i
+     npm run build-front
+     ls paf-mvp-demo-express/public/assets/paf-lib.js
+```
 
 Add it in the <head> section:
 
+```html
     <head>
     <script
       src="https://my-cdn.domain/assets/paf-lib.js"
     ></script>
     </head>
+```
 
 ### Setup the CMP
 
