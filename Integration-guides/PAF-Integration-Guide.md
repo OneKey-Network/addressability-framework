@@ -16,10 +16,121 @@ In order to integrate PAF, a Website needs:
 
 # Remodeling the Consent UI
 
-The remodeling of the consent UI is explained in this document: [CMP-remodeling-guide](./CMP-remodeling-guide.md)
+## Roles
+
+
+| **Role<br>**    	| **Description<br>**                                                                                                                                                                                                                                       	|
+|-----------------	|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------	|
+| Website Owner   	| Self explanatory                                                                                                                                                                                                                                          	|
+| CMP             	| Consent Management Platform<br>Provides the UX to let users express their data processing preferences<br>Example partners: Sourcepoint, OneTrust, Quantcast …                                                                                             	|
+| PAF Client Node 	| Provides key PAF functions for the Website Owners:<br>Key Management and Identity Endpoint<br>Sign communications with the PAF Operator (acts as an operator proxy)<br>Generate Seeds to initiate PAF Transactions<br>Collate the Audit Log for each Ads  	|
+| PAF Operator    	| Manages the storage and synchronization of ids and Preferences across the PAF network.    
+
+The Website Owner and PAF Operator roles need to be filled by separate entities.
+
+The CMP and the PAF Client Node roles can be taken by separate entities, or by either the Website Owner or by the partner providing the PAF Operator.
+
+## Available Partners
+
+### CMP Partners
+
+No CMP currently supports PAF, we’ll have to get yours onboard.
+
+### PAF Client Node Partners
+
+| **Vendor<br>** 	| **IP or Domain Name<br>**                                	| **Comments<br>**                                                                             	|
+|----------------	|----------------------------------------------------------	|----------------------------------------------------------------------------------------------	|
+| Criteo         	| Sub  domain of the client, paf.website.com for instance. 	| We will need to sync with the client so that they accept the client node domain in their DNS 	|
+
+Alternatives:
+
+-   Take that up yourself
+
+-   Ask your CMP partner to provide this service
+
+-   Ask your PAF Operator to provide this service
+
+
+### PAF Operator Partners
+
+
+| **Vendor<br>** 	| **Domain<br>**      	| **Comments<br>** 	|
+|----------------	|---------------------	|------------------	|
+| Criteo         	| crto.onekey.network 	|                  	|
+| IPONWEB        	| TBD                 	| Coming in Q2     	|
+
+
+## Incorporating the Model Terms
+
+-   The Model Terms must be incorporated in the Main Agreement between the Website Owner and the PAF Operator.
+
+-   If the CMP is provided by a 3rd party partner, the Main Agreement between the Website and the CMP partner must also include the Model Terms.
+
+-   Same applies if the PAF Client Node is provided to the Website by a 3rd party partner.
+
+
+## Website Owner Tasks
+
+### Build the PAF components from sources (if needed)
+
+     mkdir paf-from-source
+     cd paf-from-source
+     git clone https://github.com/prebid/paf-mvp-implementation.git
+     cd paf-mvp-implementation
+     npm i
+     npm run build-front
+     ls paf-mvp-demo-express/public/assets/paf-lib.js
+
+### Setup the PAF Client Node
+
+#### Create DNS records for the Client Node back-end
+
+Pick a subdomain name for each website’s registrable domain (e.g. `www.example-website.com` => `paf.example-website.com`).
+
+If the Client Node partner gave you IP addresses, then create A/AAAA DNS records:
+
+    paf.example-website.com   A       12.34.56.78
+    paf.example-website.com   AAAA    4001:41d0:2:80c4::
+
+If the Client Node partner gave you a domain name, then create an ALIAS DNS record
+
+    paf.example-website.com   ALIAS   pafoperatorclient.vendor.com
+
+#### Configure the Client Node backend
+
+-   See below
+
+
+#### Add the Client Node front-end to your website
+
+Get the front-end Javascript from [https://github.com/prebid/paf-mvp-implementation/tree/main/paf-mvp-frontend](https://github.com/prebid/paf-mvp-implementation/tree/main/paf-mvp-frontend "https://github.com/prebid/paf-mvp-implementation/tree/main/paf-mvp-frontend").
+
+Add it in the <head> section:
+
+    <head>
+    <script
+      src="https://my-cdn.domain/assets/paf-lib.js"
+    ></script>
+    </head>
+### Setup the CMP
+
+Add the CMP frontend JavaScript in the head section of your website pages
+
+1.  Make sure there is an agreed space for the CMP’s audit log viewer button next to ad zones
+
+2.  Make sure there is an agreed space for the CMP’s button to let the user access the preferences edit UX
+
+3.  Provide the hostname of the Client Node backend into the CMP configuration.
+
+## CMP Tasks
+
+If you're operating your own consent UI, guidelines for remodeling the consent UI are provided in this document: [CMP-remodeling-guide](./CMP-remodeling-guide.md).
+If you're using a CMP that doesn't yet support PAF, the same guidelines should be followed byt the CMP provider.
+
 ## PAF Client Node Tasks
 
-For a new website to become a PAF participant, a **PAF client node** must be running.
+If you wish to operate your own PAF Client Node, this section instruct on how to deploy and run one.
+This section also explains the configuration that is required at the Client Node level to serve a new website.
 
 The PAF Client Node front end will be used by the prebid modules and the callback to get the id and preferences, generate seeds, and collate the transmissions into audit logs for each ad.
 
@@ -73,6 +184,9 @@ The PAF client node is currently hosted by Criteo, but could be hosted by someon
 
 ## PAF Operator Tasks
 
+This next section is only needed for a publisher (or any actor) wanting to set up another operator.
+This section also explains the configuration that is required at the Operator level to serve a new website through its client node.
+
 For a new **PAF client node** to be authorized by an operator, the **operator** configuration must be updated.
 
 A PAF operator is currently hosted by Criteo.
@@ -82,9 +196,6 @@ Website owners can decide to:
 -   use the Criteo operator
     
 -   set up their own operator
-    
-
-The next section is therefore only needed for a publisher wanting to set up another operator.
 
 #### Set up a PAF operator
 
