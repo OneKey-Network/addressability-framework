@@ -14,7 +14,7 @@ Model terms are to be including in bilateral contract with DSPs or any other exc
 
 ## Integration
 
-First, a diagram of an example full workflow is available here: https://github.com/prebid/addressability-framework/blob/main/mvp-spec/ad-auction.md#ad-auction-with-the-prebid-addressability-framework.
+First, a diagram of an example full workflow is available [here](/./mvp-spec/ad-auction.md#ad-auction-with-the-prebid-addressability-framework): 
 
 To participate, you need to:
 1.  Adapt your bidder adapter to
@@ -29,6 +29,6 @@ To participate, you need to:
             * The real time data module documentation also show how to write the transaction information into each prebid.js “bid” object: [bid-response](https://github.com/openx/Prebid.js/blob/paf/modules/pafRtdProvider.md#bidder-responses)
         
 2.  Adapt your SSP server to sign transmissions, and forward them to OneKey-ready Exchanges and DSPs:
- * The format for receiving, sending and responding transmission is detailed here: [transmissions](https://github.com/prebid/addressability-framework/blob/main/mvp-spec/ad-auction.md#transmissions-with-openrtb). Please note that, as an SSP, the “children” field in the bid response you send should be a tree of all the transmission responses you have received from bidders. This is not yet shown in the example.
+ * The format for receiving, sending and responding transmission is detailed here: [transmissions](/./mvp-spec/ad-auction.md#transmissions-with-openrtb). Please note that, as an SSP, the “children” field in the bid response you send should be a tree of all the transmission responses you have received from bidders. This is not yet shown in the example.
 
     
