@@ -30,5 +30,6 @@ To participate, you need to:
         
 2.  Adapt your SSP server to sign transmissions, and forward them to OneKey-ready Exchanges and DSPs:
  * The format for receiving, sending and responding transmission is detailed here: [transmissions](/./mvp-spec/ad-auction.md#transmissions-with-openrtb). Please note that, as an SSP, the “children” field in the bid response you send should be a tree of all the transmission responses you have received from bidders. This is not yet shown in the example.
+ * How to sign the transmission is explained here: [Signature](/./mvp-spec/security-signatures.md#signatures--signature-verification)
 
     
