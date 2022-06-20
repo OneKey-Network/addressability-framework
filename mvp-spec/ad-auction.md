@@ -2,11 +2,11 @@
 
 ## Goal of the document
 
-This document describes the Prebid Addressability Framework (PAF) requirements related to an ad auction.
+This document describes the OneKey framework's requirements related to an ad auction.
 
 ## Overview
 
-The Prebid Addressability Framework enhances ad auctions by instantiating an **Audit Log**, built upon the following elements:
+The OneKey framework enhances ad auctions by instantiating an **Audit Log**, built upon the following elements:
 * **Seed**
 * **Transmission Requests**
 * **Transmission Responses**
@@ -69,7 +69,7 @@ Seeds, Transmission Requests, Transmission Responses, and Transmission Results a
 
 Audit Log display is detailed in [audit-log-design.md](audit-log-design.md).
 
-## Ad auction with the Prebid Addressability Framework
+## Ad auction integrating OneKey's requirements
 
 ### Workflow
 
@@ -148,7 +148,7 @@ flowchart LR
 
 #### Ad auction step by step
 
-The following is a step by step of Prebid Addressability Framework integration in an ad auction.
+The following is a step by step of OneKey's requirements integration in an ad auction.
 
 ### Step 1: Deserialize the User Id and Preferences
 
@@ -548,7 +548,7 @@ displaying the Audit UI.
 
 ### Transmissions with OpenRTB
 
-If the ad auction protocol is OpenRTB, integration with PAF is as described below.
+If the ad auction protocol is OpenRTB, integrating OneKey's requirements is described below.
 
 #### The OpenRTB Bid Request
 
@@ -574,7 +574,7 @@ for nom.
 
 | Entity  | Format|
 |----------|-------|
-| OpenRTB Bid Request with PAF  | [open-rtb-bid-request.md](./model/open-rtb-bid-request.md) |
+| OpenRTB Bid Request with OneKey data  | [open-rtb-bid-request.md](./model/open-rtb-bid-request.md) |
 
 <details>
 <summary>OpenRTB Bid Request - JSON Example</summary>
@@ -699,7 +699,7 @@ the `ext` field of a `bid` (full path: `seatbid[].bid.ext.paf`).
 
 | Entity  | Format|
 |----------|-------|
-| OpenRTB Bid Response with PAF  | [open-rtb-bid-response.md](./model/open-rtb-bid-response.md) |
+| OpenRTB Bid Response with OneKey data  | [open-rtb-bid-response.md](./model/open-rtb-bid-response.md) |
 
 <details>
 <summary>OpenRTB Bid Response - JSON Example</summary>
