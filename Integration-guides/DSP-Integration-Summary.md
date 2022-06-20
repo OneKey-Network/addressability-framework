@@ -13,7 +13,7 @@ Model terms are to be including in bilateral contract with SSPs or any other ser
 * DSPs should not associate the id with offline PII, except if they directly collected it on their websites.
 
 ## Integration
-First, a diagram of an example full workflow is available here: https://github.com/prebid/addressability-framework/blob/main/mvp-spec/ad-auction.md#ad-auction-with-the-prebid-addressability-framework.
+First, a diagram of an example full workflow is available [here](/./mvp-spec/ad-auction.md#ad-auction-with-the-prebid-addressability-framework) 
 
 To participate, you need to adapt your DSP server to:
     
