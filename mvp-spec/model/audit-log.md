@@ -723,6 +723,8 @@ array
 </td>
 <td>
 
+The list of Transmission Results that participated to the generation of the content. This list is chronologically ordered.
+
 **Array of**:
 
 <details>
