@@ -1,29 +1,29 @@
-# PAF client node
+# Client node
 
 ⚠️ TO BE UPDATED: missing documentation about **signing seeds**.
 
-## Interacting with the operator: frontend, client node and backend
+## Interacting with the operator: frontend, client node
 
-**Websites** that need to get access to PAF data:
+**Websites** that need to get access to data:
 
 - read user ids and preferences
 - write user preferences
 - or both
 
-Ids and preferences are stored as **1st party cookies on the PAF top level +1 domain** (aka TLD+1).
+Ids and preferences are stored as **1st party cookies on the OneKey top level +1 domain** (aka TLD+1).
 
 As a reminder, the content of these websites
 is _served by a http server_ and it can then use Javascript _in the browser_.
 
-- PAF provides a "**frontend library**" to call the operator on REST or "redirect" endpoints (see [operator-api.md](operator-api.md) for details).
+- OneKey provides a "**frontend library**" to call the operator on REST or "redirect" endpoints (see [operator-api.md](operator-api.md) for details).
     - But only **signed** requests can be sent to the operator and these requests are signed using a **private key**,
       which must never be sent to the browser.
 
-- Thus, PAF also provides a "**PAF client node**" backend component which the frontend library uses to sign the requests on
+- Thus, OneKey also provides a "**client node**" component which the frontend library uses to sign the requests on
   its behalf.
     - this node can be hosted by the website's owner or by a tech vendor
 
-- Note: clients of the PAF operators _can_ decide to use an operator client that is part of their website's HTTP server
+- Note: clients of the operators _can_ decide to use an operator client that is part of their website's HTTP server
   and intercepts all requests made to display the web pages to trigger **HTTP** redirects (not Javascript).
   - This special kind of integration (a "**backend operator client**") is not detailed here but can be investigated further if needed.
 
@@ -40,25 +40,21 @@ flowchart LR
             frontend -->|get signed requests| proxy
             frontend -->|generate seed| proxy
             
-            proxy("PAF client node")
+            proxy("Client node")
             proxy -.->|sign requests, sign seeds| proxy
-            
-            backend("backend operator client<br>(optional)")
-            backend -.->|sign requests| backend
            
         end
     end
     
-    backend --->|send signed requests| O
     frontend --->|"send signed requests"| O
     
-    O("(backend) PAF Operator")
+    O("(backend) Operator")
     click O href "operator-api.md" "Operator API"
 ```
 
-## PAF client node
+## Client node
 
-The **PAF client node** is an API called by the frontend library to sign and verify requests sent and received to / from the
+The **client node** is an API called by the frontend library to sign and verify requests sent and received to / from the
 operator.
 
 It acts as a proxy that transforms unsigned requests into signed ones.
@@ -77,9 +73,9 @@ To do so, it exposes:
 | Write ids & prefs         | Redirect to [write](operator-api.md#write-ids-&-preferences) operator endpoint                         | Signed "write" request<br>(see [operator API](operator-api.md#write-ids-&-preferences))    | redirect to operator                                             | `POST /paf-proxy/v1/ids-prefs`  | `GET /paf-proxy/v1/redirect/post-ids-prefs` |
 | **Verify** read           | Verify the response received from the operator                                                         | Signed "read" **response**<br>(see [operator API](operator-api.md#read-ids-&-preferences)) | Same as input if verification succeeded, error message otherwise | `POST /paf-proxy/verify/read`   | N/A                                         |
 
-ℹ️ An example implementation (for NodeJS) of a PAF client node is available in [the implementation project](https://github.com/criteo/paf-mvp-implementation/tree/main/paf-mvp-client-express)
+ℹ️ An example implementation (for NodeJS) of a client node is available in [the implementation project](https://github.com/criteo/paf-mvp-implementation/tree/main/paf-mvp-client-express)
 
-⚠️ Note that in the following examples, the PAF client node is supposed to be hosted on the `cmp.com` domain.
+⚠️ Note that in the following examples, the client node is supposed to be hosted on the `cmp.com` domain.
 
 ### Read ids & preferences
 
@@ -420,20 +416,20 @@ Host: cmp.com
 
 ## Frontend library
 
-The "frontend library" is implemented via a Javascript script provided by PAF and available on [the implementation project](https://github.com/criteo/paf-mvp-implementation/tree/main/paf-mvp-frontend).
+The "frontend library" is implemented via a Javascript script provided by OneKey and available on [the implementation project](https://github.com/criteo/paf-mvp-implementation/tree/main/paf-mvp-frontend).
 
-This library is a static file that can be added to any website, but requires **the host name of the PAF client node** as configuration input.
+This library is a static file that can be added to any website, but requires **the host name of the client node** as configuration input.
 
 ## Implementation details
 
 <details>
 <summary>Read ids and preferences</summary>
 
-The following diagram details the steps needed to read existing cookies from PAF
+The following diagram details the steps needed to read existing cookies from OneKey
 
 - at browser level the **frontend operator client** (a Javascript library) is used
     - depending on the context, the JS library calls a REST or "redirect" endpoint on the operator
-    - it relies on the **PAF client node**, a component responsible for building operator URLs to call.
+    - it relies on the **client node**, a component responsible for building operator URLs to call.
 
 ### Test support of 3rd party cookies
 
@@ -469,7 +465,7 @@ flowchart TD
         
     end
     
-    subgraph "PAF client node"
+    subgraph "client node"
         ClientJsRedirect[redirect read]
         ClientCallJson["read"]
         ClientCallTest3PC["test3PC"]

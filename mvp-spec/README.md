@@ -65,7 +65,7 @@ The User Id and Preferences management involves:
 - The Operator
 - The advertiser or publisher web site
 
-See [workflows](workflows.md), [operator-api.md](operator-api.md), and [paf-client-node.md](paf-client-node.md). 
+See [workflows](workflows.md), [operator-api.md](operator-api.md), and [client-node.md](client-node.md). 
 
 ### Ad auction
 
@@ -100,7 +100,7 @@ See [audit-log-design.md](audit-log-design.md) and [audit-log-requirements.md](a
 | [operator-design.md](operator-design.md)                                                            | Design of the generation of PAF Data.                                                               |
 | [operator-design-alternative-swan.md](../alternative%20designs/operator-design-alternative-swan.md) | Summary of the SWAN solution for generating PAF Data.                                               |
 | [operator-requirements.md](operator-requirements.md)                                                | Requirements for the generation of the PAF Data.                                                    |
-| [paf-client-node.md](paf-client-node.md)                                                            | Website integration: frontend library, PAF client node, operator backend                            |
+| [client-node.md](client-node.md)                                                                    | Website integration: frontend library, PAF client node, operator backend                            |
 | [Integration Guide.md](../Integration-guides/PAF-Integration-Guide.md)                              | Guide to integrate into current PAF MVP                                                             |
 | [model/](model)                                                                                     | Data and messages model                                                                             |
 | [json-schemas/](json-schemas)                                                                       | Data and messages model in [JSON schema](https://json-schema.org/understanding-json-schema/) format |
