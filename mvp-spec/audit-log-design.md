@@ -1,7 +1,7 @@
 # The Audit Log
 
 The Audit Log is the data attached to an Addressable Content so that the user
-can see how has used her/his Prebid Addressability Framework Data for generating this content. This
+can see how has used their Prebid Addressability Framework Data for generating this content. This
 document describes technical aspects in addition of 
 [the Audit Log Requirements](audit-log-requirements.md).
 
