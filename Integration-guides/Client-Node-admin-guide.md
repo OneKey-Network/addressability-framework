@@ -11,11 +11,11 @@ It can be deployed on any hosting service of your choice.
 
 ## Configuring a Client Node for a specific website
 
-The Website owner must decide on which subdomain he wishes to access the Client Node.
-As provider, you must provide the IP adress or domain name ALIAS that the Website Owner must set up in his DNS zone.
+The Website owner must choose a subdomain for accessing the Client Node.
+As provider, you must provide the IP address or domain name ALIAS that the Website Owner must set up in his DNS zone.
 
 The Website Owner must then provide:
-- The subdomain which he has set up
+- The chosen subdomain
 - Their Legal Name   
 - Their DPO email address
 - Their Privacy page URL
