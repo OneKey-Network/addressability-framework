@@ -395,4 +395,4 @@ o **Types of Personal Data Processed and categories of Users:** PAF Data relatin
 o **Rights and obligations of the Controller:** The rights and obligations of the Contracting Party that is the User Interface Provider’s Controller shall be as set out in these Model Terms and Data Protection Laws.
 
 ## **Annex 2 - Illustrative User Interface**
-![Illustrative-model-terms](./mvp-spec/assets/Illustrative%20UI.PNG.png)
+![Illustrative-model-terms](./../mvp-spec/assets/Illustrative%20UI.PNG)
