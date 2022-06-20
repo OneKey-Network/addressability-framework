@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "delete-ids-prefs-response",
+  "title": "DELETE /v1/ids-prefs response",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "sender": {
+      "$ref": "domain.json",
+      "description": "The domain name of the sender of this response (the operator domain name)"
+    },
+    "receiver": {
+      "$ref": "domain.json",
+      "description": "The domain name of the receiver of this response (the website)"
+    },
+    "timestamp": {
+      "$ref": "timestamp.json"
+    },
+    "signature": {
+      "$ref": "signature.json",
+      "description": "Signature based on input:\n```\nsender + '\\u2063' +\nreceiver + '\\u2063' +\ntimestamp\n```"
+    },
+    "body": {
+      "$ref": "ids-and-optional-preferences.json",
+      "description": "Contains an empty list of identifiers and undefined preferences for delete-ids-prefs-response"
+    }
+  },
+  "required": [
+    "sender",
+    "receiver",
+    "timestamp",
+    "signature"
+  ],
+  "description": "A success code is returned in case of successful deletion of the identifiers and preferences"
+}
