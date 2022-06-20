@@ -16,9 +16,9 @@ As provider, you must provide the IP adress or domain name ALIAS that the Websit
 
 The Website Owner must then provide:
 - The subdomain which he has set up
-- His Legal Name   
-- His DPO email address
-- His Privacy page URL
+- Their Legal Name   
+- Their DPO email address
+- Their Privacy page URL
 - The hostname of the Operator he wishes to use
 
 Admin actions:
