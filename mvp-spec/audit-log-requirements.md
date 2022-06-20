@@ -87,7 +87,7 @@ If we consider the typical personal ad scenario, we have two important entities:
 the purpose of content personalization.
 
 In our scenario:
-* An Advertiser sends user behavioral event to his DSP at T0
+* An Advertiser sends user behavioral event to its DSP at T0
 * A Publisher that display an ad at T0 + 1 Day
 
 ![Audit Button and Audit UI](./assets/audit-scope.png)
@@ -131,7 +131,7 @@ Transmissions that didn't have an impact on the Addressable Content.
 
 ![Transmission Flow Explanation](./assets/transmission-flow-explanation.png)
 
-The Audit Log helps the user to know who received her/his PAF Data. In
+The Audit Log helps the user to know who received their PAF Data. In
 other words, the user doesn't need to know who was the Sender of a 
 Transmission, only the Receiver. However the list of Transmission 
 is chronologically ordered.
@@ -307,7 +307,7 @@ and transmissions contain signatures:
 * The Seed
 * The Transmission (one for each)
 
-When a user wants to verify if her/his preferences haven't been respected,
+When a user wants to verify if their preferences haven't been respected,
 the audit log must be able to see that:
 
 * all the parties commit to the Model Terms by signing the PAF data;
@@ -315,7 +315,7 @@ the audit log must be able to see that:
 with the correct propagation of my PAF data.
 
 However, the audit logs cannot tell the user which exact Party didn't behave 
-correctly with her/his PAF Data.
+correctly with their PAF Data.
 
 # Transmission parents and children
 

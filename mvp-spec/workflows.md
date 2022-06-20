@@ -34,7 +34,7 @@ Note that the User Id and Preferences are not persisted in case the user does no
 
 ### Retrieving User Id and Preferences
 
-This workflow illustrates a user who has already given his/her consent visiting a site part of the Prebid Addressability Framework network.
+This workflow illustrates a user who has already given their consent visiting a site part of the Prebid Addressability Framework network.
 
 ```mermaid
 sequenceDiagram
@@ -51,7 +51,7 @@ participant O as Operator
 
 ### Updating User Id and Preferences
 
-This workflow illustrates a user updating his/her User Id and Preferences on a site part of the PAF network.
+This workflow illustrates a user updating their User Id and Preferences on a site part of the PAF network.
 
 ```mermaid
 sequenceDiagram
