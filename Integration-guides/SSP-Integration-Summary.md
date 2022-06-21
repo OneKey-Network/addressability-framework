@@ -9,8 +9,6 @@ Model terms are to be including in bilateral contract with DSPs or any other exc
 
 * Ids come with preferences that are to be respected.
 * You should only transfer the id and preferences to parties with whom you have a contract including the model terms.
-* OneKey ids should not be associated with offline PII, except for those who collected those PII on their own websites.
-
 
 ## Integration
 
