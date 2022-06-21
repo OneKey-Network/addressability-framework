@@ -10,7 +10,7 @@ Model terms are to be including in bilateral contract with SSPs or any other ser
 
 * Ids come with preferences that are to be respected.
 * You should only transfer the id and preferences to parties with whom you have a contract including the model terms.
-* DSPs should not associate the id with offline PII, except if they directly collected it on their websites.
+* DSPs should respect terms laid out in 6.2 restricting usage of PAF id described [here](/./model-terms/model-terms-v1.1.md#6-restricted-uses).
 
 ## Integration
 First, a diagram of an example full workflow is available [here](/./mvp-spec/ad-auction.md#ad-auction-with-the-prebid-addressability-framework) 
