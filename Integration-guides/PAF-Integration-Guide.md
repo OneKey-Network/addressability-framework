@@ -19,12 +19,12 @@ In order to use the OneKey protocols, a Website needs:
 ## Roles
 
 
-| **Role<br>**    	| **Description<br>**                                                                                                                                                                                                                                       	|
-|-----------------	|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------	|
-| Website Owner   	| Self explanatory                                                                                                                                                                                                                                          	|
-| CMP             	| Consent Management Platform<br>Provides the UX to let users express their data processing preferences<br>Example partners: Sourcepoint, OneTrust, Quantcast …                                                                                             	|
-| Client Node 	| Provides key functions for the Website Owners:<br>Key Management and Identity Endpoint<br>Sign communications with the Operator (acts as an operator proxy)<br>Generate Seeds to initiate Transactions<br>Collate the Audit Log for each Ads  	|
-| Operator    	| Manages the storage and synchronization of ids and Preferences across the OneKey network.    
+| **Role<br>**    	 | **Description<br>**                                                                                                                                                                                                                                       	 |
+|-------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Website Owner   	 | Self explanatory                                                                                                                                                                                                                                          	 |
+| CMP             	 | Consent Management Platform<br>Provides the UX to let users express their data processing preferences<br>Example partners: Sourcepoint, OneTrust, Quantcast …                                                                                             	 |
+| Client Node 	     | Provides key functions for the Website Owners:<br>Key Management and Identity Endpoint<br>Sign communications with the Operator (acts as an operator proxy)<br>Generate Seeds to initiate Transactions<br>Collate the Audit Log for each Ads  	             |
+| Operator    	     | Manages the storage and synchronization of ids and Preferences across the OneKey network.                                                                                                                                                                   |
 
 The Website Owner and Operator roles need to be filled by separate entities.
 
