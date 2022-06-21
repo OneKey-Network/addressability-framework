@@ -105,51 +105,27 @@ Example workflow:
 sequenceDiagram
     participant User
     participant Publisher
-    participant SSP
-    participant DSP 1
-    participant DSP 2
-
-    User->>Publisher: Visit site
-    Publisher->>Publisher: Generate Seed for <br /> ad slot
-    Publisher->>SSP: Send request<br />with Transmission Request
-    SSP->>DSP 1: Send bid request<br />with Transmission Request
-    DSP 1->>SSP: Send bid response<br />with Transmission Response
-    SSP->>DSP 2: Send bid request<br />with Transmission Request
-    DSP 2->>SSP: Send bid response<br />with Transmission Response
-    SSP->>SSP: Select winning bid
-    SSP->>Publisher: Return data to display the ad
-    Publisher->>User: Display the ad <br />Make Audit Log available next to the ad
-```
-
-Example workflow including "parent" and "children" Transmission Results:
-
-```mermaid
-sequenceDiagram
-    participant User
-    participant Publisher
     participant SSP 1
-    participant SSP 2
+    participant Exchange 1
     participant DSP 1
     participant DSP 2
 
     User->>Publisher: Visit site
     Publisher->>Publisher: Generate Seed for <br /> ad slot
-    Publisher->>SSP 1: Send request<br />with Transmission Request
-    SSP 1->>SSP 1: Generate<br />Transmission Result TR1
-    SSP 1->>SSP 2: Send bid request<br />with Transmission Request<br/>inc. TR1 as parent
-    SSP 2->>SSP 2: Generate<br />Transmission Result TR2
-    SSP 2->>DSP 1: Send bid request<br />with Transmission Request<br/>inc. TR1 and TR2 as parent
-    SSP 2->>DSP 2: Send bid request<br />with Transmission Request<br/>inc. TR1 and TR2 as parent
-    DSP 1->>DSP 1: Generate<br />Transmission Result TR3 
-    DSP 1->>SSP 2: Send bid response<br />with Transmission Response<br />inc. TR3 as children
-    DSP 2->>DSP 2: Generate<br />Transmission Result TR4 
-    DSP 2->>SSP 2: Send bid response<br />with Transmission Response<br />inc. TR4 as children 
-    SSP 2->>SSP 2: Generate<br />Transmission Result TR5
-    SSP 2->>SSP 1: Send bid response<br />with Transmission Response<br />inc. TR3, TR4, TR5 as children
-    SSP 1->>SSP 1: Generate<br />Transmission Result TR6
+    Publisher->>SSP 1: (Step 1)<br/>Send request<br />with Seed
+    SSP 1->>SSP 1: (Step 2)<br/>Generate<br />Transmission Result TR_SSP_1
+    SSP 1->>Exchange 1: (Step 3)<br/>Send bid request<br />with Transmission Request<br/>inc. TR_SSP_1 as parent
+    Exchange 1->>Exchange 1: Generate<br />Transmission Result TR_X_1
+    Exchange 1->>DSP 1: Send bid request<br />with Transmission Request<br/>inc. TR_SSP_1 and TR_X_1 as parents
+    Exchange 1->>DSP 2: Send bid request<br />with Transmission Request<br/>inc. TR_SSP_1 and TR_X_1 as parents
+    DSP 1->>DSP 1: (Step 4)<br/>Generate<br />Transmission Result TR_DSP_1
+    DSP 1->>Exchange 1: (Step 5)<br/>Send bid response<br />with Transmission Response<br />inc. TR_DSP_1<br />and no child
+    DSP 2->>DSP 2: Generate<br />Transmission Result TR_DSP_2
+    DSP 2->>Exchange 1: Send bid response<br />with Transmission Response<br />inc. TR_DSP_2<br />and no child
+    Exchange 1->>SSP 1: Send bid response<br />with Transmission Response<br />inc. TR_X_1<br />and children:<br />- TR_DSP_1<br />- TR_DSP_2
     SSP 1->>SSP 1: Select DSP1 bid response as winning bid
-    SSP 1->>Publisher: Return Transmission Reponse<br />inc. TR3, TR5, TR6 as children<br />(TR4 has been dropped)
-    Publisher->>User: Display the ad <br />Make Audit Log available next to the ad
+    SSP 1->>Publisher: (Step 6)<br/>Return Transmission Reponse<br />inc. TR_SSP_1<br />and children:<br />- TR_X_1ㅤㅤ<br />ㅤㅤ- TR_DSP_1<br />ㅤㅤ- TR_DSP_2
+    Publisher->>User: (Step 7)<br/>Display the ad <br />Make Audit Log available next to the ad:<br />Seed, TR_SSP_1, TR_X_1 and TR_DSP_1<br />(TR_DSP2 has been filtered out)
 ```
 
 ### Ad slots, Seeds, and Transmissions Requests
