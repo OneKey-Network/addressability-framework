@@ -321,4 +321,4 @@ This was already described [here](#setup-the-client-node)
 
 Your SSPs and DSPs require some changes if they don't already support OneKey.
 Note that you don't need all your SSPs and DSPs to support OneKey to start using it (though of course only those that support it will generate benefit from it)
-A short summary of what SSPs and DSPs must do is available [here](./SSP-DSP-Integration-Summary.md)
+A short summary of what SSPs and DSPs must do is available [here for SSPs](./SSP-Integration-Summary.md) and [here for DSPs](./DSP-Integration-Summary.md)
