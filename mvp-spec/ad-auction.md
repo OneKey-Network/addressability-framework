@@ -126,6 +126,8 @@ sequenceDiagram
     Publisher->>User: Display the ad <br />Make Audit Log available next to the ad
 ```
 
+For a more advanced example, go to [ad-auction-example.md](./ad-auction-example.md)
+
 ### Ad slots, Seeds, and Transmissions Requests
 
 The relationships between ad slots, Seeds, and Transmissions are:
@@ -315,8 +317,10 @@ and bound to the bid response.
 }
 ```
 <!--partial-end-->
-
 </details>
+
+
+For more advanced examples, go to [ad-auction-example.md](./ad-auction-example.md)
 
 ### Step 5: Generate the Audit Log
 
@@ -542,6 +546,9 @@ Here is the associated list of Transmission Results:
 ```
 <!--partial-end-->
 </details>
+
+
+For more advanced examples, go to [ad-auction-example.md](./ad-auction-example.md)
 
 ### Step 6: Display the ad and make the Audit Log available
 
