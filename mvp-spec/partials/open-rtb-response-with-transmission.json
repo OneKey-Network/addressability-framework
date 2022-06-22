@@ -1,7 +1,4 @@
 {
-    "id": "1234567890",
-    "bidid": "abc1123",
-    "cur": "USD",
     "ext": {
         "paf": {
             "transmission": {

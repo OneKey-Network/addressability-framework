@@ -1,7 +1,4 @@
 {
-    "id": "80ce30c53c16e6ede735f123ef6e32361bfc7b22",
-    "at": 1, 
-    "cur": [ "USD" ],
     "imp": [
         {
             "id": "1",
@@ -20,22 +17,6 @@
             }
         }
     ],
-    "site": {
-        "id": "102855",
-        "cat": [ "IAB3-1" ],
-        "domain": "www.publisher.com",
-        "page": "http://www.publisher.com/1234.html ",
-        "publisher": {
-            "id": "8953",
-            "name": "publisher.com",
-            "cat": ["IAB3-1"],
-            "domain": "publisher.com"
-        }
-    },
-    "device": {
-        "ua": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_8) AppleWebKit/537.13 (KHTML, like Gecko) Version/5.1.7 Safari/534.57.2",
-        "ip": "123.145.167.10"
-    },
     "user": {
         "id": "55816b39711f9b5acf3b90e313ed29e51665623f",
          "ext":
@@ -46,6 +27,7 @@
                     "source": "paf",
                     "uids": [
                         {
+                            "source": "paf",
                             "atype": 1,
                             "id": "7435313e-caee-4889-8ad7-0acd0114ae3c",
                             "ext": 
@@ -77,7 +59,6 @@
             ],
             "paf": {
                 "transmission": {
-                    "version": "0.1",
                     "seed": {
                         "version": "0.1",
                         "transaction_ids": [ 
@@ -90,11 +71,6 @@
                             "timestamp": 1639582000,
                             "signature": "f1f4871d48b825931c5016a433cb3b6388f989fac363af09b9ee3cd400d86b74"
                         }
-                    },
-                    "source": {
-                        "domain": "dsp1.com",
-                        "timestamp": 1639581000,
-                        "signature": "5d0519da9c65feeae715dfcf380c7997ea9ee859e2636a498c43c1044dc20354"
                     },
                     "parents": []
                 }

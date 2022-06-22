@@ -36,12 +36,15 @@
                 "type": "object",
                 "additionalProperties": false,
                 "properties": {
+                    "seat": {
+                        "type": "string"
+                    },
                     "bid": {
                         "type": "array",
                         "description": "A bid for an impression.",
                         "items": {
                             "type": "object",
-                            "additionalProperties": false,
+                            "additionalProperties": true,
                             "properties": {
                                 "ext": {
                                     "type": "object",

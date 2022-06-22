@@ -10,7 +10,7 @@
             "type": "array",
             "items": {
                 "type": "object",
-                "additionalProperties": false,
+                "additionalProperties": true,
                 "properties": {
                     "ext": {
                         "type": "object",
@@ -54,7 +54,7 @@
         },
         "user": {
             "type": "object",
-            "additionalProperties": false,
+            "additionalProperties": true,
             "properties": {
                 "ext": {
                     "type": "object",
@@ -79,6 +79,10 @@
                                             "type": "object",
                                             "additionalProperties": false,
                                             "properties": {
+                                                "source": {
+                                                    "type": "string",
+                                                    "description": "Equals 'paf'. eids spec: Source or technology provider responsible for the set of included IDs. Expressed as a top-level domain."
+                                                },
                                                 "atype": {
                                                     "type": "integer",
                                                     "description": "Equal to 1 for the element of PAF Data.\nType of user agent the match is from. It is highly recommended to set this, as many DSPs separate app-native IDs from browser-based IDs and require a type value for ID resolution."
@@ -86,11 +90,35 @@
                                                 "id": {
                                                     "type": "string",
                                                     "description": "Equal to the PAF Id for the element of the PAF Data.\nCookie or platform-native identifier."
+                                                },
+                                                "ext": {
+                                                    "type": "object",
+                                                    "additionalProperties": false,
+                                                    "description": "Placeholder for exchange-specific extensions to OpenRTB.",
+                                                    "properties": {
+                                                        "version": {
+                                                            "$ref": "version.json"
+                                                        },
+                                                        "type": {
+                                                            "type": "string",
+                                                            "description": "Equals 'paf_browser_id'"
+                                                        },
+                                                        "source": {
+                                                            "description": "Source of the identifier",
+                                                            "$ref": "source.json"
+                                                        }
+                                                    },
+                                                    "required": [
+                                                        "version",
+                                                        "type",
+                                                        "source"
+                                                    ]
                                                 }
                                             },
                                             "required": [
                                                 "atype",
-                                                "id"
+                                                "id",
+                                                "source"
                                             ]
                                         }
                                     },
@@ -125,15 +153,8 @@
                                     "additionalProperties": false,
                                     "description": "Object dedicated to PAF transmission",
                                     "properties": {
-                                        "version": {
-                                            "$ref": "version.json"
-                                        },
                                         "seed": {
                                             "$ref": "seed.json"
-                                        },
-                                        "source": {
-                                            "description": "Signature based on input:\n```\ntransmission_request_receiver_domain        + '\\u2063' +\nsource.domain          + '\\u2063' + \nsource.timestamp       + '\\u2063' +\nseed.source.signature\n```",
-                                            "$ref": "source.json"
                                         },
                                         "parents": {
                                             "type": "array",
@@ -143,10 +164,7 @@
                                         }
                                     },
                                     "required": [
-                                        "version",
-                                        "seed",
-                                        "source",
-                                        "parents"
+                                        "seed"
                                     ]                
                                 }
                             },

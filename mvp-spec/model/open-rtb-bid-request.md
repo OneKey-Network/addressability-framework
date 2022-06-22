@@ -575,36 +575,6 @@ Object dedicated to PAF transmission
 
 <tr>
 <td>
-<b>version</b>
-</td>
-<td>
-string
-</td>
-<td>
-
-A version number made of a "major" and a "minor" version numbers.
-
-To be detailed.
-
-**Examples:** 
-
-```json
-"0.1"
-```
-
-```json
-"0.407"
-```
-
-```json
-"10.0"
-```
-
-</td>
-</tr>
-
-<tr>
-<td>
 <b>seed</b>
 </td>
 <td>
@@ -811,106 +781,7 @@ The base64 representation of a data signature
 
 <tr>
 <td>
-<b>source</b>
-</td>
-<td>
-object
-</td>
-<td>
-
-Signature based on input:
-```
-transmission_request_receiver_domain        + '\u2063' +
-source.domain          + '\u2063' + 
-source.timestamp       + '\u2063' +
-seed.source.signature
-```
-
-<details>
-<summary>Object details</summary>
-
-<table>
-
-<tr>
-    <th> Property </th>
-    <th> Type </th>
-    <th> Description </th>
-</tr>
-
-<tr>
-<td>
-<b>timestamp</b>
-</td>
-<td>
-integer
-</td>
-<td>
-
-Time when data was signed
-
-**Example:** 
-
-```json
-1643297316
-```
-
-</td>
-</tr>
-
-<tr>
-<td>
-<b>domain</b>
-</td>
-<td>
-string
-</td>
-<td>
-
-The domain name of the entity that signed this data
-
-**Examples:** 
-
-```json
-"a-domain-name.com"
-```
-
-```json
-"another.domain.co.uk"
-```
-
-</td>
-</tr>
-
-<tr>
-<td>
-<b>signature</b>
-</td>
-<td>
-string
-</td>
-<td>
-
-The base64 representation of a data signature
-
-**Example:** 
-
-```json
-"RYGHYsBUEwMgFgOJ9aUQl7ywl4xnqdmwWIgPbaIowbXbmZAFKLa7mcBJQuWh1wEskpu57SHn2mmCF6V5+cESgw=="
-```
-
-</td>
-</tr>
-
-</table>
-
-</details>
-
-</td>
-</tr>
-
-<tr>
-<td>
-<b>parents</b>
+parents<br>(<i>optional</i>)
 </td>
 <td>
 array
