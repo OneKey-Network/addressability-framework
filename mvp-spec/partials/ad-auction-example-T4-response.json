@@ -1,0 +1,48 @@
+{
+    "ext": {
+        "paf": {
+            "transmission": {
+                "version": "0.1",
+                "contents": [
+                    {
+                        "transaction_id": "transaction-id-for-impression-1 (GUID)",
+                        "content_id": "dsp3-content-id-for-impression-1 (GUID)"
+                    }
+                ],
+                "status": "success",
+                "details": "",
+                "receiver": "dsp2.com",
+                "source": {
+                    "domain": "dsp2.com",
+                    "timestamp": 1639589531,
+                    "signature": "d01c6e83f14b4f057c2a2a86d320e2454fc0c60df4645518d993b5f40019d24c"
+                },
+                "children": [
+                ]
+            }
+        }
+    },
+    "seatbid": [
+        {
+            "seat": "513 (DSP2)",
+            "bid": [
+                {
+                    "id": "1",
+                    "impid": "1",
+                    "price": 1,
+                    "nurl": "http://adserver2.com/winnotice?impid=102",
+                    "iurl": "http://adserver2.com/pathtosampleimage",
+                    "adomain": [ "advertiserdomain2.com" ],
+                    "cid": "campaign2",
+                    "crid": "creative2",
+                    "attr": [ 1, 2, 3, 4, 5, 6, 7, 12 ],
+                    "ext": {
+                        "paf" : {
+                            "content_id": "dsp2-content-id-for-impression-1 (GUID)"
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+}

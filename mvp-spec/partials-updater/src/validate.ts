@@ -13,7 +13,7 @@ interface Validation {
     errors: ErrorObject[] | Error[]
 }
 
-const configs : SchemaConfiguration[] = [
+const staticConfigurations : SchemaConfiguration[] = [
     { 
         jsonPartial: "transmission-request.json", 
         schemaIdentifier: "transmission-request.json"
@@ -40,6 +40,10 @@ const configs : SchemaConfiguration[] = [
     },
 ]
 
+const configurations : Promise<SchemaConfiguration[]> = buildAdAuctionExampleConfiguration().then((v) => {
+    return v.concat(staticConfigurations);
+});
+
 export async function validateJsonFormats() {
     const jsonPartials = await listJsonPartials()
     for (const partial of jsonPartials) {
@@ -54,6 +58,7 @@ export async function validateJsonFormats() {
 
 export async function validateJsonSchemas() {
     const ajv = await buildAjv()
+    const configs = await configurations;
     const validations = await Promise.all(configs.map(c => validate(ajv, c)))
     const unvalids = validations.filter(v => !v.valid)
     const logs = unvalids.map(u => `Unvalid json "${u.config.jsonPartial}" for schema "${u.config.schemaIdentifier}": ${JSON.stringify(u.errors)}`)
@@ -105,4 +110,33 @@ async function buildAjv(): Promise<Ajv> {
     
     const ajv =  new Ajv({ strict: false, schemas })
     return ajv
+}
+
+async function buildAdAuctionExampleConfiguration(): Promise<SchemaConfiguration[]> {
+    const jsonPartials = await listJsonPartials();
+    const examplePartials = jsonPartials.filter(x => x.startsWith('ad-auction-example-'));
+    const configurations = examplePartials.flatMap(x => {
+        const schema = getAdAuctionExampleSchema(x);
+        if (schema === undefined) {
+            return undefined;
+        }
+        return {
+            jsonPartial: x,
+            schemaIdentifier: schema
+        };
+    });
+    return configurations;
+}
+
+function getAdAuctionExampleSchema(filename: string): string | undefined {
+    if (filename.includes('request')) {
+        return 'open-rtb-bid-request.json';
+    }
+    if (filename.includes('response')) {
+        return 'open-rtb-bid-response.json';
+    }
+    if (filename.includes('audit-log')) {
+        return 'audit-log.json';
+    }
+    return undefined;
 }
