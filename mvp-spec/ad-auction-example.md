@@ -20,7 +20,7 @@ graph LR;
 Notes:
 
 * We will consider that the publisher has two ad unit to offer a cross the Ad Network.
-* Those ad units are associated respectively to one transaction-id each: `transaction-id-for-impression-1 (GUID)` (named TI1 in the auction flow) and `transaction-id-for-impression-2 (GUID)` (named TI2 in the auction flow).
+* Those ad units are associated respectively to one transaction_id each: `transaction-id-for-impression-1 (GUID)` (named TI1 in the auction flow) and `transaction-id-for-impression-2 (GUID)` (named TI2 in the auction flow).
 * T1, T2... Tn are Transmission names to ease the discussion around it. T1 and T2 share only the seed to the Receivers and those Receivers send back a Transmission Response.
 * This setup uses the PrebidJS on the Publisher website. The publisher generates the Seeds and pass it to PrebidJS which offer it to the PrebidJS adaptors. 
 
