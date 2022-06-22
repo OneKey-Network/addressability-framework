@@ -130,9 +130,15 @@ async function buildAdAuctionExampleConfiguration(): Promise<SchemaConfiguration
 
 function getAdAuctionExampleSchema(filename: string): string | undefined {
     if (filename.includes('request')) {
+        if (filename.includes('standalone')) {
+            return 'standalone-bid-request.json';
+        }
         return 'open-rtb-bid-request.json';
     }
     if (filename.includes('response')) {
+        if (filename.includes('standalone')) {
+            return 'standalone-bid-response.json';
+        }
         return 'open-rtb-bid-response.json';
     }
     if (filename.includes('audit-log')) {

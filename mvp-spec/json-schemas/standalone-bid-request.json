@@ -1,0 +1,15 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "title": "Bid Request with a Standalone Transmission Request",
+    "$id": "standalone-bid-request",
+    "description": "A non-Open RTB Bid Request (with custom format) that includes a Transmission Request in standalone",
+    "type": "object",
+    "additionalProperties": true,
+    "properties": {
+        "paf_transmission": {
+            "$ref": "transmission-request.json"
+        }
+    },
+    "required": [
+    ]
+}

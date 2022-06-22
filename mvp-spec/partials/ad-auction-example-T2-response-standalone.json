@@ -1,26 +1,22 @@
 {
-    "ext": {
-        "paf": {
-            "transmission": {
-                "version": "0.1",
-                "contents": [
-                    {
-                        "transaction_id": "transaction-id-for-impression-2 (GUID)",
-                        "content_id": "dsp1-content-id-for-impression-2 (GUID)"
-                    }
-                ],
-                "status": "success",
-                "details": "",
-                "receiver": "dsp1.com",
-                "source": {
-                    "domain": "dsp1.com",
-                    "timestamp": 1639589531,
-                    "signature": "d01c6e83f14b4f057c2a2a86d320e2454fc0c60df4645518d993b5f40019d24c"
-                },
-                "children": [
-                ]
+    "paf_transmission": {
+        "version": "0.1",
+        "contents": [
+            {
+                "transaction_id": "transaction-id-for-impression-2 (GUID)",
+                "content_id": "dsp1-content-id-for-impression-2 (GUID)"
             }
-        }
+        ],
+        "status": "success",
+        "details": "",
+        "receiver": "dsp1.com",
+        "source": {
+            "domain": "dsp1.com",
+            "timestamp": 1639589531,
+            "signature": "d01c6e83f14b4f057c2a2a86d320e2454fc0c60df4645518d993b5f40019d24c"
+        },
+        "children": [
+        ]
     },
     "seatbid": [
         {
