@@ -407,7 +407,7 @@ The Sender, SSP2, generates its Transmission Result with a signature and adds it
                 "contents": [
                     {
                         "transaction_id": "transaction-id-for-impression-1 (GUID)",
-                        "content_id": "dsp3-content-id-for-impression-1 (GUID)"
+                        "content_id": "dsp2-content-id-for-impression-1 (GUID)"
                     }
                 ],
                 "status": "success",

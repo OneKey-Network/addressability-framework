@@ -6,7 +6,7 @@
                 "contents": [
                     {
                         "transaction_id": "transaction-id-for-impression-1 (GUID)",
-                        "content_id": "dsp3-content-id-for-impression-1 (GUID)"
+                        "content_id": "dsp2-content-id-for-impression-1 (GUID)"
                     }
                 ],
                 "status": "success",
