@@ -579,7 +579,7 @@ Comparing to the solution without OpenRTB:
 1. The Pseudonymous-Identifier value is stored in the `eids`.`id` field.
 2. The `eids`.`atype` is set to `1` because the ID is tied to a specific browser
 for nom.
-3. The `version`, `type`, and `source` fields are gathered in an extension of the `eid`: `eids`.`ext`.`paf`.
+3. The `version`, `type`, and `source` fields are gathered in an extension of the `eid`: `eids`.`uids`.`ext`.
 4. The Preferences are attached as an extention of the `eid`.
 
 | Entity  | Format|
