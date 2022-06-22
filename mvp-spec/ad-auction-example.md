@@ -6,7 +6,7 @@ Provide a concrete example of an auction flow with Transmissions.
 
 ## The auction setup 
 
-We will use the following setup of Publisher, SSPs and DSPs and we will describe the Transmission Request and the Transmission Response.
+We use the following setup of Publisher, SSPs and DSPs and we describe the Transmission Requests and the Transmission Responses.
 
 ```mermaid
 graph LR;
@@ -19,9 +19,10 @@ graph LR;
 
 Notes:
 
-* We will consider that the publisher has two ad placements to share a cross the Ad Network.
+* We will consider that the publisher has two ad unit to offer a cross the Ad Network.
+* Those ad units are associated respectively to one transaction-id each: `transaction-id-for-impression-1 (GUID)` (named TI1 in the auction flow) and `transaction-id-for-impression-2 (GUID)` (named TI2 in the auction flow).
 * T1, T2... Tn are Transmission names to ease the discussion around it. T1 and T2 share only the seed to the Receivers and those Receivers send back a Transmission Response.
-* This setup uses the PrebidJS on the Publisher side. It will help us to show that the Sources of Transmissions of the party generation the Seed (in our case the Publisher) can be omitted.
+* This setup uses the PrebidJS on the Publisher website. The publisher generates the Seeds and pass it to PrebidJS which offer it to the PrebidJS adaptors. 
 
 ## The auction flow
 
@@ -64,10 +65,10 @@ In those examples:
 * The transmission-ids, the content-ids, and seat have defined value for easing the understanding of the relations between the requests and the responses. In real life, those values are GUID or simple integers.
 * The signatures aren't verifiable.
 * The jsons omit some values (like "id" and "cur") that are normaly used in OpenRTB protocol to ease the understanding.
-* T1 and T2 are particular Transmissions because they are the firsts of the chains and are initiated by PrebidJS which doesn't necessarily use the OpenRTB standard. Therefore, they use the standalone specification of a Transmission Request/Response that can be adapted to your context. 
+* T1 and T2 Request are directly send by the Prebid Bidder Adapter to the matching server. This is typically done using a custom protocol, so we're just providing the expected Transmission Request object instead of the full request.
 
 <details>
-<summary>Standalone Request with T1 and T2 (identical)</summary>
+<summary>Bid Response with standalone format for T1 and T2 (identical)</summary>
 
 <!--partial-begin { "files": [ "ad-auction-example-T1-T2-request-standalone.json" ], "block": "json" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
@@ -614,7 +615,7 @@ In those examples:
 </details>
 
 <details>
-<summary>OpenRTB Bid Response with T1</summary>
+<summary>Bid Response with standalone format for T1</summary>
 
 <!--partial-begin { "files": [ "ad-auction-example-T1-response-standalone.json" ], "block": "json" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
@@ -733,7 +734,7 @@ In those examples:
 </details>
 
 <details>
-<summary>OpenRTB Bid Response with T2</summary>
+<summary>Bid Response with standalone format for T2</summary>
 
 <!--partial-begin { "files": [ "ad-auction-example-T2-response-standalone.json" ], "block": "json" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
