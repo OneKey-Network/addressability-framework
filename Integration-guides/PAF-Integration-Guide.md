@@ -174,11 +174,11 @@ It also explains the configuration that is required at the Operator level to ser
 
 ### Build a Modified Prebid.js
 
-Use the temporary fork of prebid.js which provides the necessary OneKey id module and the OneKey RTD module: [https://github.com/openx/Prebid.js](https://github.com/openx/Prebid.js)
+Use the temporary fork of prebid.js which provides the necessary OneKey id module and the OneKey RTD module: [https://github.com/openx/Prebid.js](https://github.com/openx/Prebid.js/tree/paf)
 
 Build `prebid.js` with the 2 additional modules
 
-    git clone https://github.com/openx/Prebid.js.git
+    git clone -b paf https://github.com/openx/Prebid.js.git
      cd Prebid.js
      npm ci
      gulp build --modules=userId,pafIdSystem,rtdModule,pafRtdProvider,appnexusBidAdapter
