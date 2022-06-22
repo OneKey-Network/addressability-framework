@@ -67,7 +67,9 @@ In those examples:
 * T1 and T2 Request are directly send by the Prebid Bidder Adapter to the matching server. This is typically done using a custom protocol, so we're just providing the expected Transmission Request object instead of the full request.
 
 <details>
-<summary>Bid Response with standalone format for T1 and T2 (identical)</summary>
+<summary>Bid Requests with standalone format for T1 and T2 (identical)</summary>
+
+T1 and T2 are send by PrebidJS Bidder Adapter. Therefore, the format is different from OpenRTB protocol. It is custom format that keep all the information of the Transmission in it.
 
 <!--partial-begin { "files": [ "ad-auction-example-T1-T2-request-standalone.json" ], "block": "json" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
@@ -139,7 +141,10 @@ In those examples:
 </details>
 
 <details>
-<summary>OpenRTB Bid Request with T3 and T4 (identical)</summary>
+<summary>OpenRTB Bid Requests with T3 and T4 (identical)</summary>
+
+T3 and T4 are within OpenRTB Bid Requests. Therefore, the format of OpenRTB is used here.
+The Sender, SSP1, generates its Transmission Result with a signature and adds it to the `parents` object.
 
 <!--partial-begin { "files": [ "ad-auction-example-T3-T4-request.json" ], "block": "json" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
@@ -257,6 +262,10 @@ In those examples:
 
 <details>
 <summary>OpenRTB Bid Request with T5</summary>
+
+
+T5 is within an OpenRTB Bid Request and respects its protocol.
+The Sender, SSP2, generates its Transmission Result with a signature and adds it to the `parents` object which contains already the Transmission Result of T1.
 
 <!--partial-begin { "files": [ "ad-auction-example-T5-request.json" ], "block": "json" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
@@ -788,6 +797,15 @@ In those examples:
 
 <details>
 <summary>Audit Log for TI1 based on T1</summary>
+PrebidJS has selected DSP3 as a winner. Therefore, it uses all the Transmissions that was in the path between the publisher and DSP3. The Audit Log is created accordingly with only T1, T3 and T5.
+
+```mermaid
+graph LR;
+    PJS((Publisher<br />PrebidJS))-->|T1|SSP1
+    SSP1-->|T3|SSP2
+    SSP2-->|T5|DSP3
+```
+
 
 <!--partial-begin { "files": [ "ad-auction-example-TI1-audit-log.json" ], "block": "json" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
@@ -888,6 +906,13 @@ In those examples:
 
 <details>
 <summary>Audit Log for TI2 based on T2</summary>
+
+For the second Ad Unit, PrebidJs as selected DSP1 as a winner. Here there is only one Transmission between the Publisher and DSP1. The Audit Log is created accordingly with only T2. 
+
+```mermaid
+graph LR;
+    PJS((Publisher<br />PrebidJS))-->|T2|DSP1
+```
 
 <!--partial-begin { "files": [ "ad-auction-example-TI2-audit-log.json" ], "block": "json" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
