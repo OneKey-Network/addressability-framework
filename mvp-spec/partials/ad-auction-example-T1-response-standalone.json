@@ -9,7 +9,7 @@
         "source": {
             "domain": "ssp1.com",
             "timestamp": 1639589531,
-            "signature": "3fe324b4f057c2a2a86d320e2454fc0c60df4645518d993b5f40019eada5"
+            "signature": "transmission-signature-done-by-ssp1-just-after-T1-request"
         },
         "children": [
             {
@@ -22,7 +22,7 @@
                 "source": {
                     "domain": "ssp2.com",
                     "timestamp": 1639589531,
-                    "signature": "asfdef14b4f057c2a2a86d320e2454fc0c60df4645518d993b5f40019dssda"
+                    "signature": "transmission-signature-done-by-ssp2-just-after-T3-request"
                 },
                 "children": [
                     {
@@ -43,7 +43,7 @@
                         "source": {
                             "domain": "dsp3.com",
                             "timestamp": 1639589531,
-                            "signature": "d01c6e83f14b4f057c2a2a86d320e2454fc0c60df4645518d993b5f40019d24c"
+                            "signature": "transmission-signature-done-by-dsp3-just-after-T5-request"
                         },
                         "children": [
                         ]
@@ -64,7 +64,7 @@
                 "source": {
                     "domain": "dsp2.com",
                     "timestamp": 1639589531,
-                    "signature": "d01c6e83f14b4f057c2a2a86d320e2454fc0c60df4645518d993b5f40019d24c"
+                    "signature": "transmission-signature-done-by-dsp2-just-after-T4-request"
                 },
                 "children": [
                 ]

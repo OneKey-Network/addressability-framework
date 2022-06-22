@@ -62,8 +62,7 @@ sequenceDiagram;
 ## OpenRTB Request/Response with the Transmissions
 
 In those examples:
-* The transmission-ids, the content-ids, and seat have defined value for easing the understanding of the relations between the requests and the responses. In real life, those values are GUID or simple integers.
-* The signatures aren't verifiable.
+* The transaction-ids, the content-ids, seat and signatures have defined value for easing the understanding of the relations between the requests and the responses. In real life, those values are GUID, integer or hash.
 * The jsons omit some values (like "id" and "cur") that are normaly used in OpenRTB protocol to ease the understanding.
 * T1 and T2 Request are directly send by the Prebid Bidder Adapter to the matching server. This is typically done using a custom protocol, so we're just providing the expected Transmission Request object instead of the full request.
 
@@ -103,7 +102,7 @@ In those examples:
             "source": {
                 "domain": "publisher.com",
                 "timestamp": 1639582000,
-                "signature": "f1f4871d48b825931c5016a433cb3b6388f989fac363af09b9ee3cd400d86b74"
+                "signature": "seed-signature-done-by-publisher-before-T1-and-T2"
             }
         },
         "data": {
@@ -115,7 +114,7 @@ In those examples:
                     "source": {
                         "domain": "operator0.com",
                         "timestamp": 1639580000,
-                        "signature": "868e7a6c27b7b7fe5fed219503894bf263f31bb6d8fd48336d283e77b512cda7"
+                        "signature": "operator-signature-done-before-ad-auction-flow"
                     }
                 }
             ],
@@ -127,7 +126,7 @@ In those examples:
                 "source": {
                     "domain": "cmp1.com",
                     "timestamp": 1639581000,
-                    "signature": "65acdcfdbdba8b17936f25a32b33b000393c866588d146cb62ec51ab8890c54f"
+                    "signature": "cmp-signature-done-before-ad-auction-flow"
                 }
             }
         },
@@ -198,7 +197,7 @@ In those examples:
                                 "source": {
                                     "domain": "operator0.com",
                                     "timestamp": 1639580000,
-                                    "signature": "868e7a6c27b7b7fe5fed219503894bf263f31bb6d8fd48336d283e77b512cda7"
+                                    "signature": "operator-signature-done-before-ad-auction-flow"
                                 }
                             }
                         }
@@ -212,7 +211,7 @@ In those examples:
                             "source": {
                                 "domain": "cmp1.com",
                                 "timestamp": 1639581000,
-                                "signature": "65acdcfdbdba8b17936f25a32b33b000393c866588d146cb62ec51ab8890c54f"
+                                "signature": "cmp-signature-done-before-ad-auction-flow"
                             }
                         }
                     }
@@ -230,7 +229,7 @@ In those examples:
                         "source": {
                             "domain": "publisher.com",
                             "timestamp": 1639582000,
-                            "signature": "f1f4871d48b825931c5016a433cb3b6388f989fac363af09b9ee3cd400d86b74"
+                            "signature": "seed-signature-done-by-publisher-before-T1-and-T2"
                         }
                     },
                     "parents": [
@@ -243,7 +242,7 @@ In those examples:
                             "source": {
                                 "domain": "ssp1.com",
                                 "timestamp": 1639581000,
-                                "signature": "5d0519da9c65feeae715dfcf380c7997ea9ee859e2636a498c43c1044dc20354"
+                                "signature": "transmission-signature-done-by-ssp1-just-after-T1-request"
                             }
                         }
                     ]
@@ -315,7 +314,7 @@ In those examples:
                                 "source": {
                                     "domain": "operator0.com",
                                     "timestamp": 1639580000,
-                                    "signature": "868e7a6c27b7b7fe5fed219503894bf263f31bb6d8fd48336d283e77b512cda7"
+                                    "signature": "operator-signature-done-before-ad-auction-flow"
                                 }
                             }
                         }
@@ -329,7 +328,7 @@ In those examples:
                             "source": {
                                 "domain": "cmp1.com",
                                 "timestamp": 1639581000,
-                                "signature": "65acdcfdbdba8b17936f25a32b33b000393c866588d146cb62ec51ab8890c54f"
+                                "signature": "cmp-signature-done-before-ad-auction-flow"
                             }
                         }
                     }
@@ -347,7 +346,7 @@ In those examples:
                         "source": {
                             "domain": "publisher.com",
                             "timestamp": 1639582000,
-                            "signature": "f1f4871d48b825931c5016a433cb3b6388f989fac363af09b9ee3cd400d86b74"
+                            "signature": "seed-signature-done-by-publisher-before-T1-and-T2"
                         }
                     },
                     "parents": [
@@ -360,7 +359,7 @@ In those examples:
                             "source": {
                                 "domain": "ssp1.com",
                                 "timestamp": 1639581000,
-                                "signature": "5d0519da9c65feeae715dfcf380c7997ea9ee859e2636a498c43c1044dc20354"
+                                "signature": "transmission-signature-done-by-ssp1-just-after-T1-request"
                             }
                         },
                         {
@@ -372,7 +371,7 @@ In those examples:
                             "source": {
                                 "domain": "ssp2.com",
                                 "timestamp": 1639581000,
-                                "signature": "5d0519da9c65feeae715dfcf380c7997ea9ee859e2636a498c43c1044dc20354"
+                                "signature": "transmission-signature-done-by-ssp2-just-after-T3-request"
                             }
                         }
                     ]
@@ -408,7 +407,7 @@ In those examples:
                 "source": {
                     "domain": "dsp2.com",
                     "timestamp": 1639589531,
-                    "signature": "d01c6e83f14b4f057c2a2a86d320e2454fc0c60df4645518d993b5f40019d24c"
+                    "signature": "transmission-signature-done-by-dsp2-just-after-T4-request"
                 },
                 "children": [
                 ]
@@ -470,7 +469,7 @@ In those examples:
                 "source": {
                     "domain": "dsp3.com",
                     "timestamp": 1639589531,
-                    "signature": "d01c6e83f14b4f057c2a2a86d320e2454fc0c60df4645518d993b5f40019d24c"
+                    "signature": "transmission-signature-done-by-dsp3-just-after-T5-request"
                 },
                 "children": [
                 ]
@@ -561,7 +560,7 @@ In those examples:
                         "source": {
                             "domain": "dsp3.com",
                             "timestamp": 1639589531,
-                            "signature": "d01c6e83f14b4f057c2a2a86d320e2454fc0c60df4645518d993b5f40019d24c"
+                            "signature": "transmission-signature-done-by-dsp3-just-after-T5-request"
                         },
                         "children": [
                         ]
@@ -631,7 +630,7 @@ In those examples:
         "source": {
             "domain": "ssp1.com",
             "timestamp": 1639589531,
-            "signature": "3fe324b4f057c2a2a86d320e2454fc0c60df4645518d993b5f40019eada5"
+            "signature": "transmission-signature-done-by-ssp1-just-after-T1-request"
         },
         "children": [
             {
@@ -644,7 +643,7 @@ In those examples:
                 "source": {
                     "domain": "ssp2.com",
                     "timestamp": 1639589531,
-                    "signature": "asfdef14b4f057c2a2a86d320e2454fc0c60df4645518d993b5f40019dssda"
+                    "signature": "transmission-signature-done-by-ssp2-just-after-T3-request"
                 },
                 "children": [
                     {
@@ -665,7 +664,7 @@ In those examples:
                         "source": {
                             "domain": "dsp3.com",
                             "timestamp": 1639589531,
-                            "signature": "d01c6e83f14b4f057c2a2a86d320e2454fc0c60df4645518d993b5f40019d24c"
+                            "signature": "transmission-signature-done-by-dsp3-just-after-T5-request"
                         },
                         "children": [
                         ]
@@ -686,7 +685,7 @@ In those examples:
                 "source": {
                     "domain": "dsp2.com",
                     "timestamp": 1639589531,
-                    "signature": "d01c6e83f14b4f057c2a2a86d320e2454fc0c60df4645518d993b5f40019d24c"
+                    "signature": "transmission-signature-done-by-dsp2-just-after-T4-request"
                 },
                 "children": [
                 ]
@@ -754,7 +753,7 @@ In those examples:
         "source": {
             "domain": "dsp1.com",
             "timestamp": 1639589531,
-            "signature": "d01c6e83f14b4f057c2a2a86d320e2454fc0c60df4645518d993b5f40019d24c"
+            "signature": "transmission-signature-done-by-dsp1-just-after-T2-request"
         },
         "children": [
         ]
@@ -803,7 +802,7 @@ In those examples:
                 "source": {
                     "domain": "operator0.com",
                     "timestamp": 1639589531,
-                    "signature": "3045022100aabf3ca5e4609990a1ff077c50aa52e3343005ead0d6f2ba1c05f71afe34b2f2022045fb8a98b154f8bcd66eb5774499d5fcb20e18274d67f14a43d5b45ec301d470"
+                    "signature": "operator-signature-done-before-ad-auction-flow"
                 }
             }
         ],
@@ -815,7 +814,7 @@ In those examples:
             "source": {
                 "domain": "cmp1.com",
                 "timestamp": 1639589531,
-                "signature": "304502203be66cc4bfa525f20005bc0b921f756f6a1d016c49641bdf0133413fe2ee1e15022100d2a37aabdb3c58ca84dfbaccf59496087deb976e9b8aa18bc93c48f59853b587"
+                "signature": "cmp-signature-done-before-ad-auction-flow"
             }
         }
     },
@@ -829,7 +828,7 @@ In those examples:
         "source": {
             "domain": "publisher.com",
             "timestamp": 1639582000,
-            "signature": "f1f4871d48b825931c5016a433cb3b6388f989fac363af09b9ee3cd400d86b74"
+            "signature": "seed-signature-done-by-publisher-before-T1-and-T2"
         }
     },
     "transaction_id": "transaction-id-for-impression-1 (GUID)",
@@ -844,7 +843,7 @@ In those examples:
             "source": {
                 "domain": "ssp1.com",
                 "timestamp": 1639589531,
-                "signature": "3fe324b4f057c2a2a86d320e2454fc0c60df4645518d993b5f40019eada5"
+                "signature": "transmission-signature-done-by-ssp1-just-after-T1-request"
             }
         },
         {
@@ -857,7 +856,7 @@ In those examples:
             "source": {
                 "domain": "ssp2.com",
                 "timestamp": 1639589531,
-                "signature": "asfdef14b4f057c2a2a86d320e2454fc0c60df4645518d993b5f40019dssda"
+                "signature": "transmission-signature-done-by-ssp2-just-after-T3-request"
             }
         },
         {
@@ -878,7 +877,7 @@ In those examples:
             "source": {
                 "domain": "dsp3.com",
                 "timestamp": 1639589531,
-                "signature": "d01c6e83f14b4f057c2a2a86d320e2454fc0c60df4645518d993b5f40019d24c"
+                "signature": "transmission-signature-done-by-dsp3-just-after-T5-request"
             }
         }
     ]
@@ -903,7 +902,7 @@ In those examples:
                 "source": {
                     "domain": "operator0.com",
                     "timestamp": 1639589531,
-                    "signature": "3045022100aabf3ca5e4609990a1ff077c50aa52e3343005ead0d6f2ba1c05f71afe34b2f2022045fb8a98b154f8bcd66eb5774499d5fcb20e18274d67f14a43d5b45ec301d470"
+                    "signature": "operator-signature-done-before-ad-auction-flow"
                 }
             }
         ],
@@ -915,7 +914,7 @@ In those examples:
             "source": {
                 "domain": "cmp1.com",
                 "timestamp": 1639589531,
-                "signature": "304502203be66cc4bfa525f20005bc0b921f756f6a1d016c49641bdf0133413fe2ee1e15022100d2a37aabdb3c58ca84dfbaccf59496087deb976e9b8aa18bc93c48f59853b587"
+                "signature": "cmp-signature-done-before-ad-auction-flow"
             }
         }
     },
@@ -929,7 +928,7 @@ In those examples:
         "source": {
             "domain": "publisher.com",
             "timestamp": 1639582000,
-            "signature": "f1f4871d48b825931c5016a433cb3b6388f989fac363af09b9ee3cd400d86b74"
+            "signature": "seed-signature-done-by-publisher-before-T1-and-T2"
         }
     },
     "transaction_id": "transaction-id-for-impression-2 (GUID)",
@@ -948,7 +947,7 @@ In those examples:
             "source": {
                 "domain": "dsp1.com",
                 "timestamp": 1639589531,
-                "signature": "d01c6e83f14b4f057c2a2a86d320e2454fc0c60df4645518d993b5f40019d24c"
+                "signature": "transmission-signature-done-by-dsp1-just-after-T2-request"
             }
         }
     ]

@@ -8,7 +8,7 @@
                 "source": {
                     "domain": "operator0.com",
                     "timestamp": 1639589531,
-                    "signature": "3045022100aabf3ca5e4609990a1ff077c50aa52e3343005ead0d6f2ba1c05f71afe34b2f2022045fb8a98b154f8bcd66eb5774499d5fcb20e18274d67f14a43d5b45ec301d470"
+                    "signature": "operator-signature-done-before-ad-auction-flow"
                 }
             }
         ],
@@ -20,7 +20,7 @@
             "source": {
                 "domain": "cmp1.com",
                 "timestamp": 1639589531,
-                "signature": "304502203be66cc4bfa525f20005bc0b921f756f6a1d016c49641bdf0133413fe2ee1e15022100d2a37aabdb3c58ca84dfbaccf59496087deb976e9b8aa18bc93c48f59853b587"
+                "signature": "cmp-signature-done-before-ad-auction-flow"
             }
         }
     },
@@ -34,7 +34,7 @@
         "source": {
             "domain": "publisher.com",
             "timestamp": 1639582000,
-            "signature": "f1f4871d48b825931c5016a433cb3b6388f989fac363af09b9ee3cd400d86b74"
+            "signature": "seed-signature-done-by-publisher-before-T1-and-T2"
         }
     },
     "transaction_id": "transaction-id-for-impression-2 (GUID)",
@@ -53,7 +53,7 @@
             "source": {
                 "domain": "dsp1.com",
                 "timestamp": 1639589531,
-                "signature": "d01c6e83f14b4f057c2a2a86d320e2454fc0c60df4645518d993b5f40019d24c"
+                "signature": "transmission-signature-done-by-dsp1-just-after-T2-request"
             }
         }
     ]

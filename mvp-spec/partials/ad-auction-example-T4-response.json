@@ -15,7 +15,7 @@
                 "source": {
                     "domain": "dsp2.com",
                     "timestamp": 1639589531,
-                    "signature": "d01c6e83f14b4f057c2a2a86d320e2454fc0c60df4645518d993b5f40019d24c"
+                    "signature": "transmission-signature-done-by-dsp2-just-after-T4-request"
                 },
                 "children": [
                 ]
