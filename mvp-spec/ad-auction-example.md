@@ -70,6 +70,13 @@ In those examples:
 <summary>Bid Requests with standalone format for T1 and T2 (identical)</summary>
 
 T1 and T2 are send by PrebidJS Bidder Adapter. Therefore, the format is different from OpenRTB protocol. It is custom format that keep all the information of the Transmission in it.
+    
+Your bidder adapter should add the following to your current protocol:
+        
+1. A transaction id for each ad unit,
+2. The PAF id and preferences
+3.  The seed (which contains the transactions ids defined previously, and whose signature used the id and preferences)
+
 
 <!--partial-begin { "files": [ "ad-auction-example-T1-T2-request-standalone.json" ], "block": "json" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
@@ -137,7 +144,8 @@ T1 and T2 are send by PrebidJS Bidder Adapter. Therefore, the format is differen
     }
 }
 ```
-<!--partial-end-->
+<!--partial-end-->   
+    
 </details>
 
 <details>
