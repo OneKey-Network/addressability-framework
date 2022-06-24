@@ -1,4 +1,6 @@
-// Add transaction id to Add units
+Transaction ids:
+```JSOn
+
 "adunits": [
         {
             "banner": {
@@ -17,7 +19,11 @@
             "paf_transaction_id": "transaction-id-for-impression-2 (GUID)"
         }
     ]
-// Add the identifiers to your request
+```
+
+Ids and preferences:
+```JSON
+
 "PAF_identifiers": {
                     "version": "0.1",
                     "type": "paf_browser_id",
@@ -29,17 +35,21 @@
                         }
                     }
 "PAF_preferences": {
-                "version": "0.1",
-                "data": { 
-                    "use_browsing_for_personalization": true 
-                },
-                "source": {
-                    "domain": "cmp1.com",
-                    "timestamp": 1639581000,
-                    "signature": "cmp-signature-done-before-ad-auction-flow"
+                    "version": "0.1",
+                    "data": { 
+                        "use_browsing_for_personalization": true 
+                    },
+                    "source": {
+                        "domain": "cmp1.com",
+                        "timestamp": 1639581000,
+                        "signature": "cmp-signature-done-before-ad-auction-flow"
                 }
-// attach the seed 
-        "seed": {
+}
+```
+The seed:
+```JSON
+
+"seed": {
             "version": "0.1",
             "transaction_ids": [ 
                 "transaction-id-for-impression-1 (GUID)", 
@@ -51,4 +61,6 @@
                 "timestamp": 1639582000,
                 "signature": "seed-signature-done-by-publisher-before-T1-and-T2"
             }
+        }
         
+```

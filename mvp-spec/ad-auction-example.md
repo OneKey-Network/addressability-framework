@@ -74,15 +74,16 @@ T1 and T2 are send by PrebidJS Bidder Adapter. Therefore, the format is differen
 Your bidder adapter should add the following to your current protocol:
         
 1. A transaction id for each ad unit,
-2. The PAF id and preferences
-3.  The seed (which contains the transactions ids defined previously, and whose signature used the id and preferences)
+2. The OneKey id and preferences,
+3. The seed.
 
-
-<!--partial-begin { "files": [ "ad-auction-example-T1-T2-request-standalone.json" ], "block": "json" } -->
+Examples are given below:
+<!--partial-begin { "files": [ "ad-auction-example-T1-T2-request-standalone.md" ] } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
-```json
-{
-    "adunits": [
+Transaction ids:
+```JSOn
+
+"adunits": [
         {
             "banner": {
                 "h": 250,
@@ -99,9 +100,38 @@ Your bidder adapter should add the following to your current protocol:
             },
             "paf_transaction_id": "transaction-id-for-impression-2 (GUID)"
         }
-    ],
-    "paf": {
-        "seed": {
+    ]
+```
+
+Ids and preferences:
+```JSON
+
+"PAF_identifiers": {
+                    "version": "0.1",
+                    "type": "paf_browser_id",
+                    "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
+                    "source": {
+                        "domain": "operator0.com",
+                        "timestamp": 1639580000,
+                        "signature": "operator-signature-done-before-ad-auction-flow"
+                        }
+                    }
+"PAF_preferences": {
+                    "version": "0.1",
+                    "data": { 
+                        "use_browsing_for_personalization": true 
+                    },
+                    "source": {
+                        "domain": "cmp1.com",
+                        "timestamp": 1639581000,
+                        "signature": "cmp-signature-done-before-ad-auction-flow"
+                }
+}
+```
+The seed:
+```JSON
+
+"seed": {
             "version": "0.1",
             "transaction_ids": [ 
                 "transaction-id-for-impression-1 (GUID)", 
@@ -113,36 +143,8 @@ Your bidder adapter should add the following to your current protocol:
                 "timestamp": 1639582000,
                 "signature": "seed-signature-done-by-publisher-before-T1-and-T2"
             }
-        },
-        "data": {
-            "identifiers": [
-                {
-                    "version": "0.1",
-                    "type": "paf_browser_id",
-                    "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
-                    "source": {
-                        "domain": "operator0.com",
-                        "timestamp": 1639580000,
-                        "signature": "operator-signature-done-before-ad-auction-flow"
-                    }
-                }
-            ],
-            "preferences": {
-                "version": "0.1",
-                "data": { 
-                    "use_browsing_for_personalization": true 
-                },
-                "source": {
-                    "domain": "cmp1.com",
-                    "timestamp": 1639581000,
-                    "signature": "cmp-signature-done-before-ad-auction-flow"
-                }
-            }
-        },
-        "parents": [
-        ]
-    }
-}
+        }
+        
 ```
 <!--partial-end-->   
     
