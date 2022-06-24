@@ -1021,20 +1021,25 @@ Inputs are described here [seed.md](./model/seed.md)
 
     This signature is also added in the bid response, and not recomputed at the response stage.
 
-5.transmission-signature-done-by-dsp1-just-after-T2-request
-
+5. transmission-signature-done-by-dsp1-just-after-T2-request
+    
     This is signed by DSP 1 after receiving T2 request and deciding the contents (and there ids) he wanted to send back.
+    
     Inputs for this signature are describe here [transmission-response](./model/transmission-response.md).
+    
     For this signature, the contents are available and are therefore signed.
 
 6. transmission-signature-done-by-ssp2-just-after-T3-request
+
     Signed by SSP2. As for signature 4. 'transmission-signature-done-by-ssp1-just-after-T1-request', it is then reused at the response stage and does not sign content (as it is empty).
 
 
 7. transmission-signature-done-by-dsp2-just-after-T4-request
+
     As for signature 5, this signature also sign content created by DSP2.
 
 
 8. transmission-signature-done-by-dsp3-just-after-T5-request
+
     As for signature 5 & 7, this signature also sign content created by DSP3.
 
