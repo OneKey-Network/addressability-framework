@@ -1,6 +1,7 @@
 ```JSON
 {::options parse_block_html="true" /} 
 
+```JSON
 {
     <details><summary>Stable RTB request with PAF</summary>
 
