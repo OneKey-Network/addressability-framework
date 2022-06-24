@@ -1,7 +1,6 @@
 ```JSON
-{::options parse_block_html="true" /}
 {
-    <details><summary>Stable RTB request with PAF</summary>
+    <details><summary>Stable RTB request with PAF</summary><p>
 
     "imp": [
         {
@@ -75,8 +74,8 @@
                     }
                 }
             ],
-            </details>
-            <details><summary>Transmission request section</summary>
+            </p></details>
+            <details><summary>Transmission request section</summary><p>
             "paf": {
                 "transmission": {
                     "seed": {
@@ -108,7 +107,7 @@
                     ]
                 }
             }
-            </details>
+            </p></details>
         }
     }
 }

@@ -159,9 +159,8 @@ The Sender, SSP1, generates its Transmission Result with a signature and adds it
 <!--partial-begin { "files": [ "ad-auction-example-T3-T4-request.md" ]} -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```JSON
-{::options parse_block_html="true" /}
 {
-    <details><summary>Stable RTB request with PAF</summary>
+    <details><summary>Stable RTB request with PAF</summary><p>
 
     "imp": [
         {
@@ -235,8 +234,8 @@ The Sender, SSP1, generates its Transmission Result with a signature and adds it
                     }
                 }
             ],
-            </details>
-            <details><summary>Transmission request section</summary>
+            </p></details>
+            <details><summary>Transmission request section</summary><p>
             "paf": {
                 "transmission": {
                     "seed": {
@@ -268,7 +267,7 @@ The Sender, SSP1, generates its Transmission Result with a signature and adds it
                     ]
                 }
             }
-            </details>
+            </p></details>
         }
     }
 }
