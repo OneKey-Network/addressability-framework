@@ -1,7 +1,5 @@
 ```JSON
 {
-    <details><summary>Stable RTB request with PAF</summary><p>
-
     "imp": [
         {
             "id": "1",
@@ -74,8 +72,6 @@
                     }
                 }
             ],
-            </p></details>
-            <details><summary>Transmission request section</summary><p>
             "paf": {
                 "transmission": {
                     "seed": {
@@ -107,7 +103,6 @@
                     ]
                 }
             }
-            </p></details>
         }
     }
 }

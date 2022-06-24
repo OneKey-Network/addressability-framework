@@ -160,8 +160,6 @@ The Sender, SSP1, generates its Transmission Result with a signature and adds it
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```JSON
 {
-    <details><summary>Stable RTB request with PAF</summary><p>
-
     "imp": [
         {
             "id": "1",
@@ -234,8 +232,6 @@ The Sender, SSP1, generates its Transmission Result with a signature and adds it
                     }
                 }
             ],
-            </p></details>
-            <details><summary>Transmission request section</summary><p>
             "paf": {
                 "transmission": {
                     "seed": {
@@ -267,7 +263,6 @@ The Sender, SSP1, generates its Transmission Result with a signature and adds it
                     ]
                 }
             }
-            </p></details>
         }
     }
 }
