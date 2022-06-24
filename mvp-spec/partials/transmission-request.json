@@ -1,5 +1,4 @@
 {
-    "version": "0.1",
     "seed": {
         "version": "0.1",
         "transaction_ids": [ 
@@ -38,14 +37,18 @@
             }
         }
     },
-    "contents": [],
-    "status": "success",
-    "details": "",
-    "receiver": "dsp1.com",
-    "source": {
-        "domain": "publisher.com",
-        "timestamp": 1639581000,
-        "signature": "5d0519da9c65feeae715dfcf380c7997ea9ee859e2636a498c43c1044dc20354"
-    },
-    "parents": []
+    "parents": [
+        {
+            "version": "0.1",
+            "contents": [],
+            "status": "success",
+            "details": "",
+            "receiver": "dsp1.com",
+            "source": {
+                "domain": "dsp1.com",
+                "timestamp": 1639589531,
+                "signature": "d01c6e83f14b4f057c2a2a86d320e2454fc0c60df4645518d993b5f40019d24c"
+            }
+        }
+    ]
 }

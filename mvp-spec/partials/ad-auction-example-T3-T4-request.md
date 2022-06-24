@@ -1,8 +1,8 @@
+```JSON
 {
     "imp": [
         {
             "id": "1",
-            "bidfloor": 0.03,
             "banner": {
                 "h": 250,
                 "w": 300,
@@ -11,7 +11,22 @@
             "ext": {
                 "data": {
                     "paf": {
-                        "transaction_id": "4640dc9f-385f-4e02-a0e5-abbf241af94d"
+                        "transaction_id": "transaction-id-for-impression-1"
+                    }
+                }
+            }
+        },
+        {
+            "id": "2",
+            "banner": {
+                "h": 250,
+                "w": 300,
+                "pos": 1
+            },
+            "ext": {
+                "data": {
+                    "paf": {
+                        "transaction_id": "transaction-id-for-impression-2"
                     }
                 }
             }
@@ -37,7 +52,7 @@
                                 "source": {
                                     "domain": "operator0.com",
                                     "timestamp": 1639580000,
-                                    "signature": "868e7a6c27b7b7fe5fed219503894bf263f31bb6d8fd48336d283e77b512cda7"
+                                    "signature": "operator-signature-done-before-ad-auction-flow"
                                 }
                             }
                         }
@@ -51,7 +66,7 @@
                             "source": {
                                 "domain": "cmp1.com",
                                 "timestamp": 1639581000,
-                                "signature": "65acdcfdbdba8b17936f25a32b33b000393c866588d146cb62ec51ab8890c54f"
+                                "signature": "cmp-signature-done-before-ad-auction-flow"
                             }
                         }
                     }
@@ -62,19 +77,33 @@
                     "seed": {
                         "version": "0.1",
                         "transaction_ids": [ 
-                            "4640dc9f-385f-4e02-a0e5-abbf241af94d", 
-                            "7d71a23a-fafa-449a-8b85-63a634780107" 
+                            "transaction-id-for-impression-1 (GUID)", 
+                            "transaction-id-for-impression-2 (GUID)" 
                         ],
                         "publisher": "publisher.com",
                         "source": {
                             "domain": "publisher.com",
                             "timestamp": 1639582000,
-                            "signature": "f1f4871d48b825931c5016a433cb3b6388f989fac363af09b9ee3cd400d86b74"
+                            "signature": "seed-signature-done-by-publisher-before-T1-and-T2"
                         }
                     },
-                    "parents": []
+                    "parents": [
+                        {
+                            "version": "0.1",
+                            "receiver": "ssp1.com",
+                            "contents": [],
+                            "status": "success",
+                            "details": "",
+                            "source": {
+                                "domain": "ssp1.com",
+                                "timestamp": 1639581000,
+                                "signature": "transmission-signature-done-by-ssp1-just-after-T1-request"
+                            }
+                        }
+                    ]
                 }
             }
         }
     }
 }
+```

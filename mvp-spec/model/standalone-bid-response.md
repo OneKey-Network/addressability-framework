@@ -1,6 +1,28 @@
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 
-# Transmission Response
+# Bid Response with Standalone Transmission
+
+A non-Open RTB Bid Request (with custom format) that includes a Transmission Response in standalone
+
+<table>
+
+<tr>
+    <th> Property </th>
+    <th> Type </th>
+    <th> Description </th>
+</tr>
+
+<tr>
+<td>
+paf_transmission<br>(<i>optional</i>)
+</td>
+<td>
+object
+</td>
+<td>
+
+<details>
+<summary>Object details</summary>
 
 <table>
 
@@ -281,6 +303,40 @@ array
 **Array of**:
 
 Transmission Response (recursive)
+
+</td>
+</tr>
+
+</table>
+
+</details>
+
+</td>
+</tr>
+
+<tr>
+<td>
+additionalProperties<br>(<i>optional</i>)
+</td>
+<td>
+object
+</td>
+<td>
+
+<details>
+<summary>Object details</summary>
+
+<table>
+
+<tr>
+    <th> Property </th>
+    <th> Type </th>
+    <th> Description </th>
+</tr>
+
+</table>
+
+</details>
 
 </td>
 </tr>

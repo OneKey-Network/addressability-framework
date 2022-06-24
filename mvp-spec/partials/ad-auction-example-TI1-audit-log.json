@@ -1,0 +1,90 @@
+{
+    "data": {
+        "identifiers": [
+            {
+                "version": "0.1",
+                "type": "paf_browser_id",
+                "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
+                "source": {
+                    "domain": "operator0.com",
+                    "timestamp": 1639589531,
+                    "signature": "operator-signature-done-before-ad-auction-flow"
+                }
+            }
+        ],
+        "preferences": {
+            "version": "0.1",
+            "data": { 
+                "use_browsing_for_personalization": true 
+            },
+            "source": {
+                "domain": "cmp1.com",
+                "timestamp": 1639589531,
+                "signature": "cmp-signature-done-before-ad-auction-flow"
+            }
+        }
+    },
+    "seed": {
+        "version": "0.1",
+        "transaction_ids": [ 
+            "transaction-id-for-impression-1 (GUID)", 
+            "transaction-id-for-impression-2 (GUID)" 
+        ],
+        "publisher": "publisher.com",
+        "source": {
+            "domain": "publisher.com",
+            "timestamp": 1639582000,
+            "signature": "seed-signature-done-by-publisher-before-T1-and-T2"
+        }
+    },
+    "transaction_id": "transaction-id-for-impression-1 (GUID)",
+    "transmissions": [
+        {
+            "version": "0.1",
+            "contents": [
+            ],
+            "status": "success",
+            "details": "",
+            "receiver": "ssp1.com",
+            "source": {
+                "domain": "ssp1.com",
+                "timestamp": 1639589531,
+                "signature": "transmission-signature-done-by-ssp1-just-after-T1-request"
+            }
+        },
+        {
+            "version": "0.1",
+            "contents": [
+            ],
+            "status": "success",
+            "details": "",
+            "receiver": "ssp2.com",
+            "source": {
+                "domain": "ssp2.com",
+                "timestamp": 1639589531,
+                "signature": "transmission-signature-done-by-ssp2-just-after-T3-request"
+            }
+        },
+        {
+            "version": "0.1",
+            "contents": [
+                {
+                    "transaction_id": "transaction-id-for-impression-1 (GUID)",
+                    "content_id": "dsp3-content-id-for-impression-1 (GUID)"
+                },
+                {
+                    "transaction_id": "transaction-id-for-impression-2 (GUID)",
+                    "content_id": "dsp3-content-id-for-impression-2 (GUID)"
+                }
+            ],
+            "status": "success",
+            "details": "",
+            "receiver": "dsp3.com",
+            "source": {
+                "domain": "dsp3.com",
+                "timestamp": 1639589531,
+                "signature": "transmission-signature-done-by-dsp3-just-after-T5-request"
+            }
+        }
+    ]
+}

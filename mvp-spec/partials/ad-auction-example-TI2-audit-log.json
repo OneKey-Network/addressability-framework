@@ -1,0 +1,60 @@
+{
+    "data": {
+        "identifiers": [
+            {
+                "version": "0.1",
+                "type": "paf_browser_id",
+                "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
+                "source": {
+                    "domain": "operator0.com",
+                    "timestamp": 1639589531,
+                    "signature": "operator-signature-done-before-ad-auction-flow"
+                }
+            }
+        ],
+        "preferences": {
+            "version": "0.1",
+            "data": { 
+                "use_browsing_for_personalization": true 
+            },
+            "source": {
+                "domain": "cmp1.com",
+                "timestamp": 1639589531,
+                "signature": "cmp-signature-done-before-ad-auction-flow"
+            }
+        }
+    },
+    "seed": {
+        "version": "0.1",
+        "transaction_ids": [ 
+            "transaction-id-for-impression-1", 
+            "transaction-id-for-impression-2" 
+        ],
+        "publisher": "publisher.com",
+        "source": {
+            "domain": "publisher.com",
+            "timestamp": 1639582000,
+            "signature": "seed-signature-done-by-publisher-before-T1-and-T2"
+        }
+    },
+    "transaction_id": "transaction-id-for-impression-2 (GUID)",
+    "transmissions": [
+        {
+            "version": "0.1",
+            "contents": [
+                {
+                    "transaction_id": "transaction-id-for-impression-2 (GUID)",
+                    "content_id": "dsp1-content-id-for-impression-2 (GUID)"
+                }
+            ],
+            "status": "success",
+            "details": "",
+            "receiver": "dsp1.com",
+            "source": {
+                "domain": "dsp1.com",
+                "timestamp": 1639589531,
+                "signature": "transmission-signature-done-by-dsp1-just-after-T2-request"
+            }
+        }
+    ]
+}

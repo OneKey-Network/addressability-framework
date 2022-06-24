@@ -135,7 +135,7 @@ array of object
 </td>
 <td>
 
-List of pairs of one content_id and one transaction_id. It is possible to have one content_id (i.e same content) for N transaction_ids (i.e N placements). In this case, there would be N pairs of 'contents'.
+List of pairs of one content_id and one transaction_id. It is possible to have many content_ids for one transaction_ids. In this case, there would be N pairs of 'contents'.
 
 **Array of**:
 
@@ -398,6 +398,18 @@ Represents a specific seat that provides at least one bid.
 
 <tr>
 <td>
+seat<br>(<i>optional</i>)
+</td>
+<td>
+string
+</td>
+<td>
+
+</td>
+</tr>
+
+<tr>
+<td>
 bid<br>(<i>optional</i>)
 </td>
 <td>
@@ -489,6 +501,33 @@ A GUID associated to a potential Addressable Content.
 </details>
 
 </td>
+</tr>
+
+</table>
+
+</details>
+
+</td>
+</tr>
+
+<tr>
+<td>
+additionalProperties<br>(<i>optional</i>)
+</td>
+<td>
+object
+</td>
+<td>
+
+<details>
+<summary>Object details</summary>
+
+<table>
+
+<tr>
+    <th> Property </th>
+    <th> Type </th>
+    <th> Description </th>
 </tr>
 
 </table>

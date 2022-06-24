@@ -126,6 +126,8 @@ sequenceDiagram
     Publisher->>User: Display the ad <br />Make Audit Log available next to the ad
 ```
 
+For a more advanced example, go to [ad-auction-example.md](./ad-auction-example.md)
+
 ### Ad slots, Seeds, and Transmissions Requests
 
 The relationships between ad slots, Seeds, and Transmissions are:
@@ -218,7 +220,6 @@ multiple Transmissions referring to it.
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```json
 {
-    "version": "0.1",
     "seed": {
         "version": "0.1",
         "transaction_ids": [ 
@@ -257,16 +258,20 @@ multiple Transmissions referring to it.
             }
         }
     },
-    "contents": [],
-    "status": "success",
-    "details": "",
-    "receiver": "dsp1.com",
-    "source": {
-        "domain": "publisher.com",
-        "timestamp": 1639581000,
-        "signature": "5d0519da9c65feeae715dfcf380c7997ea9ee859e2636a498c43c1044dc20354"
-    },
-    "parents": []
+    "parents": [
+        {
+            "version": "0.1",
+            "contents": [],
+            "status": "success",
+            "details": "",
+            "receiver": "dsp1.com",
+            "source": {
+                "domain": "dsp1.com",
+                "timestamp": 1639589531,
+                "signature": "d01c6e83f14b4f057c2a2a86d320e2454fc0c60df4645518d993b5f40019d24c"
+            }
+        }
+    ]
 }
 ```
 <!--partial-end-->
@@ -312,8 +317,10 @@ and bound to the bid response.
 }
 ```
 <!--partial-end-->
-
 </details>
+
+
+For more advanced examples, go to [ad-auction-example.md](./ad-auction-example.md)
 
 ### Step 5: Generate the Audit Log
 
@@ -540,6 +547,9 @@ Here is the associated list of Transmission Results:
 <!--partial-end-->
 </details>
 
+
+For more advanced examples, go to [ad-auction-example.md](./ad-auction-example.md)
+
 ### Step 6: Display the ad and make the Audit Log available
 
 Finally, the ad can be displayed to the user on the publisher 
@@ -569,7 +579,7 @@ Comparing to the solution without OpenRTB:
 1. The Pseudonymous-Identifier value is stored in the `eids`.`id` field.
 2. The `eids`.`atype` is set to `1` because the ID is tied to a specific browser
 for nom.
-3. The `version`, `type`, and `source` fields are gathered in an extension of the `eid`: `eids`.`ext`.`paf`.
+3. The `version`, `type`, and `source` fields are gathered in an extension of the `eid`: `eids`.`uids`.`ext`.
 4. The Preferences are attached as an extention of the `eid`.
 
 | Entity  | Format|
@@ -583,9 +593,6 @@ for nom.
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```json
 {
-    "id": "80ce30c53c16e6ede735f123ef6e32361bfc7b22",
-    "at": 1, 
-    "cur": [ "USD" ],
     "imp": [
         {
             "id": "1",
@@ -604,22 +611,6 @@ for nom.
             }
         }
     ],
-    "site": {
-        "id": "102855",
-        "cat": [ "IAB3-1" ],
-        "domain": "www.publisher.com",
-        "page": "http://www.publisher.com/1234.html ",
-        "publisher": {
-            "id": "8953",
-            "name": "publisher.com",
-            "cat": ["IAB3-1"],
-            "domain": "publisher.com"
-        }
-    },
-    "device": {
-        "ua": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_8) AppleWebKit/537.13 (KHTML, like Gecko) Version/5.1.7 Safari/534.57.2",
-        "ip": "123.145.167.10"
-    },
     "user": {
         "id": "55816b39711f9b5acf3b90e313ed29e51665623f",
          "ext":
@@ -630,6 +621,7 @@ for nom.
                     "source": "paf",
                     "uids": [
                         {
+                            "source": "paf",
                             "atype": 1,
                             "id": "7435313e-caee-4889-8ad7-0acd0114ae3c",
                             "ext": 
@@ -661,7 +653,6 @@ for nom.
             ],
             "paf": {
                 "transmission": {
-                    "version": "0.1",
                     "seed": {
                         "version": "0.1",
                         "transaction_ids": [ 
@@ -674,11 +665,6 @@ for nom.
                             "timestamp": 1639582000,
                             "signature": "f1f4871d48b825931c5016a433cb3b6388f989fac363af09b9ee3cd400d86b74"
                         }
-                    },
-                    "source": {
-                        "domain": "dsp1.com",
-                        "timestamp": 1639581000,
-                        "signature": "5d0519da9c65feeae715dfcf380c7997ea9ee859e2636a498c43c1044dc20354"
                     },
                     "parents": []
                 }
@@ -708,9 +694,6 @@ the `ext` field of a `bid` (full path: `seatbid[].bid.ext.paf`).
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```json
 {
-    "id": "1234567890",
-    "bidid": "abc1123",
-    "cur": "USD",
     "ext": {
         "paf": {
             "transmission": {

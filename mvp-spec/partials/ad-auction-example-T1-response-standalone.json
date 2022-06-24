@@ -1,0 +1,109 @@
+{
+    "paf_transmission": {
+        "version": "0.1",
+        "contents": [
+        ],
+        "status": "success",
+        "details": "",
+        "receiver": "ssp1.com",
+        "source": {
+            "domain": "ssp1.com",
+            "timestamp": 1639589531,
+            "signature": "transmission-signature-done-by-ssp1-just-after-T1-request"
+        },
+        "children": [
+            {
+                "version": "0.1",
+                "contents": [
+                ],
+                "status": "success",
+                "details": "",
+                "receiver": "ssp2.com",
+                "source": {
+                    "domain": "ssp2.com",
+                    "timestamp": 1639589531,
+                    "signature": "transmission-signature-done-by-ssp2-just-after-T3-request"
+                },
+                "children": [
+                    {
+                        "version": "0.1",
+                        "contents": [
+                            {
+                                "transaction_id": "transaction-id-for-impression-1 (GUID)",
+                                "content_id": "dsp3-content-id-for-impression-1 (GUID)"
+                            },
+                            {
+                                "transaction_id": "transaction-id-for-impression-2 (GUID)",
+                                "content_id": "dsp3-content-id-for-impression-2 (GUID)"
+                            }
+                        ],
+                        "status": "success",
+                        "details": "",
+                        "receiver": "dsp3.com",
+                        "source": {
+                            "domain": "dsp3.com",
+                            "timestamp": 1639589531,
+                            "signature": "transmission-signature-done-by-dsp3-just-after-T5-request"
+                        },
+                        "children": [
+                        ]
+                    }
+                ]
+            },
+            {
+                "version": "0.1",
+                "contents": [
+                    {
+                        "transaction_id": "transaction-id-for-impression-1 (GUID)",
+                        "content_id": "dsp2-content-id-for-impression-1 (GUID)"
+                    }
+                ],
+                "status": "success",
+                "details": "",
+                "receiver": "dsp2.com",
+                "source": {
+                    "domain": "dsp2.com",
+                    "timestamp": 1639589531,
+                    "signature": "transmission-signature-done-by-dsp2-just-after-T4-request"
+                },
+                "children": [
+                ]
+            }
+        ]
+    },
+    "bid": [
+        {
+            "impid": "1",
+            "price": 6,
+            "nurl": "http://adserver31.com/winnotice?impid=102",
+            "iurl": "http://adserver31.com/pathtosampleimage",
+            "adomain": [ "advertiserdomain31.com" ],
+            "cid": "campaign31",
+            "crid": "creative31",
+            "attr": [ 1, 2, 3, 4, 5, 6, 7, 12 ],
+            "paf_content_id": "dsp3-content-id-for-impression-1 (GUID)"
+        },
+        {
+            "impid": "2",
+            "price": 2,
+            "nurl": "http://adserver32.com/winnotice?impid=102",
+            "iurl": "http://adserver32.com/pathtosampleimage",
+            "adomain": [ "advertiserdomain32.com" ],
+            "cid": "campaign32",
+            "crid": "creative32",
+            "attr": [ 1, 2, 3, 4, 5, 6, 7, 12 ],
+            "paf_content_id": "dsp3-content-id-for-impression-2 (GUID)"
+        },
+        {
+            "impid": "1",
+            "price": 1,
+            "nurl": "http://adserver2.com/winnotice?impid=102",
+            "iurl": "http://adserver2.com/pathtosampleimage",
+            "adomain": [ "advertiserdomain2.com" ],
+            "cid": "campaign2",
+            "crid": "creative2",
+            "attr": [ 1, 2, 3, 4, 5, 6, 7, 12 ],
+            "paf_content_id": "dsp2-content-id-for-impression-1 (GUID)"
+        }
+    ]
+}
