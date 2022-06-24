@@ -1,5 +1,9 @@
+```JSON
+{::options parse_block_html="true" /} 
 
 {
+    <details><summary>Stable RTB request with PAF</summary>
+
     "imp": [
         {
             "id": "1",
@@ -72,6 +76,8 @@
                     }
                 }
             ],
+            </details>
+            <details><summary>Transmission request section</summary>
             "paf": {
                 "transmission": {
                     "seed": {
@@ -103,6 +109,8 @@
                     ]
                 }
             }
+            </details>
         }
     }
 }
+```

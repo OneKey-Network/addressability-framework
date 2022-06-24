@@ -156,10 +156,14 @@ The seed:
 T3 and T4 are within OpenRTB Bid Requests. Therefore, the format of OpenRTB is used here.
 The Sender, SSP1, generates its Transmission Result with a signature and adds it to the `parents` object.
 
-<!--partial-begin { "files": [ "ad-auction-example-T3-T4-request.json" ], "block": "json" } -->
+<!--partial-begin { "files": [ "ad-auction-example-T3-T4-request.md" ]} -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
-```json
+```JSON
+{::options parse_block_html="true" /} 
+
 {
+    <details><summary>Stable RTB request with PAF</summary>
+
     "imp": [
         {
             "id": "1",
@@ -232,6 +236,8 @@ The Sender, SSP1, generates its Transmission Result with a signature and adds it
                     }
                 }
             ],
+            </details>
+            <details><summary>Transmission request section</summary>
             "paf": {
                 "transmission": {
                     "seed": {
@@ -263,6 +269,7 @@ The Sender, SSP1, generates its Transmission Result with a signature and adds it
                     ]
                 }
             }
+            </details>
         }
     }
 }
