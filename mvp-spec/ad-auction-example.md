@@ -64,20 +64,24 @@ sequenceDiagram;
 In those examples:
 * The transaction-ids, the content-ids, seat and signatures have defined value for easing the understanding of the relations between the requests and the responses. In real life, those values are GUID, integer or hash.
 * The jsons omit some values (like "id" and "cur") that are normaly used in OpenRTB protocol to ease the understanding.
-* T1 and T2 Request are directly send by the Prebid Bidder Adapter to the matching server. This is typically done using a custom protocol, so we're just providing the expected Transmission Request object instead of the full request.
+* T1 and T2 Request aren't embedded in a OpenRTB bid request, because those are typically sent by a Prebid.js Bidder Adapter to the bidder's server using a custom, non-OpenRTB message format.
 
 <details>
-<summary>Bid Requests with standalone format for T1 and T2 (identical)</summary>
-
-T1 and T2 are send by PrebidJS Bidder Adapter. Therefore, the format is different from OpenRTB protocol. It is custom format that keep all the information of the Transmission in it.
+<summary>Bid Requests in a custom format for T1 and T2 (identical)</summary>
     
-Your bidder adapter should add the following to your current protocol:
-        
-1. A transaction id for each ad unit,
-2. The OneKey id and preferences,
-3. The seed.
+The message sent to the bidder's server is typically in a custom format. The message should be modified as follows:       
+1. Add the matching transaction id to each ad unit,
+2. Add the OneKey id and preferences,
+3. Add the seed.
+    
+In Prebid.js, using the onekey RTD module and the OneKey Id module will take care of doing those changes to the bidderRequest parameter that a bidder adapter receives.
+The bidder adapter just needs to ensure the same additions are transferred to the server. Check the modules documentation for the detail of what the bidderRequest parameter will contain.
 
-Examples are given below:
+The examples below show:
+- the changes to do on a fictive ad unit model,
+- the recommended format to insert OneKey id and preferences in a custom bid request,
+- the recommended format to insert the seed in a custom bid request.
+
 <!--partial-begin { "files": [ "ad-auction-example-T1-T2-request-standalone.md" ] } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 Transaction ids:
