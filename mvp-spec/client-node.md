@@ -422,9 +422,6 @@ This library is a static file that can be added to any website, but requires **t
 
 ## Implementation details
 
-<details>
-<summary>Read ids and preferences</summary>
-
 The following diagram details the steps needed to read existing cookies from OneKey
 
 - at browser level the **frontend operator client** (a Javascript library) is used
@@ -513,5 +510,3 @@ flowchart TD
     
     Get2["GET web page<br>(back to the top)"]
 ```
-
-</details>
