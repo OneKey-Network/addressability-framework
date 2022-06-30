@@ -1,6 +1,6 @@
-# Prebid Addressability Framework
+# OneKey
 
-The Prebid Addressability Framework (PAF) is a set of technical standards, UX requirements, and mandatory contractual terms designed to improve addressable advertising across the open internet.
+The OneKey Framework (aka PAF) is a set of technical standards, UX requirements, and mandatory contractual terms designed to improve addressable advertising across the open internet.
 
 This directory contains technical specifications for a minimum viable product (MVP).
 
@@ -25,11 +25,11 @@ flowchart LR
     click DSP href "#dsp-demand-side-platform" "DSP"
 ```
 
-PAF supports the following features:
+OneKey supports the following features:
 - User Id and Preferences management, based on mandatory user consent
 - an Audit Log, listing all entities that have been involved in an ad display
 
-To deliver these features, PAF integrates in the existing digital marketing landscape and introduces a new actor: the Operator.
+To deliver these features, OneKey integrates in the existing digital marketing landscape and introduces a new actor: the Operator.
 
 ## Glossary
 
@@ -37,7 +37,7 @@ Framework-specific terms, with first letters in uppercase, are defined in this g
 
 **Audit Log** means a log identifying all participants (Publisher, SSP, DSP) part of a chain leading to an ad display.
 
-**PAF** is short for Prebid Addressability Framework
+**OneKey aka PAF** The OneKey framework is being designed by a community of engineers, lawyers and UX designers within Prebid's Addressability PMC, and as a consequence has been often referred to as Prebid Addressability Framework (PAF)
 
 **Operator** means the entity responsible for creating, updating, deleting and controlling access to the User Id and Preferences.
 
@@ -53,7 +53,7 @@ Framework-specific terms, with first letters in uppercase, are defined in this g
 
 ## Workflows
 
-The Prebid Addressability Framework supports:
+The OneKey framework supports:
 - User Id and Preferences management
 - extension of ad auction mechanisms with signed Transmissions
 - display of an Audit Log to the user upon request 
@@ -69,7 +69,7 @@ See [workflows](workflows.md), [operator-api.md](operator-api.md), and [client-n
 
 ### Ad auction
 
-Prebid Addressability Framework integration with an ad auction involves:
+OneKey integration with an ad auction involves:
 - The seller site
 - SSP and DSP
 
@@ -94,7 +94,7 @@ See [audit-log-design.md](audit-log-design.md) and [audit-log-requirements.md](a
 | [security-signatures.md](security-signatures.md)                                                    | General introduction on signatures and signature verification                                       |
 | [audit-log-requirements.md](audit-log-requirements.md)                                              | Functional requirements related to the Audit Log and the Transmissions.                             |
 | [audit-log-design.md](audit-log-design.md)                                                          | Design the technical solution for the Audit Log.                                                    |
-| [ad-auction](ad-auction.md)                                                                         | Details PAF integration in an ad auction.                                                           |
+| [ad-auction](ad-auction.md)                                                                         | Details OneKey integration in an ad auction.                                                           |
 | [dsp-implementation.md](dsp-implementation.md)                                                      | Data exchange specification, from the point of view of a DSP implementer.                           |
 | [operator-api.md](operator-api.md)                                                                  | Operator API specification                                                                          |
 | [operator-design.md](operator-design.md)                                                            | Design of the generation of PAF Data.                                                               |
