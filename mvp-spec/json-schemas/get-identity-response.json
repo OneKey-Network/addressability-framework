@@ -22,13 +22,13 @@
     "dpo_email": {
       "type": "string",
       "format": "idn-email",
-      "description": "Email address to contact the company",
-      "examples": ["privacy@criteo.com"]
+      "description": "Email address to contact the contracting party",
+      "examples": ["dpo@criteo.com"]
     },
     "privacy_policy_url": {
       "type": "string",
       "format": "uri-template",
-      "description": "URL of the recipient's privacy policy",
+      "description": "URL of the privacy policy of the contracting party",
       "examples": ["https://www.criteo.com/privacy/"]
     },
     "keys": {
