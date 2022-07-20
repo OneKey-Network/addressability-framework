@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "proxy-post-ids-prefs-response",
+  "title": "POST /paf-proxy/v1/ids-prefs response",
+  "additionalProperties": false,
+  "properties": {
+    "url": {
+      "type": "string",
+      "format": "uri-template",
+      "description": "To URL to call on the operator",
+      "examples": ["https://crto-poc-1.onekey.network/paf/v1/ids-prefs"]
+    },
+    "payload": {
+      "$ref": "post-ids-prefs-request.json",
+      "description": "The signed request to send as POST payload when calling the operator"
+    }
+  },
+  "required": [
+    "url",
+    "payload"
+  ]
+}
