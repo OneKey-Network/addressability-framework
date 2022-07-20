@@ -1,10 +1,10 @@
 {
   "dpo_email": "contact@crto-poc-1.onekey.network",
   "privacy_policy_url": "https://crto-poc-1.onekey.network/privacy",
-  "name": "Some PAF operator",
+  "name": "Some OneKey operator",
   "keys": [
     {
-      "key": "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEEiZIRhGxNdfG4l6LuY2Qfjyf60R0\njmcW7W3x9wvlX4YXqJUQKR2c0lveqVDj4hwO0kTZDuNRUhgxk4irwV3fzw==\n-----END PUBLIC KEY-----",
+      "key": "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEEiZIRhGxNdfG4l6LuY2Qfjyf60R0\njmcW7W3x9wvlX4YXqJUQKR2c0lveqVDj4hwO0kTZDuNRUhgxk4irwV3fzw==\n-----END PUBLIC KEY-----\n",
       "start": 1641034200,
       "end": 1672488000
     }

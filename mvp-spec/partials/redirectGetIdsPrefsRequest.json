@@ -1,9 +1,9 @@
 {
+  "returnUrl": "https://advertiser.com/news/2022/02/07/something-crazy-happened?utm_content=campaign%20content",
   "request": {
     "sender": "cmp.com",
     "receiver": "operator.paf-operation-domain.io",
     "timestamp": 1643041140,
     "signature": "ubAJTaQYms5oNDImzABDPNLgGa4UXyrQ6PRYTIVA/z+R62fxSFw4Gehk8Ri1uTM+FKXlB++Vqq1/dJvjRbSh6A=="
-  },
-  "returnUrl": "https://advertiser.com/news/2022/02/07/something-crazy-happened?utm_content=campaign%20content"
+  }
 }
