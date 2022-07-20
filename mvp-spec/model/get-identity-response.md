@@ -84,12 +84,12 @@ string
 </td>
 <td>
 
-Email address to contact the company
+Email address to contact the contracting party
 
 **Example:** 
 
 ```json
-"privacy@criteo.com"
+"dpo@criteo.com"
 ```
 
 </td>
@@ -104,7 +104,7 @@ string
 </td>
 <td>
 
-URL of the recipient's privacy policy
+URL of the privacy policy of the contracting party
 
 **Example:** 
 
