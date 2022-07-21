@@ -148,7 +148,7 @@ string
 </td>
 <td>
 
-Public key string value
+Public key string value in PEM format
 
 **Example:** 
 

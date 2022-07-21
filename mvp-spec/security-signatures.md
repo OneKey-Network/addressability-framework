@@ -5,15 +5,13 @@
 Concerning the operator:
 - all **requests** are signed with:
    - current timestamp
-   - protocol version ⚠️ not implemented yet ⚠️
    - the "sender" domain that links to the public key
    - the value of either the `origin` or the `referer` HTTP header
      - note: it is mandatory for client websites to support the `referer` HTTP header.
-Websites that use a `Referrer-Policy` that prevent the `referer` header to be present would not work with PAF client.
-   - most of the request body, including the return URL ⚠️ not implemented yet ⚠️
+Websites that use a `Referrer-Policy` that prevent the `referer` header to be present would not work with OneKey client.
+   - most of the request body, including the return URL
 - all **responses** are signed with:
    - current timestamp
-   - protocol version ⚠️ not implemented yet ⚠️
    - the operator domain that links to the public key
    - the receiver domain
    - most of the response body
@@ -21,18 +19,18 @@ Websites that use a `Referrer-Policy` that prevent the `referer` header to be pr
 Concerning data:
 - **User Ids** are signed with:
   - current timestamp
-  - protocol version ⚠️ not implemented yet ⚠️
   - the "signer" domain that links to the public key
   - User Id type and value
   - (see [identifier.md](model/identifier.md))
 
 - **Preferences** are signed with:
   - current timestamp
-  - protocol version ⚠️ not implemented yet ⚠️
   - the "signer" domain that links to the public key
   - all preferences type and value
-  - the signature value of the PAF User Id
+  - the signature value of the OneKey User Id
   - (see [preferences.md](model/preferences.md))
+
+Note: as soon as a new version of the protocol will be released, **the protocol version** must also be included in the signature string.
 
 ## Security threats & counter-measures
 
@@ -63,38 +61,34 @@ Here is a list of ☢️ security threats that have been identified, and the �
 
 - ☢️ "**unsafe redirects**": a call to the operator redirects to a fraudulent website (see [Unvalidated Redirects and Forwards - OWASP Cheat Sheet Series](https://cheatsheetseries.owasp.org/cheatsheets/Unvalidated_Redirects_and_Forwards_Cheat_Sheet.html))
   - 🛡 return URL is part of the request signature. Since only clients with permissions are allowed to sign requests, we consider it safe.
-    - ⚠️ not implemented yet ⚠️
   - 🛡 in case the signature verification fails, redirect to the value of the `referer` HTTP header
-    - ⚠️ not implemented yet ⚠️
 
 - ☢️ **illegitimate** but valid signed requests to the operator
-  - 🛡 signatures are only made server-side by the PAF client node (see [AJAX Security - OWASP Cheat Sheet Series](https://cheatsheetseries.owasp.org/cheatsheets/AJAX_Security_Cheat_Sheet.html#never-transmit-secrets-to-the-client))
+  - 🛡 signatures are only made server-side by the OneKey client node (see [AJAX Security - OWASP Cheat Sheet Series](https://cheatsheetseries.owasp.org/cheatsheets/AJAX_Security_Cheat_Sheet.html#never-transmit-secrets-to-the-client))
   - 🛡 the pairs of private / public keys rotate regularly
-  - 🛡 the PAF client node uses **CORS** to only authorize JS calls from known websites
+  - 🛡 the OneKey client node uses **CORS** to only authorize JS calls from known websites
   - 🛡 the signature includes:
     - the value of the `origin` HTTP header when building a "REST" request
     - the value of the `referer` HTTP header when building a "redirect" request
     - the same HTTP header is then read **by the operator** when verifying the request signature
-    - ⚠️ not implemented yet ⚠️
 
-- ☢️ **script (S2S) calls** to the PAF client node or operator:
-  calls to the PAF client node and operator rely on the `origin` or `referer` HTTP headers.
+- ☢️ **script (S2S) calls** to the OneKey client node or operator:
+  calls to the OneKey client node and operator rely on the `origin` or `referer` HTTP headers.
   These headers can be "faked" when using scripts with `curl` or `wget`.
-  - 🛡 reminder: PAF data are cookies stored on the web browser. A S2S fraudulent call (= outside the web browser) to the operator is useless as **no data can be read or written**. 
-  - ☢️ S2S call to the PAF client node with fake `origin` HTTP header: the call would be accepted by the PAF client node and a valid operator request can be built.
+  - 🛡 reminder: OneKey data are cookies stored on the web browser. A S2S fraudulent call (= outside the web browser) to the operator is useless as **no data can be read or written**. 
+  - ☢️ S2S call to the OneKey client node with fake `origin` HTTP header: the call would be accepted by the OneKey client node and a valid operator request can be built.
     - 🛡 the following call to the operator would need to have the same `origin`, or be refused. The request cannot be used outside a legitimate website.
   - ☢️ S2S call to the operator with fake `origin` HTTP header
     - 🛡 no impact of a S2S call to the operator 
 
 - ☢️ taking advantage of an **unsafe version** of the protocol
-  - 🛡 all data and all requests are signed with the version of the protocol
-    - ⚠️ not implemented yet ⚠️
+  - 🛡 all data and all requests are signed with the version of the protocol ⚠️ not implemented in version 0.1 (see [#184](https://github.com/prebid/addressability-framework/issues/184))
 
 ## Signatures & signature verification
 
 A quick introduction on how data (identifiers & preferences cookies) and messages (operator requests and responses, transmissions) are signed and how these signatures can be verified.
 
-PAF Data format is designed to let the users audit how their preferences got
+OneKey Data format is designed to let the users audit how their preferences got
 to their current state. It relies on the signatures of data and communication, to enforce security.
 
 All "signers" have a pair of **private** and a **public** Elliptic Curve Cryptography (ECC) keys, based on the ECDSA NIST P-256 (FIPS 186-3, section D.2.3), also known as `secp256r1` or `prime256v1`:
@@ -108,7 +102,7 @@ A "signer" needs to calculate the signature to associate with an object (cookie 
 
 1. the signer computes the _signature input_ for the object to sign
    1. usually, different properties from the object are "joined together" with the special separator character `\u2063`
-   2. but **each type of object has its own rule to calculate the signature input**. Refer to documentation these rules.
+   2. but **each type of object has its own rule to calculate the signature input**. Refer to the [model documentation](./model) for details on these rules.
 
 Example:
 
@@ -161,3 +155,46 @@ The process is relatively similar:
    2. the signature
 
 5. the result of the verification is `true` if the signature is valid, `false` otherwise
+
+## Identity endpoint
+
+All contracting parties must implement a public "identity" endpoint that returns some metadata about the contracting party,
+and the list of public keys (PEM string) that the contracting party used or is using for signing data and messages.
+
+This endpoint can be called whenever some signed content needs to be verified.
+
+See [get-identity-response.md](./model/get-identity-response.md) for details.
+
+### Example
+
+- The following URL is called:
+
+<!--partial-begin { "files": [ "getIdentityRequest_operator.http" ], "block": "http" } -->
+<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
+```http
+GET /paf/v1/identity
+Host: operator.paf-operation-domain.io
+```
+<!--partial-end-->
+
+- response:
+
+<!--partial-begin { "files": [ "getIdentityResponse_operator.json" ], "block": "json" } -->
+<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
+```json
+{
+  "dpo_email": "contact@crto-poc-1.onekey.network",
+  "privacy_policy_url": "https://crto-poc-1.onekey.network/privacy",
+  "name": "Some OneKey operator",
+  "keys": [
+    {
+      "key": "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEEiZIRhGxNdfG4l6LuY2Qfjyf60R0\njmcW7W3x9wvlX4YXqJUQKR2c0lveqVDj4hwO0kTZDuNRUhgxk4irwV3fzw==\n-----END PUBLIC KEY-----\n",
+      "start": 1641034200,
+      "end": 1672488000
+    }
+  ],
+  "type": "operator",
+  "version": "0.1"
+}
+```
+<!--partial-end-->
