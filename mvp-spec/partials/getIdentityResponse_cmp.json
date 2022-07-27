@@ -1,10 +1,10 @@
 {
   "dpo_email": "contact@pafdemopublisher.com",
   "privacy_policy_url": "https://www.pafdemopublisher.com/privacy",
-  "name": "CMP used by PAF publisher",
+  "name": "PAF publisher",
   "keys": [
     {
-      "key": "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEl0278pcupaxUfiqHJ9AG9gVMyIO+\nn07PJaNI22v+s7hR1Hkb71De6Ot5Z4JLoZ7aj1xYhFcQJsYkFlXxcBWfRQ==\n-----END PUBLIC KEY-----",
+      "key": "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEl0278pcupaxUfiqHJ9AG9gVMyIO+\nn07PJaNI22v+s7hR1Hkb71De6Ot5Z4JLoZ7aj1xYhFcQJsYkFlXxcBWfRQ==\n-----END PUBLIC KEY-----\n",
       "start": 1642243800
     }
   ],
