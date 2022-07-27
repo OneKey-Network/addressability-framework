@@ -65,34 +65,33 @@ To do so, it exposes:
   and "Get identity"
 - a couple of extra endpoints to help sign and verify messages
 
-| Endpoint                  | Description                                                                                            | Input                                                                                      | Output                                                           | REST                            | Redirect                                    |
-|---------------------------|--------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------|------------------------------------------------------------------|---------------------------------|---------------------------------------------|
-| Read ids & preferences    | Create a sign request and redirect to [read](operator-api.md#read-ids-&-preferences) operator endpoint | -                                                                                          | redirect to operator                                             | `GET /paf-proxy/v1/ids-prefs`   | `GET /paf-proxy/v1/redirect/get-ids-prefs`  |
-| **Sign** user preferences | Sign preferences                                                                                       | Signed ids and **unsigned** preferences                                                    | Signed ids and preferences                                       | `POST /paf-proxy/v1/sign/prefs` | N/A                                         |
-| **Sign** "write" request  | Sign a "write" request so it can be sent to the operator                                               | **Unsigned** "write" message                                                               | Signed "write" request                                           | `POST /paf-proxy/v1/sign/write` | N/A                                         |
-| Write ids & prefs         | Redirect to [write](operator-api.md#write-ids-&-preferences) operator endpoint                         | Signed "write" request<br>(see [operator API](operator-api.md#write-ids-&-preferences))    | redirect to operator                                             | `POST /paf-proxy/v1/ids-prefs`  | `GET /paf-proxy/v1/redirect/post-ids-prefs` |
-| **Verify** read           | Verify the response received from the operator                                                         | Signed "read" **response**<br>(see [operator API](operator-api.md#read-ids-&-preferences)) | Same as input if verification succeeded, error message otherwise | `POST /paf-proxy/verify/read`   | N/A                                         |
+| Endpoint                        | Description                                                                                                                                                           | Input                                                                                      | Output                                                                                                     | REST                            | Redirect                                    |
+|---------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------|---------------------------------|---------------------------------------------|
+| Get URL: Read ids & preferences | Create a signed request, encode it and append it to a URL pointing to the [read](operator-api.md#read-ids-&-preferences) operator endpoint.                           | -                                                                                          | Operator URL with signed request in the query string                                                       | `GET /paf-proxy/v1/ids-prefs`   | `GET /paf-proxy/v1/redirect/get-ids-prefs`  |
+| **Sign** user preferences       | Sign preferences                                                                                                                                                      | Signed ids and **unsigned** preferences                                                    | Signed ids and preferences                                                                                 | `POST /paf-proxy/v1/sign/prefs` | N/A                                         |
+| Get URL: Write ids & prefs      | Sign the request provided as input, return the signed payload, along with the URL pointing to the [write](operator-api.md#write-ids-&-preferences) operator endpoint. | Signed "write" request<br>(see [operator API](operator-api.md#write-ids-&-preferences))    | Operator URL with signed request, as part of the response (REST) or as part of the query string (redirect) | `POST /paf-proxy/v1/ids-prefs`  | `GET /paf-proxy/v1/redirect/post-ids-prefs` |
+| **Verify** read                 | Verify the response received from the operator                                                                                                                        | Signed "read" **response**<br>(see [operator API](operator-api.md#read-ids-&-preferences)) | Same as input if verification succeeded, error message otherwise                                           | `POST /paf-proxy/verify/read`   | N/A                                         |
 
 ℹ️ An example implementation (for NodeJS) of a client node is available in [the implementation project](https://github.com/criteo/paf-mvp-implementation/tree/main/paf-mvp-client-express)
 
 ⚠️ Note that in the following examples, the client node is supposed to be hosted on the `cmp.com` domain.
 
-### Read ids & preferences
+### Get URL: Read ids & preferences
 
 #### REST read: `GET /paf-proxy/v1/ids-prefs`
 
-| Message                                   | Format                                                           |
-|-------------------------------------------|------------------------------------------------------------------|
-| Request                                   | nothing                                                          |
-| Response after a redirect to the operator | See [operator-api.md](operator-api.md#rest-read-get-v1ids-prefs) |
+| Message  | Format                        |
+|----------|-------------------------------|
+| Request  | nothing                       |
+| Response | operator URL to call (string) |
 
 
 #### Redirect read: `GET /paf-proxy/v1/redirect/get-ids-prefs`
 
-| Message                                   | Format                                                                           |
-|-------------------------------------------|----------------------------------------------------------------------------------|
-| Request                                   | nothing                                                                          |
-| Response after a redirect to the operator | See [operator-api.md](operator-api.md#redirect-read-get-v1redirectget-ids-prefs) |
+| Message  | Format                        |
+|----------|-------------------------------|
+| Request  | nothing                       |
+| Response | operator URL to call (string) |
 
 ### Sign user preferences
 
@@ -169,122 +168,67 @@ Host: cmp.com
 
 </details>
 
-### Sign "write" request
+### Get URL: Write ids & preferences
 
-- take an unsigned request to "write" data, and sign it so that it can be sent to the operator
+#### REST write: `POST /paf-proxy/v1/ids-prefs`
 
-#### REST sign "write" request: `POST /paf-proxy/v1/sign/write`
-
-| Message  | Format                                                    |
-|----------|-----------------------------------------------------------|
-| Request  | [ids-and-preferences](model/ids-and-preferences.md)       |
-| Response | [post-ids-prefs-request](model/post-ids-prefs-request.md) |
+| Message  | Format                                                                                                                       |
+|----------|------------------------------------------------------------------------------------------------------------------------------|
+| Request  | POST payload: [ids-and-preferences.md](./model/ids-and-preferences.md)                                                       |
+| Response | Operator URL to call and signed payload to use: [proxy-post-ids-prefs-response.md](./model/proxy-post-ids-prefs-response.md) |
 
 <details>
-<summary>Full example</summary>
+<summary>Example</summary>
 
-- the following request is built:
+Example response from the client node:
 
-<!--partial-begin { "files": [ "signPostIdsPrefs.json" ], "block": "json" } -->
+<!--partial-begin { "files": [ "proxyPostIdsPrefsResponse.json" ], "block": "json" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```json
 {
-  "identifiers": [
-    {
-      "version": "0.1",
-      "type": "paf_browser_id",
-      "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
-      "source": {
-        "domain": "operator.paf-operation-domain.io",
-        "timestamp": 1642504380,
-        "signature": "B/fOZumQHzzkQtSjYnzLOIJA2GQpoP5bWwzFQCMiQ/Mlvu6itJ1hbRVJkq8+yElu7NxMzojVMNdrc1mD7SJ0SQ=="
+  "url": "https://operator.paf-operation-domain.io/paf/v1/ids-prefs",
+  "payload": {
+    "body": {
+      "identifiers": [
+        {
+          "version": "0.1",
+          "type": "paf_browser_id",
+          "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
+          "source": {
+            "domain": "operator.paf-operation-domain.io",
+            "timestamp": 1642504380,
+            "signature": "B/fOZumQHzzkQtSjYnzLOIJA2GQpoP5bWwzFQCMiQ/Mlvu6itJ1hbRVJkq8+yElu7NxMzojVMNdrc1mD7SJ0SQ=="
+          }
+        }
+      ],
+      "preferences": {
+        "version": "0.1",
+        "data": {
+          "use_browsing_for_personalization": true
+        },
+        "source": {
+          "domain": "cmp.com",
+          "timestamp": 1642504560,
+          "signature": "JYXJjM04I1WuANplc+RZgHfD7bVDhmf7kg8+kd8DLDfJKDkNp+/3ldWe0O1wFQKT9g5KxwvmF96i3pvI+Wtbvw=="
+        }
       }
-    }
-  ],
-  "preferences": {
-    "version": "0.1",
-    "data": {
-      "use_browsing_for_personalization": true
     },
-    "source": {
-      "domain": "cmp.com",
-      "timestamp": 1642504560,
-      "signature": "JYXJjM04I1WuANplc+RZgHfD7bVDhmf7kg8+kd8DLDfJKDkNp+/3ldWe0O1wFQKT9g5KxwvmF96i3pvI+Wtbvw=="
-    }
+    "sender": "cmp.com",
+    "receiver": "operator.paf-operation-domain.io",
+    "timestamp": 1643097660,
+    "signature": "PB0jUkET0EvbWgtCc7ltGUU81qvd1ypeY/UXCi2RDiP5HWbEcS34wlsqEHbhiJ5uN14fZdg+6M1/MiMUSEPE/Q=="
   }
 }
 ```
 <!--partial-end-->
-
-- and is used as the **POST payload** to the following call:
-
-<!--partial-begin { "files": [ "signPostIdsPrefs.http" ], "block": "http" } -->
-<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
-```http
-POST /paf-proxy/v1/sign/write
-Host: cmp.com
-```
-<!--partial-end-->
-
-- response
-
-<!--partial-begin { "files": [ "postIdsPrefsRequest.json" ], "block": "json" } -->
-<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
-```json
-{
-  "body": {
-    "identifiers": [
-      {
-        "version": "0.1",
-        "type": "paf_browser_id",
-        "value": "7435313e-caee-4889-8ad7-0acd0114ae3c",
-        "source": {
-          "domain": "operator.paf-operation-domain.io",
-          "timestamp": 1642504380,
-          "signature": "B/fOZumQHzzkQtSjYnzLOIJA2GQpoP5bWwzFQCMiQ/Mlvu6itJ1hbRVJkq8+yElu7NxMzojVMNdrc1mD7SJ0SQ=="
-        }
-      }
-    ],
-    "preferences": {
-      "version": "0.1",
-      "data": {
-        "use_browsing_for_personalization": true
-      },
-      "source": {
-        "domain": "cmp.com",
-        "timestamp": 1642504560,
-        "signature": "JYXJjM04I1WuANplc+RZgHfD7bVDhmf7kg8+kd8DLDfJKDkNp+/3ldWe0O1wFQKT9g5KxwvmF96i3pvI+Wtbvw=="
-      }
-    }
-  },
-  "sender": "cmp.com",
-  "receiver": "operator.paf-operation-domain.io",
-  "timestamp": 1643097660,
-  "signature": "PB0jUkET0EvbWgtCc7ltGUU81qvd1ypeY/UXCi2RDiP5HWbEcS34wlsqEHbhiJ5uN14fZdg+6M1/MiMUSEPE/Q=="
-}
-```
-<!--partial-end-->
-
-ℹ️ Notice the new `sender`, `receiver`, `timestamp` and `signature` properties
-
 </details>
-
-### Write ids & preferences
-
-#### REST write: `POST /paf-proxy/v1/ids-prefs`
-
-| Message                                   | Format                                                             |
-|-------------------------------------------|--------------------------------------------------------------------|
-| Request                                   | See [operator-api.md](operator-api.md#rest-write-post-v1ids-prefs) |
-| Response after a redirect to the operator | See [operator-api.md](operator-api.md#rest-write-post-v1ids-prefs) |
-
 
 #### Redirect write: `GET /paf-proxy/v1/redirect/post-ids-prefs`
 
-| Message                                   | Format                                                                             |
-|-------------------------------------------|------------------------------------------------------------------------------------|
-| Request                                   | See [operator-api.md](operator-api.md#redirect-write-get-v1redirectpost-ids-prefs) |
-| Response after a redirect to the operator | See [operator-api.md](operator-api.md#redirect-write-get-v1redirectpost-ids-prefs) |
+| Message  | Format                                                                             |
+|----------|------------------------------------------------------------------------------------|
+| Request  | See [operator-api.md](operator-api.md#redirect-write-get-v1redirectpost-ids-prefs) |
+| Response | Operator URL to call (including some data in the query string)                     |
 
 ### Verify "read" response
 
@@ -302,8 +246,7 @@ To verify a response message from the operator, this endpoint will make sure tha
 
 Only when these four checks have successfully passed, the request is considered legit.
 
-
-#### REST sign user preferences: `POST /paf-proxy/v1/verify/read`
+#### REST verify "read" response: `POST /paf-proxy/v1/verify/read`
 
 | Message  | Format                                                                               |
 |----------|--------------------------------------------------------------------------------------|
