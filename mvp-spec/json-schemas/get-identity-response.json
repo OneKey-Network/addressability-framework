@@ -40,7 +40,7 @@
         "properties": {
           "key": {
             "type": "string",
-            "description": "Public key string value",
+            "description": "Public key string value in PEM format",
             "examples": [
               "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEUnarwp0gUZgjb9fsYNLcNrddNKV5\nh4/WfMRMVh3HIqojt3LIsvUQig1rm9ZkcNx+IHZVhDM+hso2sXlGjF9xOQ==\n-----END PUBLIC KEY-----"
             ]
