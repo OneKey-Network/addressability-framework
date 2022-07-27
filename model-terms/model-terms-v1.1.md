@@ -65,7 +65,7 @@ the use of cookies or similar technologies.
 
 “**Processor Processing Description**” means the information set out in Annex 1.
 
-“**Program**” means the program described at https://github.com/prebid/addressabilityframework/tree/main/mvp-spec.
+“**Program**” means the program described at https://github.com/prebid/addressability-framework/tree/main/mvp-spec.
 
 “**Pseudonymous Identifier**” means the Random ID or, where applicable, hashed Raw PAF Data.
 
@@ -235,7 +235,7 @@ located near what it describes:
 
 	ii. ensure that the PAF Code in use by the PAF Operator is the latest version available and that it is updated promptly (an in any event within 90 days) of release of a new version;
 
-	iii. generate each Pseudonymous Identifier and link to it Preferences in conformance with the specification at https://github.com/prebid/addressabilityframework/tree/main/mvp-spec;
+	iii. generate each Pseudonymous Identifier and link to it Preferences in conformance with the specification at https://github.com/prebid/addressability-framework/tree/main/mvp-spec;
 
 	iv. only modify PAF Data to accurately correspond to the Preferences selected by Users from time to time;
 
