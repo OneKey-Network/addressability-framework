@@ -18,12 +18,12 @@
     "typescript": "^4.5.4"
   },
   "dependencies": {
-    "@mermaid-js/mermaid-cli": "^8.14.0",
+    "@mermaid-js/mermaid-cli": ">=9.1.2",
     "@types/app-root-path": "^1.2.4",
     "ajv": "^8.11.0",
     "app-root-path": "^3.0.0",
     "git-changed-files": "^1.0.0",
-    "node-jq": "^2.1.0",
+    "node-jq": "^2.3.3",
     "nodemon": "^2.0.15",
     "ts-node": "^10.4.0"
   }
