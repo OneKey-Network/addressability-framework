@@ -120,13 +120,14 @@ Notes:
 - values returned by the endpoints are based cookies stored on the web user's browser. Of course, it means the same
   calls on different web browsers will return different responses.
 
-| Endpoint                                     | Description                                                  | Input                 | Output                                                                          | REST                     | Redirect                              |
-|----------------------------------------------|--------------------------------------------------------------|-----------------------|---------------------------------------------------------------------------------|--------------------------|---------------------------------------|
-| [Read ids & prefs](#read-ids--preferences)   | Read existing cookies.<br>Return new ID if none              | -                     | List of persisted IDs.<br>List of preferences<br>newly generated PAF ID, if any | `GET /paf/v1/ids-prefs`  | `GET /paf/v1/redirect/get-ids-prefs`  |
-| [Write ids & prefs](#write-ids--preferences) | Update cookies                                               | PAF ID<br>preferences | List of persisted IDs.<br>List of preferences                                   | `POST /paf/v1/ids-prefs` | `GET /paf/v1/redirect/post-ids-prefs` |
-| [Get new id](#get-a-new-id)                  | Generate new ID                                              | -                     | newly generated PAF ID                                                          | `GET /paf/v1/new-id`     | N/A                                   |
-| [Verify 3PC support](#verify-3pc-support)    | Confirm if 3PC are supported                                 | -                     | value of `paf_test_3pc` if any, error otherwise                                 | `GET /paf/v1/3pc`        | N/A                                   |
-| [Get identity](#get-operator-identity)       | Get operator public key to verify ID or responses signatures | -                     | list of:<br>public key + start and end dates if any                             | `GET /paf/v1/identity`   | N/A                                   |
+| Endpoint                                       | Description                                                  | Input                 | Output                                                                          | REST                       | Redirect                                |
+|------------------------------------------------|--------------------------------------------------------------|-----------------------|---------------------------------------------------------------------------------|----------------------------|-----------------------------------------|
+| [Read ids & prefs](#read-ids--preferences)     | Read existing cookies.<br>Return new ID if none              | -                     | List of persisted IDs.<br>List of preferences<br>newly generated PAF ID, if any | `GET /paf/v1/ids-prefs`    | `GET /paf/v1/redirect/get-ids-prefs`    |
+| [Write ids & prefs](#write-ids--preferences)   | Update cookies                                               | PAF ID<br>preferences | List of persisted IDs.<br>List of preferences                                   | `POST /paf/v1/ids-prefs`   | `GET /paf/v1/redirect/post-ids-prefs`   |
+| [Delete ids & prefs](#delete-ids--preferences) | Delete cookies                                               | -                     | Empty list of ids.<br>`undefined` preferences                                   | `DELETE /paf/v1/ids-prefs` | `GET /paf/v1/redirect/delete-ids-prefs` |
+| [Get new id](#get-a-new-id)                    | Generate new ID                                              | -                     | newly generated PAF ID                                                          | `GET /paf/v1/new-id`       | N/A                                     |
+| [Verify 3PC support](#verify-3pc-support)      | Confirm if 3PC are supported                                 | -                     | value of `paf_test_3pc` if any, error otherwise                                 | `GET /paf/v1/3pc`          | N/A                                     |
+| [Get identity](#get-operator-identity)         | Get operator public key to verify ID or responses signatures | -                     | list of:<br>public key + start and end dates if any                             | `GET /paf/v1/identity`     | N/A                                     |
 
 ## Commons
 
@@ -425,7 +426,7 @@ Host: operator.paf-operation-domain.io
 ```
 <!--partial-end-->
 
-- in case of known user, the following response is built:
+- in case of unknown user, the following response is built:
 
 <!--partial-begin { "files": [ "redirectGetIdsPrefsResponse_unknown.json" ], "block": "json" } -->
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
@@ -689,6 +690,132 @@ Host: operator.paf-operation-domain.io
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```
 303 https://advertiser.com/news/2022/02/07/something-crazy-happened?utm_content=campaign+content&paf=eyJjb2RlIjoyMDAsInJlc3BvbnNlIjp7ImJvZHkiOnsiaWRlbnRpZmllcnMiOlt7InZlcnNpb24iOiIwLjEiLCJ0eXBlIjoicGFmX2Jyb3dzZXJfaWQiLCJ2YWx1ZSI6Ijc0MzUzMTNlLWNhZWUtNDg4OS04YWQ3LTBhY2QwMTE0YWUzYyIsInNvdXJjZSI6eyJkb21haW4iOiJvcGVyYXRvci5wYWYtb3BlcmF0aW9uLWRvbWFpbi5pbyIsInRpbWVzdGFtcCI6MTY0MjUwNDM4MCwic2lnbmF0dXJlIjoiQi9mT1p1bVFIenprUXRTalluekxPSUpBMkdRcG9QNWJXd3pGUUNNaVEvTWx2dTZpdEoxaGJSVkprcTgreUVsdTdOeE16b2pWTU5kcmMxbUQ3U0owU1E9PSJ9fV0sInByZWZlcmVuY2VzIjp7InZlcnNpb24iOiIwLjEiLCJkYXRhIjp7InVzZV9icm93c2luZ19mb3JfcGVyc29uYWxpemF0aW9uIjp0cnVlfSwic291cmNlIjp7ImRvbWFpbiI6ImNtcC5jb20iLCJ0aW1lc3RhbXAiOjE2NDI1MDQ1NjAsInNpZ25hdHVyZSI6IkpZWEpqTTA0STFXdUFOcGxjK1JaZ0hmRDdiVkRobWY3a2c4K2tkOERMRGZKS0RrTnArLzNsZFdlME8xd0ZRS1Q5ZzVLeHd2bUY5NmkzcHZJK1d0YnZ3PT0ifX19LCJzZW5kZXIiOiJvcGVyYXRvci5wYWYtb3BlcmF0aW9uLWRvbWFpbi5pbyIsInJlY2VpdmVyIjoiY21wLmNvbSIsInRpbWVzdGFtcCI6MTY0MzA5NzY2Mywic2lnbmF0dXJlIjoiS1VpRTQvYmEvVHlxdjBnSzJKcS9vSCtidkM0a3ZkM0lHeGlpRmpzUFFweGhzbGNVWlVHaTJNQUYxTHFRRUlwVHBYa21kaFZ4cnpyMWVnMmc4cTArM0E9PSJ9fQ%3D%3D
+```
+<!--partial-end-->
+
+</details>
+
+### Delete ids & preferences
+
+- verify request (see above)
+- delete `paf_identifiers` and `paf_preferences` cookies
+
+#### REST delete: `DELETE /paf/v1/ids-prefs`
+
+| Message  | Format                                                    |
+|----------|-----------------------------------------------------------|
+| Request  | [get-ids-prefs-request](model/delete-ids-prefs-request.md)   |
+| Response | [delete-ids-prefs-response](model/delete-ids-prefs-response.md) |
+
+<details>
+<summary>Full example</summary>
+
+- the following request is built:
+
+<!--partial-begin { "files": [ "deleteIdsPrefsRequest.json" ], "block": "json" } -->
+<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
+```json
+{
+  "sender": "cmp.com",
+  "receiver": "operator.paf-operation-domain.io",
+  "timestamp": 1643041140,
+  "signature": "hKz9/x+si97rNVBXdkXqCuKsfJ8fb1BGEWTqHxyDUCShNE8/zfbLJSOJrUpNcvzCUq8nzb9xXToka+EcxXlWjg=="
+}
+```
+<!--partial-end-->
+
+- and transformed into a parameter of the query string to form the URL to call:
+
+<!--partial-begin { "files": [ "deleteIdsPrefsRequest.http" ], "block": "http" } -->
+<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
+```http
+DELETE /paf/v1/ids-prefs?paf=eyJzZW5kZXIiOiJjbXAuY29tIiwicmVjZWl2ZXIiOiJvcGVyYXRvci5wYWYtb3BlcmF0aW9uLWRvbWFpbi5pbyIsInRpbWVzdGFtcCI6MTY0MzA0MTE0MCwic2lnbmF0dXJlIjoiaEt6OS94K3NpOTdyTlZCWGRrWHFDdUtzZko4ZmIxQkdFV1RxSHh5RFVDU2hORTgvemZiTEpTT0pyVXBOY3Z6Q1VxOG56Yjl4WFRva2ErRWN4WGxXamc9PSJ9
+Host: operator.paf-operation-domain.io
+```
+<!--partial-end-->
+
+- response
+
+<!--partial-begin { "files": [ "deleteIdsPrefsResponse.json" ], "block": "json" } -->
+<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
+```json
+{
+  "sender": "operator.paf-operation-domain.io",
+  "receiver": "advertiser.com",
+  "timestamp": 1643041150,
+  "body": {
+    "identifiers": []
+  },
+  "signature": "YFs+WYawQ9jaC0zLo+N5NlOdH8f4FBYKh2qwLY0mgdKklfl8h2QJLHT2kX6dEzns9Up2cMykwYz+8TsarUZAKA=="
+}
+```
+<!--partial-end-->
+
+</details>
+
+#### Redirect delete: `DELETE /paf/v1/redirect/delete-ids-prefs`
+
+| Message  | Format                                                                              |
+|----------|-------------------------------------------------------------------------------------|
+| Request  | [redirect-delete-ids-prefs-request](./model/redirect-delete-ids-prefs-request.md)   |
+| Response | [redirect-delete-ids-prefs-response](./model/redirect-delete-ids-prefs-response.md) |
+
+<details>
+<summary>Full example</summary>
+
+- the following request is built:
+
+<!--partial-begin { "files": [ "redirectDeleteIdsPrefsRequest.json" ], "block": "json" } -->
+<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
+```json
+{
+  "returnUrl": "https://advertiser.com/news/2022/02/07/something-crazy-happened?utm_content=campaign+content&paf=eyJjb2RlIjoyMDAsInJlc3BvbnNlIjp7ImJvZHkiOnsiaWRlbnRpZmllcnMiOlt7InZlcnNpb24iOiIwLjEiLCJ0eXBlIjoicGFmX2Jyb3dzZXJfaWQiLCJ2YWx1ZSI6Ijc0MzUzMTNlLWNhZWUtNDg4OS04YWQ3LTBhY2QwMTE0YWUzYyIsInNvdXJjZSI6eyJkb21haW4iOiJvcGVyYXRvci5wYWYtb3BlcmF0aW9uLWRvbWFpbi5pbyIsInRpbWVzdGFtcCI6MTY0MjUwNDM4MCwic2lnbmF0dXJlIjoiQi9mT1p1bVFIenprUXRTalluekxPSUpBMkdRcG9QNWJXd3pGUUNNaVEvTWx2dTZpdEoxaGJSVkprcTgreUVsdTdOeE16b2pWTU5kcmMxbUQ3U0owU1E9PSJ9fV0sInByZWZlcmVuY2VzIjp7InZlcnNpb24iOiIwLjEiLCJkYXRhIjp7InVzZV9icm93c2luZ19mb3JfcGVyc29uYWxpemF0aW9uIjp0cnVlfSwic291cmNlIjp7ImRvbWFpbiI6ImNtcC5jb20iLCJ0aW1lc3RhbXAiOjE2NDI1MDQ1NjAsInNpZ25hdHVyZSI6IkpZWEpqTTA0STFXdUFOcGxjK1JaZ0hmRDdiVkRobWY3a2c4K2tkOERMRGZKS0RrTnArLzNsZFdlME8xd0ZRS1Q5ZzVLeHd2bUY5NmkzcHZJK1d0YnZ3PT0ifX19LCJzZW5kZXIiOiJvcGVyYXRvci5wYWYtb3BlcmF0aW9uLWRvbWFpbi5pbyIsInJlY2VpdmVyIjoiY21wLmNvbSIsInRpbWVzdGFtcCI6MTY0MzA5NzY2Mywic2lnbmF0dXJlIjoiS1VpRTQvYmEvVHlxdjBnSzJKcS9vSCtidkM0a3ZkM0lHeGlpRmpzUFFweGhzbGNVWlVHaTJNQUYxTHFRRUlwVHBYa21kaFZ4cnpyMWVnMmc4cTArM0E9PSJ9fQ%3D%3D",
+  "request": {
+    "sender": "cmp.com",
+    "receiver": "operator.paf-operation-domain.io",
+    "timestamp": 1643041140,
+    "signature": "rxVHTziCvq7QcuFZ4x9KjEcRZZCBVh/h9q+Jg6exyTq4ST8p1Mvl0Q793k9qj19tNg4uUA/bn4OehSNcc51xIA=="
+  }
+}
+```
+<!--partial-end-->
+
+- and transformed into a parameter of the query string to form the URL to call:
+
+<!--partial-begin { "files": [ "redirectDeleteIdsPrefsRequest.http" ], "block": "http" } -->
+<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
+```http
+DELETE /paf/v1/redirect/delete-ids-prefs?paf=eyJyZXR1cm5VcmwiOiJodHRwczovL2FkdmVydGlzZXIuY29tL25ld3MvMjAyMi8wMi8wNy9zb21ldGhpbmctY3JhenktaGFwcGVuZWQ%2FdXRtX2NvbnRlbnQ9Y2FtcGFpZ24rY29udGVudCZwYWY9ZXlKamIyUmxJam95TURBc0luSmxjM0J2Ym5ObElqcDdJbUp2WkhraU9uc2lhV1JsYm5ScFptbGxjbk1pT2x0N0luWmxjbk5wYjI0aU9pSXdMakVpTENKMGVYQmxJam9pY0dGbVgySnliM2R6WlhKZmFXUWlMQ0oyWVd4MVpTSTZJamMwTXpVek1UTmxMV05oWldVdE5EZzRPUzA0WVdRM0xUQmhZMlF3TVRFMFlXVXpZeUlzSW5OdmRYSmpaU0k2ZXlKa2IyMWhhVzRpT2lKdmNHVnlZWFJ2Y2k1d1lXWXRiM0JsY21GMGFXOXVMV1J2YldGcGJpNXBieUlzSW5ScGJXVnpkR0Z0Y0NJNk1UWTBNalV3TkRNNE1Dd2ljMmxuYm1GMGRYSmxJam9pUWk5bVQxcDFiVkZJZW5wclVYUlRhbGx1ZWt4UFNVcEJNa2RSY0c5UU5XSlhkM3BHVVVOTmFWRXZUV3gyZFRacGRFb3hhR0pTVmtwcmNUZ3JlVVZzZFRkT2VFMTZiMnBXVFU1a2NtTXhiVVEzVTBvd1UxRTlQU0o5ZlYwc0luQnlaV1psY21WdVkyVnpJanA3SW5abGNuTnBiMjRpT2lJd0xqRWlMQ0prWVhSaElqcDdJblZ6WlY5aWNtOTNjMmx1WjE5bWIzSmZjR1Z5YzI5dVlXeHBlbUYwYVc5dUlqcDBjblZsZlN3aWMyOTFjbU5sSWpwN0ltUnZiV0ZwYmlJNkltTnRjQzVqYjIwaUxDSjBhVzFsYzNSaGJYQWlPakUyTkRJMU1EUTFOakFzSW5OcFoyNWhkSFZ5WlNJNklrcFpXRXBxVFRBMFNURlhkVUZPY0d4aksxSmFaMGhtUkRkaVZrUm9iV1kzYTJjNEsydGtPRVJNUkdaS1MwUnJUbkFyTHpOc1pGZGxNRTh4ZDBaUlMxUTVaelZMZUhkMmJVWTVObWt6Y0haSksxZDBZblozUFQwaWZYMTlMQ0p6Wlc1a1pYSWlPaUp2Y0dWeVlYUnZjaTV3WVdZdGIzQmxjbUYwYVc5dUxXUnZiV0ZwYmk1cGJ5SXNJbkpsWTJWcGRtVnlJam9pWTIxd0xtTnZiU0lzSW5ScGJXVnpkR0Z0Y0NJNk1UWTBNekE1TnpZMk15d2ljMmxuYm1GMGRYSmxJam9pUzFWcFJUUXZZbUV2VkhseGRqQm5TekpLY1M5dlNDdGlka00wYTNaa00wbEhlR2xwUm1welVGRndlR2h6YkdOVldsVkhhVEpOUVVZeFRIRlJSVWx3VkhCWWEyMWthRlo0Y25weU1XVm5NbWM0Y1RBck0wRTlQU0o5ZlElM0QlM0QiLCJyZXF1ZXN0Ijp7InNlbmRlciI6ImNtcC5jb20iLCJyZWNlaXZlciI6Im9wZXJhdG9yLnBhZi1vcGVyYXRpb24tZG9tYWluLmlvIiwidGltZXN0YW1wIjoxNjQzMDQxMTQwLCJzaWduYXR1cmUiOiJyeFZIVHppQ3ZxN1FjdUZaNHg5S2pFY1JaWkNCVmgvaDlxK0pnNmV4eVRxNFNUOHAxTXZsMFE3OTNrOXFqMTl0Tmc0dVVBL2JuNE9laFNOY2M1MXhJQT09In19
+Host: operator.paf-operation-domain.io
+```
+<!--partial-end-->
+
+- the following response is built:
+
+<!--partial-begin { "files": [ "redirectDeleteIdsPrefsResponse.json" ], "block": "json" } -->
+<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
+```json
+{
+  "code": 200,
+  "response": {
+    "sender": "operator.paf-operation-domain.io",
+    "receiver": "advertiser.com",
+    "timestamp": 1643041150,
+    "body": {
+      "identifiers": []
+    },
+    "signature": "YFs+WYawQ9jaC0zLo+N5NlOdH8f4FBYKh2qwLY0mgdKklfl8h2QJLHT2kX6dEzns9Up2cMykwYz+8TsarUZAKA=="
+  }
+}
+```
+<!--partial-end-->
+
+- and added as a parameter of the query string, to the redirect URL:
+
+<!--partial-begin { "files": [ "redirectDeleteIdsPrefsResponse.txt" ], "block": "" } -->
+<!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
+```
+303 https://advertiser.com/news/2022/02/07/something-crazy-happened?utm_content=campaign+content&paf=eyJjb2RlIjoyMDAsInJlc3BvbnNlIjp7InNlbmRlciI6Im9wZXJhdG9yLnBhZi1vcGVyYXRpb24tZG9tYWluLmlvIiwicmVjZWl2ZXIiOiJhZHZlcnRpc2VyLmNvbSIsInRpbWVzdGFtcCI6MTY0MzA0MTE1MCwiYm9keSI6eyJpZGVudGlmaWVycyI6W119LCJzaWduYXR1cmUiOiJZRnMrV1lhd1E5amFDMHpMbytONU5sT2RIOGY0RkJZS2gycXdMWTBtZ2RLa2xmbDhoMlFKTEhUMmtYNmRFem5zOVVwMmNNeWt3WXorOFRzYXJVWkFLQT09In19
 ```
 <!--partial-end-->
 
