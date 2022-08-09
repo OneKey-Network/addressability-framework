@@ -22,7 +22,7 @@ On browsers that block 3rd party cookies, a refresh triggers a boomerang full pa
 This can be done as follows:
 
     <script
-      src="https://my-cdn.example-website.com/assets/paf-lib.js"
+      src="https://my-cdn.example-website.com/assets/onekey.js"
       onload="PAF.refreshIdsAndPreferences({
         proxyHostName: 'paf.example-website.com',
         triggerRedirectIfNeeded: true

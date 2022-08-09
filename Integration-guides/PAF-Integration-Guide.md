@@ -111,7 +111,7 @@ Build the Front-End Library from sources (if needed)
      cd paf-mvp-implementation
      npm i
      npm run build-front
-     ls paf-mvp-demo-express/public/assets/paf-lib.js
+     ls paf-mvp-demo-express/public/assets/onekey.js
 ```
 
 Add it in the <head> section:
@@ -119,7 +119,7 @@ Add it in the <head> section:
 ```html
     <head>
     <script
-      src="https://my-cdn.domain/assets/paf-lib.js"
+      src="https://my-cdn.domain/assets/onekey.js"
     ></script>
     </head>
 ```
