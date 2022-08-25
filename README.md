@@ -118,4 +118,3 @@ It’s notable that the Model Terms requires that the IDs and Preferences that a
 When an organization decide to use the Model Terms in its contract, it guarantees that the IDs and Preferences that they process and transfer can only be legally processed by other organization that are also bound to the same terms.
 
 The goal of the technical part of the framework, which is further described in this documentation, is to facilitate the conformity of the organization operations to those terms.
-
