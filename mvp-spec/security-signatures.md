@@ -82,7 +82,7 @@ Here is a list of ☢️ security threats that have been identified, and the �
     - 🛡 no impact of a S2S call to the operator 
 
 - ☢️ taking advantage of an **unsafe version** of the protocol
-  - 🛡 all data and all requests are signed with the version of the protocol ⚠️ not implemented in version 0.1 (see [#184](https://github.com/prebid/addressability-framework/issues/184))
+  - 🛡 all data and all requests are signed with the version of the protocol ⚠️ not implemented in version 0.1 (see [#184](https://github.com/OneKey-Network/addressability-framework/issues/184))
 
 ## Signatures & signature verification
 

@@ -107,7 +107,7 @@ Build the Front-End Library from sources (if needed)
 ```shell
      mkdir paf-from-source
      cd paf-from-source
-     git clone https://github.com/prebid/paf-mvp-implementation.git
+     git clone https://github.com/OneKey-Network/paf-mvp-implementation.git
      cd paf-mvp-implementation
      npm i
      npm run build-front
@@ -194,7 +194,7 @@ Don’t forget to add the adapters that you need as modules in the build command
     2.  OneKey RTD module: whitelist the same bidder adapters so they get access to the seeds
         
 
-The prebid Js can be configured as follow (from this file [paf-mvp-demo-express/src/views/publisher/index.hbs](https://github.com/prebid/paf-mvp-implementation/blob/main/paf-mvp-demo-express/src/views/publisher/index.hbs#L93) ) :  
+The prebid Js can be configured as follow (from this file [paf-mvp-demo-express/src/views/publisher/index.hbs](https://github.com/OneKey-Network/paf-mvp-implementation/blob/main/paf-mvp-demo-express/src/views/publisher/index.hbs#L93) ) :  
   
 ```javascript
         var pbjs = pbjs || {};
@@ -301,7 +301,7 @@ To be confirmed: On May 2nd 2022 the method to make the audit log available is n
 
 Make sure prebid.js is wired with Google Publisher Tag in a way that ensures that Prebid’s AdUnitCodes matches Google Publisher Tag DivIds as shown in the screenshot below
 
-![adunit_to_div_id](https://github.com/prebid/addressability-framework/blob/main/mvp-spec/assets/adunit_to_divid.png)
+![adunit_to_div_id](https://github.com/OneKey-Network/addressability-framework/blob/main/mvp-spec/assets/adunit_to_divid.png)
 
 ### Add the Audit Log UI tag
 

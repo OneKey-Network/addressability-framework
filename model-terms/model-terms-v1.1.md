@@ -35,13 +35,13 @@ the use of cookies or similar technologies.
 
 “**PAF Audit Log**” means a log containing information received by a Party of each Transaction that has been Signed, which shall include at a minimum the PAF Data, timestamp, and transaction ID signed by the Sender.
 
-“**PAF Code**” means the software code relating to the Program available at https://github.com/prebid/addressability-framework/tree/main/mvp-spec.
+“**PAF Code**” means the software code relating to the Program available at https://github.com/OneKey-Network/addressability-framework/tree/main/mvp-spec.
 
 “**PAF Data**” means all Pseudonymous Identifiers and associated Preferences and PAF Metadata.
 
 “**PAF Ecosystem**” means each and every Party.
 
-**“PAF Metadata”** means the creator domain, timestamp, and cryptographic signature stored with the PAF Data or Raw PAF Data defined by the encoding scheme version at https://github.com/prebid/addressability-framework/tree/main/mvp-spec.
+**“PAF Metadata”** means the creator domain, timestamp, and cryptographic signature stored with the PAF Data or Raw PAF Data defined by the encoding scheme version at https://github.com/OneKey-Network/addressability-framework/tree/main/mvp-spec.
 
 “**PAF Network**” means each and every PAF Operator.
 
@@ -65,7 +65,7 @@ the use of cookies or similar technologies.
 
 “**Processor Processing Description**” means the information set out in Annex 1.
 
-“**Program**” means the program described at https://github.com/prebid/addressability-framework/tree/main/mvp-spec.
+“**Program**” means the program described at https://github.com/OneKey-Network/addressability-framework/tree/main/mvp-spec.
 
 “**Pseudonymous Identifier**” means the Random ID or, where applicable, hashed Raw PAF Data.
 
@@ -87,7 +87,7 @@ the use of cookies or similar technologies.
 
 “**Sender**” means the Contracting Party sending the PAF Data to the Receiver.
 
-“**Sign**” means a cryptographic confirmation of sending or receipt of PAF Data, conforming to the PAF specifications described at https://github.com/prebid/addressability-framework/tree/main/mvp-spec and cognate terms shall be construed accordingly.
+“**Sign**” means a cryptographic confirmation of sending or receipt of PAF Data, conforming to the PAF specifications described at https://github.com/OneKey-Network/addressability-framework/tree/main/mvp-spec and cognate terms shall be construed accordingly.
 
 “**Standard Processor Clauses**” means the mandatory contractual provisions and information that Data Protection Laws require to be incorporated into agreements between Controllers or Joint Controllers and Processors or between Processors and other Processors.
 
@@ -235,7 +235,7 @@ located near what it describes:
 
 	ii. ensure that the PAF Code in use by the PAF Operator is the latest version available and that it is updated promptly (an in any event within 90 days) of release of a new version;
 
-	iii. generate each Pseudonymous Identifier and link to it Preferences in conformance with the specification at https://github.com/prebid/addressability-framework/tree/main/mvp-spec;
+	iii. generate each Pseudonymous Identifier and link to it Preferences in conformance with the specification at https://github.com/OneKey-Network/addressability-framework/tree/main/mvp-spec;
 
 	iv. only modify PAF Data to accurately correspond to the Preferences selected by Users from time to time;
 

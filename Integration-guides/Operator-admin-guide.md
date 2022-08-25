@@ -12,9 +12,9 @@ Website owners can decide to:
 
 #### Set up an Operator
 
-An Operator must implement the Operator API defined in [https://github.com/prebid/addressability-framework/blob/main/mvp-spec/operator-api.md](https://github.com/prebid/addressability-framework/blob/main/mvp-spec/operator-api.md)
+An Operator must implement the Operator API defined in [https://github.com/OneKey-Network/addressability-framework/blob/main/mvp-spec/operator-api.md](https://github.com/OneKey-Network/addressability-framework/blob/main/mvp-spec/operator-api.md)
 
-A NodeJS implementation is available at [https://github.com/prebid/paf-mvp-implementation/tree/main/paf-mvp-operator-express](https://github.com/prebid/paf-mvp-implementation/tree/main/paf-mvp-operator-express)
+A NodeJS implementation is available at [https://github.com/OneKey-Network/paf-mvp-implementation/tree/main/paf-mvp-operator-express](https://github.com/OneKey-Network/paf-mvp-implementation/tree/main/paf-mvp-operator-express)
 
 For example:
 ```javascript
