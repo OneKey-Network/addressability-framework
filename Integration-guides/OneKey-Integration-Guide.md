@@ -105,10 +105,10 @@ If the Client Node partner gave you a domain name, then create an ALIAS DNS reco
 Build the Front-End Library from sources (if needed)
 
 ```shell
-     mkdir paf-from-source
-     cd paf-from-source
+     mkdir OneKey-from-source
+     cd OneKey-from-source
      git clone https://github.com/OneKey-Network/OneKey-implementation.git
-     cd paf-mvp-implementation
+     cd OneKey-mvp-implementation
      npm i
      npm run build-front
      ls paf-mvp-demo-express/public/assets/paf-lib.js
