@@ -107,7 +107,7 @@ Build the Front-End Library from sources (if needed)
 ```shell
      mkdir paf-from-source
      cd paf-from-source
-     git clone https://github.com/OneKey-Network/paf-mvp-implementation.git
+     git clone https://github.com/OneKey-Network/OneKey-implementation.git
      cd paf-mvp-implementation
      npm i
      npm run build-front
@@ -194,7 +194,7 @@ Don’t forget to add the adapters that you need as modules in the build command
     2.  OneKey RTD module: whitelist the same bidder adapters so they get access to the seeds
         
 
-The prebid Js can be configured as follow (from this file [paf-mvp-demo-express/src/views/publisher/index.hbs](https://github.com/OneKey-Network/paf-mvp-implementation/blob/main/paf-mvp-demo-express/src/views/publisher/index.hbs#L93) ) :  
+The prebid Js can be configured as follow (from this file [paf-mvp-demo-express/src/views/publisher/index.hbs](https://github.com/OneKey-Network/OneKey-implementation/blob/main/paf-mvp-demo-express/src/views/publisher/index.hbs#L93) ) :  
   
 ```javascript
         var pbjs = pbjs || {};

@@ -70,7 +70,7 @@ This repo is for documenting technical specifications. It contains:
     
 -   An integration guide for all actors: [PAF-Integration-Guide.md](/Integration-guides/PAF-Integration-Guide.md)
     
--   The actual open-source code for MVP implementation is hosted in another GitHub repo that is here: [PAF-implementation](https://github.com/OneKey-Network/paf-mvp-implementation)
+-   The actual open-source code for MVP implementation is hosted in another GitHub repo that is here: [PAF-implementation](https://github.com/OneKey-Network/OneKey-implementation)
     
 -   A demo website with the MVP implementation is currently available for all to see here: [https://www.pafdemopublisher.com/](https://www.pafdemopublisher.com/)
 
