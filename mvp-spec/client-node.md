@@ -69,8 +69,9 @@ To do so, it exposes:
 | [Get URL: Read ids & preferences](#get-url-read-ids--preferences) | Create a signed request, encode it and append it to a URL pointing to the [read](operator-api.md#read-ids-&-preferences) operator endpoint.                           | -                                                                                          | Operator URL with signed request in the query string                                                       | `GET /paf-proxy/v1/ids-prefs`   | `GET /paf-proxy/v1/redirect/get-ids-prefs`  |
 | [**Sign** user preferences](#sign-user-preferences)               | Sign preferences                                                                                                                                                      | Signed ids and **unsigned** preferences                                                    | Signed ids and preferences                                                                                 | `POST /paf-proxy/v1/sign/prefs` | N/A                                         |
 | [Get URL: Write ids & prefs](#get-url-write-ids--preferences)     | Sign the request provided as input, return the signed payload, along with the URL pointing to the [write](operator-api.md#write-ids-&-preferences) operator endpoint. | Signed "write" request<br>(see [operator API](operator-api.md#write-ids-&-preferences))    | Operator URL with signed request, as part of the response (REST) or as part of the query string (redirect) | `POST /paf-proxy/v1/ids-prefs`  | `GET /paf-proxy/v1/redirect/post-ids-prefs` |
-| [**Verify** read](#verify-read-response)                          | Verify the response received from the operator                                                                                                                        | Signed "read" **response**<br>(see [operator API](operator-api.md#read-ids-&-preferences)) | Same as input if verification succeeded, error message otherwise                                           | `POST /paf-proxy/verify/read`   | N/A                                         |
 | [Get URL: Verify 3PC support](#verify-3pc-support)                | Returns the operator URL to call to confirm if 3PC are supported                                                                                                      | -                                                                                          | Operator URL                                                                                               | `GET /paf-proxy/v1/3pc`         | N/A                                         |
+| [Get URL: Get new id](#get-a-new-id)                              | Returns the operator URL to call to generate new ID                                                                                                                   | -                                                                                          | Operator URL                                                                                               | `GET /paf-proxy/v1/new-id`      | N/A                                         |
+| [**Verify** read](#verify-read-response)                          | Verify the response received from the operator                                                                                                                        | Signed "read" **response**<br>(see [operator API](operator-api.md#read-ids-&-preferences)) | Same as input if verification succeeded, error message otherwise                                           | `POST /paf-proxy/verify/read`   | N/A                                         |
 | [Get identity](#get-client-identity)                              | Get client public key to verify ID or responses signatures                                                                                                            | -                                                                                          | list of:<br>public key + start and end dates if any                                                        | `GET /paf/v1/identity`          | N/A                                         |
 
 ℹ️ An example implementation (for NodeJS) of a client node is available in [the implementation project](https://github.com/criteo/paf-mvp-implementation/tree/main/paf-mvp-client-express)
@@ -359,6 +360,13 @@ Host: cmp.com
 </details>
 
 ### Verify 3PC support
+
+| Message  | Format      |
+|----------|-------------|
+| Request  | _empty_     |
+| Response | string: URL |
+
+### Get a new id
 
 | Message  | Format      |
 |----------|-------------|
