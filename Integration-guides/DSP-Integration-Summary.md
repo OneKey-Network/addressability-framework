@@ -10,7 +10,7 @@ Model terms are to be including in bilateral contract with SSPs or any other ser
 
 * Ids come with preferences that are to be respected.
 * You should only transfer the id and preferences to parties with whom you have a contract including the model terms.
-* DSPs should respect terms laid out in 6.2 restricting usage of PAF id described [here](/./model-terms/model-terms-v1.1.md#6-restricted-uses).
+* DSPs should respect terms laid out in 6.2 restricting usage of OneKey id described [here](/./model-terms/model-terms-v1.1.md#6-restricted-uses).
 
 ## Integration
 First, a diagram of an example full workflow is available [here](/./mvp-spec/ad-auction.md#ad-auction-with-the-prebid-addressability-framework) 
@@ -19,7 +19,7 @@ To participate, you need to adapt your DSP server to:
     
   1. Use the id and preferences for personalization.
 
-  2. Receive the PAF id in the RTB bid request. Example of open RTB bid request with PAF can be found here: [open-RTB-request](/./mvp-spec/ad-auction.md#the-openrtb-bid-request)
+  2. Receive the OneKey id in the RTB bid request. Example of open RTB bid request with OneKey can be found here: [open-RTB-request](/./mvp-spec/ad-auction.md#the-openrtb-bid-request)
 
   3. Allocate content-id for each ad, include them in the transmissions, and sign the transmissions.
   

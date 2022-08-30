@@ -105,10 +105,10 @@ If the Client Node partner gave you a domain name, then create an ALIAS DNS reco
 Build the Front-End Library from sources (if needed)
 
 ```shell
-     mkdir paf-from-source
-     cd paf-from-source
-     git clone https://github.com/OneKey-Network/paf-mvp-implementation.git
-     cd paf-mvp-implementation
+     mkdir OneKey-from-source
+     cd OneKey-from-source
+     git clone https://github.com/OneKey-Network/OneKey-implementation.git
+     cd OneKey-mvp-implementation
      npm i
      npm run build-front
      ls paf-mvp-demo-express/public/assets/paf-lib.js
@@ -194,7 +194,7 @@ Don’t forget to add the adapters that you need as modules in the build command
     2.  OneKey RTD module: whitelist the same bidder adapters so they get access to the seeds
         
 
-The prebid Js can be configured as follow (from this file [paf-mvp-demo-express/src/views/publisher/index.hbs](https://github.com/OneKey-Network/paf-mvp-implementation/blob/main/paf-mvp-demo-express/src/views/publisher/index.hbs#L93) ) :  
+The prebid Js can be configured as follow (from this file [paf-mvp-demo-express/src/views/publisher/index.hbs](https://github.com/OneKey-Network/OneKey-implementation/blob/main/paf-mvp-demo-express/src/views/publisher/index.hbs#L93) ) :  
   
 ```javascript
         var pbjs = pbjs || {};
