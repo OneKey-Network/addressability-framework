@@ -681,10 +681,6 @@ Can only take **one of these values**:
 </li>
 <li>
 
-`3PC_NOT_SUPPORTED`: 3rd party cookies don't seem to be supported
-</li>
-<li>
-
 `UNKNOWN_ERROR`: Other (unidentified error)
 </li>
 </ul>
