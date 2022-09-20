@@ -350,7 +350,8 @@ Host: cmp.com
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```json
 {
-  "message": "Invalid signature"
+  "type": "INVALID_JSON_BODY",
+  "details": "Invalid signature"
 }
 ```
 <!--partial-end-->

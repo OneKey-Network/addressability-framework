@@ -20,7 +20,7 @@
 {% endif %}
 {% endif %}
 
-{# Need to investigate how to handle "allOf" (inheritance)
+{# TODO: Need to investigate how to handle "allOf" (inheritance)
 {% if schema.kw_all_of %}
 {% with current_node=schema.kw_all_of %}
 
@@ -36,9 +36,10 @@
 #}
 
 {% set description = (schema | get_description) %}
-{% include "section_description.md" %}
 
 {% if schema.type_name.startswith("array") -%}
+
+{% include "section_description.md" %}
 
 **Array of**:
 
@@ -47,6 +48,8 @@
 {% endwith %}
 
 {% elif (schema.type_name == "object") %}
+
+{% include "section_description.md" %}
 
 {% if depth != 0 %}
 <details>
@@ -91,16 +94,38 @@
 
 {% endif %}
 
-{% endif %}
+{% elif schema.kw_one_of %}
+
+{% include "section_description.md" %}
+
+Can only take **one of these values**:
+
+<ul>
+
+{% with current_node=schema.kw_one_of %}
+{% for node in current_node.array_items %}
+<li>
+{% with schema=node, skip_headers=False, schemaTree=schemaTree.copy(), depth=depth+1 %}
+{% include "content.md" %}
+{% endwith %}
+</li>
+{% endfor %}
+</ul>
+{% endwith %}
+
+{% elif schema.kw_enum -%}
 
 {# Enum and const #}
-{% if schema.kw_enum -%}
-{% include "section_one_of.md" %}
-{%- endif %}
-{%- if schema.kw_const -%}
-Specific value: `{{ schema.kw_const.raw | python_to_json }}`
-{%- endif -%}
+{% include "section_description.md" %}
 
+{% include "section_one_of.md" %}
+{%- elif schema.kw_const -%}
+`{{ schema.kw_const.raw }}`: {% include "section_description.md" %}
+{% else %}
+
+{% include "section_description.md" %}
+
+{% endif %}
 {% set examples = schema.examples %}
 {% if examples %}
 {% include "section_examples.md" %}

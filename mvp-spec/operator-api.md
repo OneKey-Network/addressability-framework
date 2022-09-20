@@ -825,7 +825,8 @@ Host: operator.paf-operation-domain.io
 <!-- ⚠️ GENERATED CONTENT - DO NOT MODIFY DIRECTLY ⚠️ -->
 ```json
 {
-  "message": "3PC not supported"
+  "type": "3PC_NOT_SUPPORTED",
+  "details": "3PC not supported"
 }
 ```
 <!--partial-end-->

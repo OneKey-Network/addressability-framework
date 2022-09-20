@@ -1,3 +1,4 @@
 {
-  "message": "Invalid signature"
+  "type": "INVALID_JSON_BODY",
+  "details": "Invalid signature"
 }

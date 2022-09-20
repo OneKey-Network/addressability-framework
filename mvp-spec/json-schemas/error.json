@@ -6,12 +6,29 @@
   "type": "object",
   "additionalProperties": false,
   "properties": {
-    "message": {
+    "type": {
       "type": "string",
-      "description": "The error message"
+      "oneOf":[
+        {"const":"INVALID_QUERY_STRING", "description": "The query string has an incorrect format"},
+        {"const":"INVALID_RETURN_URL", "description": "The value of `returnUrl` query string parameter is invalid"},
+        {"const":"INVALID_JSON_BODY", "description": "The POST payload is an invalid JSON"},
+        {"const":"INVALID_ORIGIN", "description": "The value of `Origin` HTTP header is invalid"},
+        {"const":"INVALID_REFERER", "description": "The value of `Referer` HTTP header is invalid"},
+        {"const":"UNAUTHORIZED_OPERATION", "description": "The sender of this message is not authorized for this operation"},
+        {"const":"UNKNOWN_SIGNER", "description": "Could not get public key of the signer"},
+        {"const":"VERIFICATION_FAILED", "description": "The verification of the message signature failed"},
+        {"const":"RESPONSE_TIMEOUT", "description": "Timeout processing the request"},
+        {"const":"3PC_NOT_SUPPORTED", "description": "3rd party cookies don't seem to be supported"},
+        {"const":"UNKNOWN_ERROR", "description": "Other (unidentified error)"}
+      ],
+      "description": "The type of error"
+    },
+    "details": {
+      "type": "string",
+      "description": "An optional more detailed description of the error"
     }
   },
   "required": [
-    "message"
+    "type"
   ]
 }

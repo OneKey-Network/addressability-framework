@@ -1,3 +1,4 @@
 {
-  "message": "3PC not supported"
+  "type": "3PC_NOT_SUPPORTED",
+  "details": "3PC not supported"
 }

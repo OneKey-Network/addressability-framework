@@ -31,4 +31,6 @@
 
 Markdown docs are generated based on _templates_ available in [json-schema-templates](./json-schema-templates).
 
+They use data provided by [json-schema-for-humans](https://github.com/coveooss/json-schema-for-humans)
+
 These templates use [Jinja](https://jinja.palletsprojects.com/) format.

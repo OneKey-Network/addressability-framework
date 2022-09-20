@@ -7,7 +7,7 @@
   "properties": {
     "3pc": {
       "$ref": "test-3pc.json",
-      "description": "Value of `paf_test_3pc` if it was found (3rd party cookies are supported)\n\nIf 3rd party cookies are not supported, error message"
+      "description": "Value of `paf_test_3pc` if it was found (3rd party cookies are supported)"
     }
   },
   "required": [
