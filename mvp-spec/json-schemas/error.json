@@ -18,6 +18,7 @@
         {"const":"UNKNOWN_SIGNER", "description": "Could not get public key of the signer"},
         {"const":"VERIFICATION_FAILED", "description": "The verification of the message signature failed"},
         {"const":"RESPONSE_TIMEOUT", "description": "Timeout processing the request"},
+        {"const":"3PC_NOT_SUPPORTED", "description": "3rd party cookies don't seem to be supported"},
         {"const":"UNKNOWN_ERROR", "description": "Other (unidentified error)"}
       ],
       "description": "The type of error"

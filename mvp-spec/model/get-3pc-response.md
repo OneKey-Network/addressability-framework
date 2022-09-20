@@ -21,8 +21,6 @@ object
 
 Value of `paf_test_3pc` if it was found (3rd party cookies are supported)
 
-If 3rd party cookies are not supported, error message
-
 <details>
 <summary>Object details</summary>
 
