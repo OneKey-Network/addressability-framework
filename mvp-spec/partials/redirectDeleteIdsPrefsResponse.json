@@ -1,0 +1,12 @@
+{
+  "code": 200,
+  "response": {
+    "sender": "operator.paf-operation-domain.io",
+    "receiver": "advertiser.com",
+    "timestamp": 1643041150,
+    "body": {
+      "identifiers": []
+    },
+    "signature": "MEUCIQD6pX3RaNk++myzR1DWEYaATcINFrUqe1omx4zt6FQ2xwIga0+DlNnFxUgKLhoho/07zCorMSQbcC5JiiGYPdHJuBM="
+  }
+}
