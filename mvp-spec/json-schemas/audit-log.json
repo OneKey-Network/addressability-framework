@@ -9,9 +9,6 @@
         "version": {
             "$ref": "version.json"
         },
-        "data": {
-            "$ref": "ids-and-preferences.json"
-        },
         "seed": {
             "$ref": "seed.json"
         },
@@ -27,7 +24,6 @@
         }
     },
     "required": [
-        "data",
         "seed",
         "transaction_id",
         "transmissions"

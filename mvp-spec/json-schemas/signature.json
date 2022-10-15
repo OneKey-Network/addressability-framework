@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "Signature",
-  "description": "The base64 representation of a data signature",
+  "description": "The base64 representation of the signature byte array",
   "$id": "signature",
   "type": "string",
   "examples": ["RYGHYsBUEwMgFgOJ9aUQl7ywl4xnqdmwWIgPbaIowbXbmZAFKLa7mcBJQuWh1wEskpu57SHn2mmCF6V5+cESgw=="]

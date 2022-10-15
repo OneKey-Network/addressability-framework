@@ -2,12 +2,15 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "preferences",
   "title": "User preferences",
-  "description": "The current preferences of the user",
+  "description": "The current preferences of the user.</br>When signed the following bytes are concatenated.</br>Version (1 byte), Personalized flag (boolean, 1 byte), source domain (null/zero terminated string - variable bytes), source timestamp (4 bytes).</br> When compared to signing the JSON data structures the byte packed data is significantly more efficient.",
   "type": "object",
   "additionalProperties": false,
   "properties": {
     "version": {
       "$ref": "version.json"
+    },
+    "persisted": {
+      "$ref": "persisted.json"
     },
     "data": {
       "$ref": "preferences-data.json"

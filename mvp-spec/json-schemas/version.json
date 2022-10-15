@@ -1,9 +1,9 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "Version",
-  "description": "A version number made of a \"major\" and a \"minor\" version numbers.\n\nTo be detailed.",
+  "description": "A version positive byte between 1 and 255. When more than 255 versions are needed 255 will indicate the value is a two byte positive integer.",
   "$id": "version",
-  "type": "string",
-  "pattern": "^[0-9]+\\.[0-9]+$",
-  "examples": ["0.1", "0.407", "10.0"]
+  "type": "integer",
+  "pattern": "^[0-9]+$",
+  "examples": ["1"]
 }

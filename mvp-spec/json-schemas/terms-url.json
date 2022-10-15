@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Terms URL",
+  "description": "URL to the data processing policy of the contracting party. The response may link to the wider privacy policy used by the controller or processor.</br>The response must be in HTML format and include a meta element with the name `af:model-terms-url` to indicate the URL of the Model Terms used. For example;<br/><meta property=\"af:model-terms-url\" content=\"https://github.com/OneKey-Network/addressability-framework/blob/main/model-terms/model-terms-v1.1.md\"></br>Where the URL provided in the `af:model-terms-url` element is not the main official version of the Model Terms then the canonical information must be provided in the response to indicate the main official Model Terms being referenced.</br>This information is critical to determining if the signer supports the same version of Model Terms as other participants.</br>Without this requirement it will not be possible to update the Model Terms without the entire eco-system performing the upgrade at the same time. The requirement has a further advantage in that the processing terms become machine readable aiding audit.",
+  "$id": "terms-url",
+  "type": "string",
+  "format": "uri-template",
+  "examples": ["https://the-web-site.com/somePage.html", "https://another.co.uk/news/2022/02/01/?param=value#anchorA"]
+}
+  
+  
