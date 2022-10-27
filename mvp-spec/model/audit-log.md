@@ -172,7 +172,8 @@ Signature based on input:
 
 By signing both inputs together, a `preferences` object cannot be reused for another id by a fraudulent actor
 
-```preferences.source.domain + '\u2063' +
+```
+preferences.source.domain + '\u2063' +
 preferences.source.timestamp + '\u2063' +
 identifiers[type="paf_browser_id"].source.signature + '\u2063' +
 preferences.data.key1 + '\u2063' + preferences.data[key1].value + '\u2063' +
@@ -592,7 +593,8 @@ object
 <td>
 
 Signature based on input including the PAF data associated to the Seed:
-```source.domain + '\u2063' +
+```
+source.domain + '\u2063' +
 source.timestamp + '\u2063' +
 transaction_ids[0] + '\u2063' +
 ... + '\u2063' +
@@ -899,7 +901,8 @@ object
 <td>
 
 Signature based on input:
-```receiver                + '\u2063' +
+```
+receiver                + '\u2063' +
 status                  + '\u2063'
 source.domain           + '\u2063' +
 source.timestamp        + '\u2063' +

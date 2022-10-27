@@ -94,7 +94,8 @@ object
 <td>
 
 Signature based on input including the PAF data associated to the Seed:
-```source.domain + '\u2063' +
+```
+source.domain + '\u2063' +
 source.timestamp + '\u2063' +
 transaction_ids[0] + '\u2063' +
 ... + '\u2063' +
