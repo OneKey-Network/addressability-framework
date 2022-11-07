@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "persisted",
+  "description": "If set to `false`, means the data has not yet been persisted as a cookie.<br>Otherwise, means the data is persisted <br>(default value = `false`)",
+  "$id": "persisted",
+  "type": "boolean",
+  "pattern": "true|false|0|1",
+  "examples": ["1", "0", "true", "false"]
+}

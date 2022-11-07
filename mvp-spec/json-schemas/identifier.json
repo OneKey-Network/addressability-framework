@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "Identifier",
-  "description": "A pseudonymous identifier generated for a web user",
+  "description": "A pseudonymous identifier for the Model Terms Random Id, or Signed in ID.</br>When signed the following bytes are concatenated.</br>Version (1 byte), IdType (null/zero terminated string - variable bytes), value length (unsigned 32 bit integer - 4 bytes), value (byte array), source domain (null/zero terminated string - variable bytes), source timestamp (4 bytes).</br> When compared to signing the JSON data structures the byte packed data is significantly more efficient.",
   "$id": "identifier",
   "type": "object",
   "additionalProperties": false,
@@ -9,22 +9,21 @@
     "version": {
       "$ref": "version.json"
     },
-    "type": {
+    "persisted": {
+      "$ref": "persisted.json"
+    },
+    "id_type": {
       "type": "string",
       "enum": [
-        "paf_browser_id"
+        "rid",
+        "sid"
       ],
-      "description": "The identifier type, identifier of type `paf_browser_id` is mandatory and is \"pivot\""
-    },
-    "persisted": {
-      "type": "boolean",
-      "defaultValue": true,
-      "description": "If set to `false`, means the identifier has not yet been persisted as a cookie.<br>Otherwise, means this identifier is persisted as a PAF cookie<br>(default value = `true` meaning if the property is omitted the identifier *is* persisted)"
+      "description": "The identifier type, either Random ID (RID), or Signed in ID (SID)"
     },
     "value": {
       "type": "string",
-      "description": "The identifier value",
-      "examples": ["7435313e-caee-4889-8ad7-0acd0114ae3c"]
+      "description": "The identifier value as a base 64 representation of a byte array",
+      "examples": ["7435313ecaee48898ad70acd0114ae3c"]
     },
     "source": {
       "$ref": "source.json",

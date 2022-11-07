@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "Timestamp",
-  "description": "Number of seconds since UNIX Epoch time (1970/01/01 00:00:00)",
+  "description": "Number of minutes since the Epoch time (2020/01/01 00:00:00). Minutes are used instead of seconds because a) clock differences between the diverse set of computers involved makes second level comparisons impractical; and b) a four byte positive integer can be used to represent timestamps until the year 10,185 thus saving four bytes compared to an eight byte positive integer.",
   "$id": "timestamp",
   "type": "integer",
   "minimum": 1,

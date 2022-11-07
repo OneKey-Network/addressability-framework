@@ -7,33 +7,25 @@
   "properties": {
     "name": {
       "type": "string",
-      "description": "The name of the contracting party, since the domain may not reflect the company name.\n",
-      "examples": ["Criteo"]
-    },
-    "type": {
-      "type": "string",
-      "enum": ["vendor", "operator"],
-      "description": "The type of contracting party in the PAF ecosystem"
+      "description": "The name of the signing party, since the domain may not reflect the company name.",
+      "examples": ["Criteo", "Preference Express"]
     },
     "version": {
       "$ref": "version.json",
-      "description": "The type of contracting party in the PAF ecosystem"
+      "description": "The version of the source currently in use by the signer"
     },
     "dpo_email": {
       "type": "string",
       "format": "idn-email",
-      "description": "Email address to contact the contracting party",
-      "examples": ["dpo@criteo.com"]
+      "description": "Email address to contact the signing party",
+      "examples": ["dpo@criteo.com", "dpo@preference.express"]
     },
-    "privacy_policy_url": {
-      "type": "string",
-      "format": "uri-template",
-      "description": "URL of the privacy policy of the contracting party",
-      "examples": ["https://www.criteo.com/privacy/"]
+    "terms_url": {
+      "$ref": "terms-url.json"
     },
     "keys": {
       "type": "array",
-      "description": "List of public keys the contracting party used or is using for signing data and messages",
+      "description": "List of public keys the signing party used or is using for signing data and messages",
       "items": {
         "type": "object",
         "additionalProperties": false,
@@ -45,18 +37,14 @@
               "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEUnarwp0gUZgjb9fsYNLcNrddNKV5\nh4/WfMRMVh3HIqojt3LIsvUQig1rm9ZkcNx+IHZVhDM+hso2sXlGjF9xOQ==\n-----END PUBLIC KEY-----"
             ]
           },
-          "start": {
+          "created": {
             "$ref": "timestamp.json",
-            "description": "Timestamp when the contracting party started using this key for signing"
-          },
-          "end": {
-            "$ref": "timestamp.json",
-            "description": "Timestamp when the contracting party stopped using this key for signing"
+            "description": "Timestamp when the signing party created the key and started using this key for signing"
           }
         },
         "required": [
           "key",
-          "start"
+          "created"
         ]
       }
     }
@@ -66,7 +54,7 @@
     "type",
     "version",
     "dpo_email",
-    "privacy_policy_url",
+    "terms_url",
     "keys"
   ]
 }

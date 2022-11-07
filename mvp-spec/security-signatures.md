@@ -101,20 +101,29 @@ All "signers" have a pair of **private** and a **public** Elliptic Curve Cryptog
 A "signer" needs to calculate the signature to associate with an object (cookie or message).
 
 1. the signer computes the _signature input_ for the object to sign
-   1. usually, different properties from the object are "joined together" with the special separator character `\u2063`
-   2. but **each type of object has its own rule to calculate the signature input**. Refer to the [model documentation](./model) for details on these rules.
+   1. usually, different properties from the object are "joined together" to form a single byte array
+   2. usually, the first component of the data structure is the version of the structure to support serialization
+   3. but **each type of object has its own rule to calculate the signature input**. Refer to the [model documentation](./model) for details on these rules.
 
 Example:
 
 ```
-transmission_result.source.domain + '\u2063' + 
-transmission_result.source.timestamp + '\u2063' + 
-seed.source.signature + '\u2063' + 
-source.domain + '\u2063' + 
-source.timestamp + '\u2063' + 
-transmission_response.receiver + '\u2063' + 
-transmission_response.status + '\u2063' +
-transmission_response.details
+identifier.version (byte) +
+identifier.id_type (null terminated string) +
+identifier.value (four byte unsigned integer for length, then the bytes) +
+identifier.source.version (one byte) +
+identifier.source.domain (null teriminated string) +
+identifier.source.timestamp (4 byte unsigned integer)
+```
+
+or
+
+```
+preferences.version (byte) +
+preferences.data.use_browsing_for_personalization (boolean, one byte) +
+preferences.source.version (one byte) +
+preferences.source.domain (null teriminated string) +
+preferences.source.timestamp (4 byte unsigned integer)
 ```
 
 3. the signer "hashes" this signature input with `RSA-SHA256`
@@ -184,17 +193,16 @@ Host: operator.paf-operation-domain.io
 ```json
 {
   "dpo_email": "contact@crto-poc-1.onekey.network",
-  "privacy_policy_url": "https://crto-poc-1.onekey.network/privacy",
+  "terms_url": "https://crto-poc-1.onekey.network/privacy",
   "name": "Some OneKey operator",
   "keys": [
     {
       "key": "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEEiZIRhGxNdfG4l6LuY2Qfjyf60R0\njmcW7W3x9wvlX4YXqJUQKR2c0lveqVDj4hwO0kTZDuNRUhgxk4irwV3fzw==\n-----END PUBLIC KEY-----\n",
-      "start": 1641034200,
-      "end": 1672488000
+      "created": 1641034200,
     }
   ],
   "type": "operator",
-  "version": "0.1"
+  "version": 1
 }
 ```
 <!--partial-end-->

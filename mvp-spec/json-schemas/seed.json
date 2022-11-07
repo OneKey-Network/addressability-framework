@@ -15,6 +15,15 @@
                 "$ref": "transaction_id.json"
             }
         },
+        "preferences": {
+            "$ref": "preferences.json"
+        },
+        "rid": {
+            "$ref": "identifier.json"
+        },
+        "sid": {
+            "$ref": "identifier.json"
+        },
         "publisher": {
             "$ref": "domain.json",
             "description": "The domain name of the Publisher that displays the Addressable Content",
@@ -31,6 +40,7 @@
         "version",
         "transaction_ids",
         "publisher",
-        "source"
+        "source",
+        "rid"
     ]
 }
