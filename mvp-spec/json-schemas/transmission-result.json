@@ -26,7 +26,7 @@
             "$ref": "transmission-details.json"
         },
         "source": {
-            "description": "Signature based on input:\n```receiver                + '\\u2063' +\nstatus                  + '\\u2063'\nsource.domain           + '\\u2063' +\nsource.timestamp        + '\\u2063' +\nseed.source.signature+ '\\u2063' +\ncontents[0].transaction_ids + '\\u2063' +\ncontents[0].content_id + '\\u2063' +\n... + '\\u2063' +\ncontents[n].transaction_ids + '\\u2063' +\ncontents[n].content_id\n```",
+            "description": "Signature based on input:\n```\nreceiver                + '\\u2063' +\nstatus                  + '\\u2063'\nsource.domain           + '\\u2063' +\nsource.timestamp        + '\\u2063' +\nseed.source.signature+ '\\u2063' +\ncontents[0].transaction_ids + '\\u2063' +\ncontents[0].content_id + '\\u2063' +\n... + '\\u2063' +\ncontents[n].transaction_ids + '\\u2063' +\ncontents[n].content_id\n```",
             "$ref": "source.json"
         }
     },

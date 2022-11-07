@@ -195,7 +195,8 @@ object
 <td>
 
 Signature based on input:
-```receiver                + '\u2063' +
+```
+receiver                + '\u2063' +
 status                  + '\u2063'
 source.domain           + '\u2063' +
 source.timestamp        + '\u2063' +
