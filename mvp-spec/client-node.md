@@ -1,8 +1,6 @@
 # Client node
 
-⚠️ TO BE UPDATED: missing documentation about **signing seeds**.
-
-## Interacting with the operator: frontend, client node
+## Operator integration: frontend, client node
 
 **Websites** that need to get access to data:
 
@@ -52,7 +50,7 @@ flowchart LR
     click O href "operator-api.md" "Operator API"
 ```
 
-## Client node
+## Operator client node API
 
 The **client node** is an API called by the frontend library to sign and verify requests sent and received to / from the
 operator.
@@ -357,6 +355,43 @@ Host: cmp.com
 <!--partial-end-->
 
 </details>
+
+## Ad auction client API
+
+The client node also exposes endpoints to handle ad auction & audit steps.
+
+| Endpoint                     | Description                                                | Input                                       | Output      | REST                                           |
+|------------------------------|------------------------------------------------------------|---------------------------------------------|-------------|------------------------------------------------|
+| Create a seed                | Create a signed seed to initiate ad auction.               | Signed ids and preferences, transaction ids | Signed seed | `POST /paf-proxy/v1/seed`                      |
+| Verify a seed                | Verify a signed seed, to display audit log.                | Signed ids and preferences, signed seed     | -           | `POST /paf-proxy/v1/verify/seed`               |
+| Verify a transmission result | Verify a signed transmission result, to display audit log. | Signed seed, signed transmission result     | -           | `POST /paf-proxy/v1/verify/transmissionResult` |
+
+### Create seed: `POST /paf-proxy/v1/seed`
+
+- create a signed seed
+
+| Message  | Format                                              |
+|----------|-----------------------------------------------------|
+| Request  | [post-seed-request](./model/post-seed-request.md)   |
+| Response | [post-seed-response](./model/post-seed-response.md) |
+
+### Verify seed: `POST /paf-proxy/v1/verify/seed`
+
+- verify a signed seed
+
+| Message  | Format                                                                                              |
+|----------|-----------------------------------------------------------------------------------------------------|
+| Request  | [post-verify-seed-request](./model/post-verify-seed-request.md)                                     |
+| Response | - `204` and empty body if successful validation<br/>- `403` and [error](./model/error.md) otherwise |
+
+### Verify transmission result: `POST /paf-proxy/v1/verify/transmissionResult`
+
+- verify a signed transmission result
+
+| Message  | Format                                                                                              |
+|----------|-----------------------------------------------------------------------------------------------------|
+| Request  | [post-verify-transmission-result-request](./model/post-verify-transmission-result-request.md)       |
+| Response | - `204` and empty body if successful validation<br/>- `403` and [error](./model/error.md) otherwise |
 
 ## Frontend library
 

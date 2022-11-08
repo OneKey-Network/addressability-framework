@@ -1,0 +1,19 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "post-verify-seed-request",
+    "title": "POST /paf-proxy/v1/verify/seed request",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "idsAndPreferences": {
+        "$ref": "ids-and-preferences.json"
+      },
+      "seed": {
+        "$ref": "seed.json"
+      }
+    },
+    "required": [
+      "idsAndPreferences",
+      "seed"
+    ]
+  }

@@ -1,0 +1,19 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "post-verify-transmission-result-request",
+    "title": "POST /paf-proxy/v1/verify/seed request",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "seed": {
+        "$ref": "seed.json"
+      },
+      "transmissionResult": {
+        "$ref": "transmission-result.json"
+      }
+    },
+    "required": [
+      "seed",
+      "transmissionResult"
+    ]
+  }
