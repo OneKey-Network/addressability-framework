@@ -6,11 +6,8 @@
 In order to use the OneKey protocols, a Website needs:
 
 1.  Prebid.js
-    
 2.  At least one participating SSP or DSP (e.g Criteo CDB, or another SSP/DSP interested)
-    
 3.  A CMP provider, or a “homemade” CMP, which will need to be significantly changed to support OneKey
-    
 4.  Google Publisher Tag
     
 
@@ -45,9 +42,7 @@ No CMP currently supports OneKey, we’ll have to get yours onboard.
 Alternatives:
 
 -   Take that up yourself
-
 -   Ask your CMP partner to provide this service
-
 -   Ask your Operator to provide this service
 
 
@@ -77,7 +72,8 @@ Alternatives:
 
 Pick a subdomain name for each website’s registrable domain (e.g. `www.example-website.com` => `client-node.example-website.com`).
 
-⚠️ the TLD+1 (registrable domain) must be the same as the Website (ex: `www.example-website.com` and `some-sub-site.example-website.com` must use a Client Node on a subdomain of `.example-website.com`).
+⚠️ the TLD+1 (registrable domain) must be the same as the Website (ex: `www.example-website.com` and `some-sub-site.example-website.com` must use a Client Node on a subdomain of `.example-website.com`),
+but it must be **different** from the Website (otherwise the `origin` HTTP header will not be sent by the browser)
 
 If the Client Node partner gave you IP addresses, then create A/AAAA DNS records in your DNS zone:
 

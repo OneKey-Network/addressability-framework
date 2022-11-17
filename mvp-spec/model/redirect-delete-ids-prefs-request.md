@@ -19,7 +19,7 @@ string
 </td>
 <td>
 
-The URL that the user should be be redirected to, to provide response data
+The URL that the user should be redirected to, to provide response data<br/>For security reason, the URL **must be using https**
 
 **Examples:** 
 

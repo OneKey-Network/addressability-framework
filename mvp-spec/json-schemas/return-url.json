@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "Return URL",
-  "description": "The URL that the user should be be redirected to, to provide response data",
+  "description": "The URL that the user should be redirected to, to provide response data<br/>For security reason, the URL **must be using https**",
   "$id": "return-url",
   "type": "string",
   "format": "uri-template",

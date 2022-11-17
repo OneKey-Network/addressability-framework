@@ -70,9 +70,18 @@ To do so, it exposes:
 | Get URL: Write ids & prefs      | Sign the request provided as input, return the signed payload, along with the URL pointing to the [write](operator-api.md#write-ids-&-preferences) operator endpoint. | Signed "write" request<br>(see [operator API](operator-api.md#write-ids-&-preferences))    | Operator URL with signed request, as part of the response (REST) or as part of the query string (redirect) | `POST /paf-proxy/v1/ids-prefs`  | `GET /paf-proxy/v1/redirect/post-ids-prefs` |
 | **Verify** read                 | Verify the response received from the operator                                                                                                                        | Signed "read" **response**<br>(see [operator API](operator-api.md#read-ids-&-preferences)) | Same as input if verification succeeded, error message otherwise                                           | `POST /paf-proxy/verify/read`   | N/A                                         |
 
+⚠️ The "read" and "write" endpoints always return **the operator URL to call**, even the "redirect" version of these endpoints:
+they do not trigger HTTP redirects but simply return the URL of the "redirect endpoint" to call on the operator.
+
 ℹ️ An example implementation (for NodeJS) of a client node is available in [the implementation project](https://github.com/criteo/paf-mvp-implementation/tree/main/paf-mvp-client-express)
 
 ⚠️ Note that in the following examples, the client node is supposed to be hosted on the `cmp.com` domain.
+
+### Constraints
+
+- The client node must be hosted on the same "top level domain + 1" (TLD+1) as the websites. For example, the client node for https://www.pafdemopublisher.com/ must be hosted on `*.pafdemopublisher.com`
+- But the host name must be **different**: otherwise, the `origin` HTTP header will not be sent by the browser.
+- There must not be rules on the website that prevent the `referer` HTTP header to be sent.
 
 ### Get URL: Read ids & preferences
 
