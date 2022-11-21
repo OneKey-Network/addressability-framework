@@ -131,6 +131,8 @@ string
 
 Signature based on input:
 
+- in **REST** context:
+
 ```
 sender + '\u2063' +
 receiver + '\u2063' +
@@ -139,7 +141,23 @@ preferences.source.signature + '\u2063' +
 identifiers[0].source.signature + '\u2063' +
 identifiers[1].source.signature + '\u2063' +
 ...
-identifiers[n].source.signature
+identifiers[n].source.signature + '\u2063' +
+value of "origin" HTTP header
+```
+
+- in **redirect** context:
+
+```
+sender + '\u2063' +
+receiver + '\u2063' +
+timestamp + '\u2063' +
+preferences.source.signature + '\u2063' +
+identifiers[0].source.signature + '\u2063' +
+identifiers[1].source.signature + '\u2063' +
+...
+identifiers[n].source.signature + '\u2063' +
+value of "referer" HTTP header + '\u2063' +
+value of "returnUrl" query string parameter
 ```
 
 **Example:** 

@@ -18,7 +18,7 @@
     },
     "signature": {
       "$ref": "signature.json",
-      "description": "Signature based on input:\n```\nsender + '\\u2063' +\nreceiver + '\\u2063' +\ntimestamp\n```"
+      "description": "Signature based on input:\n\n- in **REST** context:\n\n```\nsender + '\\u2063' +\nreceiver + '\\u2063' +\ntimestamp + '\\u2063' +\nvalue of \"origin\" HTTP header\n```\n\n- in **redirect** context:\n\n```\nsender + '\\u2063' +\nreceiver + '\\u2063' +\ntimestamp + '\\u2063' +\nvalue of \"referer\" HTTP header + '\\u2063' +\nvalue of \"returnUrl\" query string parameter\n```"
     }
   },
   "required": [
