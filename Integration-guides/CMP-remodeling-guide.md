@@ -21,24 +21,20 @@ On browsers that block 3rd party cookies, a refresh triggers a boomerang full pa
 
 This can be done as follows:
 
-    <script
-      src="https://my-cdn.example-website.com/assets/paf-lib.js"
-      onload="PAF.refreshIdsAndPreferences({
-        proxyHostName: 'paf.example-website.com',
-        triggerRedirectIfNeeded: true
-      });"
-    ></script>
-
-It’s possible to delay the retrieval of the id and preferences on browsers that block 3rd party cookies by setting `triggerRedirectIfNeeded: false`. In that case, the id and preferences will not be refreshed on such browsers and the method will return `PafStatus.REDIRECT_NEEDED`. This indicates the method must be called again with `triggerRedirectIfNeeded: true`.
+```html
+<script src="https://my-cdn.example-website.com/assets/onekey.js" 
+        data-client-hostname="paf.example-website.com" 
+        data-cookie-ttl="PT30S"
+        onload="OneKey.refreshIdsAndPreferences();"
+></script>
+```
 
 ### Change notifications
 
 The CMP must display a notification to participating users:
 
 -   The first time Id and Preferences are retrieved on the website
-
 -   Whenever the Id or Preferences have changed since the last refresh
-
 
 The notification wording depends on the user preferences.
 
@@ -70,9 +66,9 @@ If the user already participates (`PafStatus.PARTICIPATING`), then the CMP MUST 
 
 When prompting the user, the CMP can request a preliminary id from the Operator right away. However, this id will not be persisted until the CMP has collected the user’s choice and sent it with the id back to the Operator.
 
-    var identifiers = await PAF.getNewId({
-        proxyHostName: 'paf.example-website.com'
-    });
+```javascript
+var identifiers = await OneKey.getNewId();
+```
 
 ##### Information to the user
 
@@ -107,7 +103,9 @@ Some of it must be accessible from the prompt:
 > See more relevant content and ads.
 If the user makes this choice, the CMP must then ask the Operator to store `use_browsing_for_personalization: true` along with the new id.
 
-    PAF.updateIdsAndPreferences('paf.example-website.com', true, identifiers);
+```javascript
+OneKey.updateIdsAndPreferences('OneKey.example-website.com', true, identifiers);
+```
 
 ###### Standard Marketing
 
@@ -116,7 +114,9 @@ If the user makes this choice, the CMP must then ask the Operator to store `use_
 > See generic content and ads.
 If the user makes this choice, the CMP must then ask the Operator to store `use_browsing_for_personalization: false` along with the new id.
 
-    PAF.updateIdsAndPreferences('paf.example-website.com', false, identifiers);
+```javascript
+OneKey.updateIdsAndPreferences('OneKey.example-website.com', false, identifiers);
+```
 
 ###### The option not to participate
 
@@ -136,7 +136,9 @@ The same options (with the same wording) must be made available to the user as d
 
 In addition, the id, shortened to the first 8 characters (i.e. until the first '-'), must be displayed for the user:
 
-    var shortId = PAF.getIdsAndPreferences().identifiers[0].split('-')[0];
+```javascript
+var shortId = OneKey.getIdsAndPreferences().identifiers[0].split('-')[0];
+```
 
 The user must have the ability to reset the id either by clicking it or through a dedicated button.
 
@@ -148,7 +150,9 @@ The CMP must also notify the user when the change is made (see  [Change Notifica
 
 If the user chose to stop participating, the CMP must delete the ids and preferences:
 
-    PAF.deleteIdsAndPreferences('paf.example-website.com');
+```javascript
+OneKey.deleteIdsAndPreferences('OneKey.example-website.com');
+```
 
 To be confirmed: On April 29th 2022 the method to delete ids and preferences is not finalized yet.
 
@@ -162,11 +166,15 @@ When the user clicks that button, the CMP must open a dialog that displays the a
 
 To get the audit log data structure for an ad in a specific ad slot (e.g. “div-1”), the CMP must call:
 
-    var auditLog = PAF.getAuditLogByDivId("div-1");
+```javascript
+var auditLog = OneKey.getAuditLogByDivId("div-1");
+```
 
 To display the auditLog, the CMP can use the included widget:
 
-    PAFUI.showAuditLog(auditLog);
+```javascript
+PAFUI.showAuditLog(auditLog);
+```
 
 To be confirmed: On April 29th 2022 the method to display the audit log viewer widget is not finalized yet.
 
@@ -185,31 +193,27 @@ The CMP may offer the possibility for the user to further customize their select
 In this case,
 
 -   if the user turns off TCF purposes from the 'Included in Personalized Marketing' list in the table below, then the CMP must switch the OneKey user preferences to “Standard Marketing”.
-
 -   if the user turns off TCF purposes from either 'Included in Standard Marketing' or 'Legimate interest, can’t be turned off', then the CMP must stop the participation of the user
-
 -   if the user selected “Standard Marketing”, but then turns on all 'Included in Personalized Marketing' TCF purposes, then the CMP may switch the OneKey user preferences to “Personalized Marketing”
-
 -   if the user selected “Standard Marketing”, but then turns on some but not all 'Included in Personalized Marketing'  TCF purposes, then the CMP must highlight to the user that this extra selection of TCF purposes will only apply on the current website, and not across all websites compatible with OneKey.
 
 
 #### Mapping between OneKey standard preferences and TCF purposes
 
-
-| **TCF Purpose<br>**                                 	| **Mapping in OneKey standard preferences<br>**                                   	|
-|-----------------------------------------------------	|----------------------------------------------------------------------	|
-| Create a personalized ads profile                   	| Included in Personalized Marketing                                   	|
-| Select personalized ads                             	| Included in Personalized Marketing                                   	|
-| Create a personalized content profile               	| Included in Personalized Marketing                                   	|
-| Select personalized content                         	| Included in Personalized Marketing                                   	|
-| Select basic ads                                    	| Included in Personalized Marketing<br>Included in Standard Marketing 	|
-| Measure ad performance                              	| Included in Personalized Marketing<br>Included in Standard Marketing 	|
-| Measure content performance                         	| Included in Personalized Marketing<br>Included in Standard Marketing 	|
-| Apply market research to generate audience insights 	| Included in Personalized Marketing<br>Included in Standard Marketing 	|
-| Develop and improve products                        	| Included in Personalized Marketing<br>Included in Standard Marketing 	|
-| Store and/or access information on a device         	| Included in Personalized Marketing<br>Included in Standard Marketing 	|
-| Ensure security, prevent fraud, and debug           	| Legimate interest, can’t be turned off                               	|
-| Technically deliver ads or content                  	| Legimate interest, can’t be turned off                               	|
+| **TCF Purpose<br>**                                 	 | **Mapping in OneKey standard preferences<br>**                                   	 |
+|-------------------------------------------------------|------------------------------------------------------------------------------------|
+| Create a personalized ads profile                   	 | Included in Personalized Marketing                                   	             |
+| Select personalized ads                             	 | Included in Personalized Marketing                                   	             |
+| Create a personalized content profile               	 | Included in Personalized Marketing                                   	             |
+| Select personalized content                         	 | Included in Personalized Marketing                                   	             |
+| Select basic ads                                    	 | Included in Personalized Marketing<br>Included in Standard Marketing 	             |
+| Measure ad performance                              	 | Included in Personalized Marketing<br>Included in Standard Marketing 	             |
+| Measure content performance                         	 | Included in Personalized Marketing<br>Included in Standard Marketing 	             |
+| Apply market research to generate audience insights 	 | Included in Personalized Marketing<br>Included in Standard Marketing 	             |
+| Develop and improve products                        	 | Included in Personalized Marketing<br>Included in Standard Marketing 	             |
+| Store and/or access information on a device         	 | Included in Personalized Marketing<br>Included in Standard Marketing 	             |
+| Ensure security, prevent fraud, and debug           	 | Legimate interest, can’t be turned off                               	             |
+| Technically deliver ads or content                  	 | Legimate interest, can’t be turned off                               	             |
 
 -   UI changes
 

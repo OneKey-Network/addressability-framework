@@ -15,7 +15,6 @@ In order to use the OneKey protocols, a Website needs:
 
 ## Roles
 
-
 | **Role<br>**    	 | **Description<br>**                                                                                                                                                                                                                                       	 |
 |-------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Website Owner   	 | Self explanatory                                                                                                                                                                                                                                          	 |
@@ -45,25 +44,18 @@ Alternatives:
 -   Ask your CMP partner to provide this service
 -   Ask your Operator to provide this service
 
-
 ### Operator Partners
-
 
 | **Vendor<br>** 	| **Domain<br>**      	| **Comments<br>** 	|
 |----------------	|---------------------	|------------------	|
 | Criteo         	| crto.onekey.network 	|                  	|
 | IPONWEB        	| TBD                 	| Coming in Q2     	|
 
-
 ## Incorporating the Model Terms
 
 -   The Model Terms must be incorporated in the Main Agreement between the Website Owner and the Operator.
-
 -   If the CMP is provided by a 3rd party partner, the Main Agreement between the Website and the CMP partner must also include the Model Terms.
-
 -   Same applies if the Client Node is provided to the Website by a 3rd party partner.
-
-
 ## Website Owner Tasks
 
 ### Setup the Client Node
@@ -94,40 +86,34 @@ If the Client Node partner gave you a domain name, then create an ALIAS DNS reco
     -   Hostname of your Operator
         
 -   Communicate those to the Client Node provider for him to configure your instance.
-
-
 #### Add the Client Node front-end to your website
 
 Build the Front-End Library from sources (if needed)
 
 ```shell
-     mkdir OneKey-from-source
-     cd OneKey-from-source
-     git clone https://github.com/OneKey-Network/OneKey-implementation.git
-     cd OneKey-mvp-implementation
-     npm i
-     npm run build-front
-     ls paf-mvp-demo-express/public/assets/paf-lib.js
+mkdir OneKey-from-source
+cd OneKey-from-source
+git clone https://github.com/OneKey-Network/OneKey-implementation.git
+cd OneKey-mvp-implementation
+npm i
+npm run build-front
+ls paf-mvp-demo-express/public/assets/onekey.js
 ```
 
 Add it in the <head> section:
 
 ```html
-    <head>
-    <script
-      src="https://my-cdn.domain/assets/paf-lib.js"
-    ></script>
-    </head>
+<head>
+    <script src="https://my-cdn.domain/assets/onekey.js"></script>
+</head>
 ```
 
-### Setup the CMP
+### Set up the CMP
 
 Add the CMP frontend JavaScript in the head section of your website pages
 
 1.  Make sure there is an agreed space for the CMP’s audit log viewer button next to ad zones
-
 2.  Make sure there is an agreed space for the CMP’s button to let the user access the preferences edit UX
-
 3.  Provide the hostname of the Client Node backend into the CMP configuration.
 
 ## CMP Tasks
@@ -139,8 +125,6 @@ If you're using a CMP that doesn't yet support OneKey, the same guidelines shoul
 
 If you wish to operate your own Client Node, an Admin guide is provided is this document: [Client-Node-admin-guide](./Client-Node-admin-guide.md).
 It also explains the configuration that is required at the Client Node level to serve a new website.
-
-
 ## Operator Tasks
 
 For actors wanting to set up another operator, an Admin guide is provided in this document:  [Operator-admin-guide](./Operator-admin-guide.md).
@@ -149,22 +133,17 @@ It also explains the configuration that is required at the Operator level to ser
 # Configuring the Ad Supply Chain
 
 ## Roles
-
-
-| **Role<br>**       	|                                                                                                                                                                                                                                                           	|
-|--------------------	|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------	|
-| Website Owner      	| Self explanatory                                                                                                                                                                                                                                          	|
-| Client Node    	| Provides key functions for the Website Owners:<br>Key Management and Identity Endpoint<br>Sign communications with the Operator (acts as an operator proxy)<br>Generate Seeds to initiate Transactions<br>Collate the Audit Log for each Ads  	|
-| Direct SSPs & DSPs 	| Provide marketing content on request from the Website in compliance with Model Terms.                                                                                                                                                                     	|
+| **Role<br>**       	 | 	                                                                                                                                                                                                                                                           |
+|----------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Website Owner      	 | Self explanatory                                                                                                                                                                                                                                          	 |
+| Client Node    	     | Provides key functions for the Website Owners:<br>Key Management and Identity Endpoint<br>Sign communications with the Operator (acts as an operator proxy)<br>Generate Seeds to initiate Transactions<br>Collate the Audit Log for each Ads  	             |
+| Direct SSPs & DSPs 	 | Provide marketing content on request from the Website in compliance with Model Terms.                                                                                                                                                                     	 |
 
 ## Incorporating the Model Terms
 
 -   The Model Terms must be incorporated:
-    
     -   in the Main Agreements between the Website Owner and SSP and DSP the website is directly connected with.
-        
     -   in the Main Agreements between the SSPs and DSPs that are directly connected
-        
 
 ## Website Owner Tasks
 
@@ -174,29 +153,28 @@ Use the temporary fork of prebid.js which provides the necessary OneKey id modul
 
 Build `prebid.js` with the 2 additional modules
 
-    git clone -b paf https://github.com/openx/Prebid.js.git
-     cd Prebid.js
-     npm ci
-     gulp build --modules=userId,pafIdSystem,rtdModule,pafRtdProvider,appnexusBidAdapter
+```shell
+git clone -b paf https://github.com/openx/Prebid.js.git
+cd Prebid.js
+npm ci
+gulp build --modules=userId,pafIdSystem,rtdModule,pafRtdProvider,appnexusBidAdapter
+```
 
 Don’t forget to add the adapters that you need as modules in the build command.
 
 ### Use and Configure the Modified Prebid.js
 
 1.  Configure the 2 modules
-    
     1.  OneKey id module: allow the bidder adapters of the OneKey-ready direct SSPs and DSPs to access the id
-        
     2.  OneKey RTD module: whitelist the same bidder adapters so they get access to the seeds
-        
 
-The prebid Js can be configured as follow (from this file [paf-mvp-demo-express/src/views/publisher/index.hbs](https://github.com/OneKey-Network/OneKey-implementation/blob/main/paf-mvp-demo-express/src/views/publisher/index.hbs#L93) ) :  
+The prebid Js can be configured as follows (from this file [paf-mvp-demo-express/src/views/publisher/index.hbs](https://github.com/OneKey-Network/OneKey-implementation/blob/main/paf-mvp-demo-express/src/views/publisher/index.hbs#L93) ) :  
   
 ```javascript
         var pbjs = pbjs || {};
         pbjs.que = pbjs.que || [];
-        var PAF = PAF || {};
-        PAF.queue = PAF.queue || [];
+        var OneKey = OneKey || {};
+        OneKey.queue = OneKey.queue || [];
         pbjs.que.push(function() {
             pbjs.addAdUnits(adUnits);
             pbjs.setConfig({
@@ -275,7 +253,7 @@ The prebid Js can be configured as follow (from this file [paf-mvp-demo-express/
 
 Warning, `params: {proxyHostName: "cmp.pafdemopublisher.com"}` should lead to the Client Node
 
-To be developed: On May 2nd 2022 the method to whitelist bid adapter is not available yet. It means non member could get and use a user id and preference without pledging to follow the OneKey principles.
+To be developed: On May 2nd 2022 the method to whitelist bid adapter is not available yet. It means non-member could get and use a user id and preference without pledging to follow the OneKey principles.
 
 ### Add a Prebid.js “bidWon” Callback to Retrieve Transmissions
 
@@ -283,17 +261,20 @@ The callback retrieves the Transmissions from the winning bid responses and make
 
 To be confirmed: On May 2nd 2022 the method to make the audit log available is not fully finalized
 
-    window.pbjs.onEvent("bidWon", (bid) =>
-      if (bid.meta && bid.meta.paf) {
-        var pafObj = bid.meta.paf;
-        PAF.registerTransmissionResponse({
-            prebidTransactionId: bid.transactionId,
-            adUnitCode: bid.adUnitCode
-            contentId: pafObj.content_id
-        },
-        pafObj.transmission);
-      }
-    ));
+```javascript
+window.pbjs.onEvent("bidWon", (bid) => {
+        if (bid.meta && bid.meta.paf) {
+            var pafObj = bid.meta.paf;
+            PAF.registerTransmissionResponse({
+                    prebidTransactionId: bid.transactionId,
+                    adUnitCode: bid.adUnitCode
+                    contentId: pafObj.content_id
+                },
+                pafObj.transmission);
+        }
+    }
+);
+```
 
 Make sure prebid.js is wired with Google Publisher Tag in a way that ensures that Prebid’s AdUnitCodes matches Google Publisher Tag DivIds as shown in the screenshot below
 

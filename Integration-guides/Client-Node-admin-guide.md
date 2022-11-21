@@ -5,7 +5,7 @@ This guide explain how to host an independent Client Node.
 
 ## Deploying the Client Node Service
 
-A Client Node implementation in NodeJS is available [here](https://github.com/OneKey-Network/OneKey-implementation/tree/main/paf-mvp-operator-client-express).
+A Client Node implementation in NodeJS is available [here](https://github.com/OneKey-Network/OneKey-implementation/tree/main/paf-mvp-client-express).
 
 It can be deployed on any hosting service of your choice.
 
@@ -27,42 +27,28 @@ Admin actions:
     -   This can be done with openssl binaries:
         -   private key: `openssl ecparam -name prime256v1 -genkey -noout -out private-key.pem`  
         -   public key: `openssl ec -in private-key.pem -pubout -out public-key.pem`
-- Decide the **expiration date** for this private / public keys pair
-- Configure this new service instance using the above information:
-```javascript
-    addClientNodeEndpoints(
-      express(),
-      // Information to identify the participant to the users, to the operator and to other participants
-      {
-        // Name of the participant
-        name: 'Example Website',
-        // Current public key
-        currentPublicKey: {
-          // Validity period for the key
-          // Timestamps are expressed in seconds
-          startTimestampInSec: getTimeStampInSec(new Date('2022-01-01T12:00:00.000Z')),
-          endTimestampInSec: getTimeStampInSec(new Date('2022-12-31T12:00:00.000Z')),
-          publicKey: `-----BEGIN PUBLIC KEY-----
-    MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEl0278pcupaxUfiqHJ9AG9gVMyIO+
-    n07PJaNI22v+s7hR1Hkb71De6Ot5Z4JLoZ7aj1xYhFcQJsYkFlXxcBWfRQ==
-    -----END PUBLIC KEY-----`,
-        },
-        // Email address of DPO
-        dpoEmailAddress: 'dpo@example-website.com',
-        // URL of a privacy page
-        privacyPolicyUrl: new URL('https://www.example-website/privacy'),
+- Decide the **start date** and optional **expiration date** for this private / public keys pair
+- Configure this new service instance:
+  - assuming `config.json` contains:
+    ```json
+    {
+      "identity": {
+        "name": "Example Website",
+        "dpoEmailAddress": "dpo@examples-website.com",
+        "privacyPolicyUrl": "https://www.example-website/privacy",
+        "keyPairs": [
+          {
+            "startDateTimeISOString": "2022-01-01T12:00:00.000Z",
+            "privateKeyPath": "private-key.pem",
+            "publicKeyPath": "public-key.pem"
+          }
+        ]
       },
-      {
-        // The Client Node host name to receive requests
-        hostName: 'client-node.example-website.com',
-        // Current private key
-        privateKey: `-----BEGIN PRIVATE KEY-----
-    MIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQg0X8r0PYAm3mq206o
-    CdMHwZ948ONyVJToeFbLqBDKi7OhRANCAASXTbvyly6lrFR+Kocn0Ab2BUzIg76f
-    Ts8lo0jba/6zuFHUeRvvUN7o63lngkuhntqPXFiEVxAmxiQWVfFwFZ9F
-    -----END PRIVATE KEY-----`,
-      },
-      // The Operator host
-      'example.onekey.network'
-    );
-```
+      "host": "cmp.pafdemopublisher.com",
+      "operatorHost": "crto-poc-1.onekey.network"
+    }
+    ```
+  - then simply create the client with:
+    ```javascript
+    ClientNode.fromConfig('config.json');
+    ```
