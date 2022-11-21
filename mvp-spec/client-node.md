@@ -63,12 +63,13 @@ To do so, it exposes:
   and "Get identity"
 - a couple of extra endpoints to help sign and verify messages
 
-| Endpoint                        | Description                                                                                                                                                           | Input                                                                                      | Output                                                                                                     | REST                            | Redirect                                    |
-|---------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------|---------------------------------|---------------------------------------------|
-| Get URL: Read ids & preferences | Create a signed request, encode it and append it to a URL pointing to the [read](operator-api.md#read-ids-&-preferences) operator endpoint.                           | -                                                                                          | Operator URL with signed request in the query string                                                       | `GET /paf-proxy/v1/ids-prefs`   | `GET /paf-proxy/v1/redirect/get-ids-prefs`  |
-| **Sign** user preferences       | Sign preferences                                                                                                                                                      | Signed ids and **unsigned** preferences                                                    | Signed ids and preferences                                                                                 | `POST /paf-proxy/v1/sign/prefs` | N/A                                         |
-| Get URL: Write ids & prefs      | Sign the request provided as input, return the signed payload, along with the URL pointing to the [write](operator-api.md#write-ids-&-preferences) operator endpoint. | Signed "write" request<br>(see [operator API](operator-api.md#write-ids-&-preferences))    | Operator URL with signed request, as part of the response (REST) or as part of the query string (redirect) | `POST /paf-proxy/v1/ids-prefs`  | `GET /paf-proxy/v1/redirect/post-ids-prefs` |
-| **Verify** read                 | Verify the response received from the operator                                                                                                                        | Signed "read" **response**<br>(see [operator API](operator-api.md#read-ids-&-preferences)) | Same as input if verification succeeded, error message otherwise                                           | `POST /paf-proxy/verify/read`   | N/A                                         |
+| Endpoint                            | Description                                                                                                                                                             | Input                                                                                      | Output                                                                                                     | REST                             | Redirect                                      |
+|-------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------|----------------------------------|-----------------------------------------------|
+| Get URL: **Read** ids & preferences | Create a signed request, encode it and append it to a URL pointing to the [read](operator-api.md#read-ids-&-preferences) operator endpoint.                             | -                                                                                          | Operator URL with signed request, as part of the response (REST) or as part of the query string (redirect) | `GET /paf-proxy/v1/ids-prefs`    | `GET /paf-proxy/v1/redirect/get-ids-prefs`    |
+| **Sign** user preferences           | Sign preferences                                                                                                                                                        | Signed ids and **unsigned** preferences                                                    | Signed ids and preferences                                                                                 | `POST /paf-proxy/v1/sign/prefs`  | N/A                                           |
+| Get URL: **Write** ids & prefs      | Sign the request provided as input, return the signed payload, along with the URL pointing to the [write](operator-api.md#write-ids-&-preferences) operator endpoint.   | Signed "write" request<br>(see [operator API](operator-api.md#write-ids-&-preferences))    | Operator URL with signed request, as part of the response (REST) or as part of the query string (redirect) | `POST /paf-proxy/v1/ids-prefs`   | `GET /paf-proxy/v1/redirect/post-ids-prefs`   |
+| Get URL: **Delete** ids & prefs     | Sign the request provided as input, return the signed payload, along with the URL pointing to the [delete](operator-api.md#delete-ids-&-preferences) operator endpoint. | -                                                                                          | Operator URL with signed request, as part of the response (REST) or as part of the query string (redirect) | `DELETE /paf-proxy/v1/ids-prefs` | `GET /paf-proxy/v1/redirect/delete-ids-prefs` |
+| **Verify** read                     | Verify the response received from the operator                                                                                                                          | Signed "read" **response**<br>(see [operator API](operator-api.md#read-ids-&-preferences)) | Same as input if verification succeeded, error message otherwise                                           | `POST /paf-proxy/verify/read`    | N/A                                           |
 
 ⚠️ The "read" and "write" endpoints always return **the operator URL to call**, even the "redirect" version of these endpoints:
 they do not trigger HTTP redirects but simply return the URL of the "redirect endpoint" to call on the operator.
@@ -236,6 +237,22 @@ Example response from the client node:
 |----------|------------------------------------------------------------------------------------|
 | Request  | See [operator-api.md](operator-api.md#redirect-write-get-v1redirectpost-ids-prefs) |
 | Response | Operator URL to call (including some data in the query string)                     |
+
+### Get URL: Delete ids & preferences
+
+#### REST read: `DELETE /paf-proxy/v1/ids-prefs`
+
+| Message  | Format                        |
+|----------|-------------------------------|
+| Request  | nothing                       |
+| Response | operator URL to call (string) |
+
+#### Redirect read: `GET /paf-proxy/v1/redirect/delete-ids-prefs`
+
+| Message  | Format                        |
+|----------|-------------------------------|
+| Request  | nothing                       |
+| Response | operator URL to call (string) |
 
 ### Verify "read" response
 
